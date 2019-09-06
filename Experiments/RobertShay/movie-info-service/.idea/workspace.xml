@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="69b702cd-2665-4499-945d-4cc9cd76a966" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RobertSpring/SpringTutorial.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/CatalogItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Movie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Rating.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/UserRating.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/test/java/com/robertshay/moviecatalogservice/MovieCatalogServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/CatalogItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/test-classes/com/robertshay/moviecatalogservice/MovieCatalogServiceApplicationTests.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/robertshay/movieinfoservice/models/Movie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/robertshay/movieinfoservice/resources/MovieResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/robertshay/movieinfoservice/MovieInfoServiceApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/robertshay/movieinfoservice/models/Movie.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/robertshay/movieinfoservice/resources/MovieResource.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/com/robertshay/movieinfoservice/MovieInfoServiceApplicationTests.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/models/Rating.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/models/UserRating.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/resources/RatingsDataResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/SpringTutorial.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/derby.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/TopicApiApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/course/Course.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/course/CourseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/course/CourseRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/course/CourseService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/hello/HelloController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/topic/Topic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/topic/TopicController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/topic/TopicRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/topic/TopicService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/META-INF/SpringTutorial.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/TopicApiApp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/course/Course.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/course/CourseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/course/CourseRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/course/CourseService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/hello/HelloController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/topic/Topic.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/topic/TopicController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/topic/TopicRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/target/classes/com/javabrains/springboot/topic/TopicService.class" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1QNe7TGOeVZRNcfHxgUopoJQ2Ne" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="MovieInfoServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="movie-info-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.robertshay.movieinfoservice.MovieInfoServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="69b702cd-2665-4499-945d-4cc9cd76a966" name="Default Changelist" comment="" />
+      <created>1567615313271</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1567615313271</updated>
+      <workItem from="1567615317182" duration="8193000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
