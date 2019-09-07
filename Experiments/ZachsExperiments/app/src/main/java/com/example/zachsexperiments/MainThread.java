@@ -3,6 +3,9 @@ package com.example.zachsexperiments;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+/**
+ * Handles the game state and instantiated characters.
+ */
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
@@ -67,7 +70,7 @@ public class MainThread extends Thread {
                 averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
                 frameCount = 0;
                 totalTime = 0;
-                System.out.println(averageFPS);
+                System.out.println("MainThread's averageFPS: " + averageFPS);
             }
         }
 

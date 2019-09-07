@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
-
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.zachsexperiments.MESSAGE";
     @Override
@@ -30,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchGame(View view){
-        Intent intent = new Intent(this, CharacterMovement.class);
+        Intent intent = new Intent(this, BasicGame.class);
         startActivity(intent);
     }
 }
