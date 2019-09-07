@@ -4,7 +4,7 @@ public class Rating {
     private String moveId;
     private int rating;
 
-    public Rating() {
+    private Rating() {
 
     }
 

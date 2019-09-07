@@ -22,9 +22,10 @@ public class MovieResource {
     @RequestMapping("/{movieId}")
     public Movie getMovieInfo(@PathVariable String movieId) {
         MovieSummary movieSummary = restTemplate.getForObject(
-                "https://api.themoviedb.org/3/movie/" + movieId + "api_key=" + apiKey,
+                "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey,
                 MovieSummary.class
         );
-        return new Movie(movieId, "Test name");
+
+        return new Movie(movieId, movieSummary.getTitle(), movieSummary.getOverview());
     }
 }

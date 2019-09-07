@@ -4,10 +4,6 @@ public class Rating {
     private String moveId;
     private int rating;
 
-    public Rating() {
-
-    }
-
     public Rating(String moveId, int rating) {
         this.moveId = moveId;
         this.rating = rating;
@@ -27,5 +23,7 @@ public class Rating {
 
     public void setRating(int rating) {
         this.rating = rating;
+
+
     }
 }

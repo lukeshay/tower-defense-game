@@ -35,7 +35,6 @@ public class MovieCatalogResource {
         assert userRatings != null;
 
         return userRatings.getRatings().stream().map(rating -> {
-            //// for each move ID, call info service
             Movie movie = restTemplate.getForObject("http://movie-info-service/movies/" + rating.getMoveId(), Movie.class);
             /* Movie movie = webClientBuilder.build()
                     .get()
@@ -43,8 +42,7 @@ public class MovieCatalogResource {
                     .retrieve() // Sends the call and retrieves the body
                     .bodyToMono(Movie.class) // Turns the body into the given class
                     .block(); // Blocks command until this is done. Essentially makes it synchronous */
-
-            return new CatalogItem(movie.getName(), "Test desc", rating.getRating());
+            return new CatalogItem(movie.getName(), movie.getOverview(), rating.getRating());
         }).collect(Collectors.toList());
     }
 }

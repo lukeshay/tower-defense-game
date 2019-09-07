@@ -20,9 +20,9 @@ public class RatingsDataResource {
 
     @RequestMapping("/users/{userId}")
     public UserRating getUserRatings(@PathVariable String userId) {
-        List<Rating> ratings = Arrays.asList(
-                new Rating("1234", 4),
-                new Rating("5678", 3));
-        return new UserRating(ratings);
+        UserRating userRating = new UserRating();
+
+        userRating.initRatings(userId);
+        return userRating;
     }
 }
