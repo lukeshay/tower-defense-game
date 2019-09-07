@@ -1,24 +1,28 @@
 package com.example.zachsexperiments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
-import com.example.zachsexperiments.MainThread;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    private MainThread thread;
-    private Sprite character;
+    private MainThread mainThread;
+    private CharacterSprite character;
+    private InventoryItem[] inventory;
+    Paint paint;
 
     public GameView(Context context){
         super(context);
         getHolder().addCallback(this);
-        thread = new MainThread(getHolder(), this);
+        mainThread = new MainThread(getHolder(), this);
         setFocusable(true);
+        inventory = new InventoryItem[4];
+        paint = new Paint(Color.LTGRAY);
     }
 
     @Override
@@ -28,9 +32,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder){
-        thread.setRunning(true);
-        thread.start();
-        character = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.reaper));
+        mainThread.setRunning(true);
+        mainThread.start();
+        character = new CharacterSprite(BitmapFactory.decodeResource(getResources(), R.drawable.reaper));
+        inventory[0] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper));
     }
 
     @Override
@@ -38,8 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         boolean retry = true;
         while(retry){
             try {
-                thread.setRunning(false);
-                thread.join();
+                mainThread.setRunning(false);
+                mainThread.join();
             }catch(InterruptedException e){
                     e.printStackTrace();
                 }
@@ -52,10 +57,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
-            Paint paint = new Paint();
-            paint.setColor(Color.RED);
-            //canvas.drawRect(500, 500, 600, 600, paint);
+            canvas.drawRect(new Rect(150, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 150, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
             character.draw(canvas);
+            inventory[0].draw(canvas);
         }
     }
 
