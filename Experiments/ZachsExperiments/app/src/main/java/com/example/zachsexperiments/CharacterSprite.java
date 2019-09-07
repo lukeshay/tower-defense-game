@@ -1,8 +1,6 @@
 package com.example.zachsexperiments;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 
 public class CharacterSprite extends Sprite {
 
@@ -12,12 +10,12 @@ public class CharacterSprite extends Sprite {
 
     @Override
     public void update() {
-        xPos += xVel;
-        yPos += yVel;
-        if (xPos >= screenWidth - image.getWidth() || xPos <= 0) {
+        xStart += xVel;
+        yStart += yVel;
+        if (xStart >= screenWidth - image.getWidth() || xStart <= 0) {
             xVel = xVel * -1;
         }
-        if (yPos >= screenHeight - image.getHeight() || yPos <= 0) {
+        if (yStart >= screenHeight - image.getHeight() || yStart <= 0) {
             yVel = yVel * -1;
         }
     }
