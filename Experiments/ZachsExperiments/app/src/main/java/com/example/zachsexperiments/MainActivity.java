@@ -19,12 +19,18 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method is called whenever the user hits the 'Send' button.
+     * It opens up the {@link DisplayMessageActivity}
      */
     public void sendMessage(View view){
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
+    public void launchGame(View view){
+        Intent intent = new Intent(this, CharacterMovement.class);
         startActivity(intent);
     }
 }
