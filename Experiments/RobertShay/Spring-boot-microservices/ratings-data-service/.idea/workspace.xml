@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7545ba4f-4d44-4d1e-816c-cd44f7aab752" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/movie-catalog-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-info-service/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-info-service/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-info-service/movie-info-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ratings-data-service.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spring-boot-microservices/src/test/java/com/example/springbootmicroservices/SpringBootMicroservicesApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/src/main/java/com/robertshay/discoverserver/DiscoverServerApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../discover-server/src/test/java/com/robertshay/discoverserver/DiscoverServerApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/CatalogItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Movie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Rating.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/UserRating.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/src/test/java/com/robertshay/moviecatalogservice/MovieCatalogServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/CatalogItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Movie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Rating.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/UserRating.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/movie-catalog-service-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/movie-catalog-service-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/surefire-reports/TEST-com.robertshay.moviecatalogservice.MovieCatalogServiceApplicationTests.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/surefire-reports/com.robertshay.moviecatalogservice.MovieCatalogServiceApplicationTests.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-catalog-service/target/test-classes/com/robertshay/moviecatalogservice/MovieCatalogServiceApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/$PRODUCT_WORKSPACE_FILE$" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/checkstyle-idea.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/src/main/java/com/robertshay/movieinfoservice/MovieInfoServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/src/main/java/com/robertshay/movieinfoservice/models/Movie.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/src/main/java/com/robertshay/movieinfoservice/resources/MovieResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/src/test/java/com/robertshay/movieinfoservice/MovieInfoServiceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/classes/com/robertshay/movieinfoservice/MovieInfoServiceApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/classes/com/robertshay/movieinfoservice/models/Movie.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/classes/com/robertshay/movieinfoservice/resources/MovieResource.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/movie-info-service-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/movie-info-service-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/surefire-reports/TEST-com.robertshay.movieinfoservice.MovieInfoServiceApplicationTests.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/surefire-reports/com.robertshay.movieinfoservice.MovieInfoServiceApplicationTests.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../movie-info-service/target/test-classes/com/robertshay/movieinfoservice/MovieInfoServiceApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/RatingsDataServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/models/Rating.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/models/UserRating.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/src/main/java/com/robertshay/ratingsdataservice/resources/RatingsDataResource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ratings-data-service/src/test/java/com/robertshay/ratingsdataservice/RatingsDataServiceApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectId" id="1QTfzJSFN1YvwKqLORboh9zfCXk" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="RatingsDataServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="ratings-data-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.robertshay.ratingsdataservice.RatingsDataServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7545ba4f-4d44-4d1e-816c-cd44f7aab752" name="Default Changelist" comment="" />
+      <created>1567799767804</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1567799767804</updated>
+      <workItem from="1567799769224" duration="622000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

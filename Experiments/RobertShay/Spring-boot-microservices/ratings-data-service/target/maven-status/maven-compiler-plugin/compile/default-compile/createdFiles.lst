@@ -1,0 +1,4 @@
+com/robertshay/ratingsdataservice/RatingsDataServiceApplication.class
+com/robertshay/ratingsdataservice/models/Rating.class
+com/robertshay/ratingsdataservice/resources/RatingsDataResource.class
+com/robertshay/ratingsdataservice/models/UserRating.class
