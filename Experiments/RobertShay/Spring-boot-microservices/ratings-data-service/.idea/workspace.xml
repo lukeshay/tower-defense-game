@@ -2,31 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7545ba4f-4d44-4d1e-816c-cd44f7aab752" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_afterburner_2_9_9.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__com_netflix_hystrix_hystrix_javanica_1_5_18.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__com_netflix_hystrix_hystrix_metrics_event_stream_1_5_18.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__com_netflix_hystrix_hystrix_serialization_1_5_18.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__io_micrometer_micrometer_core_1_1_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__io_reactivex_rxjava_reactive_streams_1_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_8_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_freemarker_freemarker_2_3_28.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_latencyutils_LatencyUtils_2_0_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_boot_spring_boot_actuator_2_1_7_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_boot_spring_boot_actuator_autoconfigure_2_1_7_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_actuator_2_1_7_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_freemarker_2_1_7_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_netflix_hystrix_dashboard_2_1_2_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_netflix_hystrix_2_1_2_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_netflix_hystrix_dashboard_2_1_2_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_springframework_spring_context_support_5_1_9_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_webjars_d3js_3_4_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__org_webjars_jquery_2_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/services/MovieInfoService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/services/UserRatingInfoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../discovery-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../discovery-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__com_google_guava_guava_16_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/.idea/libraries/Maven__com_google_guava_guava_15_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/movie-catalog-service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/movie-catalog-service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/CatalogItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/CatalogItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Movie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Rating.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Rating.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/UserRating.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/UserRating.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/CatalogItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/CatalogItem.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Movie.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Movie.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Rating.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/UserRating.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/UserRating.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/resources/MovieCatalogResource.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/MovieInfoServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/MovieInfoServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/models/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/models/Movie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/models/MovieSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/models/MovieSummary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/resources/MovieResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/src/main/java/com/robertshay/movieinfoservice/resources/MovieResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/MovieInfoServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/MovieInfoServiceApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/movie-catalog-service-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/movie-catalog-service-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/movie-catalog-service-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/movie-catalog-service-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/surefire-reports/TEST-com.robertshay.moviecatalogservice.MovieCatalogServiceApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/surefire-reports/TEST-com.robertshay.moviecatalogservice.MovieCatalogServiceApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/surefire-reports/com.robertshay.moviecatalogservice.MovieCatalogServiceApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/target/surefire-reports/com.robertshay.moviecatalogservice.MovieCatalogServiceApplicationTests.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/models/Movie.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/models/Movie.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/models/MovieSummary.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/models/MovieSummary.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/resources/MovieResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-info-service/target/classes/com/robertshay/movieinfoservice/resources/MovieResource.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/robertshay/ratingsdataservice/models/Rating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/robertshay/ratingsdataservice/models/Rating.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/robertshay/ratingsdataservice/models/UserRating.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/robertshay/ratingsdataservice/models/UserRating.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/robertshay/ratingsdataservice/resources/RatingsDataResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/robertshay/ratingsdataservice/resources/RatingsDataResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/robertshay/ratingsdataservice/models/Rating.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/robertshay/ratingsdataservice/models/Rating.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/robertshay/ratingsdataservice/models/UserRating.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/robertshay/ratingsdataservice/models/UserRating.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/robertshay/ratingsdataservice/resources/RatingsDataResource.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/robertshay/ratingsdataservice/resources/RatingsDataResource.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -84,7 +105,7 @@
       <updated>1567799767804</updated>
       <workItem from="1567799769224" duration="622000" />
       <workItem from="1567866040761" duration="331000" />
-      <workItem from="1567866448186" duration="5487000" />
+      <workItem from="1567866448186" duration="6435000" />
     </task>
     <servers />
   </component>
