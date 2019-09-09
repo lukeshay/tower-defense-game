@@ -1,0 +1,6 @@
+com/robertshay/moviecatalogservice/models/Rating.class
+com/robertshay/moviecatalogservice/resources/MovieCatalogResource.class
+com/robertshay/moviecatalogservice/models/CatalogItem.class
+com/robertshay/moviecatalogservice/models/Movie.class
+com/robertshay/moviecatalogservice/models/UserRating.class
+com/robertshay/moviecatalogservice/MovieCatalogServiceApplication.class
