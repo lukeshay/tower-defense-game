@@ -5,6 +5,8 @@ public class CatalogItem {
     private String desc;
     private int rating;
 
+    private CatalogItem() {}
+
     public CatalogItem(String name, String desc, int rating) {
         this.name = name;
         this.desc = desc;
