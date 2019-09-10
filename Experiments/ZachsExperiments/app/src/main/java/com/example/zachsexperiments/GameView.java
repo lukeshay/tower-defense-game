@@ -21,6 +21,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private List<CharacterSprite> characters;
     private InventoryItem[] inventory;
     Paint paint;
+    private boolean isPlacingSprite;
+    private int spriteToPlace;
 
     public GameView(Context context){
         super(context);
@@ -30,6 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         inventory = new InventoryItem[4];
         paint = new Paint(Color.LTGRAY);
         characters = new ArrayList<CharacterSprite>();
+        isPlacingSprite = false;
     }
 
     @Override
@@ -79,36 +82,47 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            System.out.println("Touch event occurred");
-            //Is the event within the bounds of one of our inventory objects?
-            if(event.getX() <= inventory[0].getxEnd() &&
-                    event.getX() >= inventory[0].getxStart() &&
-                    event.getY() <= inventory[0].getyEnd() &&
-                    event.getY() >= inventory[0].getyStart() &&
-                    inventory[0].paint.getColor() == Color.GREEN){
-                characters.add(new CharacterSprite(inventory[0].image));
-                inventory[0].color = Color.RED;
-            } else if(event.getX() <= inventory[1].getxEnd() &&
-                    event.getX() >= inventory[1].getxStart() &&
-                    event.getY() <= inventory[1].getyEnd() &&
-                    event.getY() >= inventory[1].getyStart() &&
-                    inventory[1].paint.getColor() == Color.GREEN){
-                characters.add(new CharacterSprite(inventory[1].image));
-                inventory[1].color = Color.RED;
-            } else if(event.getX() <= inventory[2].getxEnd() &&
-                    event.getX() >= inventory[2].getxStart() &&
-                    event.getY() <= inventory[2].getyEnd() &&
-                    event.getY() >= inventory[2].getyStart() &&
-                    inventory[2].paint.getColor() == Color.GREEN){
-                characters.add(new CharacterSprite(inventory[2].image));
-                inventory[2].color = Color.RED;
-            } else if(event.getX() <= inventory[3].getxEnd() &&
-                    event.getX() >= inventory[3].getxStart() &&
-                    event.getY() <= inventory[3].getyEnd() &&
-                    event.getY() >= inventory[3].getyStart() &&
-                    inventory[3].paint.getColor() == Color.GREEN){
-                characters.add(new CharacterSprite(inventory[3].image));
-                inventory[3].color = Color.RED;
+            if(isPlacingSprite){
+                if(spriteToPlace != -1){
+                    characters.add(new CharacterSprite(inventory[spriteToPlace].image, (int)event.getX(), (int)event.getY()));
+                    inventory[spriteToPlace].setStatus(InventoryItem.Status.NOT_READY);
+                    isPlacingSprite = false;
+                }
+            } else {
+                //Is the event within the bounds of one of our inventory objects?
+                if (event.getX() <= inventory[0].getxEnd() &&
+                        event.getX() >= inventory[0].getxStart() &&
+                        event.getY() <= inventory[0].getyEnd() &&
+                        event.getY() >= inventory[0].getyStart() &&
+                        inventory[0].paint.getColor() == Color.GREEN) {
+                    spriteToPlace = 0;
+                    isPlacingSprite = true;
+                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
+                } else if (event.getX() <= inventory[1].getxEnd() &&
+                        event.getX() >= inventory[1].getxStart() &&
+                        event.getY() <= inventory[1].getyEnd() &&
+                        event.getY() >= inventory[1].getyStart() &&
+                        inventory[1].paint.getColor() == Color.GREEN) {
+                    spriteToPlace = 1;
+                    isPlacingSprite = true;
+                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
+                } else if (event.getX() <= inventory[2].getxEnd() &&
+                        event.getX() >= inventory[2].getxStart() &&
+                        event.getY() <= inventory[2].getyEnd() &&
+                        event.getY() >= inventory[2].getyStart() &&
+                        inventory[2].paint.getColor() == Color.GREEN) {
+                    spriteToPlace = 2;
+                    isPlacingSprite = true;
+                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
+                } else if (event.getX() <= inventory[3].getxEnd() &&
+                        event.getX() >= inventory[3].getxStart() &&
+                        event.getY() <= inventory[3].getyEnd() &&
+                        event.getY() >= inventory[3].getyStart() &&
+                        inventory[3].paint.getColor() == Color.GREEN) {
+                    spriteToPlace = 3;
+                    isPlacingSprite = true;
+                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
+                }
             }
             return true;
         }
@@ -118,6 +132,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void update(){
         for(CharacterSprite character : characters){
             character.update();
+        }
+        for(InventoryItem item : inventory){
+            item.update();
         }
     }
 }
