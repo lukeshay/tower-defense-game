@@ -2,12 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7545ba4f-4d44-4d1e-816c-cd44f7aab752" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/CatalogItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/CatalogItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/../movie-catalog-service/src/main/java/com/robertshay/moviecatalogservice/models/Movie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/CatalogItem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Movie.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/services/MovieInfoService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/services/UserRatingInfoService.class" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/derby.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/DatabaseApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/cards/CardsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/cards/dao/CardsDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/cards/models/Card.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/cards/services/CardsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/users/UsersController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/users/dao/UsersDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/users/models/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/java/com/pvptowerdefense/database/users/services/UsersService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../BackEnd/DatabaseAccessProject/src/test/java/com/pvptowerdefense/database/DatabaseApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/CatalogItem.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/models/Movie.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/services/MovieInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../movie-catalog-service/target/classes/com/robertshay/moviecatalogservice/services/UserRatingInfoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/tutorial/topic/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../RobertSpring/src/main/java/com/javabrains/springboot/tutorial/topic/TopicService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +37,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
   <component name="ProjectId" id="1QTfzJSFN1YvwKqLORboh9zfCXk" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -67,6 +87,7 @@
       <workItem from="1567799769224" duration="622000" />
       <workItem from="1567866040761" duration="331000" />
       <workItem from="1567866448186" duration="6681000" />
+      <workItem from="1568138713847" duration="2427000" />
     </task>
     <servers />
   </component>
@@ -85,5 +106,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

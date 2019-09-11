@@ -14,7 +14,7 @@ public class TopicService {
     @Autowired
     private TopicRepository topicRepository;
 
-    private List<Topic> cours = new ArrayList<>(Arrays.asList(
+    private List<Topic> course = new ArrayList<>(Arrays.asList(
             new Topic("spring", "Spring Framework", "Spring Framework Description"),
             new Topic("java", "Core Java", "Core Java Description"),
             new Topic("javascript", "JavaScript", "JavaScript Description")
