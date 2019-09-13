@@ -26,7 +26,7 @@ public class registerUserActivity extends Activity {
 
         Button submit = (Button) findViewById(R.id.submitButton);
         final EditText screenName = (EditText) findViewById(R.id.usernameField);
-
+        final EditText password = (EditText) findViewById(R.id.passwordField);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,7 +39,7 @@ public class registerUserActivity extends Activity {
                     client.setRequestProperty("Content-Type", "application/json; utf-8");
                     client.setDoOutput(true);
                     OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
-                    osw.write("{"+ screenName.getText() + ":" + generateUUID() + "}");
+                    osw.write("{"+ screenName.getText() + ", " + password + ":" + generateUUID() + "}");
                 }
                 catch(Exception e){
                     e.printStackTrace();
