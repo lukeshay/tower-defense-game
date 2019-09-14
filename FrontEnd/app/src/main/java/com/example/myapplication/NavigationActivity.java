@@ -19,11 +19,11 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     public void launchMultiplayer(View view){
-        //TODO: Open up multiplayer game menu
+        Intent intent = new Intent(this, MultiplayerGameActivity.class);
+        startActivity(intent);
     }
 
     public void openInventory(View view){
-        //TODO: Open up multiplayer game menu
         Intent intent = new Intent(this, inventoryActivity.class);
         startActivity(intent);
     }
