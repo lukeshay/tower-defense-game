@@ -16,11 +16,13 @@ public class MainActivity extends AppCompatActivity {
         if(!isFirstRun()){
             Intent intent = new Intent(this, registerUserActivity.class);
             startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, NavigationActivity.class);
+            startActivity(intent);
         }
     }
 
     private boolean isFirstRun(){
-
         SharedPreferences prefrences = getPreferences(MODE_PRIVATE);
         boolean firstRun = prefrences.getBoolean("RanBefore", false);
         Log.e("first run:", Boolean.toString(firstRun));
