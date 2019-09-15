@@ -13,8 +13,6 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import com.example.myapplication.MainThread;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
     private List<CharacterSprite> characters;
     private BackButton backButton;
-    private InventoryItem[] inventory;
+    private CardInHand[] hand;
     Paint paint;
     private boolean isPlacingSprite;
     private int spriteToPlace;
@@ -32,7 +30,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
         setFocusable(true);
-        inventory = new InventoryItem[4];
+        hand = new CardInHand[4];
         paint = new Paint(Color.LTGRAY);
         characters = new ArrayList<>();
         isPlacingSprite = false;
@@ -47,10 +45,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder){
         mainThread.setRunning(true);
         mainThread.start();
-        inventory[0] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper), 0);
-        inventory[1] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper2), 1);
-        inventory[2] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper), 2);
-        inventory[3] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper), 3);
+        hand[0] = new CardInHand(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper)), 0);
+        hand[1] = new CardInHand(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper2)), 1);
+        hand[2] = new CardInHand(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper)), 2);
+        hand[3] = new CardInHand(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper2)), 3);
         backButton = new BackButton(BitmapFactory.decodeResource(getResources(),R.drawable.back_button));
     }
 
@@ -77,7 +75,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             for(CharacterSprite character : characters){
                 character.draw(canvas);
             }
-            for(Sprite item : inventory){
+            for(CardInHand item : hand){
                 item.draw(canvas);
             }
             backButton.draw(canvas);
@@ -89,8 +87,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(isPlacingSprite){
                 if(spriteToPlace != -1){
-                    characters.add(new CharacterSprite(inventory[spriteToPlace].image, (int)event.getX(), (int)event.getY()));
-                    inventory[spriteToPlace].setStatus(InventoryItem.Status.NOT_READY);
+                    characters.add(new CharacterSprite(hand[spriteToPlace].card.sprite.image, (int)event.getX(), (int)event.getY()));
+                    hand[spriteToPlace].setStatus(CardInHand.Status.NOT_READY);
                     isPlacingSprite = false;
                 }
             } else {
@@ -100,39 +98,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     event.getY() >= backButton.getyStart()){
                     this.backToNavigation(this);
                 }
-                //Is the event within the bounds of one of our inventory objects?
-                if (event.getX() <= inventory[0].getxEnd() &&
-                        event.getX() >= inventory[0].getxStart() &&
-                        event.getY() <= inventory[0].getyEnd() &&
-                        event.getY() >= inventory[0].getyStart() &&
-                        inventory[0].paint.getColor() == Color.GREEN) {
+                //Is the event within the bounds of one of our CardInHand objects?
+                if (event.getX() <= hand[0].card.sprite.getxEnd() &&
+                        event.getX() >= hand[0].card.sprite.getxStart() &&
+                        event.getY() <= hand[0].card.sprite.getyEnd() &&
+                        event.getY() >= hand[0].card.sprite.getyStart() &&
+                        hand[0].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 0;
                     isPlacingSprite = true;
-                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
-                } else if (event.getX() <= inventory[1].getxEnd() &&
-                        event.getX() >= inventory[1].getxStart() &&
-                        event.getY() <= inventory[1].getyEnd() &&
-                        event.getY() >= inventory[1].getyStart() &&
-                        inventory[1].paint.getColor() == Color.GREEN) {
+                    hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                } else if (event.getX() <= hand[1].card.sprite.getxEnd() &&
+                        event.getX() >= hand[1].card.sprite.getxStart() &&
+                        event.getY() <= hand[1].card.sprite.getyEnd() &&
+                        event.getY() >= hand[1].card.sprite.getyStart() &&
+                        hand[1].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 1;
                     isPlacingSprite = true;
-                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
-                } else if (event.getX() <= inventory[2].getxEnd() &&
-                        event.getX() >= inventory[2].getxStart() &&
-                        event.getY() <= inventory[2].getyEnd() &&
-                        event.getY() >= inventory[2].getyStart() &&
-                        inventory[2].paint.getColor() == Color.GREEN) {
+                    hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                } else if (event.getX() <= hand[2].card.sprite.getxEnd() &&
+                        event.getX() >= hand[2].card.sprite.getxStart() &&
+                        event.getY() <= hand[2].card.sprite.getyEnd() &&
+                        event.getY() >= hand[2].card.sprite.getyStart() &&
+                        hand[2].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 2;
                     isPlacingSprite = true;
-                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
-                } else if (event.getX() <= inventory[3].getxEnd() &&
-                        event.getX() >= inventory[3].getxStart() &&
-                        event.getY() <= inventory[3].getyEnd() &&
-                        event.getY() >= inventory[3].getyStart() &&
-                        inventory[3].paint.getColor() == Color.GREEN) {
+                    hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                } else if (event.getX() <= hand[3].card.sprite.getxEnd() &&
+                        event.getX() >= hand[3].card.sprite.getxStart() &&
+                        event.getY() <= hand[3].card.sprite.getyEnd() &&
+                        event.getY() >= hand[3].card.sprite.getyStart() &&
+                        hand[3].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 3;
                     isPlacingSprite = true;
-                    inventory[spriteToPlace].setStatus(InventoryItem.Status.PLACING);
+                    hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
                 }
             }
             return true;
@@ -144,7 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for(CharacterSprite character : characters){
             character.update();
         }
-        for(InventoryItem item : inventory){
+        for(CardInHand item : hand){
             item.update();
         }
     }

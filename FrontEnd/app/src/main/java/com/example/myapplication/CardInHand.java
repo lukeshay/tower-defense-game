@@ -7,35 +7,36 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public class InventoryItem extends Sprite{
+import static com.example.myapplication.Sprite.normalizedInventorySize;
+
+public class CardInHand {
 
     public enum Status {
-        READY, PLACING, NOT_READY;
+        READY, PLACING, NOT_READY
     }
-
-    //Used to create the inventory box behind our sprite
+    //Used to create the inventory box behind our Card's sprite
     private Rect background;
     public Paint paint;
     public int color;
     public Status status;
+    public Card card;
     //The time (in seconds) it will take this inventory item to recharge
     public static int loadTime = 3;
+    //The time that this card started recharging
     public long startRechargeTime;
 
-    /**
-     * Includes itemNumber, which counts up from 0. Used for spacing out the inventory items.
-     */
-    public InventoryItem(Bitmap bitmap, int itemNumber){
-        super(bitmap, 150, Resources.getSystem().getDisplayMetrics().heightPixels - 250, 0, 0);
-        image = Bitmap.createScaledBitmap(bitmap, normalizedInventorySize, normalizedInventorySize, false);
-        xStart = 150 + itemNumber * normalizedInventorySize;
-        xEnd = xStart + normalizedInventorySize;
-        background = new Rect(this.xStart, this.yStart, this.xStart + image.getWidth(), this.yStart + image.getHeight());
+    public CardInHand(Card card, int itemNumber){
+        this.card = card;
+        this.card.sprite.image = Bitmap.createScaledBitmap(card.sprite.image, normalizedInventorySize, normalizedInventorySize, false);
+        this.card.sprite.xStart = 150 + itemNumber * normalizedInventorySize;
+        this.card.sprite.xEnd = this.card.sprite.xStart + normalizedInventorySize;
+        this.card.sprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
+        this.card.sprite.yEnd = this.card.sprite.yStart + this.card.sprite.image.getHeight();
+        background = new Rect(this.card.sprite.xStart, this.card.sprite.yStart, this.card.sprite.xStart + this.card.sprite.image.getWidth(), this.card.sprite.yStart + this.card.sprite.image.getHeight());
         color = Color.GREEN;
         paint = new Paint(color);
     }
 
-    @Override
     public void update(){
         if(this.status == Status.NOT_READY){
             if(System.currentTimeMillis() - startRechargeTime >= loadTime * 1000 ){
@@ -60,11 +61,10 @@ public class InventoryItem extends Sprite{
         }
     }
 
-    @Override
     public void draw(Canvas canvas) {
         paint.setColor(color);
         canvas.drawRect(background, paint);
-        super.draw(canvas);
+        card.draw(canvas);
     }
 
 }

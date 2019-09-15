@@ -10,8 +10,8 @@ public abstract class Sprite {
     protected float xVel, yVel;
     protected static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     protected static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-    protected int normalizedInventorySize = (screenWidth - 300) / 4;
-    protected  int normalizedButtonSize = (screenWidth - 500) / 5;
+    public static int normalizedInventorySize = (screenWidth - 300) / 4;
+    public static int normalizedButtonSize = (screenWidth - 500) / 5;
 
     public Sprite(Bitmap bitmap, int xStart, int yPos, int xVel, int yVel){
         image = bitmap;
