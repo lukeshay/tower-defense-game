@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,6 +11,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import com.example.myapplication.MainThread;
 
@@ -19,6 +21,7 @@ import java.util.List;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
     private List<CharacterSprite> characters;
+    private BackButton backButton;
     private InventoryItem[] inventory;
     Paint paint;
     private boolean isPlacingSprite;
@@ -48,6 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         inventory[1] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper2), 1);
         inventory[2] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper), 2);
         inventory[3] = new InventoryItem(BitmapFactory.decodeResource(getResources(), R.drawable.reaper), 3);
+        backButton = new BackButton(BitmapFactory.decodeResource(getResources(),R.drawable.back_button));
     }
 
     @Override
@@ -76,6 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             for(Sprite item : inventory){
                 item.draw(canvas);
             }
+            backButton.draw(canvas);
         }
     }
 
@@ -89,6 +94,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     isPlacingSprite = false;
                 }
             } else {
+                if(event.getX() <= backButton.getxEnd() &&
+                    event.getX() >= backButton.getxStart() &&
+                    event.getY() <= backButton.getyEnd() &&
+                    event.getY() >= backButton.getyStart()){
+                    this.backToNavigation(this);
+                }
                 //Is the event within the bounds of one of our inventory objects?
                 if (event.getX() <= inventory[0].getxEnd() &&
                         event.getX() >= inventory[0].getxStart() &&
@@ -136,6 +147,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for(InventoryItem item : inventory){
             item.update();
         }
+    }
+
+    public void backToNavigation(View view){
+        Intent intent = new Intent(this.getContext(), NavigationActivity.class);
+        this.getContext().startActivity(intent);
     }
 
 
