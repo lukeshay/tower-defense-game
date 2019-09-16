@@ -14,8 +14,8 @@ public class CardsTests extends DatabaseApplicationTests {
 
         Assertions.assertAll(() -> Assertions.assertEquals("Card 1",
                 card.getName()),
-                () -> Assertions.assertEquals(1, card.getAd()),
-                () -> Assertions.assertEquals(1, card.getHp()),
+                () -> Assertions.assertEquals(1, card.getDamage()),
+                () -> Assertions.assertEquals(1, card.getHitpoints()),
                 () -> Assertions.assertEquals(1, card.getSpeed()),
                 () -> Assertions.assertEquals(1, card.getCost())
         );

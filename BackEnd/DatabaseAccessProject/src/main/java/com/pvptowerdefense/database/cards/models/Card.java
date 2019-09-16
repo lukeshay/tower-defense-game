@@ -1,28 +1,42 @@
 package com.pvptowerdefense.database.cards.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name = "Cards")
 public class Card {
     @Id
-    @Column(unique=true)
     private String name;
-    private int ad;
-    private int hp;
+
+    @NotEmpty
+    private int damage;
+
+    @NotEmpty
+    private int hitpoints;
+
+    @NotEmpty
     private int speed;
+
+    @NotEmpty
     private int cost;
+
+    @NotEmpty
+    private boolean melee;
 
     private Card() {}
 
-    public Card(String name, int ad, int hp, int speed, int cost) {
-        assertValidParams(name, ad, hp, speed, cost);
+    public Card(String name, int damage, int hitpoints, int speed, int cost,
+                boolean melee) {
+        assertValidParams(name, damage, hitpoints, speed, cost);
         this.name = name;
-        this.ad = ad;
-        this.hp = hp;
+        this.damage = damage;
+        this.hitpoints = hitpoints;
         this.speed = speed;
         this.cost = cost;
+        this.melee = melee;
     }
 
     /**
@@ -49,20 +63,20 @@ public class Card {
         this.name = name;
     }
 
-    public int getAd() {
-        return ad;
+    public int getDamage() {
+        return damage;
     }
 
-    public void setAd(int ad) {
-        this.ad = ad;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
-    public int getHp() {
-        return hp;
+    public int getHitpoints() {
+        return hitpoints;
     }
 
-    public void setHp(int hp) {
-        this.hp = hp;
+    public void setHitpoints(int hitpoints) {
+        this.hitpoints = hitpoints;
     }
 
     public int getSpeed() {
@@ -79,5 +93,13 @@ public class Card {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public boolean isMelee() {
+        return melee;
+    }
+
+    public void setMelee(boolean melee) {
+        this.melee = melee;
     }
 }

@@ -2,27 +2,34 @@ package com.pvptowerdefense.database.users.models;
 
 import com.pvptowerdefense.database.cards.models.Card;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
+@Table(name = "Users")
 public class User {
     @Id
     private String phoneId;
 
     @Column(unique=true)
+    @NotEmpty
     private String userName;
 
     @Column(unique=true)
+    @NotEmpty
     private String email;
 
+    @NotEmpty
     private String firstName;
+
+    @NotEmpty
     private String lastName;
 
+    @NotEmpty
     private int xp;
+
+    @NotEmpty
     private int trophies;
 
     @ElementCollection
