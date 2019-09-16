@@ -38,4 +38,9 @@ public class CardsService {
     public Card getCardByName(String cardName) {
         return cardsDao.getCardByName(cardName);
     }
+
+    public String addCardToDB(Card card) {
+        cardsDao.save(card);
+        return String.format("Added card %s to the database.", card.getName());
+    }
 }
