@@ -68,7 +68,6 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
         return mDataSet.size();
     }
 
-
     public String getItem(int position){
         return mDataSet.get(position);
     }
