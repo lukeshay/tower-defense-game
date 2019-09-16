@@ -1,7 +1,8 @@
 package com.pvptowerdefense.database.users;
 
+import com.pvptowerdefense.database.users.models.User;
 import com.pvptowerdefense.database.users.services.UsersService;
-import org.apache.catalina.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,5 +25,10 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET, value = "")
     public List<User> getAllUsers () {
         return usersService.getAllUsers();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/load")
+    public void loadPresetUsersToDatabase(){
+        usersService.loadPresetUsersToDatabase();
     }
 }

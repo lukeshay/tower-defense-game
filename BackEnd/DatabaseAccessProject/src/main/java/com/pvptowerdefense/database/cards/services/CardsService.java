@@ -26,14 +26,14 @@ public class CardsService {
     }
 
     public void loadCardsToDatabase() {
-        List<Card> cards = Arrays.asList(
-                new Card("Card 1", 1, 1, 1, 1),
-                new Card("Card 2", 2, 2, 2, 2),
-                new Card("Card 3", 3, 3, 3, 3),
-                new Card("Card 4", 4, 4, 4, 4)
-        );
+//        List<Card> cards = Arrays.asList(
+//                new Card("Card 1", 1, 1, 1, 1),
+//                new Card("Card 2", 2, 2, 2, 2),
+//                new Card("Card 3", 3, 3, 3, 3),
+//                new Card("Card 4", 4, 4, 4, 4)
+//        );
 
-        cardsDao.saveAll(cards);
+        //cardsDao.saveAll(cards);
     }
 
     public Card getCardByName(String cardName) {
