@@ -1,58 +1,64 @@
 package com.pvptowerdefense.database.cards.models;
 
+import org.springframework.core.style.ToStringCreator;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Cards")
 public class Card {
     @Id
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @NotEmpty
-    private int damage;
+    @Column(name = "DESCRIPTION", nullable = false)
+    private String description;
 
-    @NotEmpty
-    private int hitpoints;
-
-    @NotEmpty
-    private int speed;
-
-    @NotEmpty
+    @Column(name = "COST", nullable = false)
     private int cost;
 
-    @NotEmpty
+    @Column(name = "DAMAGE", nullable = false)
+    private int damage;
+
+    @Column(name = "HIT_POINTS", nullable = false)
+    private int hitPoints;
+
+    @Column(name = "SPEED", nullable = false)
+    private int speed;
+
+    @Column(name = "MELEE", nullable = false)
     private boolean melee;
 
-    private Card() {}
-
-    public Card(String name, int damage, int hitpoints, int speed, int cost,
-                boolean melee) {
-        assertValidParams(name, damage, hitpoints, speed, cost);
-        this.name = name;
-        this.damage = damage;
-        this.hitpoints = hitpoints;
-        this.speed = speed;
-        this.cost = cost;
-        this.melee = melee;
+    /**
+     * Default constructor. Used when calling other services.
+     */
+    public Card() {
     }
 
     /**
-     * Validates the params. Below you can see the regulations.
-     * @param name This must not be null
-     * @param ad Must be greater than or equal to 0
-     * @param hp Must be greater than 0
-     * @param speed Must be greater than or equal to 0
-     * @param cost No rules
+     * Constructor for a card.
+     *
+     * @param name        Name of the card.
+     * @param description Description of the card.
+     * @param cost        Cost of the card.
+     * @param damage      Damage of the card.
+     * @param hitPoints   Hit points of the card.
+     * @param speed       Speed of the card.
+     * @param melee       Whether or not the card is melee.
      */
-    private static void assertValidParams(String name, int ad, int hp,
-                                          int speed, int cost) {
-        assert name != null;
-        assert speed >= 0;
-        assert ad >= 0;
-        assert hp > 0;
+    public Card(String name, String description, int cost, int damage,
+                int hitPoints, int speed, boolean melee) {
+
+        this.name = name;
+        this.description = description;
+        this.cost = cost;
+        this.damage = damage;
+        this.hitPoints = hitPoints;
+        this.speed = speed;
+        this.melee = melee;
     }
 
     public String getName() {
@@ -63,28 +69,12 @@ public class Card {
         this.name = name;
     }
 
-    public int getDamage() {
-        return damage;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public int getHitpoints() {
-        return hitpoints;
-    }
-
-    public void setHitpoints(int hitpoints) {
-        this.hitpoints = hitpoints;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getCost() {
@@ -95,11 +85,48 @@ public class Card {
         this.cost = cost;
     }
 
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     public boolean isMelee() {
         return melee;
     }
 
     public void setMelee(boolean melee) {
         this.melee = melee;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringCreator(this)
+                .append("name", this.getName())
+                .append("description", this.getDescription())
+                .append("cost", this.getCost())
+                .append("damage", this.getDamage())
+                .append("hit points", this.getHitPoints())
+                .append("speed", this.getSpeed())
+                .append("melee", this.isMelee())
+                .toString();
     }
 }

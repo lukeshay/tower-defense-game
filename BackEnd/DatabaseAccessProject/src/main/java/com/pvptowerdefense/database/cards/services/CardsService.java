@@ -21,16 +21,15 @@ public class CardsService {
     public List<Card> getAllCards() {
         List<Card> cards = new ArrayList<>();
         cardsDao.findAll().forEach(cards::add);
-
         return cards;
     }
 
     public void loadCardsToDatabase() {
         List<Card> cards = Arrays.asList(
-                new Card("Card 1", 1, 1, 1, 1, true),
-                new Card("Card 2", 2, 2, 2, 2, false),
-                new Card("Card 3", 3, 3, 3, 3, true),
-                new Card("Card 4", 4, 4, 4, 4, false)
+                new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, true),
+                new Card("Card 2", "Card 2 desc", 2, 2, 2, 2, false),
+                new Card("Card 3", "Card 3 desc", 3, 3, 3, 3, true),
+                new Card("Card 4", "Card 4 desc", 4, 4, 4, 4, false)
         );
 
         cardsDao.saveAll(cards);

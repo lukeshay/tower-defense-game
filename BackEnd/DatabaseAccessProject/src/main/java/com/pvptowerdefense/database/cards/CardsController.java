@@ -56,7 +56,7 @@ public class CardsController {
      * @return List of the cards
      */
     @RequestMapping(method = RequestMethod.GET, value = "/{cardName}")
-    public Card getAllCards(@PathVariable String cardName) {
+    public Card getCardByName(@PathVariable String cardName) {
         return cardsService.getCardByName(cardName);
     }
 }
