@@ -2,18 +2,17 @@ package com.pvptowerdefense.database.users.models;
 
 import com.pvptowerdefense.database.cards.models.Card;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
+    @Column(name = "PHONE_ID", nullable = false)
     private String phoneId;
 
-    @Column(unique=true)
+    @Column(name = "USER_NAME", nullable = false)
     private String userName;
 
     @Column(unique=true)
