@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else{
-            Intent intent = new Intent(this, inventoryActivity.class);
+            Intent intent = new Intent(this, NavigationActivity.class);
             startActivity(intent);
         }
     }
