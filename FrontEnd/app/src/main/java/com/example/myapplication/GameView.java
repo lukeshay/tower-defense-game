@@ -17,16 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+    public GameView instance;
     private MainThread mainThread;
     private List<CharacterSprite> characters;
     private BackButton backButton;
-    private Player player;
     Paint paint;
+    public GameManager manager;
     private boolean isPlacingSprite;
     private int spriteToPlace;
 
     public GameView(Context context){
         super(context);
+        instance = this;
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -44,16 +46,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder){
         mainThread.setRunning(true);
         mainThread.start();
-        player = new Player();
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper2)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper2)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper2)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(getResources(), R.drawable.reaper2)));
-        player.drawHand();
+        manager = new GameManager(this);
+        manager.initializeDeck();
+        manager.getPlayer().drawHand();
         backButton = new BackButton(BitmapFactory.decodeResource(getResources(),R.drawable.back_button));
     }
 
@@ -77,12 +72,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
             canvas.drawRect(new Rect(150, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 150, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
-            for(CharacterSprite character : characters){
-                character.draw(canvas);
-            }
-            for(CardInHand item : player.hand){
-                item.draw(canvas);
-            }
+            //Manager will draw the characters and hand
+            manager.draw(canvas);
             backButton.draw(canvas);
         }
     }
@@ -92,8 +83,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(isPlacingSprite){
                 if(spriteToPlace != -1){
-                    characters.add(new CharacterSprite(player.hand[spriteToPlace].card.sprite.image, (int)event.getX(), (int)event.getY()));
-                    player.hand[spriteToPlace].setStatus(CardInHand.Status.NOT_READY);
+                    manager.addCharacter(new CharacterSprite(manager.getPlayer().hand[spriteToPlace].card.sprite.image, (int)event.getX(), (int)event.getY()));
+                    manager.getPlayer().hand[spriteToPlace].setStatus(CardInHand.Status.NOT_READY);
                     isPlacingSprite = false;
                 }
             } else {
@@ -104,38 +95,38 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     this.backToNavigation(this);
                 }
                 //Is the event within the bounds of one of our CardInHand objects?
-                if (event.getX() <= player.hand[0].card.sprite.getxEnd() &&
-                        event.getX() >= player.hand[0].card.sprite.getxStart() &&
-                        event.getY() <= player.hand[0].card.sprite.getyEnd() &&
-                        event.getY() >= player.hand[0].card.sprite.getyStart() &&
-                        player.hand[0].paint.getColor() == Color.GREEN) {
+                if (event.getX() <= manager.getPlayer().hand[0].card.sprite.getxEnd() &&
+                        event.getX() >= manager.getPlayer().hand[0].card.sprite.getxStart() &&
+                        event.getY() <= manager.getPlayer().hand[0].card.sprite.getyEnd() &&
+                        event.getY() >= manager.getPlayer().hand[0].card.sprite.getyStart() &&
+                        manager.getPlayer().hand[0].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 0;
                     isPlacingSprite = true;
-                    player.hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
-                } else if (event.getX() <= player.hand[1].card.sprite.getxEnd() &&
-                        event.getX() >= player.hand[1].card.sprite.getxStart() &&
-                        event.getY() <= player.hand[1].card.sprite.getyEnd() &&
-                        event.getY() >= player.hand[1].card.sprite.getyStart() &&
-                        player.hand[1].paint.getColor() == Color.GREEN) {
+                    manager.getPlayer().hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                } else if (event.getX() <= manager.getPlayer().hand[1].card.sprite.getxEnd() &&
+                        event.getX() >= manager.getPlayer().hand[1].card.sprite.getxStart() &&
+                        event.getY() <= manager.getPlayer().hand[1].card.sprite.getyEnd() &&
+                        event.getY() >= manager.getPlayer().hand[1].card.sprite.getyStart() &&
+                        manager.getPlayer().hand[1].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 1;
                     isPlacingSprite = true;
-                    player.hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
-                } else if (event.getX() <= player.hand[2].card.sprite.getxEnd() &&
-                        event.getX() >= player.hand[2].card.sprite.getxStart() &&
-                        event.getY() <= player.hand[2].card.sprite.getyEnd() &&
-                        event.getY() >= player.hand[2].card.sprite.getyStart() &&
-                        player.hand[2].paint.getColor() == Color.GREEN) {
+                    manager.getPlayer().hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                } else if (event.getX() <= manager.getPlayer().hand[2].card.sprite.getxEnd() &&
+                        event.getX() >= manager.getPlayer().hand[2].card.sprite.getxStart() &&
+                        event.getY() <= manager.getPlayer().hand[2].card.sprite.getyEnd() &&
+                        event.getY() >= manager.getPlayer().hand[2].card.sprite.getyStart() &&
+                        manager.getPlayer().hand[2].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 2;
                     isPlacingSprite = true;
-                    player.hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
-                } else if (event.getX() <= player.hand[3].card.sprite.getxEnd() &&
-                        event.getX() >= player.hand[3].card.sprite.getxStart() &&
-                        event.getY() <= player.hand[3].card.sprite.getyEnd() &&
-                        event.getY() >= player.hand[3].card.sprite.getyStart() &&
-                        player.hand[3].paint.getColor() == Color.GREEN) {
+                    manager.getPlayer().hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                } else if (event.getX() <= manager.getPlayer().hand[3].card.sprite.getxEnd() &&
+                        event.getX() >= manager.getPlayer().hand[3].card.sprite.getxStart() &&
+                        event.getY() <= manager.getPlayer().hand[3].card.sprite.getyEnd() &&
+                        event.getY() >= manager.getPlayer().hand[3].card.sprite.getyStart() &&
+                        manager.getPlayer().hand[3].paint.getColor() == Color.GREEN) {
                     spriteToPlace = 3;
                     isPlacingSprite = true;
-                    player.hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
+                    manager.getPlayer().hand[spriteToPlace].setStatus(CardInHand.Status.PLACING);
                 }
             }
             return true;
@@ -144,12 +135,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
-        for(CharacterSprite character : characters){
-            character.update();
-        }
-        for(CardInHand card : player.hand){
-            card.update();
-        }
+        manager.update();
     }
 
     public void backToNavigation(View view){
