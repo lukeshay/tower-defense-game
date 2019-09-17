@@ -3,17 +3,16 @@ package com.pvptowerdefense.database.users.models;
 import com.pvptowerdefense.database.cards.models.Card;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
     @Id
+    @Column(name = "PHONE_ID", nullable = false)
     private String phoneId;
 
-    @Column(unique=true)
-    @NotEmpty
+    @Column(name = "USER_NAME", nullable = false)
     private String userName;
 
     @Column(unique=true)
