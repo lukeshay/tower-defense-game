@@ -10,123 +10,131 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cards")
 public class Card {
-    @Id
-    @Column(name = "NAME", nullable = false)
-    private String name;
 
-    @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
+	@Id
+	@Column(name = "NAME", nullable = false)
+	private String name;
 
-    @Column(name = "COST", nullable = false)
-    private int cost;
+	@Column(name = "DESCRIPTION", nullable = false)
+	private String description;
 
-    @Column(name = "DAMAGE", nullable = false)
-    private int damage;
+	@Column(name = "COST", nullable = false)
+	private int cost;
 
-    @Column(name = "HIT_POINTS", nullable = false)
-    private int hitPoints;
+	@Column(name = "DAMAGE", nullable = false)
+	private int damage;
 
-    @Column(name = "SPEED", nullable = false)
-    private int speed;
+	@Column(name = "HIT_POINTS", nullable = false)
+	private int hitPoints;
 
-    @Column(name = "MELEE", nullable = false)
-    private boolean melee;
+	@Column(name = "SPEED", nullable = false)
+	private int speed;
 
-    /**
-     * Default constructor. Used when calling other services.
-     */
-    public Card() {
-    }
+	@Column(name = "type", nullable = false)
+	private String type;
 
-    /**
-     * Constructor for a card.
-     *
-     * @param name        Name of the card.
-     * @param description Description of the card.
-     * @param cost        Cost of the card.
-     * @param damage      Damage of the card.
-     * @param hitPoints   Hit points of the card.
-     * @param speed       Speed of the card.
-     * @param melee       Whether or not the card is melee.
-     */
-    public Card(String name, String description, int cost, int damage,
-                int hitPoints, int speed, boolean melee) {
+	/**
+	 * Default constructor. Used when calling other services.
+	 */
+	public Card() {
+	}
 
-        this.name = name;
-        this.description = description;
-        this.cost = cost;
-        this.damage = damage;
-        this.hitPoints = hitPoints;
-        this.speed = speed;
-        this.melee = melee;
-    }
+	/**
+	 * Constructor for a card.
+	 *
+	 * @param name        Name of the card.
+	 * @param description Description of the card.
+	 * @param cost        Cost of the card.
+	 * @param damage      Damage of the card.
+	 * @param hitPoints   Hit points of the card.
+	 * @param speed       Speed of the card.
+	 * @param type        The type of the card (melee, ranged, spell).
+	 */
+	public Card(String name, String description, int cost, int damage,
+	            int hitPoints, int speed, String type) {
 
-    public String getName() {
-        return name;
-    }
+		this.name = name;
+		this.description = description;
+		this.cost = cost;
+		this.damage = damage;
+		this.hitPoints = hitPoints;
+		this.speed = speed;
+		setType(type);
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public int getCost() {
-        return cost;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
+	public int getCost() {
+		return cost;
+	}
 
-    public int getDamage() {
-        return damage;
-    }
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
 
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
+	public int getDamage() {
+		return damage;
+	}
 
-    public int getHitPoints() {
-        return hitPoints;
-    }
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
 
-    public void setHitPoints(int hitPoints) {
-        this.hitPoints = hitPoints;
-    }
+	public int getHitPoints() {
+		return hitPoints;
+	}
 
-    public int getSpeed() {
-        return speed;
-    }
+	public void setHitPoints(int hitPoints) {
+		this.hitPoints = hitPoints;
+	}
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
+	public int getSpeed() {
+		return speed;
+	}
 
-    public boolean isMelee() {
-        return melee;
-    }
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
 
-    public void setMelee(boolean melee) {
-        this.melee = melee;
-    }
+	public String getType() {
+		return type;
+	}
 
-    @Override
-    public String toString() {
-        return new ToStringCreator(this)
-                .append("name", this.getName())
-                .append("description", this.getDescription())
-                .append("cost", this.getCost())
-                .append("damage", this.getDamage())
-                .append("hit points", this.getHitPoints())
-                .append("speed", this.getSpeed())
-                .append("melee", this.isMelee())
-                .toString();
-    }
+	public void setType(String type) {
+		if (type.equals("melee") || type.equals("ranged") || type.equals(
+				"spell")) {
+			this.type = type;
+		}
+		else {
+			throw new IllegalArgumentException(String.format("Invalid usage: " +
+					"%s <melee|ranged|spell>", type));
+		}
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringCreator(this)
+				.append("name", this.getName())
+				.append("description", this.getDescription())
+				.append("cost", this.getCost())
+				.append("damage", this.getDamage())
+				.append("hit points", this.getHitPoints())
+				.append("speed", this.getSpeed())
+				.append("type", this.getType())
+				.toString();
+	}
 }
