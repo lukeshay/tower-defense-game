@@ -28,8 +28,8 @@ public class CardsController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value="")
-    public String addCardToDB(@RequestBody Card card) {
-        return cardsService.addCardToDB(card);
+    public void addCardToDB(@RequestBody Card card) {
+        cardsService.addCardToDB(card);
     }
 
     /**
