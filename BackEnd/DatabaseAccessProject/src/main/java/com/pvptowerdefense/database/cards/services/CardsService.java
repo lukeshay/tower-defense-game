@@ -26,10 +26,10 @@ public class CardsService {
 
 	public void loadCardsToDatabase() {
 		List<Card> cards = Arrays.asList(
-				new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, true),
-				new Card("Card 2", "Card 2 desc", 2, 2, 2, 2, false),
-				new Card("Card 3", "Card 3 desc", 3, 3, 3, 3, true),
-				new Card("Card 4", "Card 4 desc", 4, 4, 4, 4, false)
+				new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, "ranged"),
+				new Card("Card 2", "Card 2 desc", 2, 2, 2, 2, "melee"),
+				new Card("Card 3", "Card 3 desc", 3, 3, 3, 3, "spell"),
+				new Card("Card 4", "Card 4 desc", 4, 4, 4, 4, "melee")
 		);
 
 		cardsDao.saveAll(cards);
