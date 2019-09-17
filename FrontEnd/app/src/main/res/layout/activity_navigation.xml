@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NavigationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Single Player Practice"
+            android:id="@+id/singlePlayerButton"
+            android:background="#358a32"
+            android:onClick="launchSinglePlayer"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Multiplayer Game"
+            android:id="@+id/multiPlayerButton"
+            android:background="#0058b6"
+            android:onClick="launchMultiplayer"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inventory and Deckbuilder"
+            android:id="@+id/inventoryButton"
+            android:background="#FF0000"
+            android:onClick="openInventory"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
