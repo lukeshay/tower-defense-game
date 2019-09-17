@@ -9,27 +9,29 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "PHONE_ID", nullable = false)
+    @Column(unique = true, name = "PHONE_ID", nullable = false)
     private String phoneId;
 
-    @Column(name = "USER_NAME", nullable = false)
+    @Column(unique = true, name = "USER_NAME", nullable = false)
     private String userName;
 
-    @Column(unique=true)
-    @NotEmpty
+    @Column(unique=true, name = "EMAIL", nullable = false)
     private String email;
 
-    @NotEmpty
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
-    @NotEmpty
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
-    @NotEmpty
+    @Column(name = "XP", nullable = false)
     private int xp;
 
-    @NotEmpty
+    @Column(name = "TROPHIES", nullable = false)
     private int trophies;
+
+    @Column(name = "USER_TYPE", nullable = false)
+    private String userType;
 
     @ElementCollection
     private List<Card> ownedCards;
@@ -39,7 +41,7 @@ public class User {
 
     private User() {}
 
-    public User(String userName, String phoneId, String firstName, String lastName, String email, int xp, int trophies) {
+    public User(String userName, String phoneId, String firstName, String lastName, String email, int xp, int trophies, String userType) {
         this.userName = userName;
         this.phoneId = phoneId;
         this.firstName = firstName;
@@ -47,6 +49,7 @@ public class User {
         this.email = email;
         this.xp = xp;
         this.trophies = trophies;
+        setUserType(userType);
     }
 
     public String getUserName() {
@@ -127,5 +130,15 @@ public class User {
 
     public void addToCurrentDeck(Card card) {
         currentDeck.add(card);
+    }
+
+    public String getUserType(){ return userType; }
+
+    public void setUserType(String type){
+        if(type.equals("Debugger") || type.equals("Admin") || type.equals("User")){
+            this.userType = type;
+        }
+        else { throw new IllegalArgumentException("Invalid user type!"); }
+
     }
 }
