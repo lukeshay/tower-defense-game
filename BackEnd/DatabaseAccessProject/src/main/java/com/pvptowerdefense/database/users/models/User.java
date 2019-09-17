@@ -16,12 +16,19 @@ public class User {
     private String userName;
 
     @Column(unique=true)
+    @NotEmpty
     private String email;
 
+    @NotEmpty
     private String firstName;
+
+    @NotEmpty
     private String lastName;
 
+    @NotEmpty
     private int xp;
+
+    @NotEmpty
     private int trophies;
 
     @ElementCollection

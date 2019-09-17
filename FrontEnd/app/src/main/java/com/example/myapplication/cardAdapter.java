@@ -10,16 +10,23 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
-    private String[] mDataSet;
+    private ArrayList<String> mDataSet;
     private Context mContext;
+    private deckAdapter deck;
 
-    public cardAdapter(Context context,String[] DataSet){
+    public cardAdapter(Context context,ArrayList<String> DataSet, deckAdapter _deck){
         mDataSet = DataSet;
         mContext = context;
+        deck = _deck;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -32,7 +39,6 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
         }
     }
 
-
     @Override
     public cardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(mContext).inflate(R.layout.custom_view,parent,false);
@@ -42,28 +48,42 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        holder.mTextView.setText(mDataSet[position]);
+        holder.mTextView.setText(mDataSet.get(position));
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(5);
         gd.setStroke(5, Color.BLACK);
         holder.mTextView.setBackground(gd);
+        final int viewPosition = position;
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //TODO: this is broken look into why we cannot grab the index as the view should not be null
                 //RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
                 //int itemPosition = recyclerView.indexOfChild(v);
-                //Log.e("clickEvent", "user clicked on a card " + String.valueOf(itemPosition));
+                Log.e("clickEvent", "user clicked on a card " + Integer.toString(viewPosition) + " " + getItem(viewPosition));
+                deck.addItem();
             }
         });
     }
 
     @Override
     public int getItemCount(){
-        return mDataSet.length;
+        return mDataSet.size();
     }
 
+    public String getItem(int position){
+        return mDataSet.get(position);
+    }
 
+    public void addItem(){
+        mDataSet.add("test");
+        this.notifyItemInserted(mDataSet.size());
+    }
 
+    public void removeItem(int position){
+       mDataSet.remove(position);
+       this.notifyItemRemoved(position);
+       this.notifyItemRangeChanged(position, mDataSet.size());
+    }
 }

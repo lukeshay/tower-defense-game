@@ -8,20 +8,23 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(!isFirstRun()){
+        if(isFirstRun()){
             Intent intent = new Intent(this, registerUserActivity.class);
             startActivity(intent);
-        }else{
+        }
+        else{
             Intent intent = new Intent(this, NavigationActivity.class);
             startActivity(intent);
         }
     }
 
     private boolean isFirstRun(){
+
         SharedPreferences prefrences = getPreferences(MODE_PRIVATE);
         boolean firstRun = prefrences.getBoolean("RanBefore", false);
         Log.e("first run:", Boolean.toString(firstRun));

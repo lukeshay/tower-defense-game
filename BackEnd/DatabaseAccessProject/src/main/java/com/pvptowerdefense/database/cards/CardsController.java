@@ -3,10 +3,7 @@ package com.pvptowerdefense.database.cards;
 import com.pvptowerdefense.database.cards.models.Card;
 import com.pvptowerdefense.database.cards.services.CardsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,11 @@ public class CardsController {
     @Autowired
     public CardsController(final CardsService autowiredCardsService) {
         this.cardsService = autowiredCardsService;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value="")
+    public String addCardToDB(@RequestBody Card card) {
+        return cardsService.addCardToDB(card);
     }
 
     /**
@@ -56,7 +58,7 @@ public class CardsController {
      * @return List of the cards
      */
     @RequestMapping(method = RequestMethod.GET, value = "/{cardName}")
-    public Card getAllCards(@PathVariable String cardName) {
+    public Card getCardByName(@PathVariable String cardName) {
         return cardsService.getCardByName(cardName);
     }
 }

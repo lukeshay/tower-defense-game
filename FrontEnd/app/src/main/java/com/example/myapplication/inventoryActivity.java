@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class inventoryActivity extends Activity {
 
@@ -33,7 +38,7 @@ public class inventoryActivity extends Activity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
 
-        layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false);
+        layoutManager = new GridLayoutManager(this,1,LinearLayoutManager.HORIZONTAL, false);
         recyclerView = (RecyclerView) findViewById(R.id.deck);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -41,19 +46,43 @@ public class inventoryActivity extends Activity {
         mLayoutManager = new GridLayoutManager(mContext,3);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        String[] cards = {
+        ArrayList<String> cards = new ArrayList<String>(
+                Arrays.asList(
                 "A",
                 "B",
                 "C",
                 "D",
                 "E",
                 "F",
-                "G"
-        };
+                "G",
+                "H",
+                "I",
+                "J",
+                "K",
+                "L",
+                "M",
+                "N",
+                "O",
+                "P",
+                "Q",
+                "R",
+                "S",
+                "T",
+                "U",
+                "V",
+                "W",
+                "X",
+                "Y",
+                "Z")
+        );
 
+        ArrayList<String> deck = new ArrayList<String>(
+                Arrays.asList("a","b","c")
+        );
         // Initialize a new instance of RecyclerView Adapter instance
-        mAdapter = new cardAdapter(mContext,cards);
-
+        deckAdapter da = new deckAdapter(mContext,deck);
+        mAdapter = new cardAdapter(mContext,cards, da);
+        adapter = new deckAdapter(mContext, deck);
         // Set the adapter for RecyclerView
         mRecyclerView.setAdapter(mAdapter);
         recyclerView.setAdapter(adapter);
