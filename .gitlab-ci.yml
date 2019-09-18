@@ -21,7 +21,7 @@ maven-test:
     - echo "Running spring-boot tests"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - ./mvnw test
+    - mvn test
 
 deploy:
   stage: deploy
@@ -31,8 +31,8 @@ deploy:
     - echo "Do your deploy here"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - ./mvnw package
-    - sudo mv target/*.jar /target/spring-boot.jar 
+    - mvn package
+    - sudo mv target/*SNAPSHOT.jar /target/spring-boot.jar 
     - sudo systemctl stop systemd-spring-boot
     - sudo systemctl start systemd-spring-boot
 
