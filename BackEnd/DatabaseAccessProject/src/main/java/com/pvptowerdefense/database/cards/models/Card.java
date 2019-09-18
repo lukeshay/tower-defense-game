@@ -1,83 +1,140 @@
 package com.pvptowerdefense.database.cards.models;
 
+import org.springframework.core.style.ToStringCreator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "cards")
 public class Card {
-    @Id
-    @Column(unique=true)
-    private String name;
-    private int ad;
-    private int hp;
-    private int speed;
-    private int cost;
 
-    private Card() {}
+	@Id
+	@Column(name = "NAME", nullable = false)
+	private String name;
 
-    public Card(String name, int ad, int hp, int speed, int cost) {
-        assertValidParams(name, ad, hp, speed, cost);
-        this.name = name;
-        this.ad = ad;
-        this.hp = hp;
-        this.speed = speed;
-        this.cost = cost;
-    }
+	@Column(name = "DESCRIPTION", nullable = false)
+	private String description;
 
-    /**
-     * Validates the params. Below you can see the regulations.
-     * @param name This must not be null
-     * @param ad Must be greater than or equal to 0
-     * @param hp Must be greater than 0
-     * @param speed Must be greater than or equal to 0
-     * @param cost No rules
-     */
-    private static void assertValidParams(String name, int ad, int hp,
-                                          int speed, int cost) {
-        assert name != null;
-        assert speed >= 0;
-        assert ad >= 0;
-        assert hp > 0;
-    }
+	@Column(name = "COST", nullable = false)
+	private int cost;
 
-    public String getName() {
-        return name;
-    }
+	@Column(name = "DAMAGE", nullable = false)
+	private int damage;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	@Column(name = "HIT_POINTS", nullable = false)
+	private int hitPoints;
 
-    public int getAd() {
-        return ad;
-    }
+	@Column(name = "SPEED", nullable = false)
+	private int speed;
 
-    public void setAd(int ad) {
-        this.ad = ad;
-    }
+	@Column(name = "type", nullable = false)
+	private String type;
 
-    public int getHp() {
-        return hp;
-    }
+	/**
+	 * Default constructor. Used when calling other services.
+	 */
+	public Card() {
+	}
 
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
+	/**
+	 * Constructor for a card.
+	 *
+	 * @param name        Name of the card.
+	 * @param description Description of the card.
+	 * @param cost        Cost of the card.
+	 * @param damage      Damage of the card.
+	 * @param hitPoints   Hit points of the card.
+	 * @param speed       Speed of the card.
+	 * @param type        The type of the card (melee, ranged, spell).
+	 */
+	public Card(String name, String description, int cost, int damage,
+	            int hitPoints, int speed, String type) {
 
-    public int getSpeed() {
-        return speed;
-    }
+		this.name = name;
+		this.description = description;
+		this.cost = cost;
+		this.damage = damage;
+		this.hitPoints = hitPoints;
+		this.speed = speed;
+		setType(type);
+	}
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public int getCost() {
-        return cost;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public int getHitPoints() {
+		return hitPoints;
+	}
+
+	public void setHitPoints(int hitPoints) {
+		this.hitPoints = hitPoints;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		if (type.equals("melee") || type.equals("ranged") || type.equals(
+				"spell")) {
+			this.type = type;
+		}
+		else {
+			throw new IllegalArgumentException(String.format("Invalid usage: " +
+					"%s <melee|ranged|spell>", type));
+		}
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringCreator(this)
+				.append("name", this.getName())
+				.append("description", this.getDescription())
+				.append("cost", this.getCost())
+				.append("damage", this.getDamage())
+				.append("hit points", this.getHitPoints())
+				.append("speed", this.getSpeed())
+				.append("type", this.getType())
+				.toString();
+	}
 }

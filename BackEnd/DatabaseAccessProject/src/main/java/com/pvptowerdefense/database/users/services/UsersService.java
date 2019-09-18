@@ -27,17 +27,21 @@ public class UsersService {
 
     public void loadPresetUsersToDatabase(){
         List<User> users = Arrays.asList(
-                new User("user1", "phoneId1", "firstName1", "lastName1", "email1", 1, 1),
-                new User("user2", "phoneId2", "firstName2", "lastName2", "email2", 2, 2),
-                new User("user3", "phoneId3", "firstName3", "lastName3", "email3", 3, 3),
-                new User("user4", "phoneId4", "firstName4", "lastName4", "email4", 4, 4)
+                new User("user1", "phoneId1", "firstName1", "lastName1", "email1", 1, 1, "User"),
+                new User("user2", "phoneId2", "firstName2", "lastName2", "email2", 2, 2, "User"),
+                new User("user3", "phoneId3", "firstName3", "lastName3", "email3", 3, 3, "User"),
+                new User("user4", "phoneId4", "firstName4", "lastName4", "email4", 4, 4, "User")
         );
 
         usersDao.saveAll(users);
     }
 
-    public User getUserByPhoneId(String phoneId){
-        return usersDao.getUserByPhoneId(phoneId);
+    public User findUserById(String phoneId){
+        return usersDao.findUserById(phoneId);
+    }
+
+    public void deleteUserById(String id){
+        usersDao.deleteById(id);
     }
 
 }

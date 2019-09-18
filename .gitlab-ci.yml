@@ -1,0 +1,38 @@
+stages:
+  - mavenbuild
+  - maventest
+  - deploy
+
+maven-build:
+  stage: mavenbuild
+  tags:
+    - bash
+  script:
+    - echo "Starting springboot build"
+    - cd BackEnd/DatabaseAccessProject
+    - chmod 777 *
+    - ./mvnw package
+
+maven-test:
+  stage: maventest
+  tags:
+    - bash
+  script:
+    - echo "Running spring-boot tests"
+    - cd BackEnd/DatabaseAccessProject
+    - chmod 777 *
+    - ./mvnw test
+
+deploy:
+  stage: deploy
+  tags:
+    - bash
+  script:
+    - echo "Do your deploy here"
+    - cd BackEnd/DatabaseAccessProject
+    - chmod 777 *
+    - ./mvnw package
+    - sudo mv target/*.jar /target/spring-boot.jar 
+    - sudo systemctl stop systemd-spring-boot
+    - sudo systemctl start systemd-spring-boot
+

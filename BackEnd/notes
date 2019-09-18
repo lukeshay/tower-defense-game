@@ -1,0 +1,3 @@
+Using Maven Wrapper
+* Run using command './mvnw spring-boot:run'
+* Create jar and run tests './mvnw clean package'

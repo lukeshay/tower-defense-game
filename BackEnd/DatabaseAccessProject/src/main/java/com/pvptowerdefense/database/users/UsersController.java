@@ -1,8 +1,10 @@
 package com.pvptowerdefense.database.users;
 
+import com.pvptowerdefense.database.users.models.User;
 import com.pvptowerdefense.database.users.services.UsersService;
-import org.apache.catalina.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,4 +27,18 @@ public class UsersController {
     public List<User> getAllUsers () {
         return usersService.getAllUsers();
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/load")
+    public void loadPresetUsersToDatabase(){
+        usersService.loadPresetUsersToDatabase();
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/load/{password}/{userId}")
+    public void deleteUserById(@PathVariable String password, @PathVariable String userId){
+        if(password.equals("123456")) {
+            usersService.deleteUserById(userId);
+        }
+        else{ throw new IllegalArgumentException("You do not have authority to delete!"); }
+    }
+
 }
