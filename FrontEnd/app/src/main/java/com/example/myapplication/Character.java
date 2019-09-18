@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 
 import java.util.Random;
 
-public class CharacterSprite extends Sprite{
+public class Character extends Sprite{
 
-    public CharacterSprite(Bitmap bitmap, int xPos, int yPos){
+    public Character(Bitmap bitmap, int xPos, int yPos){
         super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
     }
 

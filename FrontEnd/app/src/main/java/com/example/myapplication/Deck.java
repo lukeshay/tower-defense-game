@@ -3,6 +3,7 @@ package com.example.myapplication;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class Deck {
     //TODO: most of this logic should probably be moved to the back-end. This is dummy logic so that the game can run with randomized cards pulling from a deck
     private ArrayList<Card> deck;
@@ -24,7 +25,7 @@ public class Deck {
     public CardInHand drawCard(int cardInHandIndex){
         //Players can never run out of cards in their deck. When the index is maxed out, we will shuffle the deck and start index back at 0.
         index++;
-        if(index >= deck.size()){
+        if(index >= deck.size()-1){
             this.shuffle();
             index = 0;
         }
