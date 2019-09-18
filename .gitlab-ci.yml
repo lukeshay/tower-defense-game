@@ -11,7 +11,7 @@ maven-build:
     - echo "Starting springboot build"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - ./mvnw package
+    - mvn package
 
 maven-test:
   stage: maventest
