@@ -6,32 +6,32 @@ stages:
 maven-build:
   stage: mavenbuild
   tags:
-    - bash
+    - shell
   script:
     - echo "Starting springboot build"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - mvn package
+    - /usr/maven/apache-maven-3.6.0/bin/mvn package
 
 maven-test:
   stage: maventest
   tags:
-    - bash
+    - shell
   script:
     - echo "Running spring-boot tests"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - mvn test
+    - /usr/maven/apache-maven-3.6.0/bin/mvn test
 
 deploy:
   stage: deploy
   tags:
-    - bash
+    - shell
   script:
     - echo "Do your deploy here"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - mvn package
+    - /usr/maven/apache-maven-3.6.0/bin/mvn package
     - sudo mv target/*SNAPSHOT.jar /target/spring-boot.jar 
     - sudo systemctl stop systemd-spring-boot
     - sudo systemctl start systemd-spring-boot
