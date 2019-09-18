@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsersDao extends CrudRepository<User, String> {
-    public User findUserById(String phoneId);
+    public User findUserByPhoneId(String phoneId);
 }

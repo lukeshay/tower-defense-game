@@ -37,7 +37,7 @@ public class UsersService {
     }
 
     public User findUserById(String phoneId){
-        return usersDao.findUserById(phoneId);
+        return usersDao.findUserByPhoneId(phoneId);
     }
 
     public void deleteUserById(String id){
