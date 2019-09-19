@@ -46,8 +46,8 @@ public class CardsController {
 	 * @param card The card information in JSON format
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "")
-	public void addCardToDB(@RequestBody Card card) {
-		cardsService.addCardToDB(card);
+	public void addCardToDb(@RequestBody Card card) {
+		cardsService.addCardToDb(card);
 	}
 
 	/**

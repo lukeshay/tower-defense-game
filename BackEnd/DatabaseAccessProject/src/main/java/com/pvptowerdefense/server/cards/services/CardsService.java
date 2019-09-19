@@ -66,7 +66,7 @@ public class CardsService {
 	 *
 	 * @param card the card
 	 */
-	public void addCardToDB(Card card) {
+	public void addCardToDb(Card card) {
 		if (!cardsDao.existsById(card.getName())) {
 			cardsDao.save(card);
 		}

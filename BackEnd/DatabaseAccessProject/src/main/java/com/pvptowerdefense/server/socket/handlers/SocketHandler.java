@@ -46,24 +46,29 @@ public class SocketHandler {
 	public void onOpen(Session session, @PathVariable String phoneId) {
 		idAndSession.put(phoneId, session);
 		sessionAndId.put(session, phoneId);
+
+		// matchmaking
 	}
 
 	/**
 	 * Sends the message to the user that the inputted session is matched up
 	 * with.
+	 *
 	 * @param session The session sending the message.
 	 * @param message The message as a String. *NOTE This might change types.
 	 */
 	@OnMessage
 	public void onMessage(Session session, String message) {
-		MatchUp matchup = findMatchUp(session);
-		if (matchup != null) {
-			matchup.getOtherSession(session).getAsyncRemote().sendText(message);
-		}
+		// Currently does nothing because we have not implemented matchmaking
+		// MatchUp matchup = findMatchUp(session);
+		// if (matchup != null) {
+		// matchup.getOtherSession(session).getAsyncRemote().sendText(message);
+		// }
 	}
 
 	/**
 	 * Removes the session from the hash maps and it's match up from the list.
+	 *
 	 * @param session The session that is leaving.
 	 * @param phoneId The id of the user as a String.
 	 */
