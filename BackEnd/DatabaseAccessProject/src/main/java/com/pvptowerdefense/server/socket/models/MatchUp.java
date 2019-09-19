@@ -17,9 +17,9 @@ public class MatchUp {
 	/**
 	 * Constructor for a matchup.
 	 *
-	 * @param playerOneId Id of the first player
+	 * @param playerOneId      Id of the first player
 	 * @param playerOneSession Session of the first player
-	 * @param playerTwoId Id of the second player
+	 * @param playerTwoId      Id of the second player
 	 * @param playerTwoSession Session of the second player
 	 */
 	public MatchUp(String playerOneId, Session playerOneSession, String playerTwoId, Session playerTwoSession) {
@@ -29,34 +29,74 @@ public class MatchUp {
 		this.playerTwoSession = playerTwoSession;
 	}
 
+	/**
+	 * Gets player one id.
+	 *
+	 * @return the player one id
+	 */
 	public String getPlayerOneId() {
 		return playerOneId;
 	}
 
+	/**
+	 * Sets player one id.
+	 *
+	 * @param playerOneId the player one id
+	 */
 	public void setPlayerOneId(String playerOneId) {
 		this.playerOneId = playerOneId;
 	}
 
+	/**
+	 * Gets player one session.
+	 *
+	 * @return the player one session
+	 */
 	public Session getPlayerOneSession() {
 		return playerOneSession;
 	}
 
+	/**
+	 * Sets player one session.
+	 *
+	 * @param playerOneSession the player one session
+	 */
 	public void setPlayerOneSession(Session playerOneSession) {
 		this.playerOneSession = playerOneSession;
 	}
 
+	/**
+	 * Gets player two id.
+	 *
+	 * @return the player two id
+	 */
 	public String getPlayerTwoId() {
 		return playerTwoId;
 	}
 
+	/**
+	 * Sets player two id.
+	 *
+	 * @param playerTwoId the player two id
+	 */
 	public void setPlayerTwoId(String playerTwoId) {
 		this.playerTwoId = playerTwoId;
 	}
 
+	/**
+	 * Gets player two session.
+	 *
+	 * @return the player two session
+	 */
 	public Session getPlayerTwoSession() {
 		return playerTwoSession;
 	}
 
+	/**
+	 * Sets player two session.
+	 *
+	 * @param playerTwoSession the player two session
+	 */
 	public void setPlayerTwoSession(Session playerTwoSession) {
 		this.playerTwoSession = playerTwoSession;
 	}

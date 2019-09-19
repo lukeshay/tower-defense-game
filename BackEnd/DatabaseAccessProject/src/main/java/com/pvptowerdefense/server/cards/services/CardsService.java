@@ -9,21 +9,37 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The type Cards service.
+ */
 @Service
 public class CardsService {
 	private CardsDao cardsDao;
 
+	/**
+	 * Instantiates a new Cards service.
+	 *
+	 * @param cardsDao the cards dao
+	 */
 	@Autowired
 	public CardsService(CardsDao cardsDao) {
 		this.cardsDao = cardsDao;
 	}
 
+	/**
+	 * Gets all cards.
+	 *
+	 * @return the all cards
+	 */
 	public List<Card> getAllCards() {
 		List<Card> cards = new ArrayList<>();
 		cardsDao.findAll().forEach(cards::add);
 		return cards;
 	}
 
+	/**
+	 * Load cards to database.
+	 */
 	public void loadCardsToDatabase() {
 		List<Card> cards = Arrays.asList(
 				new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, "ranged"),
@@ -35,10 +51,21 @@ public class CardsService {
 		cardsDao.saveAll(cards);
 	}
 
+	/**
+	 * Gets card by name.
+	 *
+	 * @param cardName the card name
+	 * @return the card by name
+	 */
 	public Card getCardByName(String cardName) {
 		return cardsDao.getCardByName(cardName);
 	}
 
+	/**
+	 * Adds card to database.
+	 *
+	 * @param card the card
+	 */
 	public void addCardToDB(Card card) {
 		if (!cardsDao.existsById(card.getName())) {
 			cardsDao.save(card);
