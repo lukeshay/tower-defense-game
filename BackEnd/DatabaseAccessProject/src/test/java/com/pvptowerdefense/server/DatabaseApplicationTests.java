@@ -1,4 +1,4 @@
-package com.pvptowerdefense.database;
+package com.pvptowerdefense.server;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

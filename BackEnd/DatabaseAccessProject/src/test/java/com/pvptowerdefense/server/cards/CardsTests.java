@@ -1,8 +1,6 @@
-package com.pvptowerdefense.database.cards;
+package com.pvptowerdefense.server.cards;
 
-import com.pvptowerdefense.database.DatabaseApplicationTests;
-import com.pvptowerdefense.database.cards.models.Card;
-import org.junit.jupiter.api.Assertions;
+import com.pvptowerdefense.server.DatabaseApplicationTests;
 import org.junit.jupiter.api.Test;
 
 public class CardsTests extends DatabaseApplicationTests {

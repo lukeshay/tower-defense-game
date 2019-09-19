@@ -1,6 +1,6 @@
-package com.pvptowerdefense.database.users.models;
+package com.pvptowerdefense.server.users.models;
 
-import com.pvptowerdefense.database.cards.models.Card;
+import com.pvptowerdefense.server.cards.models.Card;
 
 import javax.persistence.*;
 import java.util.List;

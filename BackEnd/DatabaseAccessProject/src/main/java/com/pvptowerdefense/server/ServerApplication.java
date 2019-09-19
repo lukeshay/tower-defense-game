@@ -1,13 +1,13 @@
-package com.pvptowerdefense.database;
+package com.pvptowerdefense.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DatabaseApplication {
+public class ServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DatabaseApplication.class, args);
+        SpringApplication.run(ServerApplication.class, args);
     }
 
 }

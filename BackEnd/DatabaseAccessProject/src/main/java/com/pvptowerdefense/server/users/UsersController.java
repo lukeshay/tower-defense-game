@@ -1,7 +1,7 @@
-package com.pvptowerdefense.database.users;
+package com.pvptowerdefense.server.users;
 
-import com.pvptowerdefense.database.users.models.User;
-import com.pvptowerdefense.database.users.services.UsersService;
+import com.pvptowerdefense.server.users.models.User;
+import com.pvptowerdefense.server.users.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

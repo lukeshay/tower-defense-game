@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.pvptowerdefense</groupId>
-    <artifactId>database</artifactId>
+    <artifactId>server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>database</name>
-    <description>Database program for pvp tower defense game</description>
+    <name>server</name>
+    <description>Server program for pvp tower defense game</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -47,6 +47,10 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <!--        <dependency>-->
         <!--            <groupId>org.apache.derby</groupId>-->

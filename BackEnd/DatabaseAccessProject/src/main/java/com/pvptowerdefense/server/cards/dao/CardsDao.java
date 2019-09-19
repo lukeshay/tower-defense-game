@@ -1,6 +1,6 @@
-package com.pvptowerdefense.database.cards.dao;
+package com.pvptowerdefense.server.cards.dao;
 
-import com.pvptowerdefense.database.cards.models.Card;
+import com.pvptowerdefense.server.cards.models.Card;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

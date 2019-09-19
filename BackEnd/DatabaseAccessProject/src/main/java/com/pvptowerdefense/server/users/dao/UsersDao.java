@@ -1,6 +1,6 @@
-package com.pvptowerdefense.database.users.dao;
+package com.pvptowerdefense.server.users.dao;
 
-import com.pvptowerdefense.database.users.models.User;
+import com.pvptowerdefense.server.users.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

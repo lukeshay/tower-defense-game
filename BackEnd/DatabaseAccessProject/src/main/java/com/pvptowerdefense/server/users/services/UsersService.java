@@ -1,7 +1,7 @@
-package com.pvptowerdefense.database.users.services;
+package com.pvptowerdefense.server.users.services;
 
-import com.pvptowerdefense.database.users.dao.UsersDao;
-import com.pvptowerdefense.database.users.models.User;
+import com.pvptowerdefense.server.users.dao.UsersDao;
+import com.pvptowerdefense.server.users.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
