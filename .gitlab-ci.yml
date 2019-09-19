@@ -8,7 +8,6 @@ maven-build:
   tags:
     - shell
   script:
-    - echo "Starting springboot build"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
     - mvn package
@@ -18,7 +17,6 @@ maven-test:
   tags:
     - shell
   script:
-    - echo "Running spring-boot tests"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
     - mvn test
@@ -28,7 +26,6 @@ deploy:
   tags:
     - shell
   script:
-    - echo "Do your deploy here"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
     - mvn package
