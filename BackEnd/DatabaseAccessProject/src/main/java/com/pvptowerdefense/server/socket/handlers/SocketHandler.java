@@ -8,6 +8,7 @@ import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * url/socket/{id} where id is the phone id.
  */
 @Component
-@ServerEndpoint("/socket/{id}")
+@ServerEndpoint("/socket/{phoneId}")
 public class SocketHandler {
 	private HashMap<String, Session> idAndSession;
 	private HashMap<Session, String> sessionAndId;
@@ -43,7 +44,7 @@ public class SocketHandler {
 	 * @param phoneId The id of the user as a String.
 	 */
 	@OnOpen
-	public void onOpen(Session session, @PathVariable String phoneId) {
+	public void onOpen(Session session, @PathParam("phoneId") String phoneId) {
 		idAndSession.put(phoneId, session);
 		sessionAndId.put(session, phoneId);
 
@@ -64,6 +65,7 @@ public class SocketHandler {
 		// if (matchup != null) {
 		// matchup.getOtherSession(session).getAsyncRemote().sendText(message);
 		// }
+		System.out.println(message);
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class SocketHandler {
 	 * @param phoneId The id of the user as a String.
 	 */
 	@OnClose
-	public void onClose(Session session, @PathVariable String phoneId) {
+	public void onClose(Session session, @PathParam("phoneId") String phoneId) {
 		idAndSession.remove(phoneId);
 		sessionAndId.remove(session);
 
