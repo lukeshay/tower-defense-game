@@ -18,7 +18,7 @@ public class Deck {
     private String deckName;
 
     public Deck(){
-
+        this.deck = new ArrayList<>();
     }
 
     public Deck(List<Card> deck, String deckName) {
