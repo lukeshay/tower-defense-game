@@ -46,15 +46,24 @@ public class CardsController {
 	 * @param card The card information in JSON format
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "")
-	public void addCardToDB(@RequestBody Card card) {
-		cardsService.addCardToDB(card);
+	public void addCardToDb(@RequestBody Card card) {
+		cardsService.addCardToDb(card);
 	}
 
 	/**
 	 * Used to get all the card types from the database. This database will be
 	 * static, meaning cards cannot be added, removed, or changed unless done
-	 * so for game balancing.
+	 * so for game balancing. Returns the cards in the format that follows.
 	 *
+	 * } <br>
+	 * "name": "Card 1", <br>
+	 * "description": "Card 1 desc", <br>
+	 * "cost": 1, <br>
+	 * "damage": 1, <br>
+	 * "hitPoints": 1, <br>
+	 * "speed": 1, <br>
+	 * "type": "melee" <br>
+     * }
 	 * @return List of the cards
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "")
@@ -71,7 +80,18 @@ public class CardsController {
 	}
 
 	/**
-	 * Returns the card with the given name.
+	 * Returns the card with the given name. The format of the body is as
+	 * follows.
+	 *
+	 * <br>
+	 * "name": "Card 1", <br>
+	 * "description": "Card 1 desc", <br>
+	 * "cost": 1, <br>
+	 * "damage": 1, <br>
+	 * "hitPoints": 1, <br>
+	 * "speed": 1, <br>
+	 * "type": "melee" <br>
+	 * }
 	 *
 	 * @param cardName The name of the card you are looking for
 	 * @return List of the cards
