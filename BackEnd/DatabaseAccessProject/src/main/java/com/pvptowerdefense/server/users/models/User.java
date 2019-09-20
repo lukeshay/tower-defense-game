@@ -4,6 +4,7 @@ import com.pvptowerdefense.server.cards.models.Card;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "users")
