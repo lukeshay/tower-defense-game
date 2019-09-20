@@ -10,7 +10,6 @@ import java.util.NoSuchElementException;
 public class Queue<T> {
 	private Node first;
 	private Node last;
-
 	private int size;
 
 	/**

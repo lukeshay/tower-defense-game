@@ -1,12 +1,14 @@
 package com.pvptowerdefense.server.socket.handlers;
 
 import com.pvptowerdefense.server.socket.models.MatchUp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +20,14 @@ import java.util.stream.Collectors;
  * url/socket/{id} where id is the phone id.
  */
 @Component
-@ServerEndpoint("/socket/{phoneId}")
+@ServerEndpoint("/socket/{id}")
 public class SocketHandler {
 	private HashMap<String, Session> idAndSession;
 	private HashMap<Session, String> sessionAndId;
 	private List<MatchUp> matchUpList;
+
+	private static Logger logger =
+			LoggerFactory.getLogger(SocketHandler.class.getName());
 
 	/**
 	 * This class handles the incoming socket requests.
@@ -38,12 +43,12 @@ public class SocketHandler {
 	 * maps.
 	 *
 	 * @param session The new session.
-	 * @param phoneId The id of the user as a String.
+	 * @param id The id of the user as a String.
 	 */
 	@OnOpen
-	public void onOpen(Session session, @PathParam("phoneId") String phoneId) {
-		idAndSession.put(phoneId, session);
-		sessionAndId.put(session, phoneId);
+	public void onOpen(Session session, @PathParam("id") String id) {
+		idAndSession.put(id, session);
+		sessionAndId.put(session, id);
 
 	}
 
@@ -55,25 +60,24 @@ public class SocketHandler {
 	 * @param message The message as a String. *NOTE This might change types.
 	 */
 	@OnMessage
-	public void onMessage(Session session, String message) {
+	public void onMessage(Session session, String message) throws IOException {
 		// Currently does nothing because we have not implemented matchmaking
 		// MatchUp matchup = findMatchUp(session);
 		// if (matchup != null) {
 		// matchup.getOtherSession(session).getAsyncRemote().sendText(message);
 		// }
-		session.getAsyncRemote().sendText(message); // Used for testing
-		System.out.println(message);
+		broadcast(message);
 	}
 
 	/**
 	 * Removes the session from the hash maps and it's match up from the list.
 	 *
 	 * @param session The session that is leaving.
-	 * @param phoneId The id of the user as a String.
+	 * @param id The id of the user as a String.
 	 */
 	@OnClose
-	public void onClose(Session session, @PathParam("phoneId") String phoneId) {
-		idAndSession.remove(phoneId);
+	public void onClose(Session session, @PathParam("id") String id) {
+		idAndSession.remove(id);
 		sessionAndId.remove(session);
 
 		matchUpList.remove(findMatchUp(session));
@@ -81,8 +85,16 @@ public class SocketHandler {
 
 	@OnError
 	public void onError(Session session, Throwable throwable) {
-		System.out.println("ERROR " + throwable.getMessage());
+		logger.error("ERROR " + throwable.getMessage());
 	}
+
+	private void broadcast(String message) throws IOException {
+		logger.info(message);
+		sessionAndId.forEach((session, id) -> {
+			session.getAsyncRemote().sendText(message);
+		});
+	}
+
 
 	/**
 	 * Finds the match up of the inputted session.
