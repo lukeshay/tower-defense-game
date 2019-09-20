@@ -38,11 +38,10 @@ public class User {
     private List<Card> ownedCards;
 
     @ElementCollection
-    private List<Deck> decks;
+    private List<String> deckNames;
 
-
-
-    private User() {}
+    private User() {
+    }
     
      public User(String phoneId, String userName, String email, String firstName, String lastName, String userType) {
         this.phoneId = phoneId;
@@ -54,10 +53,13 @@ public class User {
         this.trophies = 0;
         setUserType(userType);
         this.ownedCards = new ArrayList<>();
-        this.decks = new ArrayList<>();
+        this.deckNames = new ArrayList<>();
      }
 
-    public User(String phoneId, String userName, String email, String firstName, String lastName, int xp, int trophies, String userType, List<Card> ownedCards, List<Deck> decks) {
+    public User(String phoneId, String userName, String email,
+                String firstName, String lastName, int xp, int trophies,
+                String userType, List<Card> ownedCards,
+                List<String> deckNames) {
         this.phoneId = phoneId;
         this.userName = userName;
         this.email = email;
@@ -67,7 +69,7 @@ public class User {
         this.trophies = trophies;
         setUserType(userType);
         this.ownedCards = ownedCards;
-        this.decks = decks;
+        this.deckNames = deckNames;
     }
 
     public String getPhoneId() {
@@ -138,12 +140,12 @@ public class User {
         this.ownedCards = ownedCards;
     }
 
-    public List<Deck> getDecks() {
-        return decks;
+    public List<String> getDeckNames() {
+        return deckNames;
     }
 
-    public void setDecks(List<Deck> decks) {
-        this.decks = decks;
+    public void setDeckNames(List<String> deckNames) {
+        this.deckNames = deckNames;
     }
 
     public void setUserType(String type){
