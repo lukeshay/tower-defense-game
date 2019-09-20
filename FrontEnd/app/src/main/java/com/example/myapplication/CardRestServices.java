@@ -1,16 +1,12 @@
 package com.example.myapplication;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * A class used for posting cards to the back-end and for grabbing them.
@@ -49,7 +45,7 @@ public class CardRestServices {
             }
             in.close();
             //System.out.println(response.toString()); log
-            return JsonToObject.convertCardArray(response.toString());
+            return JsonUtils.jsonToCardArray(response.toString());
 
         } catch(Exception e){
             //TODO: Handle exception
@@ -76,7 +72,7 @@ public class CardRestServices {
             }
             in.close();
             //System.out.println(response.toString()); log
-            return JsonToObject.convertCard(response.toString());
+            return JsonUtils.jsonToCard(response.toString());
         } catch(Exception e){
             //Handle exception
             System.out.println("Encountered error");
