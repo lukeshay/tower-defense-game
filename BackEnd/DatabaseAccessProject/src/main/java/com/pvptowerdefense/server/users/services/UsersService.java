@@ -30,10 +30,11 @@ public class UsersService {
 
     public void loadPresetUsersToDatabase(){
         List<User> users = Arrays.asList(
-                new User("user1", "phoneId1", "firstName1", "lastName1", "email1", 1, 1, "User", Arrays.asList(new Card()), Arrays.asList(new Deck())),
-                new User("user2", "phoneId2", "firstName2", "lastName2", "email2", 2, 2, "User", Arrays.asList(new Card()), Arrays.asList(new Deck())),
-                new User("user3", "phoneId3", "firstName3", "lastName3", "email3", 3, 3, "User", Arrays.asList(new Card()), Arrays.asList(new Deck())),
-                new User("user4", "phoneId4", "firstName4", "lastName4", "email4", 4, 4, "User", Arrays.asList(new Card()), Arrays.asList(new Deck()))
+                new User("user1", "phoneId1", "firstName1", "lastName1", 
+                        "email1", "User"),
+                new User("user2", "phoneId2", "firstName2", "lastName2", "email2", "User"),
+                new User("user3", "phoneId3", "firstName3", "lastName3", "email3", "User"),
+                new User("user4", "phoneId4", "firstName4", "lastName4", "email4", "User")
         );
 
         usersDao.saveAll(users);
