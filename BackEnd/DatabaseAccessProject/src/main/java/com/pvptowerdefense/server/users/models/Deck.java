@@ -2,13 +2,19 @@ package com.pvptowerdefense.server.users.models;
 
 import com.pvptowerdefense.server.cards.models.Card;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Deck {
 
+    @ElementCollection
     private List<Card> deck;
 
+    @Id
     private String deckName;
 
     public Deck(){
