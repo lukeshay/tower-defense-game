@@ -1,7 +1,7 @@
-package com.pvptowerdefense.database.cards.services;
+package com.pvptowerdefense.server.cards.services;
 
-import com.pvptowerdefense.database.cards.dao.CardsDao;
-import com.pvptowerdefense.database.cards.models.Card;
+import com.pvptowerdefense.server.cards.dao.CardsDao;
+import com.pvptowerdefense.server.cards.models.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

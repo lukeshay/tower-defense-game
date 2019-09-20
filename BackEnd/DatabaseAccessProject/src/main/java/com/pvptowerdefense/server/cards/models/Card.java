@@ -1,4 +1,4 @@
-package com.pvptowerdefense.database.cards.models;
+package com.pvptowerdefense.server.cards.models;
 
 import org.springframework.core.style.ToStringCreator;
 
