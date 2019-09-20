@@ -42,6 +42,19 @@ public class User {
 
 
     private User() {}
+    
+     public User(String phoneId, String userName, String email, String firstName, String lastName, String userType) {
+        this.phoneId = phoneId;
+        this.userName = userName;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.xp = 0;
+        this.trophies = 0;
+        setUserType(userType);
+        this.ownedCards = new ArrayList<>();
+        this.decks = new ArrayList<>();
+     }
 
     public User(String phoneId, String userName, String email, String firstName, String lastName, int xp, int trophies, String userType, List<Card> ownedCards, List<Deck> decks) {
         this.phoneId = phoneId;
