@@ -37,19 +37,31 @@ public class User {
     private List<Card> ownedCards;
 
     @ElementCollection
-    private List<Card> currentDeck;
+    private List<Deck> decks;
+
+
 
     private User() {}
 
-    public User(String userName, String phoneId, String firstName, String lastName, String email, int xp, int trophies, String userType) {
-        this.userName = userName;
+    public User(String phoneId, String userName, String email, String firstName, String lastName, int xp, int trophies, String userType, List<Card> ownedCards, List<Deck> decks) {
         this.phoneId = phoneId;
+        this.userName = userName;
+        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.xp = xp;
         this.trophies = trophies;
         setUserType(userType);
+        this.ownedCards = ownedCards;
+        this.decks = decks;
+    }
+
+    public String getPhoneId() {
+        return phoneId;
+    }
+
+    public void setPhoneId(String phoneId) {
+        this.phoneId = phoneId;
     }
 
     public String getUserName() {
@@ -60,12 +72,12 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPhoneId() {
-        return phoneId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhoneId(String phoneId) {
-        this.phoneId = phoneId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -84,14 +96,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public int getXp() {
         return xp;
     }
@@ -108,6 +112,10 @@ public class User {
         this.trophies = trophies;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
     public List<Card> getOwnedCards() {
         return ownedCards;
     }
@@ -116,23 +124,13 @@ public class User {
         this.ownedCards = ownedCards;
     }
 
-    public void addOwnedCard(Card card) {
-        ownedCards.add(card);
+    public List<Deck> getDecks() {
+        return decks;
     }
 
-    public List<Card> getCurrentDeck() {
-        return currentDeck;
+    public void setDecks(List<Deck> decks) {
+        this.decks = decks;
     }
-
-    public void setCurrentDeck(List<Card> currentDeck) {
-        this.currentDeck = currentDeck;
-    }
-
-    public void addToCurrentDeck(Card card) {
-        currentDeck.add(card);
-    }
-
-    public String getUserType(){ return userType; }
 
     public void setUserType(String type){
         if(type.equals("Debugger") || type.equals("Admin") || type.equals("User")){
