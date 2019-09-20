@@ -61,6 +61,7 @@ public class SocketHandler {
 		// if (matchup != null) {
 		// matchup.getOtherSession(session).getAsyncRemote().sendText(message);
 		// }
+		session.getAsyncRemote().sendText(message); // Used for testing
 		System.out.println(message);
 	}
 

@@ -13,11 +13,12 @@ public class SocketTests {
 	public void connectToSocketTest() throws URISyntaxException, InterruptedException {
 		MyWebSocketClient webSocket = new MyWebSocketClient(URL, "1");
 
-		webSocket.connect();
-		Thread.sleep(10000);
 		webSocket.send("####### HELLO #######");
 
 		Assertions.assertTrue(webSocket.isOpen());
+		Thread.sleep(10000);
+
+		System.out.println(webSocket.getMessages().toString());
 		webSocket.close();
 	}
 }

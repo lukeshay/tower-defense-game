@@ -1,11 +1,17 @@
 package com.pvptowerdefense.test.websocketclient;
 
+import com.pvptowerdefense.test.queue.Queue;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * The type My web socket client.
@@ -14,11 +20,14 @@ public class MyWebSocketClient extends WebSocketClient {
 	private String socketId;
 	private String serverUrl;
 
+	Queue<String> messages;
+
 	/**
 	 * Instantiates a new My web socket client.
 	 *
 	 * @param serverUrl the server uri
 	 * @param socketId  the socket id
+	 * @throws URISyntaxException the uri syntax exception
 	 */
 	public MyWebSocketClient(String serverUrl, String socketId) throws URISyntaxException {
 		super(new URI(serverUrl + socketId));
@@ -26,37 +35,43 @@ public class MyWebSocketClient extends WebSocketClient {
 		this.socketId = socketId;
 		this.serverUrl = serverUrl;
 
+		messages = new Queue<>();
+
 		connect();
+		waitForConnected();
 	}
 
 	public void onOpen(ServerHandshake serverHandshake) {
-		waitForConnected();
-		System.out.println(String.format("Connected to %s%s", serverUrl, socketId));
+		messages.enqueue(String.format("Connected to %s%s", serverUrl, socketId));
 	}
 
 	public void onMessage(String s) {
-		System.out.println("Message: " + s);
+		messages.enqueue("Message: " + s);
 	}
 
 	public void onClose(int i, String s, boolean b) {
-		System.out.println("Closed");
+		messages.enqueue("Closed");
 	}
 
 	public void onError(Exception e) {
-		System.out.println("Error");
+		messages.enqueue("Error");
+	}
+
+	public Queue<String> getMessages() {
+		return messages;
 	}
 
 	private void waitForConnected() {
-		for (int i = 0; i < 100 && isClosed(); i++) {
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		while(!isOpen()) {
+			nap();
 		}
+	}
 
-		if (isClosed()) {
-			throw new WebsocketNotConnectedException();
+	private void nap() {
+		try {
+			Thread.sleep(5);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }
