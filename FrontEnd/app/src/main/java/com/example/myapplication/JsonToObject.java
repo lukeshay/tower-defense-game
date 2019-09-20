@@ -9,12 +9,12 @@ import java.util.Collection;
 
 public class JsonToObject {
 
-    public static Card convert(String json){
+    public static Card convertCard(String json){
         Gson test = new Gson();
         return test.fromJson(json, Card.class);
     }
 
-    public static Collection<Card> convertArray(String json){
+    public static Collection<Card> convertCardArray(String json){
         Gson gson = new Gson();
         Type collectionType = new TypeToken<Collection<Card>>(){}.getType();
         Collection<Card> enums = gson.fromJson(json, collectionType);

@@ -26,7 +26,7 @@ public class Card {
     public int hitPoints;
     @SerializedName("speed")
     public int speed;
-    @SerializedName("type")
+    //@SerializedName("type")
     public int range;
 
     public Card(CardType cardType, Bitmap image){

@@ -1,6 +1,6 @@
 package com.example.myapplication;
 
-import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,20 +27,13 @@ public class CardRestServices {
             client.setRequestProperty("Content-Type", "application/json; utf-8");
             client.setDoOutput(true);
             OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
-            osw.write("{"
-                    + "name: " + card.cardName
-                    + ",\ncardDescription: " + card.cardDescription
-                    + ",\ncost: " + card.castingCost
-                    + ",\ndamage: " + 1
-                    + ",\nhitPoints: " + 1
-                    + ",\ntype:" + card.cardType.toString()+
-                    "}");
+            //osw.write();
         } catch(Exception e){
             //Handle exception
         }
     }
 
-    public static List<Card> getAllCards(){
+    public static Collection<Card> getAllCards(){
         try {
             URL url = new URL(baseUrl);
             HttpURLConnection client = (HttpURLConnection) url.openConnection();
@@ -54,14 +48,8 @@ public class CardRestServices {
                 response.append(input);
             }
             in.close();
-            System.out.println(response.toString());
-
-            //TODO: format cards
-            ArrayList<Card> cards = new ArrayList<>();
-            //Gson gson = new Gson();
-            //Card card = gson.fromJson(response.toString(), Card.class);
-            //cards.add(card);
-            return cards;
+            //System.out.println(response.toString()); log
+            return JsonToObject.convertCardArray(response.toString());
 
         } catch(Exception e){
             //TODO: Handle exception
@@ -75,7 +63,6 @@ public class CardRestServices {
         try {
             String newURL = baseUrl + "/" + name;
             URL url = new URL(newURL.replace(" ", "%20"));
-            System.out.println(url);
             HttpURLConnection client = (HttpURLConnection) url.openConnection();
             URLConnection con = url.openConnection();
             client.setRequestMethod("GET");
@@ -88,10 +75,8 @@ public class CardRestServices {
                 response.append(input);
             }
             in.close();
-            System.out.println(response.toString());
-            Gson gson = new Gson();
-            Card card = gson.fromJson(response.toString(), Card.class);
-            return card;
+            //System.out.println(response.toString()); log
+            return JsonToObject.convertCard(response.toString());
         } catch(Exception e){
             //Handle exception
             System.out.println("Encountered error");
@@ -103,6 +88,10 @@ public class CardRestServices {
         //Test connections
         Card card = getCardByName("Card 1");
         System.out.println("Card title: " + card.cardName);
+        System.out.println("List of all cards: ");
+        for(Card card1 : getAllCards()){
+            System.out.println(card1.cardName);
+        }
     }
 
 
