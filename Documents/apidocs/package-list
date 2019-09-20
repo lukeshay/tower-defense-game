@@ -1,0 +1,9 @@
+com.pvptowerdefense.database
+com.pvptowerdefense.database.cards
+com.pvptowerdefense.database.cards.dao
+com.pvptowerdefense.database.cards.models
+com.pvptowerdefense.database.cards.services
+com.pvptowerdefense.database.users
+com.pvptowerdefense.database.users.dao
+com.pvptowerdefense.database.users.models
+com.pvptowerdefense.database.users.services

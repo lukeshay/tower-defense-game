@@ -1,5 +1,4 @@
 package com.example.myapplication;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -11,8 +10,8 @@ public class Card {
     public Sprite sprite;
 
     public Card(CardType cardType, Bitmap image){
-        //TODO: not always a CharacterSprite
-        sprite = new CharacterSprite(image,0,0);
+        //TODO: not always a Character
+        sprite = new Character(image,0,0);
         this.cardType = cardType;
         sprite.image = image;
     }
@@ -20,12 +19,5 @@ public class Card {
     public void draw(Canvas canvas){
         sprite.draw(canvas);
     }
-
-    public void playCard(){
-        switch(cardType){
-            case UNIT:
-        }
-    }
-
 
 }

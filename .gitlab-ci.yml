@@ -6,33 +6,31 @@ stages:
 maven-build:
   stage: mavenbuild
   tags:
-    - bash
+    - shell
   script:
-    - echo "Starting springboot build"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - ./mvnw package
+    - mvn package
 
 maven-test:
   stage: maventest
   tags:
-    - bash
+    - shell
   script:
-    - echo "Running spring-boot tests"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - ./mvnw test
+    - mvn test
 
 deploy:
   stage: deploy
   tags:
-    - bash
+    - shell
   script:
-    - echo "Do your deploy here"
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
-    - ./mvnw package
-    - sudo mv target/*.jar /target/spring-boot.jar 
-    - sudo systemctl stop systemd-spring-boot
-    - sudo systemctl start systemd-spring-boot
+    - mvn package
+    - sudo rm -f /home/SS_5/database-access.jar
+    - sudo mv target/*SNAPSHOT.jar /home/SS_5/database-access.jar
+    - sudo systemctl stop ss-5
+    - sudo systemctl start ss-5
 
