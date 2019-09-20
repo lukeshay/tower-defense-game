@@ -4,10 +4,7 @@ import com.pvptowerdefense.server.socket.models.MatchUp;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.ArrayList;
@@ -48,7 +45,6 @@ public class SocketHandler {
 		idAndSession.put(phoneId, session);
 		sessionAndId.put(session, phoneId);
 
-		// matchmaking
 	}
 
 	/**
@@ -80,6 +76,11 @@ public class SocketHandler {
 		sessionAndId.remove(session);
 
 		matchUpList.remove(findMatchUp(session));
+	}
+
+	@OnError
+	public void onError(Session session, Throwable throwable) {
+		System.out.println("ERROR " + throwable.getMessage());
 	}
 
 	/**
