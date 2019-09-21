@@ -3,12 +3,16 @@ package com.example.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.VolleyServices.VolleyResponseListener;
+import com.example.myapplication.VolleyServices.VolleyUtilities;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -45,6 +49,19 @@ public class inventoryActivity extends Activity {
         // Define a layout for RecyclerView
         mLayoutManager = new GridLayoutManager(mContext,3);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        VolleyUtilities.getRequest(this.getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/cards", new VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+                Log.e("response",response.toString());
+            }
+        });
 
         ArrayList<String> cards = new ArrayList<String>(
                 Arrays.asList(
