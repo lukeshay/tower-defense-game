@@ -3,40 +3,38 @@ package com.pvptowerdefense.test.websocketclient;
 import com.pvptowerdefense.test.queue.Queue;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * The type My web socket client.
  */
-public class MyWebSocketClient extends WebSocketClient {
-	private String socketId;
-	private String serverUrl;
+public class SS5WebSocketClient extends WebSocketClient {
+	private static final String serverUrl = "http://coms-309-ss-5.misc" +
+			".iastate.edu:8080/socket/";
 
-	Queue<String> messages;
+	private String socketId;
+	private Queue<String> messages;
+
+	private static Logger logger =
+			LoggerFactory.getLogger(SS5WebSocketClient.class);
 
 	/**
 	 * Instantiates a new My web socket client.
 	 *
-	 * @param serverUrl the server uri
-	 * @param socketId  the socket id
+	 * @param userId  the socket id
 	 * @throws URISyntaxException the uri syntax exception
 	 */
-	public MyWebSocketClient(String serverUrl, String socketId) throws URISyntaxException {
-		super(new URI(serverUrl + socketId));
+	public SS5WebSocketClient(String userId) throws URISyntaxException {
+		super(new URI(serverUrl + userId));
 
-		this.socketId = socketId;
-		this.serverUrl = serverUrl;
-
+		this.socketId = userId;
 		messages = new Queue<>();
 
+		logger.info("Connecting");
 		connect();
 		waitForConnected();
 	}

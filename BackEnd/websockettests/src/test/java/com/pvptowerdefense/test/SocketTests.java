@@ -1,20 +1,21 @@
 package com.pvptowerdefense.test;
 
-import com.pvptowerdefense.test.websocketclient.MyWebSocketClient;
+import com.pvptowerdefense.test.websocketclient.SS5WebSocketClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
 
 public class SocketTests {
-	private static final String URL = "http://localhost:8080/socket/";
+	private static final String URL = "coms-309-ss-5.misc.iastate" +
+			".edu:8080/socket/";
 
 	@Test
 	public void connectToSocketTest() throws URISyntaxException, InterruptedException {
-		MyWebSocketClient webSocket1 = new MyWebSocketClient(URL, "1");
-		MyWebSocketClient webSocket2 = new MyWebSocketClient(URL, "2");
-		MyWebSocketClient webSocket3 = new MyWebSocketClient(URL, "3");
-		MyWebSocketClient webSocket4 = new MyWebSocketClient(URL, "4");
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
+		SS5WebSocketClient webSocket3 = new SS5WebSocketClient("3");
+		SS5WebSocketClient webSocket4 = new SS5WebSocketClient("4");
 
 		Thread.sleep(1000);
 		webSocket1.send("####### HELLO1 #######");
