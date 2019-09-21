@@ -11,12 +11,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.myapplication.VolleyServices.VolleyResponseListener;
+import com.example.myapplication.VolleyServices.VolleyUtilities;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static android.provider.Settings.Secure.ANDROID_ID;
@@ -28,6 +36,14 @@ public class registerUserActivity extends Activity {
         super.onCreate(savedInstance);
         setContentView(R.layout.register_user_activity);
 
+        Map<String, String> MyData = new HashMap<String, String>();
+        MyData.put("phoneId", "abc123");
+        MyData.put("userName", "abc123");
+        MyData.put("email", "email@email.com");
+        MyData.put("firstName", "FirstNameTest");
+        MyData.put("lastName", "LastNameTest");
+        MyData.put("userType", "Admin"); //Add the data you'd like to send to the server.
+
         Button submit = (Button) findViewById(R.id.submitButton);
         final EditText screenName = (EditText) findViewById(R.id.usernameField);
 
@@ -35,27 +51,28 @@ public class registerUserActivity extends Activity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                URL url;
-                HttpURLConnection client = null;
+                JSONObject jsonObject = new JSONObject();
                 try {
-                //    url = new URL("hey this needs to be the server resource");
-                //    client = (HttpURLConnection) url.openConnection();
-                //    client.setRequestMethod("POST");
-                //    client.setRequestProperty("Content-Type", "application/json; utf-8");
-                //    client.setDoOutput(true);
-                //    OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
-                //    osw.write("{"+ screenName.getText() + ":" + generateUUID() + "}");
-                    Log.e("user", "{" + screenName.getText() + ":" + generateUUID() + "}");
+                    jsonObject.put("phoneId", "123456");
+                    jsonObject.put("userName","test_user");
+                    jsonObject.put("email", "email@email.com");
+                    jsonObject.put("firstName", "FirstNameTest");
+                    jsonObject.put("lastName", "LastNameTest");
+                    jsonObject.put("userType", "Admin");
                 }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-                try{
-                   // BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream(), "utf-8"));
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
+                catch(JSONException e){Log.e("e", e.toString());}
+                VolleyUtilities.postRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users", new VolleyResponseListener() {
+                    @Override
+                    public void onError(String message) {
+                        Log.e("post-error", message);
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+                        Log.e("user-request", response.toString());
+                    }
+                },jsonObject);
+
                 startActivity(intent);
             }
         });
