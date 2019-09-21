@@ -4,8 +4,10 @@ import com.pvptowerdefense.server.users.models.User;
 import com.pvptowerdefense.server.users.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -39,8 +41,8 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "")
-    public void addUserToDb(@RequestBody User userId){
-        usersService.addUserToDb(userId);
+    public ResponseEntity<String> addUserToDb(@Valid @RequestBody User userId){
+        return ResponseEntity.ok("User add is a success");
     }
 
 }
