@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -30,9 +32,10 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.POST, value = "/load")
     public void loadPresetUsersToDatabase(){
         usersService.loadPresetUsersToDatabase();
+        successMap();
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/load/{password}/{userId}")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{password}/{userId}")
     public void deleteUserById(@PathVariable String password, @PathVariable String userId){
         if(password.equals("123456")) {
             usersService.deleteUserById(userId);
@@ -41,8 +44,15 @@ public class UsersController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "")
-    public ResponseEntity<String> addUserToDb(@Valid @RequestBody User userId){
-        return ResponseEntity.ok("User add is a success");
+    public Map addUserToDb(@Valid @RequestBody User userId){
+        usersService.addUserToDb(userId);
+        return successMap();
+    }
+
+    public Map<String, Boolean> successMap(){
+        HashMap<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return map;
     }
 
 }
