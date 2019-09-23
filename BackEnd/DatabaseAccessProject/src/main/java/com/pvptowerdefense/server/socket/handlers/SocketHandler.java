@@ -48,6 +48,7 @@ public class SocketHandler {
 	 */
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
+		logger.info(id + " connected");
 		idAndSession.put(id, session);
 		sessionAndId.put(session, id);
 		if(idAndSession.size() % 2 == 1){
@@ -104,10 +105,15 @@ public class SocketHandler {
 		logger.error("ERROR " + throwable.getMessage());
 	}
 
-	private void broadcast(String message) throws IOException {
-		logger.info(message);
+	private void broadcast(String message) {
+		logger.info(String.valueOf(sessionAndId.size()));
 		sessionAndId.forEach((session, id) -> {
-			session.getAsyncRemote().sendText(message);
+			logger.info(String.format("Send '%s' to %s", message, id));
+			try {
+				session.getBasicRemote().sendText(message);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 	}
 
