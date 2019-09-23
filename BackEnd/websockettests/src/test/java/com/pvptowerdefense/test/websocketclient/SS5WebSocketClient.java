@@ -1,23 +1,29 @@
 package com.pvptowerdefense.test.websocketclient;
 
 import com.pvptowerdefense.test.queue.Queue;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.websocket.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
  * The type My web socket client.
  */
-public class SS5WebSocketClient extends WebSocketClient {
-	private static final String serverUrl = "http://coms-309-ss-5.misc" +
-			".iastate.edu:8080/socket/";
+@ClientEndpoint
+public class SS5WebSocketClient {
+	/**
+	 * This is the server url. For testing locally the url is
+	 * 'http://localhost:8080/socket/%s'. For testing on the server the url
+	 * is 'ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s'.
+	 */
+	private static final String serverUrl = "ws://localhost:8080/socket/%s";
 
-	private String socketId;
-	private Queue<String> messages;
+	private String id = null;
+	private Queue<String> messages = null;
+	private Session session = null;
 
 	private static Logger logger =
 			LoggerFactory.getLogger(SS5WebSocketClient.class);
@@ -25,44 +31,156 @@ public class SS5WebSocketClient extends WebSocketClient {
 	/**
 	 * Instantiates a new My web socket client.
 	 *
-	 * @param userId  the socket id
+	 * @param userId the socket id
 	 * @throws URISyntaxException the uri syntax exception
 	 */
 	public SS5WebSocketClient(String userId) throws URISyntaxException {
-		super(new URI(serverUrl + userId));
-
-		this.socketId = userId;
+		this.id = userId;
 		messages = new Queue<>();
 
-		logger.info("Connecting");
-		connect();
-		waitForConnected();
+		try {
+			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+			container.connectToServer(this, new URI(String.format(serverUrl,
+					userId)));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	public void onOpen(ServerHandshake serverHandshake) {
-		messages.enqueue(String.format("Connected to %s%s", serverUrl, socketId));
+	@OnOpen
+	public void onOpen(Session session) {
+		messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
+		setSession(session);
 	}
 
-	public void onMessage(String s) {
-		messages.enqueue("Message: " + s);
+	@OnMessage
+	public void onMessage(String message) {
+		logger.info("Message " + id);
+		messages.enqueue(String.format("Message: %s", message));
 	}
 
-	public void onClose(int i, String s, boolean b) {
-		messages.enqueue("Closed");
+	@OnClose
+	public void onClose(Session session, CloseReason reason) {
+		messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
+		this.session = null;
 	}
 
-	public void onError(Exception e) {
-		messages.enqueue("Error");
+	@OnError
+	public void onError(Session session, Throwable throwable) {
+		messages.enqueue(String.format("Error: %s", throwable.getMessage()));
 	}
 
+	/**
+	 * Sends message to server.
+	 *
+	 * @param message the message
+	 */
+	public void sendMessage(String message) throws IOException {
+		this.session.getBasicRemote().sendText(message);
+	}
+
+	/**
+	 * Closes session.
+	 *
+	 * @throws IOException the io exception
+	 */
+	public void close() throws IOException {
+		session.close();
+		session = null;
+	}
+
+	/**
+	 * Is open boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean isOpen() {
+		return session.isOpen();
+	}
+
+	/**
+	 * Is closed boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean isClosed() {
+		return session == null || !session.isOpen();
+	}
+
+	/**
+	 * Gets messages.
+	 *
+	 * @return the messages
+	 */
 	public Queue<String> getMessages() {
 		return messages;
 	}
 
-	private void waitForConnected() {
-		while(!isOpen()) {
+	/**
+	 * Gets server url.
+	 *
+	 * @return the server url
+	 */
+	public static String getServerUrl() {
+		return serverUrl;
+	}
+
+	/**
+	 * Gets socket id.
+	 *
+	 * @return the socket id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * Sets socket id.
+	 *
+	 * @param id the socket id
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Sets messages.
+	 *
+	 * @param messages the messages
+	 */
+	public void setMessages(Queue<String> messages) {
+		this.messages = messages;
+	}
+
+	/**
+	 * Gets user session.
+	 *
+	 * @return the user session
+	 */
+	public Session getSession() {
+		return session;
+	}
+
+	/**
+	 * Sets user session.
+	 *
+	 * @param session the user session
+	 */
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	/**
+	 * Wait for connection boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean waitForConnection() {
+		for (int i = 0; i < 12000 && !isOpen(); i++) {
 			nap();
 		}
+
+		return isOpen();
 	}
 
 	private void nap() {

@@ -4,6 +4,7 @@ import com.pvptowerdefense.test.websocketclient.SS5WebSocketClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class SocketTests {
@@ -11,20 +12,26 @@ public class SocketTests {
 			".edu:8080/socket/";
 
 	@Test
-	public void connectToSocketTest() throws URISyntaxException, InterruptedException {
+	public void connectToSocketTest() throws URISyntaxException, InterruptedException, IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 		SS5WebSocketClient webSocket3 = new SS5WebSocketClient("3");
 		SS5WebSocketClient webSocket4 = new SS5WebSocketClient("4");
 
+		Assertions.assertAll(
+				() -> Assertions.assertTrue(webSocket1.waitForConnection()),
+				() -> Assertions.assertTrue(webSocket2.waitForConnection()),
+				() -> Assertions.assertTrue(webSocket3.waitForConnection()),
+				() -> Assertions.assertTrue(webSocket4.waitForConnection()));
+
+		Thread.sleep(10000);
+		webSocket1.sendMessage("####### HELLO1 #######");
 		Thread.sleep(1000);
-		webSocket1.send("####### HELLO1 #######");
+		webSocket2.sendMessage("####### HELLO2 #######");
 		Thread.sleep(1000);
-		webSocket2.send("####### HELLO2 #######");
+		webSocket3.sendMessage("####### HELLO3 #######");
 		Thread.sleep(1000);
-		webSocket3.send("####### HELLO3 #######");
-		Thread.sleep(1000);
-		webSocket4.send("####### HELLO4 #######");
+		webSocket4.sendMessage("####### HELLO4 #######");
 
 		Assertions.assertAll(
 				() -> Assertions.assertTrue(webSocket1.isOpen()),
