@@ -78,4 +78,8 @@ public class CardsService {
 					"exists");
 		}
 	}
+
+	public void updateCardInDb(Card card) {
+		cardsDao.save(card);
+	}
 }
