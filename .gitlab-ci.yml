@@ -35,9 +35,8 @@ deploy:
     - sudo systemctl start ss-5
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH == "master"'
-    when: always
+      when: always
     - if: '$CI_MERGE_REQUEST_SOURCE_BRANCH'
-    when: never
-    - if: ''
-    when: manual
+      when: never
+    - when: manual
 
