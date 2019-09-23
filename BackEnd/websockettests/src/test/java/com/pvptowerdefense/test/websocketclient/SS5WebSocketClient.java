@@ -1,18 +1,11 @@
 package com.pvptowerdefense.test.websocketclient;
 
 import com.pvptowerdefense.test.queue.Queue;
-<<<<<<< HEAD
-=======
-import org.java_websocket.handshake.ServerHandshake;
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.websocket.*;
-<<<<<<< HEAD
 import java.io.IOException;
-=======
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -21,16 +14,12 @@ import java.net.URISyntaxException;
  */
 @ClientEndpoint
 public class SS5WebSocketClient {
-<<<<<<< HEAD
 	/**
 	 * This is the server url. For testing locally the url is
 	 * 'http://localhost:8080/socket/%s'. For testing on the server the url
 	 * is 'ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s'.
 	 */
 	private static final String serverUrl = "ws://localhost:8080/socket/%s";
-=======
-	private static final String serverUrl = "http://localhost:8080/socket/%s";
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 
 	private String id = null;
 	private Queue<String> messages = null;
@@ -48,11 +37,7 @@ public class SS5WebSocketClient {
 	 * @throws URISyntaxException the uri syntax exception
 	 */
 	public SS5WebSocketClient(String userId) throws URISyntaxException {
-<<<<<<< HEAD
 		this.id = userId;
-=======
-		this.socketId = userId;
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 		messages = new Queue<>();
 
 		try {
@@ -62,27 +47,48 @@ public class SS5WebSocketClient {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-<<<<<<< HEAD
 	}
 
+	/**
+	 * On open.
+	 *
+	 * @param session the session
+	 */
 	@OnOpen
 	public void onOpen(Session session) {
 		messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
 		setSession(session);
 	}
 
+	/**
+	 * On message.
+	 *
+	 * @param message the message
+	 */
 	@OnMessage
 	public void onMessage(String message) {
 		logger.info("Message " + id);
 		messages.enqueue(String.format("Message: %s", message));
 	}
 
+	/**
+	 * On close.
+	 *
+	 * @param session the session
+	 * @param reason  the reason
+	 */
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
 		messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
 		this.session = null;
 	}
 
+	/**
+	 * On error.
+	 *
+	 * @param session   the session
+	 * @param throwable the throwable
+	 */
 	@OnError
 	public void onError(Session session, Throwable throwable) {
 		messages.enqueue(String.format("Error: %s", throwable.getMessage()));
@@ -92,9 +98,10 @@ public class SS5WebSocketClient {
 	 * Sends message to server.
 	 *
 	 * @param message the message
+	 * @throws IOException the io exception
 	 */
 	public void sendMessage(String message) throws IOException {
-		this.session.getBasicRemote().sendText(message);
+		this.session.getAsyncRemote().sendText(message);
 	}
 
 	/**
@@ -126,73 +133,39 @@ public class SS5WebSocketClient {
 	}
 
 	/**
-	 * Gets messages.
-	 *
-	 * @return the messages
-	 */
-=======
-	}
-
-	@OnOpen
-	public void onOpen(Session session) {
-		messages.enqueue(String.format("Connected to %s%s", serverUrl, socketId));
-		setUserSession(session);
-	}
-
-	@OnMessage
-	public void onMessage(String message) {
-		messages.enqueue(String.format("Message: %s", message));
-	}
-
-	@OnClose
-	public void onClose(Session session, CloseReason reason) {
-		messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
-		this.userSession = null;
-	}
-
-	@OnError
-	public void onError(Exception e) {
-		messages.enqueue("Error");
-	}
-
-	public void sendMessage(String message) {
-		this.userSession.getAsyncRemote().sendText(message);
-	}
-
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
-	public Queue<String> getMessages() {
-		return messages;
-	}
-
-<<<<<<< HEAD
-	/**
 	 * Gets server url.
 	 *
 	 * @return the server url
 	 */
-=======
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 	public static String getServerUrl() {
 		return serverUrl;
 	}
 
-<<<<<<< HEAD
 	/**
-	 * Gets socket id.
+	 * Gets id.
 	 *
-	 * @return the socket id
+	 * @return the id
 	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * Sets socket id.
+	 * Sets id.
 	 *
-	 * @param id the socket id
+	 * @param id the id
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Gets messages.
+	 *
+	 * @return the messages
+	 */
+	public Queue<String> getMessages() {
+		return messages;
 	}
 
 	/**
@@ -200,37 +173,44 @@ public class SS5WebSocketClient {
 	 *
 	 * @param messages the messages
 	 */
-=======
-	public String getSocketId() {
-		return socketId;
-	}
-
-	public void setSocketId(String socketId) {
-		this.socketId = socketId;
-	}
-
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 	public void setMessages(Queue<String> messages) {
 		this.messages = messages;
 	}
 
-<<<<<<< HEAD
 	/**
-	 * Gets user session.
+	 * Gets session.
 	 *
-	 * @return the user session
+	 * @return the session
 	 */
 	public Session getSession() {
 		return session;
 	}
 
 	/**
-	 * Sets user session.
+	 * Sets session.
 	 *
-	 * @param session the user session
+	 * @param session the session
 	 */
 	public void setSession(Session session) {
 		this.session = session;
+	}
+
+	/**
+	 * Gets user session.
+	 *
+	 * @return the user session
+	 */
+	public Session getUserSession() {
+		return userSession;
+	}
+
+	/**
+	 * Sets user session.
+	 *
+	 * @param userSession the user session
+	 */
+	public void setUserSession(Session userSession) {
+		this.userSession = userSession;
 	}
 
 	/**
@@ -244,14 +224,6 @@ public class SS5WebSocketClient {
 		}
 
 		return isOpen();
-=======
-	public Session getUserSession() {
-		return userSession;
-	}
-
-	public void setUserSession(Session userSession) {
-		this.userSession = userSession;
->>>>>>> bc9b4c708a8d012f417d1108984cf874ba2ba531
 	}
 
 	private void nap() {
