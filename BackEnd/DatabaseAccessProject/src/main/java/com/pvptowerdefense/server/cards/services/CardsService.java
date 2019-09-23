@@ -4,7 +4,9 @@ import com.pvptowerdefense.server.cards.dao.CardsDao;
 import com.pvptowerdefense.server.cards.models.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
  * The type Cards service.
  */
 @Service
+@Validated
 public class CardsService {
 	private CardsDao cardsDao;
 
@@ -42,10 +45,10 @@ public class CardsService {
 	 */
 	public void loadCardsToDatabase() {
 		List<Card> cards = Arrays.asList(
-				new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, "ranged"),
-				new Card("Card 2", "Card 2 desc", 2, 2, 2, 2, "melee"),
-				new Card("Card 3", "Card 3 desc", 3, 3, 3, 3, "spell"),
-				new Card("Card 4", "Card 4 desc", 4, 4, 4, 4, "melee")
+				new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, "UNIT", 50),
+				new Card("Card 2", "Card 2 desc", 2, 2, 2, 2, "SPELL", 40),
+				new Card("Card 3", "Card 3 desc", 3, 3, 3, 3, "UNIT", 5),
+				new Card("Card 4", "Card 4 desc", 4, 4, 4, 4, "SPELL", 100)
 		);
 
 		cardsDao.saveAll(cards);
@@ -57,7 +60,7 @@ public class CardsService {
 	 * @param cardName the card name
 	 * @return the card by name
 	 */
-	public Card getCardByName(String cardName) {
+	public Card getCardByName(@Valid String cardName) {
 		return cardsDao.getCardByName(cardName);
 	}
 
@@ -66,7 +69,7 @@ public class CardsService {
 	 *
 	 * @param card the card
 	 */
-	public void addCardToDb(Card card) {
+	public void addCardToDb(@Valid Card card) {
 		if (!cardsDao.existsById(card.getName())) {
 			cardsDao.save(card);
 		}
