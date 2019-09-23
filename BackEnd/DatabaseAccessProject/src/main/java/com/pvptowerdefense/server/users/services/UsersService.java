@@ -49,7 +49,10 @@ public class UsersService {
     }
 
     public void addUserToDb(User id){
-        usersDao.save(id);
+        if(!usersDao.existsById(id.getPhoneId())) {
+            usersDao.save(id);
+        }
+        else{ throw new IllegalArgumentException("This phone already has a user connected to it!"); }
     }
 
     public void addEmptyDeck(List<Card> deck, String deckName){

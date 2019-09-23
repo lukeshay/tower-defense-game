@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @Component
 @ServerEndpoint("/socket/{id}")
 public class SocketHandler {
-	private HashMap<String, Session> idAndSession;
-	private HashMap<Session, String> sessionAndId;
-	private List<MatchUp> matchUpList;
+	private static HashMap<String, Session> idAndSession;
+	private static HashMap<Session, String> sessionAndId;
+	private static List<MatchUp> matchUpList;
 
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
