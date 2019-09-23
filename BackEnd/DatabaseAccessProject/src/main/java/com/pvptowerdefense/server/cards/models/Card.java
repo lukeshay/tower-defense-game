@@ -33,29 +33,32 @@ public class Card {
 	@Column(name = "SPEED", nullable = false)
 	private int speed;
 
-	@Column(name = "type", nullable = false)
+	@Column(name = "TYPE", nullable = false)
 	private String type;
 
+	@Column(name = "CARD_RANGE", nullable = false)
+	private int range;
+
 	/**
-	 * Default constructor. Used when calling other services.
+	 * Instantiates a new Card.
 	 */
-	public Card() {
+	private Card() {
 	}
 
 	/**
-	 * Constructor for a card.
+	 * Instantiates a new Card.
 	 *
-	 * @param name        Name of the card.
-	 * @param description Description of the card.
-	 * @param cost        Cost of the card.
-	 * @param damage      Damage of the card.
-	 * @param hitPoints   Hit points of the card.
-	 * @param speed       Speed of the card.
-	 * @param type        The type of the card (melee, ranged, spell).
+	 * @param name        the name
+	 * @param description the description
+	 * @param cost        the cost
+	 * @param damage      the damage
+	 * @param hitPoints   the hit points
+	 * @param speed       the speed
+	 * @param type        the type
+	 * @param range       the range
 	 */
 	public Card(String name, String description, int cost, int damage,
-	            int hitPoints, int speed, String type) {
-
+	            int hitPoints, int speed, String type, int range) {
 		this.name = name;
 		this.description = description;
 		this.cost = cost;
@@ -63,6 +66,7 @@ public class Card {
 		this.hitPoints = hitPoints;
 		this.speed = speed;
 		setType(type);
+		this.range = range;
 	}
 
 	/**
@@ -185,17 +189,53 @@ public class Card {
 	/**
 	 * Sets type.
 	 *
+	 * TODO - verify it matches enum with following fields: unit, spell
+	 *
 	 * @param type the type
 	 */
 	public void setType(String type) {
-		if (type.equals("melee") || type.equals("ranged") || type.equals(
-				"spell")) {
+		if (validType(type)) {
 			this.type = type;
 		}
 		else {
-			throw new IllegalArgumentException(String.format("Invalid usage: " +
-					"%s <melee|ranged|spell>", type));
+			throw new IllegalArgumentException(String.format("The inputted " +
+					"type, %s is invalid. \n Correct usage<%s>", type,
+					getValidTypes()));
 		}
+	}
+
+	/**
+	 * Gets range.
+	 *
+	 * @return the range
+	 */
+	public int getRange() {
+		return range;
+	}
+
+	/**
+	 * Sets range.
+	 *
+	 * @param range the range
+	 */
+	public void setRange(int range) {
+		this.range = range;
+	}
+
+	private boolean validType(String type) {
+		return Type.SPELL.typeEquals(type) || Type.UNIT.typeEquals(type);
+	}
+
+	private String getValidTypes() {
+		StringBuilder types = new StringBuilder();
+
+		for (Type type : Type.values()) {
+			types.append(type.getType()).append("|");
+		}
+
+		types.deleteCharAt(types.length() - 1);
+
+		return types.toString();
 	}
 
 	@Override
@@ -208,6 +248,7 @@ public class Card {
 				.append("hit points", this.getHitPoints())
 				.append("speed", this.getSpeed())
 				.append("type", this.getType())
+				.append("range", this.getRange())
 				.toString();
 	}
 }
