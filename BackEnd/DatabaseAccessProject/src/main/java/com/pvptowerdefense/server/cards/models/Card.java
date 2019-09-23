@@ -65,7 +65,7 @@ public class Card {
 		this.damage = damage;
 		this.hitPoints = hitPoints;
 		this.speed = speed;
-		this.type = type;
+		setType(type);
 		this.range = range;
 	}
 
