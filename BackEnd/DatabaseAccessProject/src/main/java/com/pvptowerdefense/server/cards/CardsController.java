@@ -46,8 +46,9 @@ public class CardsController {
 	 * @param card The card information in JSON format
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "")
-	public void addCardToDb(@RequestBody Card card) {
+	public String addCardToDb(@RequestBody Card card) {
 		cardsService.addCardToDb(card);
+		return "{\"success\": true}";
 	}
 
 	/**
@@ -75,8 +76,9 @@ public class CardsController {
 	 * Loads a list of temporary cards into the cards database.
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/load")
-	public void loadCardsToDatabase() {
+	public String loadCardsToDatabase() {
 		cardsService.loadCardsToDatabase();
+		return "{\"success\": true}";
 	}
 
 	/**
