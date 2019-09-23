@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,21 @@ public class SocketHandler {
 		logger.info(id + " connected");
 		idAndSession.put(id, session);
 		sessionAndId.put(session, id);
+		if(idAndSession.size() % 2 == 1){
+			//do nothing, only 1 person
+		}
+		else{
+			for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
+				Session sessionId = entry.getKey();
+				String Id = entry.getValue();
+				if (matchUpList.stream().noneMatch(matchSession -> matchSession.getPlayerOneSession().equals(matchSession) ||
+						matchSession.getPlayerTwoSession().equals(matchSession))) {
+					matchUpList.add(new MatchUp(id, session, Id, sessionId));
+					break;
+				}
+			}
+
+		}
 
 	}
 
@@ -62,12 +78,12 @@ public class SocketHandler {
 	 */
 	@OnMessage
 	public void onMessage(Session session, String message) throws IOException {
-		// Currently does nothing because we have not implemented matchmaking
-		// MatchUp matchup = findMatchUp(session);
-		// if (matchup != null) {
-		// matchup.getOtherSession(session).getAsyncRemote().sendText(message);
-		// }
-		broadcast(message);
+
+		MatchUp matchup = findMatchUp(session);
+		if (matchup != null) {
+			matchup.getOtherSession(session).getAsyncRemote().sendText(message);
+		}
+		// broadcast(message);
 	}
 
 	/**
