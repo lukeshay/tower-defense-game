@@ -100,9 +100,12 @@ public class GameManager {
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        if(player.hand[cardToPlay].getCard().cardType == Card.CardType.UNIT){
-            this.addCharacter(new Character(player.hand[cardToPlay].getCard().sprite.image, eventX, eventY));
+        if(player.hand[cardToPlay].getCard().getCardType() == Card.CardType.UNIT){
+            this.addCharacter(new Character(player.hand[cardToPlay].getCard().getSprite().image, eventX, eventY));
         }
         player.hand[cardToPlay].setStatus(CardInHand.Status.NOT_READY);
+        player.hand[cardToPlay].card.cardName = "hello from front end";
+        //for debugging
+        //CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlay].card);
     }
 }

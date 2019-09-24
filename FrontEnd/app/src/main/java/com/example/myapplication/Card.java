@@ -11,8 +11,8 @@ public class Card {
         UNIT, SPELL
     }
 
-    public CardType cardType;
-    public Sprite sprite;
+    private transient CardType cardType;
+    private transient Sprite sprite;
 
     @SerializedName("name")
     public String cardName;
@@ -26,31 +26,51 @@ public class Card {
     public int hitPoints;
     @SerializedName("speed")
     public int speed;
-    //@SerializedName("type")
+    @SerializedName("type")
+    public String type;
+    @SerializedName("range")
     public int range;
 
+    @Deprecated
     public Card(CardType cardType, Bitmap image){
         //TODO: not always a Character
         sprite = new Character(image,0,0);
         this.cardType = cardType;
+        this.cardDescription = "testing sending cards to DB from app";
         sprite.image = image;
+        cardName = "name";
+        castingCost = 5;
+        damage = 5;
+        hitPoints = 5;
+        speed = 2;
+        type = "UNIT";
+        range = 40;
+
     }
 
-    public Card(String name, String cardDescription, int castingCost, int damage, int hitPoints, int speed, int range, String bitmapName){
+    public Card(String name, String cardDescription, int castingCost, int damage, int hitPoints, int speed, String type, int range){
         this.cardName = name;
         this.cardDescription = cardDescription;
         this.castingCost = castingCost;
         this.damage = damage;
         this.hitPoints = hitPoints;
         this.speed = speed;
+        this.type = type;
         this.range = range;
         sprite = new Character(null,0,0);
-        int bitmapId = Resources.getSystem().getIdentifier(bitmapName, "drawable", "android" );
-        sprite.image = BitmapFactory.decodeResource(Resources.getSystem(), bitmapId);
+        //int bitmapId = Resources.getSystem().getIdentifier(bitmapName, "drawable", "android" );
+        //sprite.image = BitmapFactory.decodeResource(Resources.getSystem(), bitmapId);
     }
 
     public void draw(Canvas canvas){
         sprite.draw(canvas);
     }
 
+    public Sprite getSprite(){
+        return sprite;
+    }
+
+    public CardType getCardType(){
+        return cardType;
+    }
 }

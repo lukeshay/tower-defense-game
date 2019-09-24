@@ -1,5 +1,11 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.example.myapplication.VolleyServices.VolleyResponseListener;
+import com.example.myapplication.VolleyServices.VolleyUtilities;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -15,18 +21,19 @@ public class CardRestServices {
     private static String baseUrl = "http://coms-309-ss-5.misc.iastate.edu:8080/cards";
 
     //TODO: finish POST request
-    public static void sendCardToDB(Card card){
-        try {
-            URL url = new URL("coms-309-ss-5.misc.iastate.edu/cards");
-            HttpURLConnection client = (HttpURLConnection) url.openConnection();
-            client.setRequestMethod("POST");
-            client.setRequestProperty("Content-Type", "application/json; utf-8");
-            client.setDoOutput(true);
-            OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
-            //osw.write();
-        } catch(Exception e){
-            //Handle exception
-        }
+    public static void sendCardToDB(Context context, Card card){
+        VolleyUtilities.postRequest(context, baseUrl, new VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                //TODO: handle error
+                System.out.println("Encountered an error while sending card to the database. " + message);
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, JsonUtils.cardtoJson(card));
     }
 
     public static Collection<Card> getAllCards(){

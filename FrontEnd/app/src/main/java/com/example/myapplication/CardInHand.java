@@ -37,12 +37,12 @@ public class CardInHand {
         this.card = card;
         this.cardIndex = cardIndex;
         this.player = player;
-        this.card.sprite.image = Bitmap.createScaledBitmap(card.sprite.image, normalizedInventorySize, normalizedInventorySize, false);
-        this.card.sprite.xStart = 150 + cardIndex * normalizedInventorySize;
-        this.card.sprite.xEnd = this.card.sprite.xStart + normalizedInventorySize;
-        this.card.sprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
-        this.card.sprite.yEnd = this.card.sprite.yStart + this.card.sprite.image.getHeight();
-        background = new Rect(this.card.sprite.xStart, this.card.sprite.yStart, this.card.sprite.xStart + this.card.sprite.image.getWidth(), this.card.sprite.yStart + this.card.sprite.image.getHeight());
+        this.card.getSprite().image = Bitmap.createScaledBitmap(this.card.getSprite().image, normalizedInventorySize, normalizedInventorySize, false);
+        this.card.getSprite().xStart = 150 + cardIndex * normalizedInventorySize;
+        this.card.getSprite().xEnd = this.card.getSprite().xStart + normalizedInventorySize;
+        this.card.getSprite().yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
+        this.card.getSprite().yEnd = this.card.getSprite().yStart + this.card.getSprite().image.getHeight();
+        background = new Rect(this.card.getSprite().xStart, this.card.getSprite().yStart, this.card.getSprite().xStart + this.card.getSprite().image.getWidth(), this.card.getSprite().yStart + this.card.getSprite().image.getHeight());
         color = Color.GREEN;
         paint = new Paint(color);
     }
