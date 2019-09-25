@@ -9,10 +9,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,10 +20,9 @@ import java.util.stream.Collectors;
 @Component
 @ServerEndpoint("/socket/{id}")
 public class SocketHandler {
-	private static HashMap<String, Session> idAndSession;
-	private static HashMap<Session, String> sessionAndId;
-	private static List<MatchUp> matchUpList;
-
+	private static HashMap<String, Session> idAndSession = new HashMap<>();
+	private static HashMap<Session, String> sessionAndId = new HashMap<>();
+	private static List<MatchUp> matchUpList = new ArrayList<>();
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
 
@@ -34,9 +30,6 @@ public class SocketHandler {
 	 * This class handles the incoming socket requests.
 	 */
 	public SocketHandler() {
-		idAndSession = new HashMap<>();
-		sessionAndId = new HashMap<>();
-		matchUpList = new ArrayList<>();
 	}
 
 	/**
@@ -44,27 +37,29 @@ public class SocketHandler {
 	 * maps.
 	 *
 	 * @param session The new session.
-	 * @param id The id of the user as a String.
+	 * @param id      The id of the user as a String.
 	 */
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		logger.info(id + " connected");
 		idAndSession.put(id, session);
 		sessionAndId.put(session, id);
-		if(idAndSession.size() % 2 == 1){
+
+		if (idAndSession.size() % 2 == 1) {
 			//do nothing, only 1 person
 		}
-		else{
+		else {
 			for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
-				Session sessionId = entry.getKey();
-				String Id = entry.getValue();
-				if (matchUpList.stream().noneMatch(matchSession -> matchSession.getPlayerOneSession().equals(matchSession) ||
-						matchSession.getPlayerTwoSession().equals(matchSession))) {
-					matchUpList.add(new MatchUp(id, session, Id, sessionId));
+				Session otherSession = entry.getKey();
+				String otherId = entry.getValue();
+
+				if (matchUpList.stream().noneMatch(matchSession ->
+						matchSession.getPlayerOneSession().equals(otherSession) ||
+						matchSession.getPlayerTwoSession().equals(otherSession))) {
+					matchUpList.add(new MatchUp(id, session, otherId, otherSession));
 					break;
 				}
 			}
-
 		}
 
 	}
@@ -77,20 +72,20 @@ public class SocketHandler {
 	 * @param message The message as a String. *NOTE This might change types.
 	 */
 	@OnMessage
-	public void onMessage(Session session, String message) throws IOException {
+	public void onMessage(Session session, String message) {
 
 		MatchUp matchup = findMatchUp(session);
 		if (matchup != null) {
 			matchup.getOtherSession(session).getAsyncRemote().sendText(message);
 		}
-		// broadcast(message);
+//		broadcast(message); // Uncomment for testing.
 	}
 
 	/**
 	 * Removes the session from the hash maps and it's match up from the list.
 	 *
 	 * @param session The session that is leaving.
-	 * @param id The id of the user as a String.
+	 * @param id      The id of the user as a String.
 	 */
 	@OnClose
 	public void onClose(Session session, @PathParam("id") String id) {
@@ -98,11 +93,13 @@ public class SocketHandler {
 		sessionAndId.remove(session);
 
 		matchUpList.remove(findMatchUp(session));
+
 	}
 
 	@OnError
 	public void onError(Session session, Throwable throwable) {
 		logger.error("ERROR " + throwable.getMessage());
+		throwable.printStackTrace();
 	}
 
 	private void broadcast(String message) {
