@@ -12,7 +12,7 @@ public class SocketTests {
 			".edu:8080/socket/";
 
 	@Test
-	public void connectToSocketTest() throws URISyntaxException, InterruptedException, IOException {
+	public void connectToSocketTest() throws InterruptedException, IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 		SS5WebSocketClient webSocket3 = new SS5WebSocketClient("3");
@@ -24,21 +24,19 @@ public class SocketTests {
 				() -> Assertions.assertTrue(webSocket3.waitForConnection()),
 				() -> Assertions.assertTrue(webSocket4.waitForConnection()));
 
-		Thread.sleep(10000);
-		webSocket1.sendMessage("####### HELLO1 #######");
-		Thread.sleep(1000);
-		webSocket2.sendMessage("####### HELLO2 #######");
-		Thread.sleep(1000);
-		webSocket3.sendMessage("####### HELLO3 #######");
-		Thread.sleep(1000);
-		webSocket4.sendMessage("####### HELLO4 #######");
-
 		Assertions.assertAll(
 				() -> Assertions.assertTrue(webSocket1.isOpen()),
 				() -> Assertions.assertTrue(webSocket2.isOpen()),
 				() -> Assertions.assertTrue(webSocket3.isOpen()),
 				() -> Assertions.assertTrue(webSocket4.isOpen())
 		);
+
+		webSocket1.sendMessage("####### HELLO1 #######");
+		webSocket2.sendMessage("####### HELLO2 #######");
+		webSocket3.sendMessage("####### HELLO3 #######");
+		webSocket4.sendMessage("####### HELLO4 #######");
+
+		Thread.sleep(10000);
 
 		System.out.println(webSocket1.getMessages().toString());
 		System.out.println(webSocket2.getMessages().toString());

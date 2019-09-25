@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * The type My web socket client.
@@ -28,15 +27,12 @@ public class SS5WebSocketClient {
 	private static Logger logger =
 			LoggerFactory.getLogger(SS5WebSocketClient.class);
 
-	private Session userSession = null;
-
 	/**
 	 * Instantiates a new My web socket client.
 	 *
 	 * @param userId the socket id
-	 * @throws URISyntaxException the uri syntax exception
 	 */
-	public SS5WebSocketClient(String userId) throws URISyntaxException {
+	public SS5WebSocketClient(String userId) {
 		this.id = userId;
 		messages = new Queue<>();
 
@@ -98,10 +94,9 @@ public class SS5WebSocketClient {
 	 * Sends message to server.
 	 *
 	 * @param message the message
-	 * @throws IOException the io exception
 	 */
 	public void sendMessage(String message) throws IOException {
-		this.session.getAsyncRemote().sendText(message);
+		this.session.getBasicRemote().sendText(message);
 	}
 
 	/**
@@ -193,24 +188,6 @@ public class SS5WebSocketClient {
 	 */
 	public void setSession(Session session) {
 		this.session = session;
-	}
-
-	/**
-	 * Gets user session.
-	 *
-	 * @return the user session
-	 */
-	public Session getUserSession() {
-		return userSession;
-	}
-
-	/**
-	 * Sets user session.
-	 *
-	 * @param userSession the user session
-	 */
-	public void setUserSession(Session userSession) {
-		this.userSession = userSession;
 	}
 
 	/**
