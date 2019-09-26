@@ -1,11 +1,16 @@
 package com.example.myapplication;
 
+import android.content.Context;
+
+import java.util.ArrayList;
+
 public class Player {
     public Deck deck;
     public CardInHand[] hand;
 
-    public Player(){
-        deck = new Deck(this);
+
+    public Player(Context context, ArrayList<Card> startingHand){
+        deck = new Deck(this, context, startingHand);
         hand = new CardInHand[4];
     }
 

@@ -22,10 +22,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private BackButton backButton;
     Paint paint;
     public GameManager manager;
+    private Player player;
 
-    public GameView(Context context){
+    public GameView(Context context, Player player){
         super(context);
         instance = this;
+        this.player = player;
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -41,8 +43,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder){
         mainThread.setRunning(true);
         mainThread.start();
-        manager = new GameManager(this);
-        manager.initializeDeck();
+        manager = new GameManager(this, player);
         manager.getPlayer().drawHand();
         backButton = new BackButton(BitmapFactory.decodeResource(getResources(),R.drawable.back_button));
     }

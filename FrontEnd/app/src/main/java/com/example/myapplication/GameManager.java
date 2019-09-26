@@ -18,14 +18,15 @@ public class GameManager {
     boolean isPlayingCard;
     int cardToPlay;
 
-    public GameManager(GameView gameView){
+    public GameManager(GameView gameView, Player player){
         instance = this;
         this.gameView = gameView;
-        player = new Player();
+        this.player = player;
         characters = new ArrayList<>();
         isPlayingCard = false;
         cardToPlay = 0;
-        initializeDeck();
+//        initializeDeck();
+        player.drawHand();
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -35,10 +36,6 @@ public class GameManager {
     public void initializeDeck(){
         player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper)));
         player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper2)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper2)));
         player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper2)));
         player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper2)));
         player.drawHand();
@@ -104,8 +101,8 @@ public class GameManager {
             this.addCharacter(new Character(player.hand[cardToPlay].getCard().getSprite().image, eventX, eventY));
         }
         player.hand[cardToPlay].setStatus(CardInHand.Status.NOT_READY);
-        player.hand[cardToPlay].card.cardName = "hello from front end";
         //for debugging
-        //CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlay].card);
+        //player.hand[cardToPlay].card.cardName = "hello from front end";
+        CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlay].card);
     }
 }

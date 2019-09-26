@@ -20,6 +20,7 @@ public class CardInHand {
     public int color;
     public Status status;
     public Card card;
+    public Character cardSprite;
     private Player player;
     //The time (in seconds) it will take this inventory item to recharge
     public static int loadTime = 3;
@@ -34,15 +35,17 @@ public class CardInHand {
      * @param cardIndex the placement of this card within the hand
      */
     public CardInHand(Player player, Card card, int cardIndex){
+        this.cardSprite = (Character)CardUtilities.getBitmapForCard(card);
         this.card = card;
         this.cardIndex = cardIndex;
         this.player = player;
-        this.card.getSprite().image = Bitmap.createScaledBitmap(this.card.getSprite().image, normalizedInventorySize, normalizedInventorySize, false);
-        this.card.getSprite().xStart = 150 + cardIndex * normalizedInventorySize;
-        this.card.getSprite().xEnd = this.card.getSprite().xStart + normalizedInventorySize;
-        this.card.getSprite().yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
-        this.card.getSprite().yEnd = this.card.getSprite().yStart + this.card.getSprite().image.getHeight();
-        background = new Rect(this.card.getSprite().xStart, this.card.getSprite().yStart, this.card.getSprite().xStart + this.card.getSprite().image.getWidth(), this.card.getSprite().yStart + this.card.getSprite().image.getHeight());
+        this.cardSprite.image = Bitmap.createScaledBitmap(CardUtilities.getBitmapForCard(card).image, normalizedInventorySize, normalizedInventorySize, false);
+        this.cardSprite.xStart = 150 + cardIndex * normalizedInventorySize;
+        this.cardSprite.xEnd = CardUtilities.getBitmapForCard(card).xStart + normalizedInventorySize;
+        this.cardSprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
+        this.cardSprite.yEnd = this.cardSprite.yStart + this.cardSprite.image.getHeight();
+        background = new Rect(this.cardSprite.xStart, CardUtilities.getBitmapForCard(card).yStart, this.cardSprite.xStart + CardUtilities.getBitmapForCard(card).image.getWidth(),
+                this.cardSprite.yStart + this.cardSprite.image.getHeight());
         color = Color.GREEN;
         paint = new Paint(color);
     }
