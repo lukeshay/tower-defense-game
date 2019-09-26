@@ -82,4 +82,13 @@ public class CardsService {
 	public void updateCardInDb(Card card) {
 		cardsDao.save(card);
 	}
+
+	/**
+	 * Deletes card from database.
+	 *
+	 * @param cardName card to be deleted
+	 */
+	public void deleteCardFromDatabase(String cardName) {
+		cardsDao.deleteById(cardName);
+	}
 }

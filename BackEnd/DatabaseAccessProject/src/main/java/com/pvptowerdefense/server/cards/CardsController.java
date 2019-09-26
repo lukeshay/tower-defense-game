@@ -88,11 +88,41 @@ public class CardsController {
 	}
 
 	/**
+	 * Deletes the card with the given name from the database.
+	 *
+	 * @param password password
+	 * @param cardName card name
+	 * @return json of success
+	 */
+	@RequestMapping(method = RequestMethod.DELETE, value = "/{password" +
+			"}/{cardName}")
+	public Map<String, Boolean> deleteCardFromDatabase(
+			@PathVariable String password, @PathVariable String cardName) {
+		if (password.equals("123456")) {
+			cardsService.deleteCardFromDatabase(cardName);
+			return getSuccessMap();
+		}
+		return getFailureMap();
+	}
+
+	/**
+	 * Returns a map with in the form {"success": false}
+	 *
+	 * @return {"success": false}
+	 */
+	private Map<String, Boolean> getFailureMap() {
+		HashMap<String, Boolean> map = new HashMap<>();
+		map.put("success", false);
+
+		return map;
+	}
+
+	/**
 	 * Returns a map with in the form {"success": true}
 	 *
 	 * @return {"success": true}
 	 */
-	private Map<String, Boolean> getSuccessMap() {
+	private static Map<String, Boolean> getSuccessMap() {
 		HashMap<String, Boolean> map = new HashMap<>();
 		map.put("success", true);
 
