@@ -25,6 +25,8 @@ deploy:
   stage: deploy
   tags:
     - shell
+  only:
+    - master
   script:
     - cd BackEnd/DatabaseAccessProject
     - chmod 777 *
@@ -33,10 +35,4 @@ deploy:
     - sudo mv target/*SNAPSHOT.jar /home/SS_5/database-access.jar
     - sudo systemctl stop ss-5
     - sudo systemctl start ss-5
-  #rules:
-    #- if: '$CI_MERGE_REQUEST_TARGET_BRANCH == "master"'
-      #when: always
-    #- if: '$CI_MERGE_REQUEST_SOURCE_BRANCH'
-      #when: never
-    #- when: manual
 
