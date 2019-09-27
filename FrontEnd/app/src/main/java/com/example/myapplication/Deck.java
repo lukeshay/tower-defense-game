@@ -15,15 +15,14 @@ public class Deck {
     private int index;
     private Player player; // the player that owns this deck
 
-    public Deck(Player player, ArrayList<Card> cards){
-        deck = cards;
-        index = 0;
-        this.player = player;
-    }
-
+    /**
+     * Constructs a new {@link Deck} for the provided {@link Player}, consisting of the provided {@link Card}s.
+     * @param player the {@link Player} whose deck this is
+     * @param context the {@link Context} that this deck belongs in
+     * @param cards an {@link ArrayList} of {@link Card}s to put in the deck
+     */
     public Deck(Player player, Context context, ArrayList<Card> cards){
         deck = cards;
-        //getDeck(context);
         index = 0;
         this.player = player;
     }

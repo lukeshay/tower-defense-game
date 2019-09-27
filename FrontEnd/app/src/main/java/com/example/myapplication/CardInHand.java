@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,7 +20,7 @@ public class CardInHand {
     public Paint paint;
     public int color;
     public Status status;
-    public Card card;
+    private Card card;
     public Character cardSprite;
     private Player player;
     //The time (in seconds) it will take this inventory item to recharge
@@ -35,17 +36,10 @@ public class CardInHand {
      * @param cardIndex the placement of this card within the hand
      */
     public CardInHand(Player player, Card card, int cardIndex){
-        this.cardSprite = (Character)CardUtilities.getBitmapForCard(card);
-        this.card = card;
         this.cardIndex = cardIndex;
         this.player = player;
-        this.cardSprite.image = Bitmap.createScaledBitmap(CardUtilities.getBitmapForCard(card).image, normalizedInventorySize, normalizedInventorySize, false);
-        this.cardSprite.xStart = 150 + cardIndex * normalizedInventorySize;
-        this.cardSprite.xEnd = CardUtilities.getBitmapForCard(card).xStart + normalizedInventorySize;
-        this.cardSprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
-        this.cardSprite.yEnd = this.cardSprite.yStart + this.cardSprite.image.getHeight();
-        background = new Rect(this.cardSprite.xStart, CardUtilities.getBitmapForCard(card).yStart, this.cardSprite.xStart + CardUtilities.getBitmapForCard(card).image.getWidth(),
-                this.cardSprite.yStart + this.cardSprite.image.getHeight());
+        this.updateCardAndImage(card);
+        background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
         color = Color.GREEN;
         paint = new Paint(color);
     }
@@ -70,19 +64,44 @@ public class CardInHand {
             case NOT_READY:
                 this.color = Color.RED;
                 this.startRechargeTime = System.currentTimeMillis();
-                this.card = player.deck.drawCard(this.cardIndex).getCard();
+                this.updateCardAndImage(player.deck.drawCard(this.cardIndex).getCard());
                 break;
         }
     }
 
+    /**
+     * Draws the {@link Card} represented by this object to the provided canvas, as well as a backing square with a color corresponding to the current {@link CardInHand.Status} of this object
+     * @param canvas the {@link Canvas} to draw to
+     */
     public void draw(Canvas canvas) {
         paint.setColor(color);
         canvas.drawRect(background, paint);
-        card.draw(canvas);
+        this.cardSprite.draw(canvas);
     }
 
+    /**
+     * @return the {@link Card} that this {@link CardInHand} is wrapping
+     */
     public Card getCard(){
         return card;
     }
+
+    /**
+     * Updates the cardSprite for this {@link CardInHand} based upon the provided {@link Card}. Makes a call to {@link CardUtilities}
+     * @param card the card to update the {@link Sprite} for
+     */
+    private void updateCardAndImage(Card card){
+        this.cardSprite = (Character)CardUtilities.getBitmapForCard(player.getPlayerContext(), card);
+        this.card = card;
+        this.cardSprite.xStart = 150 + cardIndex * normalizedInventorySize;
+        this.cardSprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
+        this.cardSprite.image = Bitmap.createScaledBitmap(this.cardSprite.image, normalizedInventorySize, normalizedInventorySize, false);
+        this.cardSprite.xEnd = this.cardSprite.xStart + normalizedInventorySize;
+        this.cardSprite.yEnd = this.cardSprite.yStart + normalizedInventorySize;
+        background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
+    }
+
+
+
 
 }

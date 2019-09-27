@@ -25,8 +25,7 @@ public class GameManager {
         characters = new ArrayList<>();
         isPlayingCard = false;
         cardToPlay = 0;
-//        initializeDeck();
-        player.drawHand();
+       initializeDeck();
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -34,10 +33,6 @@ public class GameManager {
      * Initializes the {@link Player}'s deck.
      */
     public void initializeDeck(){
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper2)));
-        player.deck.add(new Card(Card.CardType.UNIT, BitmapFactory.decodeResource(gameView.getResources(), R.drawable.reaper2)));
         player.drawHand();
     }
 
@@ -97,12 +92,12 @@ public class GameManager {
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        if(player.hand[cardToPlay].getCard().getCardType() == Card.CardType.UNIT){
-            this.addCharacter(new Character(player.hand[cardToPlay].getCard().getSprite().image, eventX, eventY));
-        }
+        //if(player.hand[cardToPlay].getCard().getCardType() == Card.CardType.UNIT){
+            this.addCharacter(new Character(player.hand[cardToPlay].cardSprite.image, eventX, eventY));
+        //}
         player.hand[cardToPlay].setStatus(CardInHand.Status.NOT_READY);
         //for debugging
         //player.hand[cardToPlay].card.cardName = "hello from front end";
-        CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlay].card);
+        //CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlay].card);
     }
 }

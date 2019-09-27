@@ -91,10 +91,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
                 //Is the event within the bounds of one of our CardInHand objects?
                 for(int i = 0; i < 4; i++){
-                    if (event.getX() <= manager.getPlayer().hand[i].card.getSprite().getxEnd() &&
-                            event.getX() >= manager.getPlayer().hand[i].card.getSprite().getxStart() &&
-                            event.getY() <= manager.getPlayer().hand[i].card.getSprite().getyEnd() &&
-                            event.getY() >= manager.getPlayer().hand[i].card.getSprite().getyStart() &&
+                    if (event.getX() <= manager.getPlayer().hand[i].cardSprite.getxEnd() &&
+                            event.getX() >= manager.getPlayer().hand[i].cardSprite.getxStart() &&
+                            event.getY() <= manager.getPlayer().hand[i].cardSprite.getyEnd() &&
+                            event.getY() >= manager.getPlayer().hand[i].cardSprite.getyStart() &&
                             manager.getPlayer().hand[i].paint.getColor() == Color.GREEN) {
                         manager.setPlayingCard(i, true);
                     }

@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public abstract class Sprite {
-    protected Bitmap image;
+    public Bitmap image;
     public int xStart, yStart, xEnd, yEnd;
     protected float xVel, yVel;
     protected static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
