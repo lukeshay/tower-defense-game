@@ -1,85 +1,90 @@
 package com.example.myapplication;
 
+import android.content.Context;
+
+import com.example.myapplication.VolleyServices.VolleyResponseListener;
+import com.example.myapplication.VolleyServices.VolleyUtilities;
+
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * A class used for posting cards to the back-end and for grabbing them.
  */
 public class CardRestServices {
-    private static String baseUrl = "http://coms-309-ss-5.misc.iastate.edu:8080/cards";
+    public static final String BASE_URL = "http://coms-309-ss-5.misc.iastate.edu:8080/cards";
+    public boolean responseReceived = false;
+    public ArrayList<Card> cardResponse;
 
-    //TODO: finish POST request
-
-    /**
-     * Sends the provided card as a json object to the server
-     * @param card the card to send to server
-     * @return the server response to the post request
-     */
-    public static String sendCardToDB(Card card) {
-        try {
-            URL url = new URL(baseUrl);
-            HttpURLConnection client = (HttpURLConnection) url.openConnection();
-            client.setRequestMethod("POST");
-            client.setRequestProperty("Content-Type", "application/json; utf-8");
-            client.setDoOutput(true);
-            client.setDoInput(true);
-            OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
-            System.out.println(JsonUtils.cardToJson(card));
-            osw.write(JsonUtils.cardToJson(card));
-            InputStream in = client.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(in));
-            String line;
-            StringBuffer resp = new StringBuffer();
-            while((line = rd.readLine()) != null){
-                resp.append(line + '\r');
+    public static void sendCardToDB(Context context, Card card){
+        VolleyUtilities.postRequest(context, BASE_URL, new VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                //TODO: handle error
+                System.out.println("Encountered an error while sending card to the database. " + message);
             }
-            rd.close();
-            return resp.toString();
 
-        } catch(Exception e){
-            //Handle exception
-            e.printStackTrace();
-            return null;
-        }
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, JsonUtils.cardtoJson(card));
     }
 
-    public static Collection<Card> getAllCards(){
-        try {
-            URL url = new URL(baseUrl);
-            HttpURLConnection client = (HttpURLConnection) url.openConnection();
-            URLConnection con = url.openConnection();
-            client.setRequestMethod("GET");
-            client.setRequestProperty("Content-Type", "application/json; utf-8");
-            int responseCode = client.getResponseCode();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String input;
-            StringBuffer response = new StringBuffer();
-            while((input = in.readLine()) != null){
-                response.append(input);
+    public void getAllCardsVolley(Context context){
+
+        VolleyUtilities.getRequest(context, BASE_URL, new VolleyResponseListener() {
+            Collection<Card> cards;
+            @Override
+            public void onError(String message) {
+                System.out.println("encountered an error while grabbing cards from database. " + message);
             }
-            in.close();
-            //System.out.println(response.toString()); log
-            return JsonUtils.jsonToCardArray(response.toString());
+
+            @Override
+            public void onResponse(Object response) {
+                setResponse(true);
+                setCardResponse(new ArrayList<>(JsonUtils.jsonToCardArray(response.toString())));
+            }
+        });
+    }
+
+    public void setCardResponse(ArrayList<Card> cards){
+        cardResponse = cards;
+    }
+
+    /**
+     * Sets the current CardService's response value to true. Helps the method calls know when the request responses have been received.
+     * @param response the value to set 'responseReceived' equal to
+     */
+    public void setResponse(boolean response){
+        responseReceived = response;
+    }
+
+    public ArrayList<Card> getAllCards(Context context){
+        try {
+            this.getAllCardsVolley(context);
+            return cardResponse; //response is received, cardResponse should be updated
 
         } catch(Exception e){
             //TODO: Handle exception
-            System.out.println("Encountered error");
+            System.out.println("Encountered error: " + e.getMessage());
             return null;
         }
+
+    }
+
+    public static void getCardByName1(){
 
     }
 
     public static Card getCardByName(String name){
         try {
-            String newURL = baseUrl + "/" + name;
+            String newURL = BASE_URL + "/" + name;
             URL url = new URL(newURL.replace(" ", "%20"));
             HttpURLConnection client = (HttpURLConnection) url.openConnection();
             URLConnection con = url.openConnection();
@@ -103,13 +108,10 @@ public class CardRestServices {
     }
 
     public static void main(String[] args){
-        //Test connection
+        //Test connections
         Card card = getCardByName("Card 1");
         System.out.println("Card title: " + card.cardName);
         System.out.println("List of all cards: ");
-        for(Card card1 : getAllCards()){
-            System.out.println(card1.cardName);
-        }
     }
 
 

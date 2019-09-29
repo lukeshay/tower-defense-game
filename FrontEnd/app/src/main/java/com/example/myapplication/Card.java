@@ -1,4 +1,5 @@
 package com.example.myapplication;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,8 +12,7 @@ public class Card {
         UNIT, SPELL
     }
 
-    public CardType cardType;
-    public Sprite sprite;
+    private transient CardType cardType;
 
     @SerializedName("name")
     public String cardName;
@@ -26,30 +26,64 @@ public class Card {
     public int hitPoints;
     @SerializedName("speed")
     public int speed;
-    //@SerializedName("type")
+    @SerializedName("type")
+    public String type;
+    @SerializedName("range")
     public int range;
 
+    //this constructor relies too heavily on dummy values. It should only be used for testing sendCardToDB
+    @Deprecated
     public Card(CardType cardType, Bitmap image){
-        //TODO: not always a Character
-        sprite = new Character(image,0,0);
         this.cardType = cardType;
-        sprite.image = image;
+        this.cardDescription = "testing sending cards to DB from app";
+        cardName = "name";
+        castingCost = 5;
+        damage = 5;
+        hitPoints = 5;
+        speed = 2;
+        type = "UNIT";
+        range = 40;
+
     }
 
-    public Card(String name, String cardDescription, int castingCost, int damage, int hitPoints, int speed, int range, String bitmapName){
+    public Card(String name, String cardDescription, int castingCost, int damage, int hitPoints, int speed, String type, int range){
         this.cardName = name;
         this.cardDescription = cardDescription;
         this.castingCost = castingCost;
         this.damage = damage;
         this.hitPoints = hitPoints;
         this.speed = speed;
+        this.type = type;
         this.range = range;
-        //int bitmapId = Resources.getSystem().getIdentifier(bitmapName, "drawable", "android" );
-        //sprite = new Character(BitmapFactory.decodeResource(Resources.getSystem(), bitmapId), 0, 0);
+        this.setCardType(type);
     }
 
-    public void draw(Canvas canvas){
-        sprite.draw(canvas);
+
+    public CardType getCardType(){
+        return cardType;
     }
+
+    /**
+     * Sets this {@link Card}'s {@link Card.CardType} to the provided {@link Card.CardType}.
+     */
+    public void setCardType(CardType type){
+        this.cardType = type;
+    }
+
+    /**
+     * Sets this {@link Card}'s {@link Card.CardType} based upon the given {@link String}.
+     * @param type a {@link String}, either "UNIT" or "SPELL", corresponding to the type to set the card type to
+     */
+    public void setCardType(String type){
+        switch(type){
+            case("SPELL"):
+                this.cardType = CardType.SPELL;
+                break;
+            case("UNIT"):
+            default:
+                this.cardType = CardType.UNIT;
+        }
+    }
+
 
 }
