@@ -47,7 +47,7 @@ public class registerUserActivity extends Activity {
         Button submit = (Button) findViewById(R.id.submitButton);
         final EditText screenName = (EditText) findViewById(R.id.usernameField);
 
-       final Intent intent = new Intent(this, inventoryActivity.class);
+       final Intent intent = new Intent(this, NavigationActivity.class);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

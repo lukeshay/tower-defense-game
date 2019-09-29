@@ -13,19 +13,18 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView instance;
     private MainThread mainThread;
     private BackButton backButton;
     Paint paint;
     public GameManager manager;
+    private Player player;
 
-    public GameView(Context context){
+    public GameView(Context context, Player player){
         super(context);
         instance = this;
+        this.player = player;
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -41,8 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder){
         mainThread.setRunning(true);
         mainThread.start();
-        manager = new GameManager(this);
-        manager.initializeDeck();
+        manager = new GameManager(this, player);
         manager.getPlayer().drawHand();
         backButton = new BackButton(BitmapFactory.decodeResource(getResources(),R.drawable.back_button));
     }
@@ -90,11 +88,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
                 //Is the event within the bounds of one of our CardInHand objects?
                 for(int i = 0; i < 4; i++){
-                    if (event.getX() <= manager.getPlayer().hand[i].card.sprite.getxEnd() &&
-                            event.getX() >= manager.getPlayer().hand[i].card.sprite.getxStart() &&
-                            event.getY() <= manager.getPlayer().hand[i].card.sprite.getyEnd() &&
-                            event.getY() >= manager.getPlayer().hand[i].card.sprite.getyStart() &&
-                            manager.getPlayer().hand[i].paint.getColor() == Color.GREEN) {
+                    if (event.getX() <= manager.getPlayer().hand[i].cardSprite.getxEnd() &&
+                            event.getX() >= manager.getPlayer().hand[i].cardSprite.getxStart() &&
+                            event.getY() <= manager.getPlayer().hand[i].cardSprite.getyEnd() &&
+                            event.getY() >= manager.getPlayer().hand[i].cardSprite.getyStart() &&
+                            manager.getPlayer().hand[i].statusColor.getColor() == Color.GREEN) {
                         manager.setPlayingCard(i, true);
                     }
                 }

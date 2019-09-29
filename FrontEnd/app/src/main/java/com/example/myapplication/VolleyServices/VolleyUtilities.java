@@ -25,7 +25,7 @@ import java.util.Map;
 public class VolleyUtilities {
 
 
-    public static void getRequest(Context context, String url, final VolleyResponseListener listner){
+    public static void getRequest(Context context, String url, final VolleyResponseListener listener){
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         // Initialize a new StringRequest
@@ -36,14 +36,14 @@ public class VolleyUtilities {
                     @Override
                     public void onResponse(String response) {
                         // Do something with response string
-                        listner.onResponse(response);
+                        listener.onResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Do something when get error
-                        listner.onError(error.toString());
+                        listener.onError(error.toString());
                     }
                 }
         );
