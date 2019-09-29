@@ -1,0 +1,11 @@
+Using Maven Wrapper
+* Run using command './mvnw spring-boot:run'
+* Create jar and run tests './mvnw clean package'
+
+Steps for running on server
+* Run maven package
+* scp database-{version}.jar {net-id}@coms-309-ss-5.misc.iastate.edu:~/
+* log on to the server
+* cd ..
+* sudo mv {net-id}/database-{version}.jar SS_5/database-access.jar
+* sudo systemctl restart ss-5
