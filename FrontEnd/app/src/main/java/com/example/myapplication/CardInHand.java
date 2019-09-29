@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,7 +16,8 @@ public class CardInHand {
     }
     //Used to create the inventory box behind our Card's sprite
     private Rect background;
-    public Paint paint;
+    public Paint statusColor;
+    private Paint textPaint;
     public int color;
     public Status status;
     private Card card;
@@ -41,7 +41,9 @@ public class CardInHand {
         this.updateCardAndImage(card);
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
         color = Color.GREEN;
-        paint = new Paint(color);
+        statusColor = new Paint(color);
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(50);
     }
 
     public void update(){
@@ -74,9 +76,11 @@ public class CardInHand {
      * @param canvas the {@link Canvas} to draw to
      */
     public void draw(Canvas canvas) {
-        paint.setColor(color);
-        canvas.drawRect(background, paint);
+        statusColor.setColor(color);
+        canvas.drawRect(background, statusColor);
         this.cardSprite.draw(canvas);
+        canvas.drawText(this.card.cardName, this.cardSprite.xStart, this.cardSprite.yStart - 20, textPaint);
+
     }
 
     /**

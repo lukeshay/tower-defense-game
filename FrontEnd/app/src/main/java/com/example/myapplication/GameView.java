@@ -13,9 +13,6 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView instance;
     private MainThread mainThread;
@@ -95,7 +92,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                             event.getX() >= manager.getPlayer().hand[i].cardSprite.getxStart() &&
                             event.getY() <= manager.getPlayer().hand[i].cardSprite.getyEnd() &&
                             event.getY() >= manager.getPlayer().hand[i].cardSprite.getyStart() &&
-                            manager.getPlayer().hand[i].paint.getColor() == Color.GREEN) {
+                            manager.getPlayer().hand[i].statusColor.getColor() == Color.GREEN) {
                         manager.setPlayingCard(i, true);
                     }
                 }
