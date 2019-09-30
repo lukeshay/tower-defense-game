@@ -39,7 +39,7 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
             super(v);
             mTextView = (TextView) v.findViewById(R.id.tv);
             mLinearLayout = (LinearLayout) v.findViewById(R.id.ll);
-            mCardView = (ImageView) v.findViewById(R.id.mCardView);
+            mCardView = (ImageView) v.findViewById(R.id.invImageView);
         }
     }
 
