@@ -35,7 +35,7 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
             super(v);
             mTextView = (TextView) v.findViewById(R.id.deck_tv);
             mLinearLayout = (LinearLayout) v.findViewById(R.id.deck_ll);
-            mCardView = (ImageView) v.findViewById(R.id.deck_cardView);
+            mCardView = (ImageView) v.findViewById(R.id.cardImage);
         }
     }
 
