@@ -3,10 +3,12 @@ package com.example.myapplication;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,10 +19,10 @@ import java.util.ArrayList;
 
 
 public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
-    private ArrayList<String> mDataSet;
+    private ArrayList<Card> mDataSet;
     private Context mContext;
 
-    public deckAdapter(Context context, ArrayList<String> DataSet){
+    public deckAdapter(Context context, ArrayList<Card> DataSet){
         mDataSet = DataSet;
         mContext = context;
     }
@@ -28,10 +30,12 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView mTextView;
         public LinearLayout mLinearLayout;
+        public ImageView mCardView;
         public ViewHolder(View v){
             super(v);
             mTextView = (TextView) v.findViewById(R.id.deck_tv);
             mLinearLayout = (LinearLayout) v.findViewById(R.id.deck_ll);
+            mCardView = (ImageView) v.findViewById(R.id.deck_cardView);
         }
     }
 
@@ -44,7 +48,8 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        holder.mTextView.setText(mDataSet.get(position));
+        holder.mTextView.setText(mDataSet.get(position).cardName);
+        holder.mCardView.setImageBitmap(CardUtilities.getBitmapForCard(mContext, mDataSet.get(position)).image);
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(5);
@@ -68,12 +73,12 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
         return mDataSet.size();
     }
 
-    public String getItem(int position){
+    public Card getItem(int position){
         return mDataSet.get(position);
     }
 
     public void addItem(){
-        mDataSet.add("test");
+
         this.notifyItemInserted(mDataSet.size());
 
     }

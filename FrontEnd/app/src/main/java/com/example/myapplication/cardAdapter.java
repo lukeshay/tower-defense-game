@@ -3,10 +3,12 @@ package com.example.myapplication;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,11 +21,11 @@ import java.util.Arrays;
 
 
 public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
-    private ArrayList<String> mDataSet;
+    private ArrayList<Card> mDataSet;
     private Context mContext;
     private deckAdapter deck;
 
-    public cardAdapter(Context context,ArrayList<String> DataSet, deckAdapter _deck){
+    public cardAdapter(Context context,ArrayList<Card> DataSet, deckAdapter _deck){
         mDataSet = DataSet;
         mContext = context;
         deck = _deck;
@@ -32,10 +34,12 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView mTextView;
         public LinearLayout mLinearLayout;
+        public ImageView mCardView;
         public ViewHolder(View v){
             super(v);
             mTextView = (TextView) v.findViewById(R.id.tv);
             mLinearLayout = (LinearLayout) v.findViewById(R.id.ll);
+            mCardView = (ImageView) v.findViewById(R.id.mCardView);
         }
     }
 
@@ -48,7 +52,8 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        holder.mTextView.setText(mDataSet.get(position));
+        holder.mTextView.setText(mDataSet.get(position).cardName);
+        holder.mCardView.setImageBitmap(CardUtilities.getBitmapForCard(mContext, mDataSet.get(position)).image);
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(5);
@@ -72,12 +77,11 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
         return mDataSet.size();
     }
 
-    public String getItem(int position){
+    public Card getItem(int position){
         return mDataSet.get(position);
     }
 
     public void addItem(){
-        mDataSet.add("test");
         this.notifyItemInserted(mDataSet.size());
     }
 

@@ -15,7 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="3dp"
+        android:weightSum="2"
         >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/deck_cardView"
+            android:layout_weight="0.5"/>
         <TextView
             android:id="@+id/deck_tv"
             android:layout_width="match_parent"
@@ -27,6 +33,7 @@
             android:padding="10dp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_weight="1.5"
             />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
