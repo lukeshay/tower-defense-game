@@ -152,7 +152,8 @@ public class User {
         if(type.equals("Debugger") || type.equals("Admin") || type.equals("User")){
             this.userType = type;
         }
-        else { throw new IllegalArgumentException("Invalid user type!"); }
+        else { throw new IllegalArgumentException("Invalid user type! Accepted types are " +
+                "<Debugger, Admin, User>."); }
 
     }
 }
