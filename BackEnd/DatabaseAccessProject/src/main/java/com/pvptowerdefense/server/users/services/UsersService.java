@@ -3,7 +3,7 @@ package com.pvptowerdefense.server.users.services;
 import com.pvptowerdefense.server.cards.CardsController;
 import com.pvptowerdefense.server.cards.models.Card;
 import com.pvptowerdefense.server.users.dao.UsersDao;
-import com.pvptowerdefense.server.decks.models.Deck;
+import com.pvptowerdefense.server.users.models.Deck;
 import com.pvptowerdefense.server.users.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
