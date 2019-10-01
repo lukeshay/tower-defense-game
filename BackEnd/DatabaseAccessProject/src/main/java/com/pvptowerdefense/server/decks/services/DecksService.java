@@ -37,4 +37,9 @@ public class DecksService {
         decksDao.findAll().forEach(decks::add);
         return decks;
     }
+
+    public void deleteDeckById(String deckId){
+        decksDao.deleteById(deckId);
+    }
+
 }
