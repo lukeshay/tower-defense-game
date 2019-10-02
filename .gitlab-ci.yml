@@ -8,7 +8,7 @@ maven-build:
   tags:
     - shell
   script:
-    - cd BackEnd/DatabaseAccessProject
+    - cd BackEnd/ServerServices
     - chmod 777 *
     - mvn package
 
@@ -17,7 +17,7 @@ maven-test:
   tags:
     - shell
   script:
-    - cd BackEnd/DatabaseAccessProject
+    - cd BackEnd/ServerServices
     - chmod 777 *
     - mvn test
 
@@ -28,7 +28,7 @@ deploy:
   only:
     - master
   script:
-    - cd BackEnd/DatabaseAccessProject
+    - cd BackEnd/ServerServices
     - chmod 777 *
     - mvn package
     - sudo rm -f /home/SS_5/database-access.jar
