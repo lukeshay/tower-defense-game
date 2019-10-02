@@ -1,6 +1,6 @@
-package com.pvptowerdefense.server.users.models;
+package com.pvptowerdefense.server.spring.models;
 
-import com.pvptowerdefense.server.cards.models.Card;
+import com.pvptowerdefense.server.spring.models.Card;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;

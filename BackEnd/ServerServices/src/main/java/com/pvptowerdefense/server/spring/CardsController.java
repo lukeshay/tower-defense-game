@@ -1,7 +1,7 @@
-package com.pvptowerdefense.server.cards;
+package com.pvptowerdefense.server.spring;
 
-import com.pvptowerdefense.server.cards.models.Card;
-import com.pvptowerdefense.server.cards.services.CardsService;
+import com.pvptowerdefense.server.spring.models.Card;
+import com.pvptowerdefense.server.spring.services.CardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

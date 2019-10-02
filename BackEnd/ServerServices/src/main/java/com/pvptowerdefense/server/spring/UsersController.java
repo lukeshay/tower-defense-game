@@ -1,10 +1,9 @@
-package com.pvptowerdefense.server.users;
+package com.pvptowerdefense.server.spring;
 
-import com.pvptowerdefense.server.users.models.User;
-import com.pvptowerdefense.server.users.services.UsersService;
+import com.pvptowerdefense.server.spring.models.User;
+import com.pvptowerdefense.server.spring.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

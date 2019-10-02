@@ -1,4 +1,4 @@
-package com.pvptowerdefense.server.cards.models;
+package com.pvptowerdefense.server.spring.models;
 
 import org.springframework.core.style.ToStringCreator;
 
@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Card {
 
 	@Id
-	@Column(name = "NAME", nullable = false)
+	@Column(name = "NAME", nullable = false, unique = true)
 	private String name;
 
 	@Column(name = "DESCRIPTION", nullable = false)
@@ -223,14 +223,14 @@ public class Card {
 	}
 
 	private boolean validType(String type) {
-		return Type.SPELL.typeEquals(type) || Type.UNIT.typeEquals(type);
+		return CardType.SPELL.typeEquals(type) || CardType.UNIT.typeEquals(type);
 	}
 
 	private String getValidTypes() {
 		StringBuilder types = new StringBuilder();
 
-		for (Type type : Type.values()) {
-			types.append(type.getType()).append("|");
+		for (CardType cardType : CardType.values()) {
+			types.append(cardType.getType()).append("|");
 		}
 
 		types.deleteCharAt(types.length() - 1);

@@ -1,12 +1,12 @@
-package com.pvptowerdefense.server.cards.models;
+package com.pvptowerdefense.server.spring.models;
 
-public enum Type {
+public enum CardType {
 	UNIT("UNIT"),
 	SPELL("SPELL");
 
 	private String type;
 
-	Type(String type) {
+	CardType(String type) {
 		this.type = type;
 	}
 
