@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.towerDefender.Card;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -7,7 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import static com.example.myapplication.Sprite.normalizedInventorySize;
+import com.example.towerDefender.Game.Character;
+import com.example.towerDefender.Game.Player;
+import com.example.towerDefender.Game.Sprite;
+
+import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
 public class CardInHand {
 

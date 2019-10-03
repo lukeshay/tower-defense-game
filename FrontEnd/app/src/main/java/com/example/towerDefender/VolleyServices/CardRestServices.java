@@ -1,9 +1,11 @@
-package com.example.myapplication;
+package com.example.towerDefender.VolleyServices;
 
 import android.content.Context;
 
-import com.example.myapplication.VolleyServices.VolleyResponseListener;
-import com.example.myapplication.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.VolleyServices.VolleyResponseListener;
+import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

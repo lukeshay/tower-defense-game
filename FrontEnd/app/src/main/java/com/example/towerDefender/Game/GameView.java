@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.towerDefender.Game;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
+
+import com.example.towerDefender.Activities.NavigationActivity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView instance;
@@ -42,7 +44,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         mainThread.start();
         manager = new GameManager(this, player);
         manager.getPlayer().drawHand();
-        backButton = new BackButton(BitmapFactory.decodeResource(getResources(),R.drawable.back_button));
+        backButton = new BackButton(BitmapFactory.decodeResource(getResources(), com.example.towerDefender.R.drawable.back_button));
     }
 
     @Override

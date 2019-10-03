@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myapplication">
+    package="com.example.towerDefender">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:usesCleartextTraffic="true"
@@ -10,34 +10,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/NoTitleTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.towerDefender.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NavigationActivity">
+        <activity android:name="com.example.towerDefender.Activities.NavigationActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".MultiplayerGameActivity">
+        <activity android:name="com.example.towerDefender.Activities.MultiplayerGameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".inventoryActivity">
+        <activity android:name="com.example.towerDefender.Activities.inventoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".registerUserActivity">
+        <activity android:name="com.example.towerDefender.Activities.registerUserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

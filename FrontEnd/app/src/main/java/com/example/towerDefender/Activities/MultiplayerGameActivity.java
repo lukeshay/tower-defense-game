@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.towerDefender.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.myapplication.VolleyServices.VolleyResponseListener;
-import com.example.myapplication.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.VolleyServices.CardRestServices;
+import com.example.towerDefender.Game.GameView;
+import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Game.Player;
+import com.example.towerDefender.VolleyServices.VolleyResponseListener;
+import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
 import java.util.ArrayList;
 

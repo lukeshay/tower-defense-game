@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.towerDefender.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,7 +11,7 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(com.example.towerDefender.R.layout.activity_navigation);
     }
 
     public void launchSinglePlayer(View view){

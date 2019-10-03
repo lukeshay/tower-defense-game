@@ -1,6 +1,4 @@
-package com.example.myapplication.VolleyServices;
-
-import java.util.Map;
+package com.example.towerDefender.VolleyServices;
 
 public interface VolleyResponseListener {
     void onError(String message);

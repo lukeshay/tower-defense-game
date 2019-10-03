@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.towerDefender.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.example.towerDefender.R.layout.activity_main);
         if(isFirstRun()){
             Intent intent = new Intent(this, registerUserActivity.class);
             startActivity(intent);

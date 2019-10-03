@@ -1,32 +1,26 @@
-package com.example.myapplication;
+package com.example.towerDefender.Card;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
-public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
+public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
     private ArrayList<String> mDataSet;
     private Context mContext;
-    private deckAdapter deck;
 
-    public cardAdapter(Context context,ArrayList<String> DataSet, deckAdapter _deck){
+    public deckAdapter(Context context, ArrayList<String> DataSet){
         mDataSet = DataSet;
         mContext = context;
-        deck = _deck;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -34,14 +28,14 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
         public LinearLayout mLinearLayout;
         public ViewHolder(View v){
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.tv);
-            mLinearLayout = (LinearLayout) v.findViewById(R.id.ll);
+            mTextView = (TextView) v.findViewById(com.example.towerDefender.R.id.deck_tv);
+            mLinearLayout = (LinearLayout) v.findViewById(com.example.towerDefender.R.id.deck_ll);
         }
     }
 
     @Override
-    public cardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View v = LayoutInflater.from(mContext).inflate(R.layout.custom_view,parent,false);
+    public deckAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View v = LayoutInflater.from(mContext).inflate(com.example.towerDefender.R.layout.deck_custom_view,parent,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -61,8 +55,8 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
                 //TODO: this is broken look into why we cannot grab the index as the view should not be null
                 //RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
                 //int itemPosition = recyclerView.indexOfChild(v);
-                Log.e("clickEvent", "user clicked on a card " + Integer.toString(viewPosition) + " " + getItem(viewPosition));
-                deck.addItem();
+                //Log.e("clickEvent", "user clicked on a card " + String.valueOf(itemPosition));
+                removeItem(viewPosition);
             }
         });
     }
@@ -79,11 +73,15 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
     public void addItem(){
         mDataSet.add("test");
         this.notifyItemInserted(mDataSet.size());
+
     }
 
     public void removeItem(int position){
-       mDataSet.remove(position);
-       this.notifyItemRemoved(position);
-       this.notifyItemRangeChanged(position, mDataSet.size());
+        mDataSet.remove(position);
+        this.notifyItemRemoved(position);
+        this.notifyItemRangeChanged(position, mDataSet.size());
     }
+
+
+
 }

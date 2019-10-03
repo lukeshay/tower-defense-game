@@ -1,9 +1,5 @@
-package com.example.myapplication;
-import android.content.Context;
-import android.content.res.Resources;
+package com.example.towerDefender.Card;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 
 import com.google.gson.annotations.SerializedName;
 

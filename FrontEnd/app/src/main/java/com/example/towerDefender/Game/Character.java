@@ -1,11 +1,12 @@
-package com.example.myapplication;
+package com.example.towerDefender.Game;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
+import com.example.towerDefender.Game.Sprite;
 
 import java.util.Random;
 
-public class Character extends Sprite{
+public class Character extends Sprite {
 
     public Character(Bitmap bitmap, int xPos, int yPos){
         super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);

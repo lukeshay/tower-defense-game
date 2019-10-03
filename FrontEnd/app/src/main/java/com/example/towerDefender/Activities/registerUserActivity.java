@@ -1,7 +1,6 @@
-package com.example.myapplication;
+package com.example.towerDefender.Activities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -9,23 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.myapplication.VolleyServices.VolleyResponseListener;
-import com.example.myapplication.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Activities.NavigationActivity;
+import com.example.towerDefender.VolleyServices.VolleyResponseListener;
+import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import static android.provider.Settings.Secure.ANDROID_ID;
 
@@ -34,7 +26,7 @@ public class registerUserActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
-        setContentView(R.layout.register_user_activity);
+        setContentView(com.example.towerDefender.R.layout.register_user_activity);
 
         Map<String, String> MyData = new HashMap<String, String>();
         MyData.put("phoneId", "abc123");
@@ -44,8 +36,8 @@ public class registerUserActivity extends Activity {
         MyData.put("lastName", "LastNameTest");
         MyData.put("userType", "Admin"); //Add the data you'd like to send to the server.
 
-        Button submit = (Button) findViewById(R.id.submitButton);
-        final EditText screenName = (EditText) findViewById(R.id.usernameField);
+        Button submit = (Button) findViewById(com.example.towerDefender.R.id.submitButton);
+        final EditText screenName = (EditText) findViewById(com.example.towerDefender.R.id.usernameField);
 
        final Intent intent = new Intent(this, NavigationActivity.class);
         submit.setOnClickListener(new View.OnClickListener() {

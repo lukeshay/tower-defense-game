@@ -1,20 +1,20 @@
-package com.example.myapplication;
+package com.example.towerDefender.Activities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.VolleyServices.VolleyResponseListener;
-import com.example.myapplication.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Card.cardAdapter;
+import com.example.towerDefender.VolleyServices.VolleyResponseListener;
+import com.example.towerDefender.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Card.deckAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,16 +34,16 @@ public class inventoryActivity extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        setContentView(R.layout.inventory);
+        setContentView(com.example.towerDefender.R.layout.inventory);
 
         mContext = getApplicationContext();
 
-        mRelativeLayout = (ConstraintLayout) findViewById(R.id.relativeLayout);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRelativeLayout = (ConstraintLayout) findViewById(com.example.towerDefender.R.id.relativeLayout);
+        mRecyclerView = (RecyclerView) findViewById(com.example.towerDefender.R.id.recycler_view);
 
 
         layoutManager = new GridLayoutManager(this,1,LinearLayoutManager.HORIZONTAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.deck);
+        recyclerView = (RecyclerView) findViewById(com.example.towerDefender.R.id.deck);
         recyclerView.setLayoutManager(layoutManager);
 
         // Define a layout for RecyclerView

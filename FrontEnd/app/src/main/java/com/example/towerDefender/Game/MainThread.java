@@ -1,7 +1,9 @@
-package com.example.myapplication;
+package com.example.towerDefender.Game;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+
+import com.example.towerDefender.Game.GameView;
 
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;

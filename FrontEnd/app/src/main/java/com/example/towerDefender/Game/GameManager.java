@@ -1,8 +1,9 @@
-package com.example.myapplication;
+package com.example.towerDefender.Game;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+
+import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Card.CardInHand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ public class GameManager {
     private GameView gameView;
     private Player player;
     private List<Character> characters;
-    boolean isPlayingCard;
-    int cardToPlay;
+    public boolean isPlayingCard;
+    public int cardToPlay;
 
     public GameManager(GameView gameView, Player player){
         instance = this;
