@@ -60,50 +60,15 @@ public class inventoryActivity extends Activity {
             @Override
             public void onResponse(Object response) {
                 Log.e("response",response.toString());
+                ArrayList<Card> inventory = new ArrayList<>(JsonUtils.jsonToCardArray(response.toString()));
+                // Initialize a new instance of RecyclerView Adapter instance
+                deckAdapter da = new deckAdapter(mContext,inventory);
+                mAdapter = new cardAdapter(mContext,inventory, da);
+                adapter = new deckAdapter(mContext, inventory);
+                // Set the adapter for RecyclerView
+                mRecyclerView.setAdapter(mAdapter);
+                recyclerView.setAdapter(adapter);
             }
         });
-
-        ArrayList<String> cards = new ArrayList<String>(
-                Arrays.asList(
-                "A",
-                "B",
-                "C",
-                "D",
-                "E",
-                "F",
-                "G",
-                "H",
-                "I",
-                "J",
-                "K",
-                "L",
-                "M",
-                "N",
-                "O",
-                "P",
-                "Q",
-                "R",
-                "S",
-                "T",
-                "U",
-                "V",
-                "W",
-                "X",
-                "Y",
-                "Z")
-        );
-
-        ArrayList<String> deck = new ArrayList<String>(
-                Arrays.asList("a","b","c")
-        );
-        // Initialize a new instance of RecyclerView Adapter instance
-        deckAdapter da = new deckAdapter(mContext,deck);
-        mAdapter = new cardAdapter(mContext,cards, da);
-        adapter = new deckAdapter(mContext, deck);
-        // Set the adapter for RecyclerView
-        mRecyclerView.setAdapter(mAdapter);
-        recyclerView.setAdapter(adapter);
-
-
     }
 }

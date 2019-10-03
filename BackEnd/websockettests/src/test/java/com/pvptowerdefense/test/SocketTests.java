@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class SocketTests {
-	private static final String URL = "coms-309-ss-5.misc.iastate" +
-			".edu:8080/socket/";
-
 	@Test
 	public void connectToSocketTest() throws InterruptedException, IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
