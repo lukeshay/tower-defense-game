@@ -1,5 +1,6 @@
 package com.example.towerDefender.Activities;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -10,13 +11,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.cardAdapter;
+import com.example.towerDefender.VolleyServices.JsonUtils;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
 import com.example.towerDefender.Card.deckAdapter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class inventoryActivity extends Activity {
 
@@ -54,7 +56,7 @@ public class inventoryActivity extends Activity {
         VolleyUtilities.getRequest(this.getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/cards", new VolleyResponseListener() {
             @Override
             public void onError(String message) {
-
+                Log.e("error",message);
             }
 
             @Override
