@@ -11,7 +11,7 @@ public abstract class Sprite {
     protected static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     protected static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     public static int normalizedInventorySize = (screenWidth - 300) / 4;
-    public static int normalizedButtonSize = (screenWidth - 500) / 5;
+    public static int normalizedButtonSize = (screenWidth - 600) / 5;
 
     public Sprite(Bitmap bitmap, int xStart, int yPos, int xVel, int yVel){
         image = bitmap;
@@ -19,8 +19,8 @@ public abstract class Sprite {
         this.yStart = yPos;
         this.xVel = xVel;
         this.yVel = yVel;
-        xEnd = xStart + image.getWidth();
-        yEnd = yStart + image.getHeight();
+        xEnd = this.xStart + image.getWidth();
+        yEnd = this.yStart + image.getHeight();
     }
 
     public void draw(Canvas canvas){
