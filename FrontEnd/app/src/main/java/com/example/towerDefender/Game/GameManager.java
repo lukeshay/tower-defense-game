@@ -12,20 +12,19 @@ import java.util.List;
  * The GameManager handles all the {@link Player}s and {@link Character}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
-    public GameManager instance;
     private GameView gameView;
     private Player player;
     private List<Character> characters;
-    public boolean isPlayingCard;
-    public int cardToPlay;
+    private boolean isPlayingCard;
+    //The index of the CardInHand to play from the player's CardInHand
+    private int cardToPlayIndex;
 
     public GameManager(GameView gameView, Player player){
-        instance = this;
         this.gameView = gameView;
         this.player = player;
         characters = new ArrayList<>();
         isPlayingCard = false;
-        cardToPlay = 0;
+        cardToPlayIndex = 0;
        initializeDeck();
     }
 
@@ -49,7 +48,7 @@ public class GameManager {
         for(Character sprite : characters){
             sprite.draw(canvas);
         }
-        for(CardInHand card : player.hand){
+        for(CardInHand card : player.getHand()){
             card.draw(canvas);
         }
     }
@@ -69,7 +68,7 @@ public class GameManager {
         for(Character character : characters){
             character.update();
         }
-        for(CardInHand card :  getPlayer().hand){
+        for(CardInHand card :  getPlayer().getHand()){
             card.update();
         }
     }
@@ -80,25 +79,40 @@ public class GameManager {
      * @param currentlyPlaying whether or not there is a {@link Card} in the process of being played
      */
     public void setPlayingCard(int index, boolean currentlyPlaying){
-        this.cardToPlay = index;
+        this.cardToPlayIndex = index;
         if(index != -1){
-            this.player.hand[cardToPlay].setStatus(CardInHand.Status.PLACING);
+            this.player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLACING);
         }
         this.isPlayingCard = currentlyPlaying;
     }
 
     /**
-     * Plays the {@link Card} represented by cardToPlay.
+     * Plays the {@link Card} represented by cardToPlayIndex.
      * @param eventX the X value of the event causing the card to be played
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        //if(player.hand[cardToPlay].getCard().getCardType() == Card.CardType.UNIT){
-            this.addCharacter(new Character(player.hand[cardToPlay].cardSprite.image, eventX, eventY));
+        //if(player.hand[cardToPlayIndex].getCard().getCardType() == Card.CardType.UNIT){
+            this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
         //}
-        player.hand[cardToPlay].setStatus(CardInHand.Status.NOT_READY);
+        player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.NOT_READY);
         //for debugging
-        //player.hand[cardToPlay].card.cardName = "hello from front end";
-        //CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlay].card);
+        //player.hand[cardToPlayIndex].card.cardName = "hello from front end";
+        //CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlayIndex].card);
     }
+
+    /**
+     * @return true if a card is currently set to {@link CardInHand.Status} = Status.PLACING
+     */
+    public boolean isPlayingCard(){
+        return isPlayingCard;
+    }
+
+    /**
+     * @return the index of the {@link CardInHand} from the {@link Player}'s hand to play
+     */
+    public int getCardToPlayIndex(){
+        return cardToPlayIndex;
+    }
+
 }

@@ -19,8 +19,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView instance;
     private MainThread mainThread;
     private BackButton backButton;
-    Paint paint;
-    public GameManager manager;
+    private Paint paint;
+    private GameManager manager;
     private Player player;
 
     public GameView(Context context, Player player){
@@ -66,7 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
-            canvas.drawRect(new Rect(150, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 150, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
+            canvas.drawRect(new Rect(450, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 450, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
             //Manager will draw the characters and hand
             manager.draw(canvas);
             backButton.draw(canvas);
@@ -76,8 +76,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if(manager.isPlayingCard){
-                if(manager.cardToPlay != -1){
+            if(manager.isPlayingCard()){
+                if(manager.getCardToPlayIndex() != -1){
                     manager.playCard((int)event.getX(), (int)event.getY());
                     manager.setPlayingCard(-1, false);
                 }
@@ -90,11 +90,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
                 //Is the event within the bounds of one of our CardInHand objects?
                 for(int i = 0; i < 4; i++){
-                    if (event.getX() <= manager.getPlayer().hand[i].cardSprite.getxEnd() &&
-                            event.getX() >= manager.getPlayer().hand[i].cardSprite.getxStart() &&
-                            event.getY() <= manager.getPlayer().hand[i].cardSprite.getyEnd() &&
-                            event.getY() >= manager.getPlayer().hand[i].cardSprite.getyStart() &&
-                            manager.getPlayer().hand[i].statusColor.getColor() == Color.GREEN) {
+                    if (event.getX() <= manager.getPlayer().getCardInHand(i).getSprite().getxEnd() &&
+                            event.getX() >= manager.getPlayer().getCardInHand(i).getSprite().getxStart() &&
+                            event.getY() <= manager.getPlayer().getCardInHand(i).getSprite().getyEnd() &&
+                            event.getY() >= manager.getPlayer().getCardInHand(i).getSprite().getyStart() &&
+                            manager.getPlayer().getCardInHand(i).statusColor.getColor() == Color.GREEN) {
                         manager.setPlayingCard(i, true);
                     }
                 }
@@ -104,14 +104,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return false;
     }
 
+    /**
+     * Updates the {@link GameManager} and consequently all game variables, characters, etc.
+     */
     public void update(){
         manager.update();
     }
 
+    /**
+     * Returns to the {@link NavigationActivity}.
+     */
     public void backToNavigation(View view){
         Intent intent = new Intent(this.getContext(), NavigationActivity.class);
         this.getContext().startActivity(intent);
     }
 
+    /**
+     * @return this {@link GameView}'s {@link GameManager}
+     */
+    public GameManager getManager(){
+        return this.manager;
+    }
 
 }

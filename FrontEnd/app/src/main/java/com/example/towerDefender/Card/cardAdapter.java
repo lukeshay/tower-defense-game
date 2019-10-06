@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -41,10 +42,10 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
     }
 
     @Override
-    public cardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    @NonNull
+    public cardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(mContext).inflate(com.example.towerDefender.R.layout.custom_view,parent,false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override

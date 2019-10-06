@@ -12,6 +12,6 @@ public class BackButton extends Sprite {
 
     @Override
     public void update() {
-
+        //nothing to update
     }
 }

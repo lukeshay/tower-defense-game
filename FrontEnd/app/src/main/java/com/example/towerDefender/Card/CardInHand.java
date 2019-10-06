@@ -18,23 +18,24 @@ public class CardInHand {
     public enum Status {
         READY, PLACING, NOT_READY
     }
+
     //Used to create the inventory box behind our Card's sprite
     private Rect background;
     public Paint statusColor;
     private Paint textPaint;
-    public int color;
-    public Status status;
+    private int color;
+    private Status status;
     private Card card;
-    public Character cardSprite;
+    //TODO: not always a character!
+    private Character cardSprite;
     private Player player;
     //The time (in seconds) it will take this inventory item to recharge
-    public static int loadTime = 3;
+    private static int loadTime = 3;
     //The time that this card started recharging
-    public long startRechargeTime;
+    private long startRechargeTime;
     private int cardIndex;
 
     /**
-     *
      * @param player the player that whose hand this card is in
      * @param card the card currently represented by this object
      * @param cardIndex the placement of this card within the hand
@@ -50,6 +51,9 @@ public class CardInHand {
         textPaint.setTextSize(50);
     }
 
+    /**
+     * Updates the load time and updates the {@link CardInHand.Status} if necessary.
+     */
     public void update(){
         if(this.status == Status.NOT_READY){
             if(System.currentTimeMillis() - startRechargeTime >= loadTime * 1000 ){
@@ -58,6 +62,11 @@ public class CardInHand {
         }
     }
 
+    /**
+     * Sets the status of this card. The {@link com.example.towerDefender.Card.CardInHand.Status} is
+     * used for determining the color of the background for the card when drawn to the canvas.
+     * @param status
+     */
     public void setStatus(Status status){
         this.status = status;
         switch(status){
@@ -70,9 +79,23 @@ public class CardInHand {
             case NOT_READY:
                 this.color = Color.RED;
                 this.startRechargeTime = System.currentTimeMillis();
-                this.updateCardAndImage(player.deck.drawCard(this.cardIndex).getCard());
+                this.updateCardAndImage(player.getDeck().drawCard(this.cardIndex).getCard());
                 break;
         }
+    }
+
+    /**
+     * @return the {@link CardInHand.Status} for this object
+     */
+    public Status getStatus(){
+        return status;
+    }
+
+    /**
+     * @return the {@link Sprite} to display when displaying this {@link CardInHand}
+     */
+    public Sprite getSprite(){
+        return this.cardSprite;
     }
 
     /**
@@ -101,15 +124,12 @@ public class CardInHand {
     private void updateCardAndImage(Card card){
         this.cardSprite = (Character)CardUtilities.getBitmapForCard(player.getPlayerContext(), card);
         this.card = card;
-        this.cardSprite.xStart = 150 + cardIndex * normalizedInventorySize;
+        this.cardSprite.xStart = 450 + cardIndex * normalizedInventorySize;
         this.cardSprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
         this.cardSprite.image = Bitmap.createScaledBitmap(this.cardSprite.image, normalizedInventorySize, normalizedInventorySize, false);
         this.cardSprite.xEnd = this.cardSprite.xStart + normalizedInventorySize;
         this.cardSprite.yEnd = this.cardSprite.yStart + normalizedInventorySize;
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
     }
-
-
-
 
 }

@@ -6,7 +6,6 @@ import java.net.URL;
 
 public class UserServices {
 
-    //TODO: finish POST request - get the right call
     public static void createNewUser(String user){
         try {
             URL url = new URL("coms-309-ss-5.misc.iastate.edu/users");
