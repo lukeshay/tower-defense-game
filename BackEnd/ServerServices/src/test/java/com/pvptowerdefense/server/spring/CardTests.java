@@ -34,7 +34,7 @@ class CardTests {
 		cardsService.addCard(testCard);
 	}
 
-	@Test
+//	@Test
 	void deleteCardTest() {
 		Card testCardGet = cardsService.getCardByName(testCard.getName());
 
@@ -65,7 +65,7 @@ class CardTests {
 		Assertions.assertNull(getDeletedCard);
 	}
 
-	@Test
+//	@Test
 	void updateCardTest() {
 		Card testCardGet = cardsService.getCardByName(testCard.getName());
 

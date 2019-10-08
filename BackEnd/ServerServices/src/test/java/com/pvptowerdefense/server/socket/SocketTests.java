@@ -13,8 +13,7 @@ class SocketTests {
 	@LocalServerPort
 	private static int port;
 
-	@Test
-	@Disabled
+//	@Test
 	void connectToSocketTest() throws InterruptedException, IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1", port);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2", port);
