@@ -38,7 +38,7 @@ public class CardsController {
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "")
 	public Map<String, Boolean> addCardToDb(@Valid @RequestBody Card card) {
-		cardsService.addCardToDb(card);
+		cardsService.addCard(card);
 		return getSuccessMap();
 	}
 
@@ -50,7 +50,7 @@ public class CardsController {
 	 */
 	@RequestMapping(method = RequestMethod.PUT, value = "")
 	public Map<String, Boolean> updateCardInDb(@RequestBody Card card) {
-		cardsService.updateCardInDb(card);
+		cardsService.updateCard(card);
 		return getSuccessMap();
 	}
 
@@ -99,7 +99,7 @@ public class CardsController {
 	public Map<String, Boolean> deleteCardFromDatabase(
 			@PathVariable String password, @PathVariable String cardName) {
 		if (password.equals("123456")) {
-			cardsService.deleteCardFromDatabase(cardName);
+			cardsService.deleteCard(cardName);
 			return getSuccessMap();
 		}
 		return getFailureMap();

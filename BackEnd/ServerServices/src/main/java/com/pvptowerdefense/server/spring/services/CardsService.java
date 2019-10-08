@@ -69,7 +69,7 @@ public class CardsService {
 	 *
 	 * @param card the card
 	 */
-	public void addCardToDb(@Valid Card card) {
+	public void addCard(@Valid Card card) {
 		if (!cardsDao.existsById(card.getName())) {
 			cardsDao.save(card);
 		}
@@ -79,7 +79,7 @@ public class CardsService {
 		}
 	}
 
-	public void updateCardInDb(Card card) {
+	public void updateCard(Card card) {
 		cardsDao.save(card);
 	}
 
@@ -88,7 +88,7 @@ public class CardsService {
 	 *
 	 * @param cardName card to be deleted
 	 */
-	public void deleteCardFromDatabase(String cardName) {
+	public void deleteCard(String cardName) {
 		cardsDao.deleteById(cardName);
 	}
 }
