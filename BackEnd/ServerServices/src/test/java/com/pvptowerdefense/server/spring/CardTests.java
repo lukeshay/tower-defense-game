@@ -1,6 +1,5 @@
 package com.pvptowerdefense.server.spring;
 
-import com.pvptowerdefense.server.spring.daos.CardsDao;
 import com.pvptowerdefense.server.spring.models.Card;
 import com.pvptowerdefense.server.spring.services.CardsService;
 import org.junit.jupiter.api.*;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Objects;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -23,7 +19,7 @@ public class CardTests {
 	private TestRestTemplate restTemplate;
 
 	@Autowired
-	CardsService cardsService;
+	private CardsService cardsService;
 
 	private Card testCard = new Card("Test Card" ,"Test Card desc", 100,
 			100, 100, 100, "UNIT", 100);
@@ -36,14 +32,15 @@ public class CardTests {
 	@Test
 	@Order(1)
 	void addCardTest() {
-		restTemplate.postForEntity(url, testCard, String.class);
-
-		Card testCardGet =
-				restTemplate.getForEntity(url + "/" + testCard.getName(),
-						Card.class).getBody();
+		cardsService.addCardToDb(testCard);
+		Card testCardGet = cardsService.getCardByName(testCard.getName());
+//		restTemplate.postForObject(url, testCard, String.class);
+//
+//		Card testCardGet =
+//				restTemplate.getForObject(url + "/" + testCard.getName(),
+//						Card.class);
 
 		Assertions.assertNotNull(testCardGet);
-
 		Assertions.assertAll(
 				() -> Assertions.assertEquals(testCard.getName(),
 						testCardGet.getName()),
@@ -65,15 +62,36 @@ public class CardTests {
 		);
 	}
 
-//	@Test
-//	@Order(2)
+	@Test
+	@Order(2)
 	void deleteCardTest() {
-		restTemplate.delete(url + "/123456/" + testCard.getName());
+		Card testCardGet = cardsService.getCardByName(testCard.getName());
 
-		ResponseEntity<String> r =
-				restTemplate.getForEntity(url + "/" + testCard.getName(),
-						String.class);
+		Assertions.assertNotNull(testCardGet);
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(testCard.getName(),
+						testCardGet.getName()),
+				() -> Assertions.assertEquals(testCard.getDescription(),
+						testCardGet.getDescription()),
+				() -> Assertions.assertEquals(testCard.getCost(),
+						testCardGet.getCost()),
+				() -> Assertions.assertEquals(testCard.getDamage(),
+						testCardGet.getDamage()),
+				() -> Assertions.assertEquals(testCard.getHitPoints(),
+						testCardGet.getHitPoints()),
+				() -> Assertions.assertEquals(testCard.getSpeed(),
+						testCardGet.getSpeed()),
+				() -> Assertions.assertEquals(testCard.getType(),
+						testCardGet.getType()),
+				() -> Assertions.assertEquals(testCard.getRange(),
+						testCardGet.getRange())
 
-		Assertions.assertEquals("", Objects.requireNonNull(r.getBody()).trim());
+		);
+
+		cardsService.deleteCardFromDatabase(testCard.getName());
+
+		Card getDeletedCard = cardsService.getCardByName(testCard.getName());
+
+		Assertions.assertNull(getDeletedCard);
 	}
 }
