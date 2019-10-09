@@ -9,42 +9,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorBackground"
         android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Single Player Practice"
             android:id="@+id/singlePlayerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:background="#358a32"
-            android:onClick="launchSinglePlayer"/>
+            android:background="@color/colorPrimary"
+            android:onClick="launchSinglePlayer"
+            android:text="Single Player Practice" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Multiplayer Game"
             android:id="@+id/multiPlayerButton"
-            android:background="#0058b6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:onClick="launchMultiplayer"/>
+            android:background="@color/colorPrimary"
+            android:onClick="launchMultiplayer"
+            android:text="Multiplayer Game" />
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Inventory and Deckbuilder"
             android:id="@+id/inventoryButton"
-            android:layout_marginTop="50dp"
-            android:background="#FF0000"
-            android:onClick="openInventory"/>
-        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:id="@+id/settingsButton"
             android:layout_marginTop="50dp"
-            android:background="#fce300"/>
+            android:background="@color/colorPrimary"
+            android:onClick="openInventory"
+            android:text="Inventory and Deckbuilder" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimary"
+            android:text="Settings" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
