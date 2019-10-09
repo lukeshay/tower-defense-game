@@ -1,9 +1,12 @@
 package com.example.towerDefender.Game;
 
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,6 @@ public class GameManager {
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
-
     public GameManager(GameView gameView, Player player){
         this.gameView = gameView;
         this.player = player;
