@@ -60,6 +60,7 @@ public class SocketHandler {
 					matchUpList.add(new MatchUp(id, session, otherId,
 							otherSession));
 				}
+				otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchupTrue());
 				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchupTrue());
 			}
 		}
