@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.socket.handlers;
 
 import com.pvptowerdefense.server.socket.models.MatchUp;
+import com.pvptowerdefense.server.socket.models.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,7 @@ public class SocketHandler {
 		sessionAndId.put(session, id);
 
 		if (idAndSession.size() % 2 == 1) {
-			//do nothing, only 1 person
+			session.getAsyncRemote().sendObject(Messages.connectedTrueMatchupFalse());
 		}
 		else {
 			for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
@@ -56,9 +57,11 @@ public class SocketHandler {
 				if (matchUpList.stream().noneMatch(matchSession ->
 						matchSession.getPlayerOneSession().equals(otherSession) ||
 						matchSession.getPlayerTwoSession().equals(otherSession))) {
-					matchUpList.add(new MatchUp(id, session, otherId, otherSession));
-					break;
+					matchUpList.add(new MatchUp(id, session, otherId,
+							otherSession));
 				}
+				otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchupTrue());
+				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchupTrue());
 			}
 		}
 
