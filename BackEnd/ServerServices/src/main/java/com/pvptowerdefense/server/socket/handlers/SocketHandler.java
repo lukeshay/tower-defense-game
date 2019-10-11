@@ -79,7 +79,7 @@ public class SocketHandler {
 
 		MatchUp matchup = findMatchUp(session);
 		if (matchup != null) {
-			matchup.getOtherSession(session).getAsyncRemote().sendText(message);
+			matchup.sendMessage(session, message);
 		}
 //		broadcast(message); // Uncomment for testing.
 	}
