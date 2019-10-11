@@ -1,6 +1,7 @@
 package com.example.towerDefender.SocketServices;
 
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONObject;
@@ -8,9 +9,15 @@ import org.json.JSONObject;
 import java.net.URI;
 
 public class WebSocketClientConnection {
+    //Main server url
     private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
+    //Local testing url
     //private static final String serverUrl= "http://localhost:8080/socket/%s";
+
+    //the wrapped WebSocketClient
     private WebSocketClient connection;
+
+
     public WebSocketClientConnection(String userId){
         try{
             connection = new WebSocketClient(new URI(String.format(serverUrl, userId)), new Draft_6455()) {
@@ -47,14 +54,25 @@ public class WebSocketClientConnection {
         }
     }
 
+    /**
+     * @return true if the socket connection is currently open
+     */
     public boolean isOpen(){
         return this.connection.isOpen();
     }
 
+    /**
+     * Connects to the socket
+     */
     public void connectToSocket(){
         this.connection.connect();
     }
 
+    /**
+     * Waits for an open connection, returning true if the connection is open after the wait time
+     * @param secondsToWait the amount of seconds to wait
+     * @return true if the connection is open after waiting
+     */
     public boolean waitForOpenConnection(int secondsToWait){
         long startTime = System.currentTimeMillis();
         float msWaited = 0;
@@ -64,11 +82,19 @@ public class WebSocketClientConnection {
         return connection.isOpen();
     }
 
+    /**
+     * Sends the provided message over the socket
+     * @param message the message to send
+     */
+    public void sendMessage(String message){
+        this.connection.send(message);
+    }
+
     public static void main(String[] args){
         WebSocketClientConnection connection = new WebSocketClientConnection("1");
-        connection.connectToSocket();
-        if(connection.waitForOpenConnection(15)){
+        if(connection.waitForOpenConnection(25)){
             System.out.println("Open connection established.");
+            connection.sendMessage("hello from client");
         }
     }
 }
