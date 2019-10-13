@@ -1,105 +1,200 @@
 package com.example.towerDefender.SocketServices;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_6455;
-import org.java_websocket.handshake.ServerHandshake;
-import org.json.JSONObject;
 
+import javax.websocket.*;
+import java.io.IOException;
 import java.net.URI;
 
+
 public class WebSocketClientConnection {
-    //Main server url
-    private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
-    //Local testing url
-    //private static final String serverUrl= "http://localhost:8080/socket/%s";
+    private static final String serverUrl = "ws://coms-309-ss-5" +
+            ".misc.iastate.edu:8080/socket/%s";
 
-    //the wrapped WebSocketClient
-    private WebSocketClient connection;
+    private String id = null;
+    private Queue<String> messages = null;
+    private Session session = null;
 
+    /**
+     * Instantiates a new My web socket client.
+     *
+     * @param userId the socket id
+     */
+    public WebSocketClientConnection(String userId) {
+        this.id = userId;
+        messages = new Queue<>();
 
-    public WebSocketClientConnection(String userId){
-        try{
-            connection = new WebSocketClient(new URI(String.format(serverUrl, userId)), new Draft_6455()) {
-                @Override
-                public void onOpen(ServerHandshake serverHandshake) {
-                    System.out.println(serverHandshake.getHttpStatusMessage());
-                }
+        try {
+            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+            container.connectToServer(this, new URI(String.format(serverUrl,
+                    userId)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-                @Override
-                public void onMessage(String s) {
-                    try{
-                        JSONObject obj = new JSONObject(s);
-                        String channel = obj.getString("channel");
-                        //TODO: modify this
-                        System.out.println(channel);
-                    } catch(Exception e){
-                        //do nothing
-                    }
+    /**
+     * On open.
+     *
+     * @param session the session
+     */
+    @OnOpen
+    public void onOpen(Session session) {
+        messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
+        setSession(session);
+    }
 
-                }
+    /**
+     * On message.
+     *
+     * @param message the message
+     */
+    @OnMessage
+    public void onMessage(String message) {
+        messages.enqueue(String.format("Message: %s", message));
+    }
 
-                @Override
-                public void onClose(int i, String s, boolean b) {
-                    System.out.println("closing connection");
-                }
+    /**
+     * On close.
+     *
+     * @param session the session
+     * @param reason  the reason
+     */
+    @OnClose
+    public void onClose(Session session, CloseReason reason) {
+        messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
+        this.session = null;
+    }
 
-                @Override
-                public void onError(Exception e) {
+    /**
+     * On error.
+     *
+     * @param session   the session
+     * @param throwable the throwable
+     */
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        messages.enqueue(String.format("Error: %s", throwable.getMessage()));
+    }
 
-                }
+    /**
+     * Sends message to server.
+     *
+     * @param message the message
+     */
+    public void sendMessage(String message) throws IOException {
+        this.session.getBasicRemote().sendText(message);
+    }
 
-            };
-        } catch(Exception e){
+    /**
+     * Closes session.
+     *
+     * @throws IOException the io exception
+     */
+    public void close() throws IOException {
+        session.close();
+        session = null;
+    }
+
+    /**
+     * Is open boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isOpen() {
+        return session.isOpen();
+    }
+
+    /**
+     * Is closed boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isClosed() {
+        return session == null || !session.isOpen();
+    }
+
+    /**
+     * Gets server url.
+     *
+     * @return the server url
+     */
+    public static String getServerUrl() {
+        return serverUrl;
+    }
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Gets messages.
+     *
+     * @return the messages
+     */
+    public Queue<String> getMessages() {
+        return messages;
+    }
+
+    /**
+     * Sets messages.
+     *
+     * @param messages the messages
+     */
+    public void setMessages(Queue<String> messages) {
+        this.messages = messages;
+    }
+
+    /**
+     * Gets session.
+     *
+     * @return the session
+     */
+    public Session getSession() {
+        return session;
+    }
+
+    /**
+     * Sets session.
+     *
+     * @param session the session
+     */
+    public void setSession(Session session) {
+        this.session = session;
+    }
+
+    /**
+     * Wait for connection boolean.
+     *
+     * @return the boolean
+     */
+    public boolean waitForConnection() {
+        for (int i = 0; i < 12000 && !isOpen(); i++) {
+            nap();
+        }
+
+        return isOpen();
+    }
+
+    private void nap() {
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            throw new RuntimeException(e.getMessage() + '\n');
         }
     }
 
-    /**
-     * @return true if the socket connection is currently open
-     */
-    public boolean isOpen(){
-        return this.connection.isOpen();
-    }
-
-    /**
-     * Connects to the socket
-     */
-    public void connectToSocket(){
-        this.connection.connect();
-    }
-
-    /**
-     * Waits for an open connection, returning true if the connection is open after the wait time
-     * @param secondsToWait the amount of seconds to wait
-     * @return true if the connection is open after waiting
-     */
-    public boolean waitForOpenConnection(int secondsToWait){
-        long startTime = System.currentTimeMillis();
-        float msWaited = 0;
-        while(!connection.isOpen() && msWaited < secondsToWait * 1000){
-            msWaited = System.currentTimeMillis() - startTime;
-        }
-        return connection.isOpen();
-    }
-
-    /**
-     * Sends the provided message over the socket
-     * @param message the message to send
-     */
-    public void sendMessage(String message){
-        this.connection.send(message);
-    }
-
-    public static void main(String[] args){
-        WebSocketClientConnection connection = new WebSocketClientConnection("2");
-        connection.connectToSocket();
-        if(connection.waitForOpenConnection(20)){
-            System.out.println("Open connection established.");
-            connection.sendMessage("hello from client");
-        } else {
-            System.out.println("Couldn't connect to socket.");
-        }
-    }
 }
