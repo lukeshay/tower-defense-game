@@ -104,6 +104,24 @@ public class MatchUp {
 	}
 
 	/**
+	 * Gets game.
+	 *
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * Sets game.
+	 *
+	 * @param game the game
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	/**
 	 * Takes in the session you currently have and returns the other one.
 	 *
 	 * @param session The session you have
@@ -118,6 +136,12 @@ public class MatchUp {
 		}
 	}
 
+	/**
+	 * Send message.
+	 *
+	 * @param session the session
+	 * @param message the message
+	 */
 	public void sendMessage(Session session, String message) {
 		game.handleMessage(session, message);
 
