@@ -8,7 +8,7 @@ import javax.websocket.Session;
  * database if necessary.
  */
 public class MatchUp {
-	private Game game;
+//	private Game game;
 
 	private String playerOneId;
 	private Session playerOneSession;
@@ -30,8 +30,8 @@ public class MatchUp {
 		this.playerTwoId = playerTwoId;
 		this.playerTwoSession = playerTwoSession;
 
-		game = new Game(playerOneSession, playerTwoSession);
-		game.run();
+//		game = new Game(playerOneSession, playerTwoSession);
+//		game.run();
 	}
 
 	/**
@@ -106,23 +106,23 @@ public class MatchUp {
 		this.playerTwoSession = playerTwoSession;
 	}
 
-	/**
-	 * Gets game.
-	 *
-	 * @return the game
-	 */
-	public Game getGame() {
-		return game;
-	}
-
-	/**
-	 * Sets game.
-	 *
-	 * @param game the game
-	 */
-	public void setGame(Game game) {
-		this.game = game;
-	}
+//	/**
+//	 * Gets game.
+//	 *
+//	 * @return the game
+//	 */
+//	public Game getGame() {
+//		return game;
+//	}
+//
+//	/**
+//	 * Sets game.
+//	 *
+//	 * @param game the game
+//	 */
+//	public void setGame(Game game) {
+//		this.game = game;
+//	}
 
 	/**
 	 * Takes in the session you currently have and returns the other one.
@@ -146,7 +146,7 @@ public class MatchUp {
 	 * @param message the message
 	 */
 	public void sendMessage(Session session, String message) {
-		game.handleMessage(session, message);
+//		game.handleMessage(session, message);
 
 		// this is temporary for testing
 		getOtherSession(session).getAsyncRemote().sendText(message);
