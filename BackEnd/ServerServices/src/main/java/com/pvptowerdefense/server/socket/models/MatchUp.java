@@ -29,6 +29,9 @@ public class MatchUp {
 		this.playerOneSession = playerOneSession;
 		this.playerTwoId = playerTwoId;
 		this.playerTwoSession = playerTwoSession;
+
+		game = new Game(playerOneSession, playerTwoSession);
+		game.run();
 	}
 
 	/**
