@@ -5,11 +5,11 @@ import java.io.IOException;
 public class Socket  {
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        WebSocketClientConnection test1 = new WebSocketClientConnection("1");
+        WebSocketClientConnection test1 = new WebSocketClientConnection("123456");
        System.out.println(test1.waitForConnection());
-            test1.sendMessage("this is from test 1");
-            Thread.sleep(1000);
-            System.out.println(test1.getMessages().toString());
-            test1.close();
+       test1.sendMessage("hello  from socket 123456");
+       while(true){
+           System.out.println(test1.getMessages());
+       }
     }
 }

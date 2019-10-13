@@ -7,8 +7,7 @@ import java.net.URI;
 
 @ClientEndpoint
 public class WebSocketClientConnection {
-    private static final String serverUrl = "ws://coms-309-ss-5" +
-            ".misc.iastate.edu:8080/socket/%s";
+    private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
 
     private String id = null;
     private Queue<String> messages = null;
@@ -39,7 +38,7 @@ public class WebSocketClientConnection {
      */
     @OnOpen
     public void onOpen(Session session) {
-        messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
+        messages.enqueue(String.format("Connected: %s", String.format(serverUrl, id)));
         setSession(session);
     }
 
