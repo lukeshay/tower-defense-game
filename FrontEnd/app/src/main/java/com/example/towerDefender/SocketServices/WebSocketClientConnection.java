@@ -31,6 +31,7 @@ public class WebSocketClientConnection {
                     try{
                         JSONObject obj = new JSONObject(s);
                         String channel = obj.getString("channel");
+                        //TODO: modify this
                         System.out.println(channel);
                     } catch(Exception e){
                         //do nothing
@@ -47,6 +48,7 @@ public class WebSocketClientConnection {
                 public void onError(Exception e) {
 
                 }
+
             };
         } catch(Exception e){
             e.printStackTrace();
@@ -91,10 +93,13 @@ public class WebSocketClientConnection {
     }
 
     public static void main(String[] args){
-        WebSocketClientConnection connection = new WebSocketClientConnection("1");
-        if(connection.waitForOpenConnection(25)){
+        WebSocketClientConnection connection = new WebSocketClientConnection("2");
+        connection.connectToSocket();
+        if(connection.waitForOpenConnection(20)){
             System.out.println("Open connection established.");
             connection.sendMessage("hello from client");
+        } else {
+            System.out.println("Couldn't connect to socket.");
         }
     }
 }
