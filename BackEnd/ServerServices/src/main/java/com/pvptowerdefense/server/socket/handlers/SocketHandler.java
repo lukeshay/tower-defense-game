@@ -47,7 +47,7 @@ public class SocketHandler {
 		sessionAndId.put(session, id);
 
 		if (idAndSession.size() % 2 == 1) {
-			session.getAsyncRemote().sendObject(Messages.connectedTrueMatchupFalse());
+			session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpFalse());
 		}
 		else {
 			for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
@@ -60,8 +60,8 @@ public class SocketHandler {
 					matchUpList.add(new MatchUp(id, session, otherId,
 							otherSession));
 				}
-				otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchupTrue());
-				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchupTrue());
+				otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
+				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
 			}
 		}
 
@@ -72,7 +72,7 @@ public class SocketHandler {
 	 * with.
 	 *
 	 * @param session The session sending the message.
-	 * @param message The message as a String. *NOTE This might change types.
+	 * @param message The message as a Object. *NOTE This might change types.
 	 */
 	@OnMessage
 	public void onMessage(Session session, String message) {

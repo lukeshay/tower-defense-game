@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.socket.models;
 
 import javax.websocket.Session;
+import java.util.Date;
 
 public class Game implements Runnable {
 	// will need some sort of map
@@ -15,6 +16,8 @@ public class Game implements Runnable {
 	public Game(Session playerOne, Session playerTwo) {
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
+
+		map = new Map();
 	}
 
 	private void sendMap() {
@@ -22,18 +25,39 @@ public class Game implements Runnable {
 		playerTwo.getAsyncRemote().sendObject(map);
 	}
 
-	public void handleMessage(Session session, String message) {
+	void handleMessage(Session session, String message) {
 		// parse message and add to map
+	}
+
+	private void gameOver() {
+		playerOne.getAsyncRemote().sendObject(Messages.gameWin());
+		playerTwo.getAsyncRemote().sendObject(Messages.gameLoss());
 	}
 
 	@Override
 	public void run() {
-		while (true) {
+		long startTime = new Date().getTime();
+		boolean cont = true;
+
+		while (cont) {
 			try {
 				Thread.sleep(1);
 			} catch (Exception ignore) {}
 
 			sendMap();
+
+			cont = checkForLoss();
+
+			if (new Date().getTime() - startTime > 10000) {
+				cont = false;
+			}
 		}
+
+		gameOver();
+	}
+
+	private boolean checkForLoss() {
+
+		return true;
 	}
 }
