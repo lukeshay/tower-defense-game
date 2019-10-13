@@ -5,7 +5,7 @@ import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 
-
+@ClientEndpoint
 public class WebSocketClientConnection {
     private static final String serverUrl = "ws://coms-309-ss-5" +
             ".misc.iastate.edu:8080/socket/%s";
