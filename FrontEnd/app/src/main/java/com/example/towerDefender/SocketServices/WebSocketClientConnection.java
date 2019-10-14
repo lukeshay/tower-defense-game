@@ -1,6 +1,9 @@
 package com.example.towerDefender.SocketServices;
 
 
+import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.VolleyServices.JsonUtils;
+
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
@@ -186,6 +189,21 @@ public class WebSocketClientConnection {
         }
 
         return isOpen();
+    }
+
+    //TODO: verify!
+
+    /**
+     * Sends the current card over the socket so that the game can play the card
+     * @param card the {@link Card} to send
+     */
+    public void sendCardToPlay(Card card){
+        waitForConnection();
+        try{
+            sendMessage(JsonUtils.cardtoJson(card).toString());
+        }catch(Exception e){
+            //TODO: handle
+        }
     }
 
     private void nap() {

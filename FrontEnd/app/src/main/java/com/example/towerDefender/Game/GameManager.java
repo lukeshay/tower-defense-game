@@ -58,6 +58,7 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
+        player.draw(canvas);
         for(Character sprite : characters){
             sprite.draw(canvas);
         }
@@ -78,6 +79,7 @@ public class GameManager {
      * Updates the {@link Character}s and {@link CardInHand}s.
      */
     public void update(){
+        player.update();
         for(Character character : characters){
             character.update();
         }
@@ -100,18 +102,22 @@ public class GameManager {
     }
 
     /**
+     * @return the {@link CardInHand} the manager is set to play
+     */
+    public CardInHand getPlayingCard(){
+        return this.player.getCardInHand(cardToPlayIndex);
+    }
+
+    /**
      * Plays the {@link Card} represented by cardToPlayIndex.
      * @param eventX the X value of the event causing the card to be played
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
         //if(player.hand[cardToPlayIndex].getCard().getCardType() == Card.CardType.UNIT){
-            this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
-        //}
-        player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.NOT_READY);
-        //for debugging
-        //player.hand[cardToPlayIndex].card.cardName = "hello from front end";
-        //CardRestServices.sendCardToDB(this.gameView.getContext(), player.hand[cardToPlayIndex].card);
+        this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
+        player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
+        player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
     }
 
     /**

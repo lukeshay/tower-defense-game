@@ -15,7 +15,7 @@ import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 public class CardInHand {
 
     public enum Status {
-        READY, PLACING, NOT_READY
+        READY, PLACING, NOT_READY, PLAYED
     }
 
     //Used to create the inventory box behind our Card's sprite
@@ -28,10 +28,6 @@ public class CardInHand {
     //TODO: not always a character!
     private Character cardSprite;
     private Player player;
-    //The time (in seconds) it will take this inventory item to recharge
-    private static int loadTime = 3;
-    //The time that this card started recharging
-    private long startRechargeTime;
     private int cardIndex;
 
     /**
@@ -51,20 +47,40 @@ public class CardInHand {
     }
 
     /**
+     * A constructor for use in unit tests, where we don't care about images.
+     * @param player the player that whose hand this card is in
+     * @param card the card currently represented by this object
+     * @param cardIndex the placement of this card within the hand
+     */
+    public CardInHand(Player player, Card card, int cardIndex, boolean setImage){
+        this.cardIndex = cardIndex;
+        this.player = player;
+        this.card = card;
+        if(setImage){
+            this.updateCardAndImage(card);
+            background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
+            color = Color.GREEN;
+            statusColor = new Paint(color);
+            textPaint = new Paint(Color.BLACK);
+            textPaint.setTextSize(50);
+        }
+    }
+
+    /**
      * Updates the load time and updates the {@link CardInHand.Status} if necessary.
      */
     public void update(){
-        if(this.status == Status.NOT_READY){
-            if(System.currentTimeMillis() - startRechargeTime >= loadTime * 1000 ){
-                this.setStatus(Status.READY);
-            }
+        if(this.status != Status.PLACING && player.getCurrentMana() >= this.card.castingCost){
+            setStatus(Status.READY);
+        } else if(this.status != Status.PLACING){
+            setStatus(Status.NOT_READY);
         }
     }
 
     /**
      * Sets the status of this card. The {@link com.example.towerDefender.Card.CardInHand.Status} is
      * used for determining the color of the background for the card when drawn to the canvas.
-     * @param status
+     * @param status the status to set this card's status to
      */
     public void setStatus(Status status){
         this.status = status;
@@ -77,7 +93,8 @@ public class CardInHand {
                 break;
             case NOT_READY:
                 this.color = Color.RED;
-                this.startRechargeTime = System.currentTimeMillis();
+                break;
+            case PLAYED:
                 this.updateCardAndImage(player.getDeck().drawCard(this.cardIndex).getCard());
                 break;
         }
@@ -114,6 +131,13 @@ public class CardInHand {
      */
     public Card getCard(){
         return card;
+    }
+
+    /**
+     * @return the cost of this {@link CardInHand}
+     */
+    public int getCardManaCost(){
+        return card.castingCost;
     }
 
     /**
