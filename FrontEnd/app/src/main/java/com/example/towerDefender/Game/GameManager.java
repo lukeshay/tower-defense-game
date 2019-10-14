@@ -8,6 +8,7 @@ import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,17 @@ public class GameManager {
         characters = new ArrayList<>();
         isPlayingCard = false;
         cardToPlayIndex = 0;
-       initializeDeck();
+        initializeDeck();
+    }
+
+    //For testing purposes only!
+    public GameManager(){
+        this.gameView = null;
+        this.player = new Player(null, new ArrayList<Card>());
+        characters = new ArrayList<>();
+        isPlayingCard = false;
+        cardToPlayIndex = 0;
+        initializeDeck();
     }
 
     //TODO: these pulls should be randomized, pulled from the server

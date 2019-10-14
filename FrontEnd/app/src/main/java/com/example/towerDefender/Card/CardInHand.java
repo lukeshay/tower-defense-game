@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import com.example.towerDefender.Game.Character;
 import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.Game.Sprite;
-
 import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
 public class CardInHand {

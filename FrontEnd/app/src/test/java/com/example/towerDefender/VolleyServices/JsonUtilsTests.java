@@ -1,25 +1,21 @@
-package com.example.towerDefender.Card;
+package com.example.towerDefender.VolleyServices;
+
 import android.content.Context;
 
+import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Card.Deck;
 import com.example.towerDefender.Game.Player;
-import com.example.towerDefender.VolleyServices.JsonUtils;
 
 import junit.framework.TestCase;
 
-
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class DeckTests extends TestCase {
-    private Deck deck;
-    private static Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
-    private static Card card1 = new Card("Reaper2", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
+public class JsonUtilsTests extends TestCase {
     private static String response = "[{\"name\":\"Card 1\",\"description\":\"Card 1 desc\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":50}," +
             "{\"name\":\"Card 2\",\"description\":\"Card 2 desc\",\"cost\":2,\"damage\":2,\"hitPoints\":2,\"speed\":2,\"type\":\"SPELL\",\"range\":40}," +
             "{\"name\":\"Card 3\",\"description\":\"Card 3 desc\",\"cost\":3,\"damage\":3,\"hitPoints\":3,\"speed\":3,\"type\":\"UNIT\",\"range\":5}," +
@@ -27,11 +23,11 @@ public class DeckTests extends TestCase {
             "{\"name\":\"demo\",\"description\":\"Card 1 desc\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":0}]";
 
 
-    public void testDrawingCards(){
+    public void testDeckFromJson(){
+        Deck deck;
         Player player = mock(Player.class);
         Context context = mock(Context.class);
         when(player.getPlayerContext()).thenReturn(context);
-        when(player.getDeck()).thenReturn(deck);
         deck = new Deck(player, context, new ArrayList<Card>());
         deck.setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response)));
         Assert.assertTrue(deck.size() == 5);

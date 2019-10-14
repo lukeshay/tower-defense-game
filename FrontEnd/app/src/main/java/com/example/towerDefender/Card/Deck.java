@@ -41,7 +41,8 @@ public class Deck {
         this.deck.add(card);
     }
 
-    private void setDeck(ArrayList<Card> cards){
+    //public for testing purposes
+    public void setDeck(ArrayList<Card> cards){
         this.deck = cards;
     }
 
@@ -49,7 +50,7 @@ public class Deck {
      * Gets the deck from the server
      * @param context the current context
      */
-    public void getDeck(Context context){
+    public void getDeckFromServer(Context context){
         VolleyUtilities.getRequest(context, CardRestServices.BASE_URL, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
