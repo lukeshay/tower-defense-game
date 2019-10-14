@@ -50,7 +50,7 @@ public class UsersController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{deckId}")
     public void addEmptyDeck(@PathVariable String deckName, @PathVariable int deckId){
-
+        usersService.addEmptyDeck(deckName, deckId);
     }
 
     public Map<String, Boolean> successMap(){

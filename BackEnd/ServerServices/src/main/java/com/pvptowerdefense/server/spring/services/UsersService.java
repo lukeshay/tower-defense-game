@@ -54,8 +54,8 @@ public class UsersService {
         else{ throw new IllegalArgumentException("This phone already has a user connected to it!"); }
     }
 
-    public void addEmptyDeck(List<Card> deck, String deckName, int deckId){
-        new Deck(deck, deckName, deckId);
+    public void addEmptyDeck(String deckName, int deckId){
+        new Deck(new ArrayList<Card>(), deckName, deckId);
     }
 
 }
