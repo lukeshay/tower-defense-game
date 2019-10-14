@@ -22,4 +22,6 @@ public class DecksService {
 
         return decks;
     }
+
+    public Deck findDeckByDeckId(int deckId){ return decksDao.findDeckByDeckId(deckId); }
 }

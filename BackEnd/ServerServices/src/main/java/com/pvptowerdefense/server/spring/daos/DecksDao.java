@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DecksDao extends CrudRepository<Deck, String> {
+    public Deck findDeckByDeckId(int deckId);
 }
