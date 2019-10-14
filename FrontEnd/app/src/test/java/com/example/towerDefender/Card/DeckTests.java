@@ -8,9 +8,6 @@ import junit.framework.TestCase;
 
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 
 import java.util.ArrayList;
 
@@ -35,5 +32,9 @@ public class DeckTests extends TestCase {
         deck = new Deck(player, context, new ArrayList<Card>());
         deck.setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response)));
         Assert.assertTrue(deck.size() == 5);
+        Assert.assertNotEquals(deck.drawCard(0, false).getCard().cardName,
+                deck.drawCard(0, false).getCard().cardName,
+                "The deck drew the same card twice in a row");
     }
+
 }

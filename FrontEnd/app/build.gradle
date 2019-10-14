@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.towerDefender.Activities"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 19
         versionName "19.0"
@@ -28,7 +28,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation group: 'org.glassfish.tyrus.bundles', name: 'tyrus-standalone-client', version: '1.15'
+   // implementation group: 'org.glassfish.tyrus.bundles', name: 'tyrus-standalone-client', version: '1.15'
     implementation group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
     // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
     implementation 'com.googlecode.json-simple:json-simple:1.1'
