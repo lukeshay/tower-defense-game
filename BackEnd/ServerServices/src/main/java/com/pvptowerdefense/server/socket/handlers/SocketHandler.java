@@ -159,4 +159,5 @@ public class SocketHandler {
 		return matchUp -> matchUp.getPlayerOneSession().equals(session) ||
 				matchUp.getPlayerTwoSession().equals(session);
 	}
+
 }
