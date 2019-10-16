@@ -62,26 +62,26 @@ public class SocketHandler {
 					Session otherSession = entry.getKey();
 					String otherId = entry.getValue();
 
-					if (matchUpList.stream().noneMatch(matchSession ->
-							matchSession.getPlayerOneSession().equals(otherSession) ||
-									matchSession.getPlayerTwoSession().equals(otherSession))) {
+					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchSession ->
+							(matchSession.getPlayerOneSession().equals(otherSession) ||
+									matchSession.getPlayerTwoSession().equals(otherSession)))) {
 						matchUpList.add(new MatchUp(id, session, otherId,
 								otherSession));
+
+						otherSession.getAsyncRemote().sendBinary(
+								Messages.serializeToByteBuffer(
+										Messages.connectedTrueMatchUpTrue(id)
+												.toString()
+								)
+						);
+
+						session.getAsyncRemote().sendBinary(
+								Messages.serializeToByteBuffer(
+										Messages.connectedTrueMatchUpTrue(otherId)
+												.toString()
+								)
+						);
 					}
-
-					otherSession.getAsyncRemote().sendBinary(
-							Messages.serializeToByteBuffer(
-									Messages.connectedTrueMatchUpTrue(id)
-											.toString()
-							)
-					);
-
-					session.getAsyncRemote().sendBinary(
-							Messages.serializeToByteBuffer(
-									Messages.connectedTrueMatchUpTrue(otherId)
-											.toString()
-							)
-					);
 				}
 			}
 		});
