@@ -8,6 +8,8 @@ public class Game implements Runnable {
 	// will need to keep track of time
 	// will be started from the match up
 
+	private String gameState;
+
 	private Session playerOne;
 	private Session playerTwo;
 
@@ -18,6 +20,8 @@ public class Game implements Runnable {
 		this.playerTwo = playerTwo;
 
 		map = new Map();
+
+		gameState = "waiting";
 	}
 
 	private void sendMap() {
@@ -26,7 +30,9 @@ public class Game implements Runnable {
 	}
 
 	void handleMessage(Session session, String message) {
-		// parse message and add to map
+		if (session == null && message.equals("STOP")) {
+			gameState = "STOP";
+		}
 	}
 
 	private void gameOver() {
@@ -39,6 +45,8 @@ public class Game implements Runnable {
 		long startTime = new Date().getTime();
 		boolean cont = true;
 
+		gameState = "running";
+
 		while (cont) {
 			try {
 				Thread.sleep(1);
@@ -46,9 +54,10 @@ public class Game implements Runnable {
 
 			sendMap();
 
-			cont = checkForLoss();
+			cont = !checkForLoss();
 
-			if (new Date().getTime() - startTime > 10000) {
+			if (new Date().getTime() - startTime > 10000 || gameState.equals(
+					"STOP")) {
 				cont = false;
 			}
 		}
@@ -57,7 +66,7 @@ public class Game implements Runnable {
 	}
 
 	private boolean checkForLoss() {
-
-		return true;
+//		System.out.println("Checking for loss");
+		return false;
 	}
 }

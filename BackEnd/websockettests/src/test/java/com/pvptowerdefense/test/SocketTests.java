@@ -33,7 +33,7 @@ public class SocketTests {
 		webSocket3.sendMessage("####### HELLO3 #######");
 		webSocket4.sendMessage("####### HELLO4 #######");
 
-		Thread.sleep(10000);
+		Thread.sleep(100000);
 
 		System.out.println(webSocket1.getMessages().toString());
 		System.out.println(webSocket2.getMessages().toString());

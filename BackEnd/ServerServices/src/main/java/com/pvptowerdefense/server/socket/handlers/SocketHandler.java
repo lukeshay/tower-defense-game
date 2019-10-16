@@ -10,7 +10,9 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -42,28 +44,30 @@ public class SocketHandler {
 	 */
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
-		logger.info(id + " connected");
-		idAndSession.put(id, session);
-		sessionAndId.put(session, id);
+		CompletableFuture.runAsync(() -> {
+			logger.info(id + " connected");
+			idAndSession.put(id, session);
+			sessionAndId.put(session, id);
 
-		if (idAndSession.size() % 2 == 1) {
-			session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpFalse());
-		}
-		else {
-			for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
-				Session otherSession = entry.getKey();
-				String otherId = entry.getValue();
-
-				if (matchUpList.stream().noneMatch(matchSession ->
-						matchSession.getPlayerOneSession().equals(otherSession) ||
-						matchSession.getPlayerTwoSession().equals(otherSession))) {
-					matchUpList.add(new MatchUp(id, session, otherId,
-							otherSession));
-				}
-				otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
-				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
+			if (idAndSession.size() % 2 == 1) {
+				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpFalse());
 			}
-		}
+			else {
+				for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
+					Session otherSession = entry.getKey();
+					String otherId = entry.getValue();
+
+					if (matchUpList.stream().noneMatch(matchSession ->
+							matchSession.getPlayerOneSession().equals(otherSession) ||
+									matchSession.getPlayerTwoSession().equals(otherSession))) {
+						matchUpList.add(new MatchUp(id, session, otherId,
+								otherSession));
+					}
+					otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
+					session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
+				}
+			}
+		});
 
 	}
 
@@ -76,11 +80,12 @@ public class SocketHandler {
 	 */
 	@OnMessage
 	public void onMessage(Session session, String message) {
-
-		MatchUp matchup = findMatchUp(session);
-		if (matchup != null) {
-			matchup.sendMessage(session, message);
-		}
+		CompletableFuture.runAsync(() -> {
+			MatchUp matchup = findMatchUp(session);
+			if (matchup != null) {
+				matchup.sendMessage(session, message);
+			}
+		});
 //		broadcast(message); // Uncomment for testing.
 	}
 
@@ -92,17 +97,28 @@ public class SocketHandler {
 	 */
 	@OnClose
 	public void onClose(Session session, @PathParam("id") String id) {
-		idAndSession.remove(id);
-		sessionAndId.remove(session);
+		CompletableFuture.runAsync(() -> {
+			idAndSession.remove(id);
+			sessionAndId.remove(session);
 
-		matchUpList.remove(findMatchUp(session));
+			matchUpList.remove(findMatchUp(session));
+			MatchUp matchUp = findMatchUp(session);
+			if (matchUp != null) {
+				matchUpList.remove(matchUp);
+				matchUp.endGame();
+			}
 
+			MatchUp.getPool().purge();
+			logger.info(String.valueOf(MatchUp.getPool().getTaskCount()));
+		});
 	}
 
 	@OnError
 	public void onError(Session session, Throwable throwable) {
-		logger.error("ERROR " + throwable.getMessage());
-		throwable.printStackTrace();
+		CompletableFuture.runAsync(() -> {
+			logger.error("ERROR " + throwable.getMessage());
+			throwable.printStackTrace();
+		});
 	}
 
 	private void broadcast(String message) {

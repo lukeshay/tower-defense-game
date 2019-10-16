@@ -1,6 +1,9 @@
 package com.pvptowerdefense.server.socket.models;
 
 import javax.websocket.Session;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Object to hold current matchups. The matchups are between two users. Their
@@ -8,7 +11,10 @@ import javax.websocket.Session;
  * database if necessary.
  */
 public class MatchUp {
-//	private Game game;
+	private static final int MAX_T = 10;
+
+	private Game game;
+	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
 
 	private String playerOneId;
 	private Session playerOneSession;
@@ -30,8 +36,9 @@ public class MatchUp {
 		this.playerTwoId = playerTwoId;
 		this.playerTwoSession = playerTwoSession;
 
-//		game = new Game(playerOneSession, playerTwoSession);
-//		game.run();
+		game = new Game(playerOneSession, playerTwoSession);
+
+		pool.execute(game);
 	}
 
 	/**
@@ -106,23 +113,23 @@ public class MatchUp {
 		this.playerTwoSession = playerTwoSession;
 	}
 
-//	/**
-//	 * Gets game.
-//	 *
-//	 * @return the game
-//	 */
-//	public Game getGame() {
-//		return game;
-//	}
-//
-//	/**
-//	 * Sets game.
-//	 *
-//	 * @param game the game
-//	 */
-//	public void setGame(Game game) {
-//		this.game = game;
-//	}
+	/**
+	 * Gets game.
+	 *
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * Sets game.
+	 *
+	 * @param game the game
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
 
 	/**
 	 * Takes in the session you currently have and returns the other one.
@@ -150,6 +157,14 @@ public class MatchUp {
 
 		// this is temporary for testing
 		getOtherSession(session).getAsyncRemote().sendText(message);
+	}
+
+	public void endGame() {
+		game.handleMessage(null, "STOP");
+	}
+
+	public static ThreadPoolExecutor getPool() {
+		return pool;
 	}
 }
 
