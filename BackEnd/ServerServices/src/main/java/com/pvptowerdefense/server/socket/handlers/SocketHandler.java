@@ -10,7 +10,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -50,7 +50,12 @@ public class SocketHandler {
 			sessionAndId.put(session, id);
 
 			if (idAndSession.size() % 2 == 1) {
-				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpFalse());
+				session.getAsyncRemote().sendBinary(
+						Messages.serializeToByteBuffer(
+								Messages.connectedTrueMatchUpFalse()
+										.toString()
+						)
+				);
 			}
 			else {
 				for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
@@ -63,8 +68,20 @@ public class SocketHandler {
 						matchUpList.add(new MatchUp(id, session, otherId,
 								otherSession));
 					}
-					otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
-					session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
+
+					otherSession.getAsyncRemote().sendBinary(
+							Messages.serializeToByteBuffer(
+									Messages.connectedTrueMatchUpTrue(id)
+											.toString()
+							)
+					);
+
+					session.getAsyncRemote().sendBinary(
+							Messages.serializeToByteBuffer(
+									Messages.connectedTrueMatchUpTrue(otherId)
+											.toString()
+							)
+					);
 				}
 			}
 		});
@@ -76,14 +93,14 @@ public class SocketHandler {
 	 * with.
 	 *
 	 * @param session The session sending the message.
-	 * @param message The message as a Object. *NOTE This might change types.
+	 * @param bytes   The message as a byte[]. *NOTE This might change types.
 	 */
 	@OnMessage
-	public void onMessage(Session session, String message) {
+	public void onMessage(Session session, byte[] bytes) {
 		CompletableFuture.runAsync(() -> {
 			MatchUp matchup = findMatchUp(session);
 			if (matchup != null) {
-				matchup.sendMessage(session, message);
+				matchup.sendMessage(session, bytes);
 			}
 		});
 //		broadcast(message); // Uncomment for testing.

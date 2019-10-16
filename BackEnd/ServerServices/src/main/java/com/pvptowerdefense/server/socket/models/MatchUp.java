@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.socket.models;
 
 import javax.websocket.Session;
+import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -150,13 +151,13 @@ public class MatchUp {
 	 * Send message.
 	 *
 	 * @param session the session
-	 * @param message the message
+	 * @param bytes the message
 	 */
-	public void sendMessage(Session session, String message) {
+	public void sendMessage(Session session, byte[] bytes) {
 //		game.handleMessage(session, message);
 
 		// this is temporary for testing
-		getOtherSession(session).getAsyncRemote().sendText(message);
+		getOtherSession(session).getAsyncRemote().sendBinary(ByteBuffer.wrap(bytes));
 	}
 
 	public void endGame() {

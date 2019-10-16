@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.ByteBuffer;
+import java.util.Objects;
 
 /**
  * The type My web socket client.
@@ -53,7 +55,9 @@ public class SS5WebSocketClient {
 	 */
 	@OnOpen
 	public void onOpen(Session session) {
-		messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
+		String connect = String.format("Connected: %s",
+				String.format(serverUrl, id));
+		messages.enqueue(connect);
 		setSession(session);
 	}
 
@@ -63,9 +67,9 @@ public class SS5WebSocketClient {
 	 * @param message the message
 	 */
 	@OnMessage
-	public void onMessage(String message) {
+	public void onMessage(byte[] message) {
 		logger.info("Message " + id);
-		messages.enqueue(String.format("Message: %s", message));
+		messages.enqueue((String) MessageHandler.deserialize(message));
 	}
 
 	/**
@@ -76,7 +80,6 @@ public class SS5WebSocketClient {
 	 */
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
-		messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
 		this.session = null;
 	}
 
@@ -87,8 +90,9 @@ public class SS5WebSocketClient {
 	 * @param throwable the throwable
 	 */
 	@OnError
-	public void onError(Session session, Throwable throwable) {
-		messages.enqueue(String.format("Error: %s", throwable.getMessage()));
+	public void onError(Session session, Throwable throwable) throws IOException {
+		messages.enqueue(String.format("Error: %s",
+				throwable.getMessage()));
 	}
 
 	/**
@@ -97,7 +101,13 @@ public class SS5WebSocketClient {
 	 * @param message the message
 	 */
 	public void sendMessage(String message) throws IOException {
-		this.session.getBasicRemote().sendText(message);
+		this.session.getBasicRemote().sendBinary(
+				ByteBuffer.wrap(
+						Objects.requireNonNull(
+								MessageHandler.serialize(message)
+						)
+				)
+		);
 	}
 
 	/**
