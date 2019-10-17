@@ -4,8 +4,14 @@ import java.util.*;
 
 public class Map {
 
-    private PlayedCard[][] cardsInPlay;
     private List<PlayedCard> cards;
+    private String player1;
+    private String player2;
+    private boolean gameState;
+    private String winner;
+
+    private static final int MAX_X = 2999;
+    private static final int MAX_Y = 999;
     private static final int TOWER1_Y = 150;
     private static final int TOWER2_Y = 250;
     private static final int TOWER3_Y = 350;
@@ -14,24 +20,19 @@ public class Map {
     private static final int TOWER3_X = 150;
 
 
-    public Map(){
-        cardsInPlay = new PlayedCard[1500][500];
+    public Map(String userId1, String userId2){
         cards = new ArrayList<PlayedCard>();
-        cardsInPlay[TOWER1_X][TOWER1_Y] = makeTower(TOWER1_X, TOWER1_Y, 1);
-        cardsInPlay[TOWER2_X][TOWER2_Y] = makeTower(TOWER2_X, TOWER2_Y, 1);
-        cardsInPlay[TOWER3_X][TOWER3_Y] = makeTower(TOWER3_X, TOWER3_Y, 1);
+        player1 = userId1;
+        player2 = userId2;
+        gameState = true;
 
-        cardsInPlay[1499 - TOWER1_X][TOWER1_Y] = makeTower(1499 - TOWER1_X, TOWER1_Y, 2);
-        cardsInPlay[1499 - TOWER2_X][TOWER2_Y] = makeTower(1499 - TOWER2_X, TOWER1_Y, 2);
-        cardsInPlay[1499 - TOWER3_X][TOWER3_Y] = makeTower(1499 - TOWER3_X, TOWER1_Y, 2);
-    }
+        cards.add(makeTower(TOWER1_X, TOWER1_Y, userId1));
+        cards.add(makeTower(TOWER2_X, TOWER2_Y, userId1));
+        cards.add(makeTower(TOWER3_X, TOWER3_Y, userId1));
 
-    public PlayedCard[][] getCardsInPlay() {
-        return cardsInPlay;
-    }
-
-    public void setCardsInPlay(PlayedCard[][] cardsInPlay) {
-        this.cardsInPlay = cardsInPlay;
+        cards.add(makeTower(MAX_X - TOWER1_X, TOWER1_Y, userId2));
+        cards.add(makeTower(MAX_X - TOWER2_X, TOWER1_Y, userId2));
+        cards.add(makeTower(MAX_X - TOWER3_X, TOWER1_Y, userId2));
     }
 
     public List<PlayedCard> getCards() {
@@ -43,28 +44,55 @@ public class Map {
     }
 
     public void addCard(PlayedCard card){
-        cardsInPlay[card.getxValue()][card.getyValue()] = card;
         cards.add(card);
     }
 
-    public void clockCycle(){
-        // go through array and check for card positions
-        for(PlayedCard playedCard : cards){
-            if(playedCard.getPlayer() == 1){
-                cardsInPlay[playedCard.getxValue()][playedCard.getyValue()] = null;
-                playedCard.setxValue(playedCard.getxValue()+playedCard.getSpeed());
-                cardsInPlay[playedCard.getxValue()][playedCard.getyValue()] = playedCard;
-            }
-            else if(playedCard.getPlayer() == 2){
-                cardsInPlay[playedCard.getxValue()][playedCard.getyValue()] = null;
-                playedCard.setxValue(playedCard.getxValue() - playedCard.getSpeed());
-                cardsInPlay[playedCard.getxValue()][playedCard.getyValue()] = playedCard;
-            }
-            else{ cardsInPlay[playedCard.getxValue()][playedCard.getyValue()] = null; }
-        }
+    public String getPlayer1() {
+        return player1;
     }
 
-    private PlayedCard makeTower(int xValue, int yValue, int player){
+    public void setPlayer1(String player1) {
+        this.player1 = player1;
+    }
+
+    public String getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
+    }
+
+    public boolean isGameState() {
+        return gameState;
+    }
+
+    public void setGameState(boolean gameState) {
+        this.gameState = gameState;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public boolean clockCycle(){
+        // go through array and check for card positions
+
+
+        for(PlayedCard playedCard : cards){
+            if(playedCard.getPlayer().equals(player1)){
+                playedCard.setXValue(playedCard.getXValue()+playedCard.getSpeed());
+            }
+            else if(playedCard.getPlayer().equals(player2)){
+                playedCard.setXValue(playedCard.getXValue() - playedCard.getSpeed());
+            }
+            else{ cards.remove(playedCard); }
+        }
+
+        return gameState;
+    }
+
+    private PlayedCard makeTower(int xValue, int yValue, String player){
         return new PlayedCard("Tower", "tower", 0, 10, 100, 0, "UNIT", 100, xValue,
                 yValue, player);
     }
