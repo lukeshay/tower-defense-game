@@ -68,18 +68,12 @@ public class SocketHandler {
 						matchUpList.add(new MatchUp(id, session, otherId,
 								otherSession));
 
-						otherSession.getAsyncRemote().sendBinary(
-								Messages.serializeToByteBuffer(
-										Messages.connectedTrueMatchUpTrue(id)
-												.toString()
-								)
+						otherSession.getAsyncRemote().sendObject(
+							Messages.connectedTrueMatchUpTrue(id)
 						);
 
-						session.getAsyncRemote().sendBinary(
-								Messages.serializeToByteBuffer(
-										Messages.connectedTrueMatchUpTrue(otherId)
-												.toString()
-								)
+						session.getAsyncRemote().sendObject(
+							Messages.connectedTrueMatchUpTrue(otherId)
 						);
 					}
 				}

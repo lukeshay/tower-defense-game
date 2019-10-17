@@ -68,6 +68,4 @@ public class Map {
         return new PlayedCard("Tower", "tower", 0, 10, 100, 0, "UNIT", 100, xValue,
                 yValue, player);
     }
-
-
 }

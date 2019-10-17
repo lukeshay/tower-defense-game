@@ -1,8 +1,6 @@
 package com.pvptowerdefense.server.socket.models;
 
 import javax.websocket.Session;
-import java.nio.ByteBuffer;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -37,7 +35,8 @@ public class MatchUp {
 		this.playerTwoId = playerTwoId;
 		this.playerTwoSession = playerTwoSession;
 
-		game = new Game(playerOneSession, playerTwoSession);
+		game = new Game(playerOneSession, playerOneId, playerTwoSession,
+				playerTwoId);
 
 		pool.execute(game);
 	}
@@ -151,17 +150,13 @@ public class MatchUp {
 	 * Send message.
 	 *
 	 * @param session the session
-	 * @param bytes the message
+	 * @param message the message
 	 */
-	public void sendMessage(Session session, byte[] bytes) {
-//		game.handleMessage(session, message);
+	public void sendMessage(Session session, byte[] message) {
+		game.handleMessage(session, message);
 
 		// this is temporary for testing
-		getOtherSession(session).getAsyncRemote().sendBinary(ByteBuffer.wrap(bytes));
-	}
-
-	public void endGame() {
-		game.handleMessage(null, "STOP");
+//		getOtherSession(session).getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
 	}
 
 	public static ThreadPoolExecutor getPool() {
