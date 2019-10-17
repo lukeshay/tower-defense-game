@@ -25,8 +25,8 @@ public class Game implements Runnable {
 	}
 
 	private void sendMap() {
-		playerOne.getAsyncRemote().sendObject(map);
-		playerTwo.getAsyncRemote().sendObject(map);
+//		playerOne.getAsyncRemote().sendObject(map.getCards());
+//		playerTwo.getAsyncRemote().sendObject(map.getCards());
 	}
 
 	void handleMessage(Session session, String message) {
@@ -52,14 +52,20 @@ public class Game implements Runnable {
 				Thread.sleep(1);
 			} catch (Exception ignore) {}
 
+			// map.clockCycle();
 			sendMap();
 
 			cont = !checkForLoss();
 
-			if (new Date().getTime() - startTime > 10000 || gameState.equals(
+			if (new Date().getTime() - startTime > 100000 || gameState.equals(
 					"STOP")) {
 				cont = false;
 			}
+
+			try {
+				Thread.sleep(1000 / 60);
+			}
+			catch (InterruptedException ignore) {}
 		}
 
 		gameOver();
