@@ -1,14 +1,17 @@
 package com.pvptowerdefense.server.socket.models;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Map {
 
-    private List<PlayedCard> cards;
+    private List<PlayedCard> cardsP1;
+    private List<PlayedCard> cardsP2;
     private String player1;
     private String player2;
     private boolean gameState;
     private String winner;
+    private int counter;
 
     private static final int MAX_X = 2999;
     private static final int MAX_Y = 999;
@@ -21,30 +24,38 @@ public class Map {
 
 
     public Map(String userId1, String userId2){
-        cards = new ArrayList<PlayedCard>();
+        cardsP1 = new ArrayList<PlayedCard>();
+        cardsP2 = new ArrayList<PlayedCard>();
         player1 = userId1;
         player2 = userId2;
         gameState = true;
+        counter = 0;
 
-        cards.add(makeTower(TOWER1_X, TOWER1_Y, userId1));
-        cards.add(makeTower(TOWER2_X, TOWER2_Y, userId1));
-        cards.add(makeTower(TOWER3_X, TOWER3_Y, userId1));
+        cardsP1.add(makeTower(TOWER1_X, TOWER1_Y, userId1));
+        cardsP1.add(makeTower(TOWER2_X, TOWER2_Y, userId1));
+        cardsP1.add(makeTower(TOWER3_X, TOWER3_Y, userId1));
 
-        cards.add(makeTower(MAX_X - TOWER1_X, TOWER1_Y, userId2));
-        cards.add(makeTower(MAX_X - TOWER2_X, TOWER1_Y, userId2));
-        cards.add(makeTower(MAX_X - TOWER3_X, TOWER1_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER1_X, TOWER1_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER2_X, TOWER1_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER3_X, TOWER1_Y, userId2));
     }
 
     public List<PlayedCard> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<PlayedCard> cards) {
-        this.cards = cards;
+        List<PlayedCard> total = new ArrayList<PlayedCard>();
+        total.addAll(cardsP1);
+        total.addAll(cardsP2);
+        return total;
     }
 
     public void addCard(PlayedCard card){
-        cards.add(card);
+        if(card.getPlayer().equals(player1)){
+            cardsP1.add(card);
+        }
+        else if(card.getPlayer().equals(player2)){
+            cardsP2.add(card);
+        }
+        else { // do nothing
+        }
     }
 
     public String getPlayer1() {
@@ -76,25 +87,92 @@ public class Map {
     }
 
     public boolean clockCycle(){
-        // go through array and check for card positions
+        // go through array and check for card position
 
 
-        for(PlayedCard playedCard : cards){
-            if(playedCard.getPlayer().equals(player1)){
-                playedCard.setXValue(playedCard.getXValue()+playedCard.getSpeed());
+        if(counter % 60 == 0) {
+            for (PlayedCard p1Cards : cardsP1) {
+                boolean attack = false;
+                for (PlayedCard p2Cards : cardsP2) {
+                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange()) {
+                        p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+                        attack = true;
+                        break;
+                    }
+                }
+                if(!attack){
+                    p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+                }
             }
-            else if(playedCard.getPlayer().equals(player2)){
-                playedCard.setXValue(playedCard.getXValue() - playedCard.getSpeed());
+            for (PlayedCard p2Cards : cardsP2) {
+                boolean attack = false;
+                for (PlayedCard p1Cards : cardsP1) {
+                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange()) {
+                        p1Cards.setHitPoints(p1Cards.getHitPoints() - p2Cards.getDamage());
+                        attack = true;
+                        break;
+                    }
+                }
+                if(!attack){
+                    p2Cards.setXValue(p2Cards.getXValue() + p2Cards.getSpeed());
+                }
             }
-            else{ cards.remove(playedCard); }
+            for(PlayedCard p1 : cardsP1){
+                if(p1.getHitPoints() <= 0){
+                    cardsP1.remove(p1);
+                }
+            }
+            for(PlayedCard p2 : cardsP2){
+                if(p2.getHitPoints() <= 0){
+                    cardsP2.remove(p2);
+                }
+            }
+        }
+        else {
+            for (PlayedCard p1Cards : cardsP1) {
+                boolean attack = false;
+                for (PlayedCard p2Cards : cardsP2) {
+                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange()) {
+                        attack = true;
+                        break;
+                    }
+                }
+                if(!attack){
+                    p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+                }
+            }
+            for (PlayedCard p2Cards : cardsP2) {
+                boolean attack = false;
+                for (PlayedCard p1Cards : cardsP1) {
+                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange()) {
+                        attack = true;
+                        break;
+                    }
+                }
+                if(!attack){
+                    p2Cards.setXValue(p2Cards.getXValue() + p2Cards.getSpeed());
+                }
+            }
         }
 
+
+        counter++;
         return gameState;
+
     }
 
     private PlayedCard makeTower(int xValue, int yValue, String player){
         return new PlayedCard("Tower", "tower", 0, 10, 100, 0, "UNIT", 100, xValue,
                 yValue, player);
+    }
+
+    private double distance(PlayedCard card1, PlayedCard card2){
+        int x = card1.getXValue() - card2.getXValue();
+        int y = card1.getYValue() - card2.getYValue();
+        int xSquare = (int) Math.pow(x, 2);
+        int ySquare = (int) Math.pow(y, 2);
+        double sqrt = Math.sqrt(xSquare + ySquare);
+        return sqrt;
     }
 
 
