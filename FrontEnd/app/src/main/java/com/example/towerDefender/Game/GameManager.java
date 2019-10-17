@@ -1,14 +1,13 @@
 package com.example.towerDefender.Game;
 
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.R;
+import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,10 @@ public class GameManager {
     private GameView gameView;
     private Player player;
     private List<Character> characters;
+    private Turret[] turrets;
     private boolean isPlayingCard;
+    private WebSocketClientConnection socketConnection;
+
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     public GameManager(GameView gameView, Player player){
@@ -29,6 +31,9 @@ public class GameManager {
         isPlayingCard = false;
         cardToPlayIndex = 0;
         initializeDeck();
+        turrets = new Turret[6];
+        initializeTurrets(turrets);
+       // socketConnection = new WebSocketClientConnection(this.player.getUserId());
     }
 
     //For testing purposes only!
@@ -64,6 +69,9 @@ public class GameManager {
         }
         for(CardInHand card : player.getHand()){
             card.draw(canvas);
+        }
+        for(Turret turret : turrets){
+            turret.draw(canvas);
         }
     }
 
@@ -118,6 +126,7 @@ public class GameManager {
         this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
         player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
         player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
+        //socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard());
     }
 
     /**
@@ -134,4 +143,20 @@ public class GameManager {
         return cardToPlayIndex;
     }
 
+    /**
+     * Adds the opponent's played unit to this game's units
+     */
+    //TODO: play cards from socket messages
+    public void addOpponentsCard(Card card){
+
+    }
+
+    public void initializeTurrets(Turret[] turrets){
+        turrets[0] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower), 50, Sprite.screenHeight / 2);
+        turrets[1] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower),150, Sprite.screenHeight / 4);
+        turrets[2] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower),150, 3 * Sprite.screenHeight / 4);
+        turrets[3] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower),Sprite.screenWidth - 150, Sprite.screenHeight / 2);
+        turrets[4] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower),Sprite.screenWidth - 250, Sprite.screenHeight / 4);
+        turrets[5] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower), Sprite.screenWidth - 250, 3 * Sprite.screenHeight / 4);
+    }
 }

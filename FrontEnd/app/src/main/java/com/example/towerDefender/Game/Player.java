@@ -16,6 +16,7 @@ public class Player {
     private static double manaRegenRate = 1;
     private static Paint textPaint;
 
+    private String userId;
     private Deck deck;
     private CardInHand[] hand;
     private Context context;
@@ -31,6 +32,7 @@ public class Player {
         this.currentMana = 5;
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
+        this.userId = "3";
     }
 
     public void drawHand(){
@@ -125,5 +127,12 @@ public class Player {
      */
     public void draw(Canvas canvas){
         canvas.drawText( "MANA:" + currentMana + "/" + maxMana, 0, Sprite.screenHeight - 15, textPaint);
+    }
+
+    /**
+     * @return this player's user id
+     */
+    public String getUserId(){
+        return userId;
     }
 }

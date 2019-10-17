@@ -53,6 +53,7 @@ public class WebSocketClientConnection {
     @OnMessage
     public void onMessage(String message) {
         messages.enqueue(String.format("Message: %s", message));
+        System.out.println(message);
     }
 
     /**
@@ -85,6 +86,7 @@ public class WebSocketClientConnection {
      */
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
+        this.session.getBasicRemote().getSendWriter().write(message);
     }
 
     /**
