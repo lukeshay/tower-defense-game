@@ -8,8 +8,6 @@ public class Game implements Runnable {
 	// will need to keep track of time
 	// will be started from the match up
 
-	private String gameState;
-
 	private Session playerOneSession;
 	private String playerOneId;
 	private Session playerTwoSession;
@@ -22,25 +20,23 @@ public class Game implements Runnable {
 		this.playerOneSession = playerOneSession;
 		this.playerTwoSession = playerTwoSession;
 
-		map = new Map();
-
-		gameState = "waiting";
+		map = new Map(playerOneId, playerTwoId);
 	}
 
 	private void sendInPlayCards() {
-		playerOneSession.getAsyncRemote().sendObject(map.getCards());
-		playerTwoSession.getAsyncRemote().sendObject(map.getCards());
+		playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+		playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
 	}
 
 	void handleMessage(Session session, byte[] message) {
 		Object obj = Messages.deserialize(message);
 
-
-		if (obj instanceof String && ((String) obj).equals("STOP")) {
-			gameState = "STOP";
-		}
-		else if (obj instanceof PlayedCard) {
+		if (obj instanceof PlayedCard) {
 			map.addCard((PlayedCard) obj);
+		}
+		else if (obj instanceof String) {
+			playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(obj));
+			playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(obj));
 		}
 	}
 
@@ -60,32 +56,32 @@ public class Game implements Runnable {
 		}
 	}
 
+	private boolean checkBothConnected() {
+		return playerOneSession.isOpen() && playerTwoSession.isOpen();
+	}
+
 	@Override
 	public void run() {
 		long startTime = new Date().getTime();
 		boolean cont = true;
 
-		gameState = "running";
-
 		while (cont) {
-			// cont = map.clockCycle();
+			boolean someoneDed = map.clockCycle();
+			boolean bothConnected = checkBothConnected();
+
 			sendInPlayCards();
 
-			if (new Date().getTime() - startTime > 100000 || gameState.equals(
-					"STOP")) {
-				cont = false;
-			}
+			cont = new Date().getTime() - startTime < 100000 &&
+					someoneDed &&
+					bothConnected;
 
 			try {
 				Thread.sleep(1000 / 60);
 			}
-			catch (InterruptedException ignore) {}
+			catch (InterruptedException ignore) {
+			}
 		}
-		// winner = map.getWinner();
-		gameOver(playerOneId);
-	}
-
-	private boolean checkForLoss() {
-		return false;
+		String winner = map.getWinner();
+		gameOver(winner);
 	}
 }

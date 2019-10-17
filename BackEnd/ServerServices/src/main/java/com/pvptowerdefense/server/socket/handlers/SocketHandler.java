@@ -53,7 +53,6 @@ public class SocketHandler {
 				session.getAsyncRemote().sendBinary(
 						Messages.serializeToByteBuffer(
 								Messages.connectedTrueMatchUpFalse()
-										.toString()
 						)
 				);
 			}
@@ -68,12 +67,16 @@ public class SocketHandler {
 						matchUpList.add(new MatchUp(id, session, otherId,
 								otherSession));
 
-						otherSession.getAsyncRemote().sendObject(
-							Messages.connectedTrueMatchUpTrue(id)
+						otherSession.getAsyncRemote().sendBinary(
+								Messages.serializeToByteBuffer(
+										Messages.connectedTrueMatchUpTrue(id)
+								)
 						);
 
-						session.getAsyncRemote().sendObject(
-							Messages.connectedTrueMatchUpTrue(otherId)
+						session.getAsyncRemote().sendBinary(
+								Messages.serializeToByteBuffer(
+										Messages.connectedTrueMatchUpTrue(otherId)
+								)
 						);
 					}
 				}
@@ -114,13 +117,12 @@ public class SocketHandler {
 
 			matchUpList.remove(findMatchUp(session));
 			MatchUp matchUp = findMatchUp(session);
+
 			if (matchUp != null) {
 				matchUpList.remove(matchUp);
-				matchUp.endGame();
 			}
 
 			MatchUp.getPool().purge();
-			logger.info(String.valueOf(MatchUp.getPool().getTaskCount()));
 		});
 	}
 
@@ -129,18 +131,6 @@ public class SocketHandler {
 		CompletableFuture.runAsync(() -> {
 			logger.error("ERROR " + throwable.getMessage());
 			throwable.printStackTrace();
-		});
-	}
-
-	private void broadcast(String message) {
-		logger.info(String.valueOf(sessionAndId.size()));
-		sessionAndId.forEach((session, id) -> {
-			logger.info(String.format("Send '%s' to %s", message, id));
-			try {
-				session.getBasicRemote().sendText(message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		});
 	}
 

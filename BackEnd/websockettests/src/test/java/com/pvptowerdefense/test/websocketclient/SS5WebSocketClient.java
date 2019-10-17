@@ -24,7 +24,7 @@ public class SS5WebSocketClient {
 	private static final String serverUrl = "ws://localhost:8080/socket/%s";
 
 	private String id = null;
-	private Queue<String> messages = null;
+	private Queue<Object> messages = null;
 	private Session session = null;
 
 	private static Logger logger =
@@ -69,7 +69,7 @@ public class SS5WebSocketClient {
 	@OnMessage
 	public void onMessage(byte[] message) {
 		logger.info("Message " + id);
-		messages.enqueue((String) MessageHandler.deserialize(message));
+		messages.enqueue(Objects.requireNonNull(MessageHandler.deserialize(message)).toString());
 	}
 
 	/**
@@ -100,14 +100,8 @@ public class SS5WebSocketClient {
 	 *
 	 * @param message the message
 	 */
-	public void sendMessage(String message) throws IOException {
-		this.session.getBasicRemote().sendBinary(
-				ByteBuffer.wrap(
-						Objects.requireNonNull(
-								MessageHandler.serialize(message)
-						)
-				)
-		);
+	public void sendMessage(Object message) throws IOException {
+		this.session.getAsyncRemote().sendBinary(ByteBuffer.wrap(Objects.requireNonNull(MessageHandler.serialize(message))));
 	}
 
 	/**
@@ -170,7 +164,7 @@ public class SS5WebSocketClient {
 	 *
 	 * @return the messages
 	 */
-	public Queue<String> getMessages() {
+	public Queue<Object> getMessages() {
 		return messages;
 	}
 
@@ -179,7 +173,7 @@ public class SS5WebSocketClient {
 	 *
 	 * @param messages the messages
 	 */
-	public void setMessages(Queue<String> messages) {
+	public void setMessages(Queue<Object> messages) {
 		this.messages = messages;
 	}
 

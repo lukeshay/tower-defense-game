@@ -35,28 +35,10 @@ public class MatchUp {
 		this.playerTwoId = playerTwoId;
 		this.playerTwoSession = playerTwoSession;
 
-		game = new Game(playerOneSession, playerOneId, playerTwoSession,
-				playerTwoId);
+		game = new Game(playerOneId, playerOneSession, playerTwoId,
+				playerTwoSession);
 
 		pool.execute(game);
-	}
-
-	/**
-	 * Gets player one id.
-	 *
-	 * @return the player one id
-	 */
-	public String getPlayerOneId() {
-		return playerOneId;
-	}
-
-	/**
-	 * Sets player one id.
-	 *
-	 * @param playerOneId the player one id
-	 */
-	public void setPlayerOneId(String playerOneId) {
-		this.playerOneId = playerOneId;
 	}
 
 	/**
@@ -69,33 +51,6 @@ public class MatchUp {
 	}
 
 	/**
-	 * Sets player one session.
-	 *
-	 * @param playerOneSession the player one session
-	 */
-	public void setPlayerOneSession(Session playerOneSession) {
-		this.playerOneSession = playerOneSession;
-	}
-
-	/**
-	 * Gets player two id.
-	 *
-	 * @return the player two id
-	 */
-	public String getPlayerTwoId() {
-		return playerTwoId;
-	}
-
-	/**
-	 * Sets player two id.
-	 *
-	 * @param playerTwoId the player two id
-	 */
-	public void setPlayerTwoId(String playerTwoId) {
-		this.playerTwoId = playerTwoId;
-	}
-
-	/**
 	 * Gets player two session.
 	 *
 	 * @return the player two session
@@ -105,30 +60,12 @@ public class MatchUp {
 	}
 
 	/**
-	 * Sets player two session.
-	 *
-	 * @param playerTwoSession the player two session
-	 */
-	public void setPlayerTwoSession(Session playerTwoSession) {
-		this.playerTwoSession = playerTwoSession;
-	}
-
-	/**
 	 * Gets game.
 	 *
 	 * @return the game
 	 */
 	public Game getGame() {
 		return game;
-	}
-
-	/**
-	 * Sets game.
-	 *
-	 * @param game the game
-	 */
-	public void setGame(Game game) {
-		this.game = game;
 	}
 
 	/**
@@ -154,9 +91,6 @@ public class MatchUp {
 	 */
 	public void sendMessage(Session session, byte[] message) {
 		game.handleMessage(session, message);
-
-		// this is temporary for testing
-//		getOtherSession(session).getAsyncRemote().sendBinary(ByteBuffer.wrap(message));
 	}
 
 	public static ThreadPoolExecutor getPool() {
