@@ -74,7 +74,7 @@ public class MatchUp {
 	 * @param session The session you have
 	 * @return The other session
 	 */
-	private Session getOtherSession(Session session) {
+	public Session getOtherSession(Session session) {
 		if (session.equals(getPlayerOneSession())) {
 			return getPlayerTwoSession();
 		}

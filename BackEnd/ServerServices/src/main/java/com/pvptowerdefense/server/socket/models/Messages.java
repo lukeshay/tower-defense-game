@@ -1,7 +1,5 @@
 package com.pvptowerdefense.server.socket.models;
 
-import shared.PlayedCard;
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -54,14 +52,14 @@ public class Messages {
 		return map;
 	}
 
-	public static ByteBuffer serializeListToByteBuffer(List<PlayedCard> list) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream out = new ObjectOutputStream(baos);
-		for (PlayedCard element : list) {
-			out.writeObject(element);
-		}
-		return ByteBuffer.wrap(baos.toByteArray());
-	}
+//	public static ByteBuffer serializeListToByteBuffer(List<PlayedCard> list) throws IOException {
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		ObjectOutputStream out = new ObjectOutputStream(baos);
+//		for (PlayedCard element : list) {
+//			out.writeObject(element);
+//		}
+//		return ByteBuffer.wrap(baos.toByteArray());
+//	}
 
 	public static Object deserialize(byte[] data) {
 		try {
@@ -72,5 +70,21 @@ public class Messages {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	private static byte[] serialize(Object obj) throws IOException {
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream(out);
+			os.writeObject(obj);
+			return out.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static ByteBuffer serializeToByteBuffer(Object obj) throws IOException {
+		return ByteBuffer.wrap(Objects.requireNonNull(serialize(obj)));
 	}
 }
