@@ -89,34 +89,9 @@ public class Map {
     public boolean clockCycle(){
         // go through array and check for card position
 
-
         if(counter % 60 == 0) {
-            for (PlayedCard p1Cards : cardsP1) {
-                boolean attack = false;
-                for (PlayedCard p2Cards : cardsP2) {
-                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange()) {
-                        p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
-                        attack = true;
-                        break;
-                    }
-                }
-                if(!attack){
-                    p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
-                }
-            }
-            for (PlayedCard p2Cards : cardsP2) {
-                boolean attack = false;
-                for (PlayedCard p1Cards : cardsP1) {
-                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange()) {
-                        p1Cards.setHitPoints(p1Cards.getHitPoints() - p2Cards.getDamage());
-                        attack = true;
-                        break;
-                    }
-                }
-                if(!attack){
-                    p2Cards.setXValue(p2Cards.getXValue() + p2Cards.getSpeed());
-                }
-            }
+            attackMove(cardsP1, cardsP2);
+            attackMove(cardsP2, cardsP1);
             for(PlayedCard p1 : cardsP1){
                 if(p1.getHitPoints() <= 0){
                     cardsP1.remove(p1);
@@ -132,9 +107,8 @@ public class Map {
             for (PlayedCard p1Cards : cardsP1) {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
-                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange()) {
+                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && attack == false) {
                         attack = true;
-                        break;
                     }
                 }
                 if(!attack){
@@ -144,13 +118,12 @@ public class Map {
             for (PlayedCard p2Cards : cardsP2) {
                 boolean attack = false;
                 for (PlayedCard p1Cards : cardsP1) {
-                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange()) {
+                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange() && attack == false) {
                         attack = true;
-                        break;
                     }
                 }
                 if(!attack){
-                    p2Cards.setXValue(p2Cards.getXValue() + p2Cards.getSpeed());
+                    p2Cards.setXValue(p2Cards.getXValue() - p2Cards.getSpeed());
                 }
             }
         }
@@ -161,6 +134,24 @@ public class Map {
 
     }
 
+    private void attackMove(List<PlayedCard> cardsP1, List<PlayedCard> cardsP2) {
+        List<PlayedCard> cardsP1New = new ArrayList<>();
+        List<PlayedCard> cardsP2New = new ArrayList<>();
+
+        for (PlayedCard p1Cards : cardsP1) {
+            boolean attack = false;
+            for (PlayedCard p2Cards : cardsP2) {
+                if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && attack == false) {
+                    p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+                    attack = true;
+                }
+            }
+            if(!attack){
+                p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+            }
+        }
+    }
+
     private PlayedCard makeTower(int xValue, int yValue, String player){
         return new PlayedCard("Tower", "tower", 0, 10, 100, 0, "UNIT", 100, xValue,
                 yValue, player);
@@ -169,8 +160,8 @@ public class Map {
     private double distance(PlayedCard card1, PlayedCard card2){
         int x = card1.getXValue() - card2.getXValue();
         int y = card1.getYValue() - card2.getYValue();
-        int xSquare = (int) Math.pow(x, 2);
-        int ySquare = (int) Math.pow(y, 2);
+        int xSquare = x * x;
+        int ySquare = y * y;
         double sqrt = Math.sqrt(xSquare + ySquare);
         return sqrt;
     }
