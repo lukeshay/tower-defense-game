@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 
 public class Deck {
-    //TODO: most of this logic should probably be moved to the back-end. This is dummy logic so that the game can run with randomized cards pulling from a deck
     private ArrayList<Card> deck;
     private int index;
     private Player player; // the player that owns this deck
@@ -29,6 +28,12 @@ public class Deck {
         this.player = player;
     }
 
+    /**
+     * Draws and returns a {@link CardInHand} from this deck.
+     * @param cardInHandIndex the index to store the card in
+     * @return a {@link CardInHand} representing the next card in this deck
+     */
+    @Deprecated
     public CardInHand drawCard(int cardInHandIndex){
         //Players can never run out of cards in their deck. When the index is maxed out, we will shuffle the deck and start index back at 0.
         if(++index == deck.size()){
@@ -37,11 +42,20 @@ public class Deck {
         return new CardInHand(player, deck.get(index),cardInHandIndex);
     }
 
+    public CardInHand drawCard(int cardInHandIndex, boolean setImage){
+        //Players can never run out of cards in their deck. When the index is maxed out, we will shuffle the deck and start index back at 0.
+        if(++index == deck.size()){
+            index = 0;
+        }
+        return new CardInHand(player, deck.get(index),cardInHandIndex, setImage);
+    }
+
     public void add(Card card){
         this.deck.add(card);
     }
 
-    private void setDeck(ArrayList<Card> cards){
+    //public for testing purposes
+    public void setDeck(ArrayList<Card> cards){
         this.deck = cards;
     }
 
@@ -49,7 +63,7 @@ public class Deck {
      * Gets the deck from the server
      * @param context the current context
      */
-    public void getDeck(Context context){
+    public void getDeckFromServer(Context context){
         VolleyUtilities.getRequest(context, CardRestServices.BASE_URL, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
