@@ -69,9 +69,9 @@ public class SS5WebSocketClient {
 	 * @param message the message
 	 */
 	@OnMessage
-	public void onMessage(byte[] message) {
+	public void onMessage(byte[] message) throws IOException, ClassNotFoundException {
 		logger.info("Message " + id);
-		messages.enqueue(Objects.requireNonNull(Message.deserialize(message)));
+		messages.enqueue(Objects.requireNonNull(Message.deserializeToList(message)));
 	}
 
 	@OnMessage

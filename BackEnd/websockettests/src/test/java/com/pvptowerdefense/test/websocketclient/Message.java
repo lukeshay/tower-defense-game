@@ -4,6 +4,8 @@ import shared.PlayedCard;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Message {
@@ -27,5 +29,11 @@ public class Message {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public static List<PlayedCard> deserializeToList(byte[] data) throws IOException, ClassNotFoundException {
+		ObjectInputStream ois =
+				new ObjectInputStream(new ByteArrayInputStream(data));
+		return (ArrayList<PlayedCard>) ois.readObject();
 	}
 }

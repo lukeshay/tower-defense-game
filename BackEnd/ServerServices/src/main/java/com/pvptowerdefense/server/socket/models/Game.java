@@ -25,8 +25,8 @@ public class Game implements Runnable {
 	private void sendInPlayCards() {
 		try {
 			map.getCards().forEach(e -> System.out.println(e.toString()));
-			playerOneSession.getAsyncRemote().sendBinary(Messages.serializeListToByteBuffer(map.getCards()));
-			playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeListToByteBuffer(map.getCards()));
+			playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+			playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
