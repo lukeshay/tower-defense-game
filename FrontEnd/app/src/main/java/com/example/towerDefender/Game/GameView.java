@@ -95,7 +95,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                             event.getY() <= manager.getPlayer().getCardInHand(i).getSprite().getyEnd() &&
                             event.getY() >= manager.getPlayer().getCardInHand(i).getSprite().getyStart() &&
                             manager.getPlayer().getCardInHand(i).statusColor.getColor() == Color.GREEN) {
-                        manager.setPlayingCard(i, true);
+                        if(manager.getPlayer().getCurrentMana() >= manager.getPlayer().getCardInHand(i).getCardManaCost()){
+                            manager.setPlayingCard(i, true);
+                        }
                     }
                 }
             }
