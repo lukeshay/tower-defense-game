@@ -167,7 +167,7 @@ public class Map {
                 }
             }
             if(!attack){
-                p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+                p1Cards.setxValue(p1Cards.getxValue() + p1Cards.getSpeed());
             }
         }
     }
