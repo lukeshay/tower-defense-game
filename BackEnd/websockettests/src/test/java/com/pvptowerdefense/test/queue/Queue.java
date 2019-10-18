@@ -1,7 +1,5 @@
 package com.pvptowerdefense.test.queue;
 
-import java.util.NoSuchElementException;
-
 /**
  * The type Queue.
  *

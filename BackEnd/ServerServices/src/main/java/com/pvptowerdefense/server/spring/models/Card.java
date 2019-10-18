@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cards")
 public class Card {
-
 	@Id
 	@Column(name = "NAME", nullable = false, unique = true)
 	private String name;

@@ -1,13 +1,15 @@
 package com.pvptowerdefense.server.socket.models;
 
+import rx.Completable;
+import shared.PlayedCard;
+
 import javax.websocket.Session;
+import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 public class Game implements Runnable {
-	// will need some sort of map
-	// will need to keep track of time
-	// will be started from the match up
-
 	private Session playerOneSession;
 	private String playerOneId;
 	private Session playerTwoSession;
@@ -24,20 +26,24 @@ public class Game implements Runnable {
 	}
 
 	private void sendInPlayCards() {
-		playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
-		playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+		CompletableFuture.runAsync(() -> {
+			try {
+				Future<Void> deliveryProgress1 =
+						playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+				Future<Void> deliveryProgress2 =
+						playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+				deliveryProgress1.isDone();
+				deliveryProgress2.isDone();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	void handleMessage(Session session, byte[] message) {
 		Object obj = Messages.deserialize(message);
 
-		if (obj instanceof PlayedCard) {
-			map.addCard((PlayedCard) obj);
-		}
-		else if (obj instanceof String) {
-			playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(obj));
-			playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(obj));
-		}
+		map.addCard((PlayedCard) obj);
 	}
 
 	private void gameOver(String winner) {

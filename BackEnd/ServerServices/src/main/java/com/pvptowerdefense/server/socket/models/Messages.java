@@ -2,9 +2,8 @@ package com.pvptowerdefense.server.socket.models;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map;
-import java.util.Objects;
 
 public class Messages {
 	public static Map<String, String> connectedTrueMatchUpFalse() {
@@ -53,21 +52,14 @@ public class Messages {
 		return map;
 	}
 
-
-	public static byte[] serialize(Object obj) {
-		try {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ObjectOutputStream os = new ObjectOutputStream(out);
-			os.writeObject(obj);
-			return out.toByteArray();
-		} catch (IOException e) {
-			return null;
-		}
-	}
-
-	public static ByteBuffer serializeToByteBuffer(Object obj) {
-		return ByteBuffer.wrap(Objects.requireNonNull(serialize(obj)));
-	}
+//	public static ByteBuffer serializeListToByteBuffer(List<PlayedCard> list) throws IOException {
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		ObjectOutputStream out = new ObjectOutputStream(baos);
+//		for (PlayedCard element : list) {
+//			out.writeObject(element);
+//		}
+//		return ByteBuffer.wrap(baos.toByteArray());
+//	}
 
 	public static Object deserialize(byte[] data) {
 		try {
@@ -75,7 +67,24 @@ public class Messages {
 			ObjectInputStream is = new ObjectInputStream(in);
 			return is.readObject();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
+	}
+
+	private static byte[] serialize(Object obj) throws IOException {
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream(out);
+			os.writeObject(obj);
+			return out.toByteArray();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static ByteBuffer serializeToByteBuffer(Object obj) throws IOException {
+		return ByteBuffer.wrap(Objects.requireNonNull(serialize(obj)));
 	}
 }

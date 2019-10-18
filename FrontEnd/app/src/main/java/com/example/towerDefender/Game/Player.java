@@ -1,6 +1,9 @@
 package com.example.towerDefender.Game;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
@@ -9,23 +12,34 @@ import com.example.towerDefender.Card.Deck;
 import java.util.ArrayList;
 
 public class Player {
+    //The amount of mana to regenerate every second
+    private static double manaRegenRate = 1;
+    private static Paint textPaint;
+
+    private String userId;
     private Deck deck;
     private CardInHand[] hand;
     private Context context;
     private int maxMana;
     private int currentMana;
+    private long millisOfLastManaRecharge = 0;
 
     public Player(Context context, ArrayList<Card> startingHand){
         this.context = context;
         deck = new Deck(this, context, startingHand);
         hand = new CardInHand[4];
+        this.maxMana = 5;
+        this.currentMana = 5;
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(50);
+        this.userId = "3";
     }
 
     public void drawHand(){
-        hand[0] = deck.drawCard(0);
-        hand[1] = deck.drawCard(1);
-        hand[2] = deck.drawCard(2);
-        hand[3] = deck.drawCard(3);
+        hand[0] = deck.drawCard(0, true);
+        hand[1] = deck.drawCard(1, true);
+        hand[2] = deck.drawCard(2, true);
+        hand[3] = deck.drawCard(3, true);
     }
 
     public Context getPlayerContext(){
@@ -94,4 +108,31 @@ public class Player {
         return currentMana;
     }
 
+    /**
+     * Regnerates the user's mana.
+     */
+    public void update(){
+        if((System.currentTimeMillis() - millisOfLastManaRecharge) / 1000 >= 1){
+            millisOfLastManaRecharge = System.currentTimeMillis();
+            currentMana += manaRegenRate;
+            if(currentMana > maxMana){
+                currentMana = maxMana;
+            }
+        }
+    }
+
+    /**
+     * Draws the player's userName and current mana to the canvas
+     * @param canvas the {@link Canvas} to draw info on
+     */
+    public void draw(Canvas canvas){
+        canvas.drawText( "MANA:" + currentMana + "/" + maxMana, 0, Sprite.screenHeight - 15, textPaint);
+    }
+
+    /**
+     * @return this player's user id
+     */
+    public String getUserId(){
+        return userId;
+    }
 }

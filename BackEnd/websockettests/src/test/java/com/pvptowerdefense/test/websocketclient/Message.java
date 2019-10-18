@@ -1,8 +1,14 @@
 package com.pvptowerdefense.test.websocketclient;
 
-import java.io.*;
+import shared.PlayedCard;
 
-public class MessageHandler {
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Message {
 	public static byte[] serialize(Object obj) throws IOException {
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -10,6 +16,7 @@ public class MessageHandler {
 			os.writeObject(obj);
 			return out.toByteArray();
 		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -22,5 +29,11 @@ public class MessageHandler {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public static List<PlayedCard> deserializeToList(byte[] data) throws IOException, ClassNotFoundException {
+		ObjectInputStream ois =
+				new ObjectInputStream(new ByteArrayInputStream(data));
+		return (ArrayList<PlayedCard>) ois.readObject();
 	}
 }
