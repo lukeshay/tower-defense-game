@@ -135,9 +135,6 @@ public class Map {
     }
 
     private void attackMove(List<PlayedCard> cardsP1, List<PlayedCard> cardsP2) {
-        List<PlayedCard> cardsP1New = new ArrayList<>();
-        List<PlayedCard> cardsP2New = new ArrayList<>();
-
         for (PlayedCard p1Cards : cardsP1) {
             boolean attack = false;
             for (PlayedCard p2Cards : cardsP2) {
