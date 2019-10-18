@@ -2,6 +2,7 @@ package com.pvptowerdefense.server.spring.models;
 
 import com.pvptowerdefense.server.spring.models.Card;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,15 +16,20 @@ public class Deck {
     private List<Card> deck;
 
     @Id
+    @Column(unique = true, name = "DECK_ID", nullable = false)
+    private int deckId;
+
+    @Column(unique = true, name = "DECK_NAME", nullable = false)
     private String deckName;
 
     public Deck(){
         this.deck = new ArrayList<>();
     }
 
-    public Deck(List<Card> deck, String deckName) {
+    public Deck(List<Card> deck, String deckName, int deckId) {
         this.deck = deck;
         this.deckName = deckName;
+        this.deckId = deckId;
     }
 
     public List<Card> getDeck() {

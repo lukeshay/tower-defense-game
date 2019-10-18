@@ -17,7 +17,7 @@ import java.util.Objects;
 public class SS5WebSocketClient {
 	/**
 	 * This is the server url. For testing locally the url is
-	 * 'http://localhost:8080/socket/%s'. For testing on the server the url
+	 * 'ws://localhost:8080/socket/%s'. For testing on the server the url
 	 * is 'ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s'.
 	 */
 //	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
@@ -110,8 +110,10 @@ public class SS5WebSocketClient {
 	 * @throws IOException the io exception
 	 */
 	public void close() throws IOException {
-		session.close();
-		session = null;
+		if (session != null) {
+			session.close();
+			session = null;
+		}
 	}
 
 	/**

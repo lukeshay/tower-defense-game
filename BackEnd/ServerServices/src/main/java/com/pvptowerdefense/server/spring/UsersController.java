@@ -48,6 +48,11 @@ public class UsersController {
         return successMap();
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{deckId}")
+    public void addEmptyDeck(@PathVariable String deckName, @PathVariable int deckId){
+        usersService.addEmptyDeck(deckName, deckId);
+    }
+
     public Map<String, Boolean> successMap(){
         HashMap<String, Boolean> map = new HashMap<>();
         map.put("success", true);
