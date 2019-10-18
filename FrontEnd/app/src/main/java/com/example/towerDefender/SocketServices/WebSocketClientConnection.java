@@ -33,8 +33,10 @@ public class WebSocketClientConnection {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, new URI(String.format(serverUrl,
                     userId)));
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            //throw new RuntimeException(e);
         }
     }
 
