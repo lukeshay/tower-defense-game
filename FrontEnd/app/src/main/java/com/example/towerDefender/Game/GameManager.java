@@ -63,6 +63,9 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
+        for(Turret turret : turrets){
+            turret.draw(canvas);
+        }
         player.draw(canvas);
         for(Character sprite : characters){
             sprite.draw(canvas);
@@ -70,9 +73,7 @@ public class GameManager {
         for(CardInHand card : player.getHand()){
             card.draw(canvas);
         }
-        for(Turret turret : turrets){
-            turret.draw(canvas);
-        }
+
     }
 
     /**
@@ -152,11 +153,17 @@ public class GameManager {
     }
 
     public void initializeTurrets(Turret[] turrets){
-        turrets[0] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower), 50, Sprite.screenHeight / 2);
-        turrets[1] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower),150, Sprite.screenHeight / 4);
-        turrets[2] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower),150, 3 * Sprite.screenHeight / 4);
-        turrets[3] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower),Sprite.screenWidth - 150, Sprite.screenHeight / 2);
-        turrets[4] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower),Sprite.screenWidth - 250, Sprite.screenHeight / 4);
-        turrets[5] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower), Sprite.screenWidth - 250, 3 * Sprite.screenHeight / 4);
+        turrets[0] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
+                R.drawable.friendly_tower), 50, Sprite.screenHeight / 2 - 150);
+        turrets[1] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
+                R.drawable.friendly_tower),150, Sprite.screenHeight / 4 - 150);
+        turrets[2] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
+                R.drawable.friendly_tower),150, 3 * Sprite.screenHeight / 4 - 150);
+        turrets[3] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
+                R.drawable.enemy_tower),Sprite.screenWidth - 250, Sprite.screenHeight / 2 - 150);
+        turrets[4] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
+                R.drawable.enemy_tower),Sprite.screenWidth - 350, Sprite.screenHeight / 4 - 150);
+        turrets[5] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
+                R.drawable.enemy_tower), Sprite.screenWidth - 350, 3 * Sprite.screenHeight / 4 - 150);
     }
 }

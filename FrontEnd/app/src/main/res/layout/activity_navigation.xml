@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"
+            android:onClick="openSettings"
             android:text="Settings" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

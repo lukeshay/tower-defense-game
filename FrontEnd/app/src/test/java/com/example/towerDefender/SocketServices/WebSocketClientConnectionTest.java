@@ -6,7 +6,15 @@ import org.junit.Assert;
 
 import java.io.IOException;
 
-public class WebSocketClientConnectionTest extends TestCase {
+public class WebSocketClientConnectionTest {
+
+    public static void main(String[] args) throws IOException{
+        WebSocketClientConnection connection = new WebSocketClientConnection("1");
+        connection.waitForConnection();
+        while(true){
+            connection.sendMessage("hi");
+        }
+    }
 
     public void testSocketConnects(){
         try{
