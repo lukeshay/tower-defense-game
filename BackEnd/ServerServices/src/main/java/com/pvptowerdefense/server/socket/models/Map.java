@@ -131,9 +131,8 @@ public class Map {
             for (PlayedCard p1Cards : cardsP1) {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
-                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange()) {
+                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && attack == false) {
                         attack = true;
-                        break;
                     }
                 }
                 if(!attack){
@@ -143,9 +142,8 @@ public class Map {
             for (PlayedCard p2Cards : cardsP2) {
                 boolean attack = false;
                 for (PlayedCard p1Cards : cardsP1) {
-                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange()) {
+                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange() && attack == false) {
                         attack = true;
-                        break;
                     }
                 }
                 if(!attack){
@@ -157,6 +155,21 @@ public class Map {
 
         counter++;
         return gameState;
+    }
+
+    private void attackMove(List<PlayedCard> cardsP1, List<PlayedCard> cardsP2) {
+        for (PlayedCard p1Cards : cardsP1) {
+            boolean attack = false;
+            for (PlayedCard p2Cards : cardsP2) {
+                if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && attack == false) {
+                    p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+                    attack = true;
+                }
+            }
+            if(!attack){
+                p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+            }
+        }
     }
 
     private PlayedCard makeTower(int xValue, int yValue, String player){
