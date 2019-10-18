@@ -33,7 +33,7 @@ public class GameManager {
         initializeDeck();
         turrets = new Turret[6];
         initializeTurrets(turrets);
-       // socketConnection = new WebSocketClientConnection(this.player.getUserId());
+        socketConnection = new WebSocketClientConnection(this.player.getUserId());
     }
 
     //For testing purposes only!
@@ -127,7 +127,7 @@ public class GameManager {
         this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
         player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
         player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
-        //socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard());
+        socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId());
     }
 
     /**

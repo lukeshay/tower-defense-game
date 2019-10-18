@@ -15,7 +15,11 @@ public class WebSocketClientConnectionTest {
         WebSocketClientConnection connection = new WebSocketClientConnection("1");
         connection.waitForConnection();
         while(true){
-           //connection.sendMessage("hi");
+            try{
+                connection.sendMessage("hi");
+            }catch(Exception e){
+                //do nothing
+            }
         }
     }
 

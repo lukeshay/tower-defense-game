@@ -11,6 +11,8 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Objects;
 
+import shared.PlayedCard;
+
 
 @ClientEndpoint
 public class WebSocketClientConnection {
@@ -210,10 +212,11 @@ public class WebSocketClientConnection {
      * Sends the current card over the socket so that the game can play the card
      * @param card the {@link Card} to send
      */
-    public void sendCardToPlay(Card card){
+    public void sendCardToPlay(Card card, int x, int y, String playerId){
         waitForConnection();
         try{
-            sendMessage(JsonUtils.cardtoJson(card).toString());
+            //TODO: send played card over socket
+            //sendMessage(new PlayedCard(card, x, y, id));
         }catch(Exception e){
             //TODO: handle
         }
