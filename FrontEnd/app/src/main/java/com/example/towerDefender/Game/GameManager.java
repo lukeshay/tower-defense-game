@@ -160,10 +160,10 @@ public class GameManager {
         turrets[2] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
                 R.drawable.friendly_tower),150, 3 * Sprite.screenHeight / 4 - 150);
         turrets[3] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
-                R.drawable.enemy_tower),Sprite.screenWidth - 250, Sprite.screenHeight / 2 - 150);
+                R.drawable.enemy_tower),Sprite.screenWidth - 350, Sprite.screenHeight / 2 - 150);
         turrets[4] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
-                R.drawable.enemy_tower),Sprite.screenWidth - 350, Sprite.screenHeight / 4 - 150);
+                R.drawable.enemy_tower),Sprite.screenWidth - 450, Sprite.screenHeight / 4 - 150);
         turrets[5] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
-                R.drawable.enemy_tower), Sprite.screenWidth - 350, 3 * Sprite.screenHeight / 4 - 150);
+                R.drawable.enemy_tower), Sprite.screenWidth - 450, 3 * Sprite.screenHeight / 4 - 150);
     }
 }

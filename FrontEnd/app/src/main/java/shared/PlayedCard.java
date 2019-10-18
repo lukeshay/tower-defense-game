@@ -1,5 +1,7 @@
 package shared;
 
+import com.example.towerDefender.Card.Card;
+
 import java.io.Serializable;
 
 /**
@@ -44,6 +46,27 @@ public class PlayedCard implements Serializable {
         this.speed = speed;
         this.type = type;
         this.range = range;
+        this.xValue = xValue;
+        this.yValue = yValue;
+        this.player = player;
+    }
+
+    /**
+     *
+     * @param cardToPlay the {@link Card} to play and construct this played card from
+     * @param xValue x value of the current card
+     * @param yValue y value of the current card
+     * @param player the player who played the card
+     */
+    public PlayedCard(Card cardToPlay, int xValue, int yValue, String player){
+        this.name = cardToPlay.cardName;
+        this.description = cardToPlay.cardDescription;
+        this.cost = cardToPlay.castingCost;
+        this.damage = cardToPlay.damage;
+        this.hitPoints = cardToPlay.hitPoints;
+        this.speed = cardToPlay.speed;
+        this.type =  cardToPlay.type;
+        this.range = cardToPlay.range;
         this.xValue = xValue;
         this.yValue = yValue;
         this.player = player;
@@ -254,6 +277,13 @@ public class PlayedCard implements Serializable {
      */
     public void setPlayer(String player) {
         this.player = player;
+    }
+
+    /**
+     * Constructs a {@link Card} from the parameters of this played card
+     */
+    public Card getCard(){
+        return new Card(this.name, this.description, this.cost, this.damage, this.hitPoints, this.speed, this.type, this.range);
     }
 
     @Override

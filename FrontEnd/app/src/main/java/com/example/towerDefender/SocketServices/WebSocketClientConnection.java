@@ -56,7 +56,7 @@ public class WebSocketClientConnection {
      */
     @OnMessage
     public void onMessage(byte[] message) {
-        messages.enqueue((String)Message.deserialize(message));
+        messages.enqueue(Message.deserialize(message).toString());
     }
 
     @OnMessage
@@ -95,8 +95,9 @@ public class WebSocketClientConnection {
      *
      * @param message the message
      */
-    public void sendMessage(String message) throws IOException {
+    public void sendMessage(String message) throws IOException, javax.websocket.EncodeException {
         this.session.getBasicRemote().sendText(message);
+        this.session.getBasicRemote().sendObject(message);
     }
 
     /**

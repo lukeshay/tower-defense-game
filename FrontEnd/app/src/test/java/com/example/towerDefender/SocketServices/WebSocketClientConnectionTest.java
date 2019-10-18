@@ -3,8 +3,11 @@ package com.example.towerDefender.SocketServices;
 import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
+
+import javax.websocket.EncodeException;
 
 public class WebSocketClientConnectionTest {
 
@@ -12,10 +15,11 @@ public class WebSocketClientConnectionTest {
         WebSocketClientConnection connection = new WebSocketClientConnection("1");
         connection.waitForConnection();
         while(true){
-            connection.sendMessage("hi");
+           //connection.sendMessage("hi");
         }
     }
 
+    @Test
     public void testSocketConnects(){
         try{
             WebSocketClientConnection connection = new WebSocketClientConnection("1");
@@ -38,11 +42,17 @@ public class WebSocketClientConnectionTest {
             Assert.assertFalse(connection2.getMessages().isEmpty());
             Assert.assertFalse(connection3.getMessages().isEmpty());
             Assert.assertFalse(connection4.getMessages().isEmpty());
+            System.out.println(connection.getMessages());
+            System.out.println(connection2.getMessages());
+            System.out.println(connection3.getMessages());
+            System.out.println(connection4.getMessages());
             connection2.close();
             connection.close();
             connection3.close();
             connection4.close();
         }catch(IOException e){
+            Assert.fail(e.getMessage());
+        }catch (EncodeException e){
             Assert.fail(e.getMessage());
         }
 
