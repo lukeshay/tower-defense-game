@@ -59,6 +59,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @Override
             public void onMessage(String message) {
                 System.out.println(message);
+                SocketUtilities.sendMessage("hey nerd");
             }
 
             @Override
