@@ -10,6 +10,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -49,24 +50,39 @@ public class SocketHandler {
 			sessionAndId.put(session, id);
 
 			if (idAndSession.size() % 2 == 1) {
-				session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpFalse());
+				session.getAsyncRemote().sendBinary(
+						Messages.serializeToByteBuffer(
+								Messages.connectedTrueMatchUpFalse()
+						)
+				);
 			}
 			else {
 				for (Map.Entry<Session, String> entry : sessionAndId.entrySet()) {
 					Session otherSession = entry.getKey();
 					String otherId = entry.getValue();
 
-					if (matchUpList.stream().noneMatch(matchSession ->
-							matchSession.getPlayerOneSession().equals(otherSession) ||
-									matchSession.getPlayerTwoSession().equals(otherSession))) {
+					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchSession ->
+							(matchSession.getPlayerOneSession().equals(otherSession) ||
+									matchSession.getPlayerTwoSession().equals(otherSession)))) {
 						matchUpList.add(new MatchUp(id, session, otherId,
 								otherSession));
+
+						otherSession.getAsyncRemote().sendBinary(
+								Messages.serializeToByteBuffer(
+										Messages.connectedTrueMatchUpTrue(id)
+								)
+						);
+
+						session.getAsyncRemote().sendBinary(
+								Messages.serializeToByteBuffer(
+										Messages.connectedTrueMatchUpTrue(otherId)
+								)
+						);
 					}
-					otherSession.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
-					session.getAsyncRemote().sendObject(Messages.connectedTrueMatchUpTrue());
 				}
 			}
 		});
+
 	}
 
 	/**
@@ -74,14 +90,14 @@ public class SocketHandler {
 	 * with.
 	 *
 	 * @param session The session sending the message.
-	 * @param message The message as a Object. *NOTE This might change types.
+	 * @param bytes   The message as a byte[]. *NOTE This might change types.
 	 */
 	@OnMessage
-	public void onMessage(Session session, String message) {
+	public void onMessage(Session session, byte[] bytes) {
 		CompletableFuture.runAsync(() -> {
 			MatchUp matchup = findMatchUp(session);
 			if (matchup != null) {
-				matchup.sendMessage(session, message);
+				matchup.sendMessage(session, bytes);
 			}
 		});
 //		broadcast(message); // Uncomment for testing.
@@ -100,8 +116,14 @@ public class SocketHandler {
 			sessionAndId.remove(session);
 
 			matchUpList.remove(findMatchUp(session));
-		});
+			MatchUp matchUp = findMatchUp(session);
 
+			if (matchUp != null) {
+				matchUpList.remove(matchUp);
+			}
+
+			MatchUp.getPool().purge();
+		});
 	}
 
 	@OnError
@@ -109,18 +131,6 @@ public class SocketHandler {
 		CompletableFuture.runAsync(() -> {
 			logger.error("ERROR " + throwable.getMessage());
 			throwable.printStackTrace();
-		});
-	}
-
-	private void broadcast(String message) {
-		logger.info(String.valueOf(sessionAndId.size()));
-		sessionAndId.forEach((session, id) -> {
-			logger.info(String.format("Send '%s' to %s", message, id));
-			try {
-				session.getBasicRemote().sendText(message);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		});
 	}
 
@@ -150,4 +160,5 @@ public class SocketHandler {
 		return matchUp -> matchUp.getPlayerOneSession().equals(session) ||
 				matchUp.getPlayerTwoSession().equals(session);
 	}
+
 }

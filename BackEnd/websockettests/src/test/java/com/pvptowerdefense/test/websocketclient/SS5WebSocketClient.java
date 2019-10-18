@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.ByteBuffer;
+import java.util.Objects;
 
 /**
  * The type My web socket client.
@@ -18,11 +20,11 @@ public class SS5WebSocketClient {
 	 * 'ws://localhost:8080/socket/%s'. For testing on the server the url
 	 * is 'ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s'.
 	 */
-	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
-//	private static final String serverUrl = "ws://localhost:8080/socket/%s";
+//	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
+	private static final String serverUrl = "ws://localhost:8080/socket/%s";
 
 	private String id = null;
-	private Queue<String> messages = null;
+	private Queue<Object> messages = null;
 	private Session session = null;
 
 	private static Logger logger =
@@ -53,7 +55,9 @@ public class SS5WebSocketClient {
 	 */
 	@OnOpen
 	public void onOpen(Session session) {
-		messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
+		String connect = String.format("Connected: %s",
+				String.format(serverUrl, id));
+		messages.enqueue(connect);
 		setSession(session);
 	}
 
@@ -63,9 +67,9 @@ public class SS5WebSocketClient {
 	 * @param message the message
 	 */
 	@OnMessage
-	public void onMessage(String message) {
+	public void onMessage(byte[] message) {
 		logger.info("Message " + id);
-		messages.enqueue(String.format("Message: %s", message));
+		messages.enqueue(Objects.requireNonNull(MessageHandler.deserialize(message)).toString());
 	}
 
 	/**
@@ -76,7 +80,6 @@ public class SS5WebSocketClient {
 	 */
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
-		messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
 		this.session = null;
 	}
 
@@ -87,8 +90,9 @@ public class SS5WebSocketClient {
 	 * @param throwable the throwable
 	 */
 	@OnError
-	public void onError(Session session, Throwable throwable) {
-		messages.enqueue(String.format("Error: %s", throwable.getMessage()));
+	public void onError(Session session, Throwable throwable) throws IOException {
+		messages.enqueue(String.format("Error: %s",
+				throwable.getMessage()));
 	}
 
 	/**
@@ -96,8 +100,8 @@ public class SS5WebSocketClient {
 	 *
 	 * @param message the message
 	 */
-	public void sendMessage(String message) throws IOException {
-		this.session.getBasicRemote().sendText(message);
+	public void sendMessage(Object message) throws IOException {
+		this.session.getAsyncRemote().sendBinary(ByteBuffer.wrap(Objects.requireNonNull(MessageHandler.serialize(message))));
 	}
 
 	/**
@@ -162,7 +166,7 @@ public class SS5WebSocketClient {
 	 *
 	 * @return the messages
 	 */
-	public Queue<String> getMessages() {
+	public Queue<Object> getMessages() {
 		return messages;
 	}
 
@@ -171,7 +175,7 @@ public class SS5WebSocketClient {
 	 *
 	 * @param messages the messages
 	 */
-	public void setMessages(Queue<String> messages) {
+	public void setMessages(Queue<Object> messages) {
 		this.messages = messages;
 	}
 

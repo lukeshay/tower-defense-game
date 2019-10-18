@@ -81,11 +81,11 @@ public class Queue<T> {
 			s.append(n.val.toString());
 
 			if (n.next != null) {
-				s.append(", ");
+				s.append(", \n");
 			}
 		}
 
-		s.append("]");
+		s.append("]\n");
 
 		return s.toString();
 	}
