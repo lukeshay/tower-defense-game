@@ -1,6 +1,7 @@
 package com.example.towerDefender.Game;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 
 import com.example.towerDefender.Game.Sprite;
 
@@ -10,6 +11,15 @@ public class Character extends Sprite {
 
     public Character(Bitmap bitmap, int xPos, int yPos){
         super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
+    }
+
+    public Character(Bitmap bitmap, int xPos, int yPos, boolean friendly){
+        super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
+        if(!friendly){
+            Matrix matrix = new Matrix();
+            matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
+            image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+        }
     }
 
     @Override
