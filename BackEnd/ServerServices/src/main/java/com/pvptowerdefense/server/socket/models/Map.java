@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.socket.models;
 
-import java.lang.reflect.Array;
+import shared.PlayedCard;
+
 import java.util.*;
 
 public class Map {
@@ -41,7 +42,7 @@ public class Map {
     }
 
     public List<PlayedCard> getCards() {
-        List<PlayedCard> total = new ArrayList<PlayedCard>();
+        List<PlayedCard> total = new ArrayList<>();
         total.addAll(cardsP1);
         total.addAll(cardsP2);
         return total;
@@ -49,12 +50,15 @@ public class Map {
 
     public void addCard(PlayedCard card){
         if(card.getPlayer().equals(player1)){
+            System.out.println("1");
             cardsP1.add(card);
         }
         else if(card.getPlayer().equals(player2)){
+            System.out.println("2");
             cardsP2.add(card);
         }
         else { // do nothing
+            System.out.println("none");
         }
     }
 
@@ -101,7 +105,7 @@ public class Map {
                     }
                 }
                 if(!attack){
-                    p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+                    p1Cards.setxValue(p1Cards.getxValue() + p1Cards.getSpeed());
                 }
             }
             for (PlayedCard p2Cards : cardsP2) {
@@ -114,7 +118,7 @@ public class Map {
                     }
                 }
                 if(!attack){
-                    p2Cards.setXValue(p2Cards.getXValue() + p2Cards.getSpeed());
+                    p2Cards.setxValue(p2Cards.getxValue() + p2Cards.getSpeed());
                 }
             }
             for(PlayedCard p1 : cardsP1){
@@ -138,7 +142,7 @@ public class Map {
                     }
                 }
                 if(!attack){
-                    p1Cards.setXValue(p1Cards.getXValue() + p1Cards.getSpeed());
+                    p1Cards.setxValue(p1Cards.getxValue() + p1Cards.getSpeed());
                 }
             }
             for (PlayedCard p2Cards : cardsP2) {
@@ -150,7 +154,7 @@ public class Map {
                     }
                 }
                 if(!attack){
-                    p2Cards.setXValue(p2Cards.getXValue() + p2Cards.getSpeed());
+                    p2Cards.setxValue(p2Cards.getxValue() + p2Cards.getSpeed());
                 }
             }
         }
@@ -167,11 +171,10 @@ public class Map {
     }
 
     private double distance(PlayedCard card1, PlayedCard card2){
-        int x = card1.getXValue() - card2.getXValue();
-        int y = card1.getYValue() - card2.getYValue();
+        int x = card1.getxValue() - card2.getxValue();
+        int y = card1.getyValue() - card2.getyValue();
         int xSquare = (int) Math.pow(x, 2);
         int ySquare = (int) Math.pow(y, 2);
-        double sqrt = Math.sqrt(xSquare + ySquare);
-        return sqrt;
+        return Math.sqrt(xSquare + ySquare);
     }
 }

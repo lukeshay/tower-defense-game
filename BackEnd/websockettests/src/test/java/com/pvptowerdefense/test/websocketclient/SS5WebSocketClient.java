@@ -3,11 +3,13 @@ package com.pvptowerdefense.test.websocketclient;
 import com.pvptowerdefense.test.queue.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shared.PlayedCard;
 
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -69,7 +71,12 @@ public class SS5WebSocketClient {
 	@OnMessage
 	public void onMessage(byte[] message) {
 		logger.info("Message " + id);
-		messages.enqueue(Objects.requireNonNull(MessageHandler.deserialize(message)).toString());
+		messages.enqueue(Objects.requireNonNull(Message.deserialize(message)));
+	}
+
+	@OnMessage
+	public void onTextMessage(String message) {
+
 	}
 
 	/**
@@ -90,7 +97,7 @@ public class SS5WebSocketClient {
 	 * @param throwable the throwable
 	 */
 	@OnError
-	public void onError(Session session, Throwable throwable) throws IOException {
+	public void onError(Session session, Throwable throwable) {
 		messages.enqueue(String.format("Error: %s",
 				throwable.getMessage()));
 	}
@@ -101,7 +108,7 @@ public class SS5WebSocketClient {
 	 * @param message the message
 	 */
 	public void sendMessage(Object message) throws IOException {
-		this.session.getAsyncRemote().sendBinary(ByteBuffer.wrap(Objects.requireNonNull(MessageHandler.serialize(message))));
+		this.session.getAsyncRemote().sendBinary(ByteBuffer.wrap(Objects.requireNonNull(Message.serialize(message))));
 	}
 
 	/**

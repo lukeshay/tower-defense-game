@@ -50,10 +50,8 @@ public class SocketHandler {
 			sessionAndId.put(session, id);
 
 			if (idAndSession.size() % 2 == 1) {
-				session.getAsyncRemote().sendBinary(
-						Messages.serializeToByteBuffer(
-								Messages.connectedTrueMatchUpFalse()
-						)
+				session.getAsyncRemote().sendText(
+					Messages.connectedTrueMatchUpFalse().toString()
 				);
 			}
 			else {
@@ -67,16 +65,12 @@ public class SocketHandler {
 						matchUpList.add(new MatchUp(id, session, otherId,
 								otherSession));
 
-						otherSession.getAsyncRemote().sendBinary(
-								Messages.serializeToByteBuffer(
-										Messages.connectedTrueMatchUpTrue(id)
-								)
+						otherSession.getAsyncRemote().sendText(
+							Messages.connectedTrueMatchUpTrue(id).toString()
 						);
 
-						session.getAsyncRemote().sendBinary(
-								Messages.serializeToByteBuffer(
-										Messages.connectedTrueMatchUpTrue(otherId)
-								)
+						session.getAsyncRemote().sendText(
+								Messages.connectedTrueMatchUpTrue(id).toString()
 						);
 					}
 				}
@@ -95,8 +89,10 @@ public class SocketHandler {
 	@OnMessage
 	public void onMessage(Session session, byte[] bytes) {
 		CompletableFuture.runAsync(() -> {
+			logger.info("Message received.");
 			MatchUp matchup = findMatchUp(session);
 			if (matchup != null) {
+				logger.info("Match up found.");
 				matchup.sendMessage(session, bytes);
 			}
 		});

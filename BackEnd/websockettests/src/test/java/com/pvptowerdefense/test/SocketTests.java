@@ -3,9 +3,9 @@ package com.pvptowerdefense.test;
 import com.pvptowerdefense.test.websocketclient.SS5WebSocketClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import shared.PlayedCard;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class SocketTests {
 	@Test
@@ -53,5 +53,24 @@ public class SocketTests {
 				() -> Assertions.assertTrue(webSocket3.isClosed()),
 				() -> Assertions.assertTrue(webSocket4.isClosed())
 		);
+	}
+
+	@Test
+	public void sendCardTest() throws InterruptedException, IOException {
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
+		System.out.println(webSocket1.getMessages().toString());
+		System.out.println(webSocket2.getMessages().toString());
+
+		webSocket1.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+				"UNIT", 150, 300, 100, "1"));
+		webSocket2.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+				"UNIT", 150, 300, 100, "2"));
+		Thread.sleep(1500);
+		System.out.println(webSocket1.getMessages().toString());
+		System.out.println(webSocket2.getMessages().toString());
+
+		webSocket1.close();
+		webSocket2.close();
 	}
 }
