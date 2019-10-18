@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.R;
-import com.example.towerDefender.SocketServices.WebSocketClientConnection;
+//import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class GameManager {
     private List<Character> characters;
     private Turret[] turrets;
     private boolean isPlayingCard;
-    private WebSocketClientConnection socketConnection;
+    //private WebSocketClientConnection socketConnection;
 
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;

@@ -27,7 +27,7 @@ public class Socket  {
 
         try {
             System.out.println("Socket: " + "Trying socket");
-            cc = new WebSocketClient(new URI(String.format(w,"123")),(Draft) drafts[0]) {
+            cc = new WebSocketClient(new URI(String.format(w,"1234")),(Draft) drafts[0]) {
                 @Override
                 public void onMessage(String message) {
                    System.out.println( "run() returned: " + message);

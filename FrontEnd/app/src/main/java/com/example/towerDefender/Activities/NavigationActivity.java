@@ -19,7 +19,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     public void launchMultiplayer(View view){
-        Intent intent = new Intent(this, test.class);
+        Intent intent = new Intent(this, MultiplayerGameActivity.class);
         startActivity(intent);
     }
 
