@@ -7,6 +7,10 @@ import com.example.towerDefender.VolleyServices.JsonUtils;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.Objects;
+
 
 @ClientEndpoint
 public class WebSocketClientConnection {
@@ -51,10 +55,17 @@ public class WebSocketClientConnection {
      * @param message the message
      */
     @OnMessage
-    public void onMessage(String message) {
-        messages.enqueue(String.format("Message: %s", message));
-        System.out.println(message);
+    public void onMessage(byte[] message) {
+        messages.enqueue((String)Message.deserialize(message));
     }
+
+    @OnMessage
+    public void onTextMessage(String message) {
+        messages.enqueue(message);
+        System.out.println(this.id + ": " + message);
+    }
+
+
 
     /**
      * On close.
@@ -86,7 +97,6 @@ public class WebSocketClientConnection {
      */
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
-        this.session.getBasicRemote().getSendWriter().write(message);
     }
 
     /**
