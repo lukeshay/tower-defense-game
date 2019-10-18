@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.SocketServices.Socket;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 import com.example.towerDefender.SocketServices.SocketListener;
@@ -38,7 +39,6 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-
         VolleyUtilities.getRequest(this.getApplicationContext(), CardRestServices.BASE_URL, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -48,18 +48,18 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @Override
             public void onResponse(Object response) {
                 startGame(new ArrayList<>(JsonUtils.jsonToCardArray(response.toString())));
-
             }
         });
     }
     public void startGame(ArrayList<Card> cards){
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
+        final GameView gameView = new GameView(ctx, new Player(ctx, passed));
         SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s", new SocketListener() {
             @Override
             public void onMessage(String message) {
-                System.out.println(message);
-                SocketUtilities.sendMessage("hey nerd");
+                gameView.getManager().sendMessage(message);
+                SocketUtilities.sendMessage("hey nerd yourself");
             }
 
             @Override
@@ -68,7 +68,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                     MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            setContentView(new GameView(ctx, new Player(ctx, passed)));
+                            setContentView(gameView);
                         }
                     });
 

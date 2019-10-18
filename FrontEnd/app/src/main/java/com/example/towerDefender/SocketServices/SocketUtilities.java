@@ -13,20 +13,56 @@ import java.net.URI;
 import static android.provider.Settings.Secure.ANDROID_ID;
 
 public class SocketUtilities {
-    private static WebSocketClient cc;
+    private static WebSocketClient webSocketClient;
 
     private static boolean initalized = false;
 
+    /**
+     * Sends the provided message over the socket.
+     * @param message the message to send
+     */
     public static void sendMessage(String message){
         if(initalized) {
-            cc.send(message);
+            webSocketClient.send(message);
         }
     }
+
+    /**
+     * @return true if socket connection is open
+     */
+    public static boolean isOpen(){
+        if(initalized){
+            return webSocketClient.isOpen();
+        } else{
+            return false;
+        }
+    }
+
+    /**
+     * Closes the socket connection.
+     */
+    public static void closeSocket(){
+        if(initalized){
+            webSocketClient.close();
+        }
+    }
+
+    /**
+     * @return true if the socket connection is closed
+     */
+    public static boolean isClosed(){
+        if(initalized){
+            return webSocketClient.isClosed();
+        } else{
+            return true;
+        }
+    }
+
 
     public static void connect(Context context, String url, final SocketListener listener) {
         Draft[] drafts = {new Draft_6455()};
         try {
-            cc = new WebSocketClient(new URI(String.format(url, Settings.Secure.getString(context.getContentResolver(), ANDROID_ID))), (Draft) drafts[0]) {
+            webSocketClient = new WebSocketClient(new URI(String.format(url, Settings.Secure.getString(context.getContentResolver(), ANDROID_ID))), (Draft) drafts[0]) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     initalized = true;
@@ -49,7 +85,7 @@ public class SocketUtilities {
                     listener.onError(e);
                 }
             };
-            cc.connect();
+            webSocketClient.connect();
         } catch(Exception e){e.printStackTrace();}
     }
 

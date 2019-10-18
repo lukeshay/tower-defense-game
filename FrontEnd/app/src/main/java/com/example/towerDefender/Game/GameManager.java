@@ -2,10 +2,14 @@ package com.example.towerDefender.Game;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.R;
+import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
@@ -15,16 +19,19 @@ import java.util.List;
  * The GameManager handles all the {@link Player}s and {@link Character}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
+    public static GameManager instance;
     private GameView gameView;
     private Player player;
     private List<Character> characters;
     private Turret[] turrets;
     private boolean isPlayingCard;
+    private String lastMessage;
     //private WebSocketClientConnection socketConnection;
 
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     public GameManager(GameView gameView, Player player){
+        instance = this;
         this.gameView = gameView;
         this.player = player;
         characters = new ArrayList<>();
@@ -33,7 +40,9 @@ public class GameManager {
         initializeDeck();
         turrets = new Turret[6];
         initializeTurrets(turrets);
-        socketConnection = new WebSocketClientConnection(this.player.getUserId());
+        SocketUtilities.sendMessage("hello from the game manager");
+        lastMessage = "hello";
+//        socketConnection = new WebSocketClientConnection(this.player.getUserId());
     }
 
     //For testing purposes only!
@@ -44,6 +53,10 @@ public class GameManager {
         isPlayingCard = false;
         cardToPlayIndex = 0;
         initializeDeck();
+    }
+
+    public boolean isInitialized(){
+        return instance != null;
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -73,6 +86,9 @@ public class GameManager {
         for(CardInHand card : player.getHand()){
             card.draw(canvas);
         }
+        Paint textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(50);
+        canvas.drawText(lastMessage, Sprite.screenWidth / 2, Sprite.screenHeight / 2, textPaint);
 
     }
 
@@ -123,11 +139,11 @@ public class GameManager {
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        //if(player.hand[cardToPlayIndex].getCard().getCardType() == Card.CardType.UNIT){
+        SocketUtilities.sendMessage(JsonUtils.cardtoJson(player.getCardInHand(cardToPlayIndex).getCard()).toString());
         this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
         player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
         player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
-        socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId());
+        //socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId());
     }
 
     /**
@@ -165,5 +181,11 @@ public class GameManager {
                 R.drawable.enemy_tower),Sprite.screenWidth - 450, Sprite.screenHeight / 4 - 150);
         turrets[5] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
                 R.drawable.enemy_tower), Sprite.screenWidth - 450, 3 * Sprite.screenHeight / 4 - 150);
+    }
+
+    public void sendMessage(String message){
+        //do nothing
+        lastMessage = message;
+        System.out.println(message);
     }
 }
