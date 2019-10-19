@@ -16,35 +16,31 @@ import com.example.towerDefender.VolleyServices.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
- * The GameManager handles all the {@link Player}s and {@link Character}s for the {@link GameView} to streamline code.
+ * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
     public static GameManager instance;
     private GameView gameView;
     private Player player;
-    private List<Character> characters;
+    private List<GameObjectSprite> gameObjectSprites;
     private Turret[] turrets;
+    //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
-    private String lastMessage;
-    //private WebSocketClientConnection socketConnection;
-
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
+
     public GameManager(GameView gameView, Player player){
         instance = this;
         this.gameView = gameView;
         this.player = player;
-        characters = new ArrayList<>();
+        gameObjectSprites = new ArrayList<>();
         isPlayingCard = false;
         cardToPlayIndex = 0;
         initializeDeck();
-        turrets = new Turret[6];
-        initializeTurrets(turrets);
+        initializeTurrets();
         SocketUtilities.sendMessage("hello from the game manager");
-        lastMessage = "hello";
 //        socketConnection = new WebSocketClientConnection(this.player.getUserId());
     }
 
@@ -52,7 +48,7 @@ public class GameManager {
     public GameManager(){
         this.gameView = null;
         this.player = new Player(null, new ArrayList<Card>());
-        characters = new ArrayList<>();
+        gameObjectSprites = new ArrayList<>();
         isPlayingCard = false;
         cardToPlayIndex = 0;
         initializeDeck();
@@ -75,7 +71,7 @@ public class GameManager {
     }
 
     /**
-     * Draws the {@link Character}s and {@link CardInHand}s on the provided canvas
+     * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
@@ -83,33 +79,29 @@ public class GameManager {
             turret.draw(canvas);
         }
         player.draw(canvas);
-        for(Character sprite : characters){
+        for(GameObjectSprite sprite : gameObjectSprites){
             sprite.draw(canvas);
         }
         for(CardInHand card : player.getHand()){
             card.draw(canvas);
         }
-        Paint textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(50);
-        canvas.drawText(lastMessage, Sprite.screenWidth / 2, Sprite.screenHeight / 2, textPaint);
-
     }
 
     /**
-     * Adds a {@link Character} to manage
-     * @param character the {@link Character} to add
+     * Adds a {@link GameObjectSprite} to manage
+     * @param gameObjectSprite the {@link GameObjectSprite} to add
      */
-    public void addCharacter(Character character){
-        characters.add(character);
+    public void addCharacter(GameObjectSprite gameObjectSprite){
+        gameObjectSprites.add(gameObjectSprite);
     }
 
     /**
-     * Updates the {@link Character}s and {@link CardInHand}s.
+     * Updates the {@link GameObjectSprite}s and {@link CardInHand}s.
      */
     public void update(){
         player.update();
-        for(Character character : characters){
-            character.update();
+        for(GameObjectSprite gameObjectSprite : gameObjectSprites){
+            gameObjectSprite.update();
         }
         for(CardInHand card :  getPlayer().getHand()){
             card.update();
@@ -143,7 +135,7 @@ public class GameManager {
      */
     public void playCard(int eventX, int eventY){
         SocketUtilities.sendMessage(JsonUtils.cardtoJson(player.getCardInHand(cardToPlayIndex).getCard()).toString());
-        this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
+        this.addCharacter(new GameObjectSprite(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
         player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
         player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         //socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId());
@@ -171,7 +163,8 @@ public class GameManager {
 
     }
 
-    public void initializeTurrets(Turret[] turrets){
+    public void initializeTurrets(){
+        turrets = new Turret[6];
         turrets[0] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
                 R.drawable.friendly_tower), 50, Sprite.screenHeight / 2 - 150);
         turrets[1] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
@@ -191,12 +184,10 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        //do nothing
-        lastMessage = message;
         Log.d("SOCKET_MESSAGE", message);
         //if(message.matches("\\{\"description\":.*,\"name\":.*,\"cost\":\\d+,\"damage\":\\d+,\"hitPoints\":\\d+,\"range\":\\d+,\"speed\":\\d+,\"type\":\".*\"}")){
         try{
-            characters.add((Character)CardUtilities.getBitmapForCard(this.player.getPlayerContext(), JsonUtils.jsonToCard(message)));
+            gameObjectSprites.add((GameObjectSprite)CardUtilities.getGameObjectSpriteForCard(this.player.getPlayerContext(), JsonUtils.jsonToCard(message), 0, 0));
         } catch(Exception e){
             // do nothing, the message was likely not a card
         }

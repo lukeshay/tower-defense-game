@@ -7,13 +7,13 @@ import com.example.towerDefender.Game.Sprite;
 
 import java.util.Random;
 
-public class Character extends Sprite {
+public class GameObjectSprite extends Sprite {
 
-    public Character(Bitmap bitmap, int xPos, int yPos){
+    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos){
         super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
     }
 
-    public Character(Bitmap bitmap, int xPos, int yPos, boolean friendly){
+    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean friendly){
         super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
         if(!friendly){
             Matrix matrix = new Matrix();

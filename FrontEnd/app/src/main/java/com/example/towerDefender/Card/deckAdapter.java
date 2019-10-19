@@ -3,8 +3,6 @@ package com.example.towerDefender.Card;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -49,7 +46,7 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
         holder.mTextView.setText(mDataSet.get(position).cardName);
-        holder.mCardView.setImageBitmap(CardUtilities.getBitmapForCard(mContext, mDataSet.get(position)).image);
+        holder.mCardView.setImageBitmap(CardUtilities.getGameObjectSpriteForCard(mContext, mDataSet.get(position), 0, 0).image);
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(5);
