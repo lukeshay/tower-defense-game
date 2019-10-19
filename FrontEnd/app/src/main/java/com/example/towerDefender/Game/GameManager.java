@@ -188,11 +188,11 @@ public class GameManager {
      */
     public void passMessageToManager(String message){
         Log.d("SOCKET_MESSAGE", message);
-        //if(message.matches("\\{\"description\":.*,\"name\":.*,\"cost\":\\d+,\"damage\":\\d+,\"hitPoints\":\\d+,\"range\":\\d+,\"speed\":\\d+,\"type\":\".*\"}")){
-        try{
-            gameObjectSprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), JsonUtils.jsonToCard(message), 0, 0));
-        } catch(Exception e){
-            // do nothing, the message was likely not a card
+        try {
+            PlayedCard playedCard = JsonUtils.playedCardFromJson(message);
+            gameObjectSprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+        } catch (Exception e){
+            Log.e("ERROR", "Could not parse the message to game manager into a played card");
         }
     }
 
