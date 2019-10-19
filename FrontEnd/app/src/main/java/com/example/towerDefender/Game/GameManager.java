@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
@@ -192,8 +193,7 @@ public class GameManager {
     public void passMessageToManager(String message){
         //do nothing
         lastMessage = message;
-        //TODO: add logging instead of print statements
-        System.out.println(message);
+        Log.d("SOCKET_MESSAGE", message);
         //if(message.matches("\\{\"description\":.*,\"name\":.*,\"cost\":\\d+,\"damage\":\\d+,\"hitPoints\":\\d+,\"range\":\\d+,\"speed\":\\d+,\"type\":\".*\"}")){
         try{
             characters.add((Character)CardUtilities.getBitmapForCard(this.player.getPlayerContext(), JsonUtils.jsonToCard(message)));

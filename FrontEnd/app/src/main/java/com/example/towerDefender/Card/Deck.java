@@ -1,6 +1,7 @@
 package com.example.towerDefender.Card;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.Player;
@@ -67,7 +68,7 @@ public class Deck {
         VolleyUtilities.getRequest(context, CardRestServices.BASE_URL, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                System.out.println("encountered an error while grabbing cards from database. " + message);
+                Log.e("ERROR", "Encountered an error while grabbing cards from database. " + message);
             }
 
             @Override

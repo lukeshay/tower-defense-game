@@ -1,6 +1,7 @@
 package com.example.towerDefender.VolleyServices;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.VolleyServices.JsonUtils;
@@ -28,7 +29,7 @@ public class CardRestServices {
             @Override
             public void onError(String message) {
                 //TODO: handle error
-                System.out.println("Encountered an error while sending card to the database. " + message);
+                Log.e("ERROR", "Encountered an error while sending card to the database. " + message);
             }
 
             @Override
@@ -44,7 +45,7 @@ public class CardRestServices {
             Collection<Card> cards;
             @Override
             public void onError(String message) {
-                System.out.println("encountered an error while grabbing cards from database. " + message);
+                Log.e("ERROR", "encountered an error while grabbing cards from database. " + message);
             }
 
             @Override
@@ -74,13 +75,9 @@ public class CardRestServices {
 
         } catch(Exception e){
             //TODO: Handle exception
-            System.out.println("Encountered error: " + e.getMessage());
+            Log.e("ERROR", "Encountered error: " + e.getMessage());
             return null;
         }
-
-    }
-
-    public static void getCardByName1(){
 
     }
 
@@ -100,22 +97,12 @@ public class CardRestServices {
                 response.append(input);
             }
             in.close();
-            //System.out.println(response.toString()); log
             return JsonUtils.jsonToCard(response.toString());
         } catch(Exception e){
             //Handle exception
-            System.out.println("Encountered error");
+            Log.e("ERROR", "Encountered error getting card by name from database.");
             return null;
         }
     }
-
-    public static void main(String[] args){
-        //Test connections
-        Card card = getCardByName("Card 1");
-        System.out.println("Card title: " + card.cardName);
-        System.out.println("List of all cards: ");
-    }
-
-
 
 }

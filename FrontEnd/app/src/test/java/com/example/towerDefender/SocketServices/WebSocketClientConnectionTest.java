@@ -1,5 +1,7 @@
 package com.example.towerDefender.SocketServices;
 
+import android.util.Log;
+
 import junit.framework.TestCase;
 
 import org.java_websocket.handshake.ServerHandshake;
@@ -14,23 +16,24 @@ public class WebSocketClientConnectionTest extends TestCase {
 
             @Override
             public void onMessage(String message) {
-                System.out.println("got a message: " + message);
+                Log.i("SOCKET_MESSAGE", "Got a message: " + message);
                 SocketUtilities.setLastMessage(message);
             }
 
             @Override
             public void onOpen(ServerHandshake handshake) {
-                System.out.println("opened");
+                Log.i("SOCKET_MESSAGE", "opened connection");
             }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                System.out.println("closed");
+                Log.i("SOCKET_MESSAGE", "closed connection");
             }
 
             @Override
             public void onError(Exception e) {
-                System.out.println("error");
+                Log.e("ERROR", "Encountered an exception: " + e.getMessage());
+                e.printStackTrace();
             }
 
         });

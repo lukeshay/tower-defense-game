@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -22,6 +23,7 @@ import com.example.towerDefender.VolleyServices.VolleyUtilities;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
@@ -36,7 +38,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         VolleyUtilities.getRequest(this.getApplicationContext(), CardRestServices.BASE_URL, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                System.out.println("encountered an error while grabbing cards from database. " + message);
+                Log.e("ERROR", "Encountered an error while grabbing cards from database. " + message);
             }
 
             @Override
@@ -49,7 +51,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
         final GameView gameView = new GameView(ctx, new Player(ctx, passed));
-        SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s1", new SocketListener() {
+        SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s" + new Random().nextInt(5), new SocketListener() {
             @Override
             public void onMessage(String message) {
                 gameView.getManager().passMessageToManager(message);
