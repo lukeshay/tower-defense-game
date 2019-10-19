@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.SocketServices.Message;
 import com.example.towerDefender.SocketServices.SocketListener;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.CardRestServices;
@@ -23,6 +24,8 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
@@ -50,10 +53,22 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
         final GameView gameView = new GameView(ctx, new Player(ctx, passed));
+        //TODO: get rid of random int added on. This is just for testing
         SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s" + new Random().nextInt(5), new SocketListener() {
+            @OnMessage
             @Override
             public void onMessage(String message) {
                 gameView.getManager().passMessageToManager(message);
+            }
+
+            @OnMessage
+            public void onMessage(byte[] message){
+                try{
+                    gameView.getManager().updateList(Message.deserializeToList(message));
+                } catch(Exception e){
+                    Log.e("ERROR", "error deserializing list");
+                }
+
             }
 
             @Override

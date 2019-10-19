@@ -10,11 +10,11 @@ import java.util.Random;
 public class GameObjectSprite extends Sprite {
 
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos){
-        super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
+        super(bitmap, xPos, yPos, 15, new Random().nextInt(15));
     }
 
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean friendly){
-        super(bitmap, xPos, yPos, 15, new Random().nextInt() % 15);
+        super(bitmap, xPos, yPos, 15, new Random().nextInt(15));
         if(!friendly){
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);

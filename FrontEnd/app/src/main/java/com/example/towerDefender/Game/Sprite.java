@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 public abstract class Sprite {
     public Bitmap image;
     public int xStart, yStart, xEnd, yEnd;
+    //TODO: get rid of velocities altogether, only updating position when server updates card list
     protected float xVel, yVel;
     protected static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     protected static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;

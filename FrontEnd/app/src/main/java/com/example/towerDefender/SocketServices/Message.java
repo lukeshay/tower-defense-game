@@ -2,7 +2,10 @@ package com.example.towerDefender.SocketServices;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
+
+import shared.PlayedCard;
 
 public class Message {
     public static byte[] serialize(Object obj) throws IOException {
@@ -26,4 +29,11 @@ public class Message {
             return null;
         }
     }
+
+    public static List<PlayedCard> deserializeToList(byte[] data) throws IOException, ClassNotFoundException {
+        ObjectInputStream ois =
+                new ObjectInputStream(new ByteArrayInputStream(data));
+        return (ArrayList<PlayedCard>) ois.readObject();
+    }
+
 }

@@ -17,6 +17,8 @@ import com.example.towerDefender.VolleyServices.JsonUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import shared.PlayedCard;
+
 /**
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
@@ -25,6 +27,7 @@ public class GameManager {
     private GameView gameView;
     private Player player;
     private List<GameObjectSprite> gameObjectSprites;
+    private List<PlayedCard> playedCards;
     private Turret[] turrets;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
@@ -41,7 +44,7 @@ public class GameManager {
         initializeDeck();
         initializeTurrets();
         SocketUtilities.sendMessage("hello from the game manager");
-//        socketConnection = new WebSocketClientConnection(this.player.getUserId());
+        playedCards = new ArrayList<>();
     }
 
     //For testing purposes only!
@@ -134,7 +137,7 @@ public class GameManager {
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        SocketUtilities.sendMessage(JsonUtils.cardtoJson(player.getCardInHand(cardToPlayIndex).getCard()).toString());
+        SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId())).toString());
         this.addCharacter(new GameObjectSprite(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
         player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
         player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
@@ -187,9 +190,18 @@ public class GameManager {
         Log.d("SOCKET_MESSAGE", message);
         //if(message.matches("\\{\"description\":.*,\"name\":.*,\"cost\":\\d+,\"damage\":\\d+,\"hitPoints\":\\d+,\"range\":\\d+,\"speed\":\\d+,\"type\":\".*\"}")){
         try{
-            gameObjectSprites.add((GameObjectSprite)CardUtilities.getGameObjectSpriteForCard(this.player.getPlayerContext(), JsonUtils.jsonToCard(message), 0, 0));
+            gameObjectSprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), JsonUtils.jsonToCard(message), 0, 0));
         } catch(Exception e){
             // do nothing, the message was likely not a card
         }
     }
+
+    /**
+     * Updates the list of {@link PlayedCard}s.
+     * @param playedCards the list of played cards
+     */
+    public void updateList(List<PlayedCard> playedCards){
+        this.playedCards = playedCards;
+    }
+
 }

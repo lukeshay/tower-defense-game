@@ -9,8 +9,11 @@ import com.example.towerDefender.Game.Player;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
+
+import shared.PlayedCard;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,5 +34,21 @@ public class JsonUtilsTests extends TestCase {
         deck = new Deck(player, context, new ArrayList<Card>());
         deck.setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response)));
         Assert.assertTrue(deck.size() == 5);
+    }
+
+    public void testJsonFromPlayedCard(){
+        try{
+            Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
+            PlayedCard playedCard = new PlayedCard(card, 5, 15, "test Player");
+            Assert.assertNotNull(playedCard);
+            Assert.assertNotNull(JsonUtils.playedCardToJson(playedCard));
+        } catch(Exception e){
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    public void testPlayedCardFromJson(){
+        //TODO
     }
 }

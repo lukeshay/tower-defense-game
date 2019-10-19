@@ -12,6 +12,7 @@ import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 public class CardUtilities {
 
     /**
+     * Returns a sprite representing the provided card at the provided location.
      * @param context the game context, used for getting resources
      * @param card the card to construct the gameObjectSprite from
      * @param x the x position of the sprite
@@ -35,4 +36,31 @@ public class CardUtilities {
         toReturn.yEnd = toReturn.yStart + normalizedInventorySize;
         return toReturn;
     }
+
+    /**
+     * Returns a flipped version of the expected sprite for a given card. Used for cards played by opponent
+     * @param context the game context, used for getting resources
+     * @param card the card to construct the gameObjectSprite from
+     * @param x the x position of the sprite
+     * @param y the y position of the sprite
+     * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
+     */
+    public static GameObjectSprite getEnemySprite(Context context, Card card, int x, int y){
+        GameObjectSprite toReturn;
+        switch(card.cardName){
+            case "Card 1":
+                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y, false);
+                break;
+            case "Card 2":
+                toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);
+                break;
+            default:
+                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
+        }
+        toReturn.image = Bitmap.createScaledBitmap(toReturn.image, normalizedInventorySize, normalizedInventorySize, false);
+        toReturn.xEnd = toReturn.xStart + normalizedInventorySize;
+        toReturn.yEnd = toReturn.yStart + normalizedInventorySize;
+        return toReturn;
+    }
+
 }
