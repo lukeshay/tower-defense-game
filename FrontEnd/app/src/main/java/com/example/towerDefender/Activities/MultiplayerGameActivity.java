@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.Game.GameManager;
-import com.example.towerDefender.SocketServices.Socket;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 import com.example.towerDefender.SocketServices.SocketListener;
 import com.example.towerDefender.SocketServices.SocketUtilities;
@@ -26,8 +22,6 @@ import com.example.towerDefender.VolleyServices.VolleyUtilities;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
-
-import static android.provider.Settings.Secure.ANDROID_ID;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
@@ -55,11 +49,10 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
         final GameView gameView = new GameView(ctx, new Player(ctx, passed));
-        SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s", new SocketListener() {
+        SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s1", new SocketListener() {
             @Override
             public void onMessage(String message) {
-                gameView.getManager().sendMessage(message);
-                SocketUtilities.sendMessage("hey nerd yourself");
+                gameView.getManager().passMessageToManager(message);
             }
 
             @Override

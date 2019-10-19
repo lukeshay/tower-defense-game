@@ -7,6 +7,7 @@ import android.graphics.Paint;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.Card.CardUtilities;
 import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
@@ -14,6 +15,7 @@ import com.example.towerDefender.VolleyServices.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * The GameManager handles all the {@link Player}s and {@link Character}s for the {@link GameView} to streamline code.
@@ -183,9 +185,20 @@ public class GameManager {
                 R.drawable.enemy_tower), Sprite.screenWidth - 450, 3 * Sprite.screenHeight / 4 - 150);
     }
 
-    public void sendMessage(String message){
+    /**
+     * Sends a message to the game manager
+     * @param message the message to send to the game manager
+     */
+    public void passMessageToManager(String message){
         //do nothing
         lastMessage = message;
+        //TODO: add logging instead of print statements
         System.out.println(message);
+        //if(message.matches("\\{\"description\":.*,\"name\":.*,\"cost\":\\d+,\"damage\":\\d+,\"hitPoints\":\\d+,\"range\":\\d+,\"speed\":\\d+,\"type\":\".*\"}")){
+        try{
+            characters.add((Character)CardUtilities.getBitmapForCard(this.player.getPlayerContext(), JsonUtils.jsonToCard(message)));
+        } catch(Exception e){
+            // do nothing, the message was likely not a card
+        }
     }
 }
