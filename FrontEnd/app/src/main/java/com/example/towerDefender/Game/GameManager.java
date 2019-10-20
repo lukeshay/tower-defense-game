@@ -150,6 +150,7 @@ public class GameManager {
     public void passMessageToManager(String message){
         if(System.currentTimeMillis() - lastUpdate >= 1000){
             lastUpdate = System.currentTimeMillis();
+            gameObjectSprites.clearSprites();
             //Update once a second
             Log.d("SOCKET_INCOMING", message);
             if(message.contains("connected=true")){
