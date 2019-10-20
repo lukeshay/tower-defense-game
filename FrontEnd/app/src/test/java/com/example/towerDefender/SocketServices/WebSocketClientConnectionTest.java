@@ -16,23 +16,23 @@ public class WebSocketClientConnectionTest extends TestCase {
 
             @Override
             public void onMessage(String message) {
-                Log.i("SOCKET_MESSAGE", "Got a message: " + message);
+                System.out.println("Got a message: " + message);
                 SocketUtilities.setLastMessage(message);
             }
 
             @Override
             public void onOpen(ServerHandshake handshake) {
-                Log.i("SOCKET_MESSAGE", "opened connection");
+                System.out.println("opened connection");
             }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                Log.i("SOCKET_MESSAGE", "closed connection");
+                System.out.println("closed connection");
             }
 
             @Override
             public void onError(Exception e) {
-                Log.e("ERROR", "Encountered an exception: " + e.getMessage());
+                System.out.println("Encountered an exception: " + e.getMessage());
                 e.printStackTrace();
             }
 

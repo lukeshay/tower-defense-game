@@ -75,9 +75,43 @@ public class JsonUtils {
      * @param json the initial json string
      * @return the {@link PlayedCard} corresponding to the json
      */
-    public static PlayedCard playedCardFromJson(String json){
+    public static PlayedCard jsonToPlayedCard(String json){
         Gson test = new Gson();
         return test.fromJson(json, PlayedCard.class);
+    }
+
+    /**
+     * Converts a json String to a collection of played cards
+     * @param json the json {@link String} to construct the {@link Collection} from
+     * @return a {@link Collection} of {@link Card}s described by the provided json
+     */
+    public static Collection<PlayedCard> jsonToPlayedCardArray(String json){
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<PlayedCard>>(){}.getType();
+        Collection<PlayedCard> cards = gson.fromJson(json, collectionType);
+        return cards;
+    }
+
+    public static Collection<PlayedCard> socketCardsToPlayedCards(String message){
+        //Convert to json format
+        String jsonMessage = message.replaceAll("=",":");
+        jsonMessage = jsonMessage.replaceAll("PlayedCard", "");
+        jsonMessage = jsonMessage.substring(1, jsonMessage.length()-1);
+        jsonMessage = "[" + jsonMessage + "]";
+        jsonMessage = jsonMessage.replaceAll("name", "\"name\"");
+        jsonMessage = jsonMessage.replaceAll("description", "\"description\"");
+        jsonMessage = jsonMessage.replaceAll("cost", "\"cost\"");
+        jsonMessage = jsonMessage.replaceAll("damage", "\"damage\"");
+        jsonMessage = jsonMessage.replaceAll("hitPoints", "\"hitPoints\"");
+        jsonMessage = jsonMessage.replaceAll("speed", "\"speed\"");
+        jsonMessage = jsonMessage.replaceAll("type", "\"type\"");
+        jsonMessage = jsonMessage.replaceAll("range", "\"range\"");
+        jsonMessage = jsonMessage.replaceAll("xValue", "\"xValue\"");
+        jsonMessage = jsonMessage.replaceAll("yValue", "\"yValue\"");
+        jsonMessage = jsonMessage.replaceAll("player", "\"player\"");
+        jsonMessage = jsonMessage.replaceAll("'", "\"");
+        Log.i("DEBUG", jsonMessage);
+        return jsonToPlayedCardArray(jsonMessage);
     }
 
 

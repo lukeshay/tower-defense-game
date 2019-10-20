@@ -2,6 +2,8 @@ package com.example.towerDefender.SocketServices;
 
 import org.java_websocket.handshake.ServerHandshake;
 
+import javax.websocket.Session;
+
 public interface SocketListener {
     void onMessage(String message);
     void onOpen(ServerHandshake handshake);

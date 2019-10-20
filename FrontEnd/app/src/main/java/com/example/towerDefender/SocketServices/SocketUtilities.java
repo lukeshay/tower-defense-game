@@ -2,6 +2,7 @@ package com.example.towerDefender.SocketServices;
 
 import android.content.Context;
 import android.provider.Settings;
+import android.util.Log;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft;
@@ -9,12 +10,13 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.util.Random;
+
 
 import static android.provider.Settings.Secure.ANDROID_ID;
 
 public class SocketUtilities {
     private static WebSocketClient webSocketClient;
-
     private static boolean initalized = false;
     //mostly just used for testing
     private static String lastMessage = "";
@@ -24,9 +26,14 @@ public class SocketUtilities {
      * @param message the message to send
      */
     public static void sendMessage(String message){
-        if(initalized) {
-            webSocketClient.send(message);
+        try {
+            if(initalized) {
+                webSocketClient.send(message);
+            }
+        } catch(Exception e){
+
         }
+
     }
 
     /**
@@ -45,7 +52,12 @@ public class SocketUtilities {
      */
     public static void closeSocket(){
         if(initalized){
-            webSocketClient.close();
+            try{
+                webSocketClient.close();
+            } catch (Exception e){
+                Log.e("ERROR", "error closing socket.");
+            }
+
         }
     }
 
@@ -69,7 +81,7 @@ public class SocketUtilities {
     public static void connect(Context context, String url, final SocketListener listener) {
         Draft[] drafts = {new Draft_6455()};
         try {
-            webSocketClient = new WebSocketClient(new URI(String.format(url, Settings.Secure.getString(context.getContentResolver(), ANDROID_ID))), (Draft) drafts[0]) {
+            webSocketClient = new WebSocketClient(new URI(String.format(url, Settings.Secure.getString(context.getContentResolver(), ANDROID_ID)) + new Random().nextInt(15)), (Draft) drafts[0]) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     initalized = true;
@@ -93,6 +105,7 @@ public class SocketUtilities {
                 }
             };
             webSocketClient.connect();
+            initalized = true;
         } catch(Exception e){e.printStackTrace();}
     }
 

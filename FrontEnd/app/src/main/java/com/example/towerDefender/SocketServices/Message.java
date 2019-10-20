@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import shared.PlayedCard;
 
@@ -35,5 +36,10 @@ public class Message {
                 new ObjectInputStream(new ByteArrayInputStream(data));
         return (ArrayList<PlayedCard>) ois.readObject();
     }
+
+    public static ByteBuffer serializeToByteBuffer(Object obj) throws IOException {
+        return ByteBuffer.wrap(Objects.requireNonNull(serialize(obj)));
+    }
+
 
 }

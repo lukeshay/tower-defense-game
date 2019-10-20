@@ -2,8 +2,6 @@ package com.example.towerDefender.Game;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
@@ -15,6 +13,7 @@ import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import shared.PlayedCard;
@@ -27,7 +26,6 @@ public class GameManager {
     private GameView gameView;
     private Player player;
     private List<GameObjectSprite> gameObjectSprites;
-    private List<PlayedCard> playedCards;
     private Turret[] turrets;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
@@ -43,18 +41,7 @@ public class GameManager {
         cardToPlayIndex = 0;
         initializeDeck();
         initializeTurrets();
-        SocketUtilities.sendMessage("hello from the game manager");
-        playedCards = new ArrayList<>();
-    }
-
-    //For testing purposes only!
-    public GameManager(){
-        this.gameView = null;
-        this.player = new Player(null, new ArrayList<Card>());
-        gameObjectSprites = new ArrayList<>();
-        isPlayingCard = false;
-        cardToPlayIndex = 0;
-        initializeDeck();
+        SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
     }
 
     public boolean isInitialized(){
@@ -137,11 +124,16 @@ public class GameManager {
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId())).toString());
-        this.addCharacter(new GameObjectSprite(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
-        player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
-        player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
-        //socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId());
+        try {
+            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId())).toString());
+            //TODO: add the character when it gets sent back from the server in gameList
+            this.addCharacter(new GameObjectSprite(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
+            player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
+            player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
+        } catch (Exception e){
+            Log.e("ERROR", "Encountered an error sending card over socket.");
+        }
+
     }
 
     /**
@@ -158,14 +150,7 @@ public class GameManager {
         return cardToPlayIndex;
     }
 
-    /**
-     * Adds the opponent's played unit to this game's units
-     */
-    //TODO: play cards from socket messages
-    public void addOpponentsCard(Card card){
-
-    }
-
+    //TODO: get turrets from server
     public void initializeTurrets(){
         turrets = new Turret[6];
         turrets[0] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(),
@@ -187,21 +172,32 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        Log.d("SOCKET_MESSAGE", message);
-        try {
-            PlayedCard playedCard = JsonUtils.playedCardFromJson(message);
-            gameObjectSprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
-        } catch (Exception e){
-            Log.e("ERROR", "Could not parse the message to game manager into a played card");
-        }
-    }
+        Log.d("SOCKET_INCOMING", message);
+        if(message.contains("connected=true")){
+            Log.i("SOCKET_INFO", "Connected.");
+        } else {
+            try {
+                //If message is not formatted yet it will be an array and contain "PlayedCard"
+                if(message.contains("PlayedCard")){
+                    Collection<PlayedCard> playedCards = JsonUtils.socketCardsToPlayedCards(message);
+                    gameObjectSprites.clear();
+                    for(PlayedCard playedCard : playedCards){
+                        if(playedCard.getPlayer().equals(this.player.getUserId()) && !playedCard.getName().contains("Tower")){
+                            gameObjectSprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                        } else if(!playedCard.getName().contains("Tower")) {
+                            gameObjectSprites.add(CardUtilities.getGameObjectSpriteForCard(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                        }
+                    }
+                } else{
+                    PlayedCard playedCard = JsonUtils.jsonToPlayedCard(message);
+                    gameObjectSprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                }
 
-    /**
-     * Updates the list of {@link PlayedCard}s.
-     * @param playedCards the list of played cards
-     */
-    public void updateList(List<PlayedCard> playedCards){
-        this.playedCards = playedCards;
+            } catch (Exception e){
+                Log.e("ERROR", e.getMessage());
+            }
+        }
+
     }
 
 }

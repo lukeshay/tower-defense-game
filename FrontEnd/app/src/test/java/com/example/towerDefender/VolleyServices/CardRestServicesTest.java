@@ -15,4 +15,9 @@ public class CardRestServicesTest extends TestCase {
         Assert.assertEquals("Card 1", card.cardName);
     }
 
+    public void testNonExistantCardByName(){
+        Card card = CardRestServices.getCardByName("this card doesn't exist");
+        Assert.assertNull(card);
+    }
+
 }
