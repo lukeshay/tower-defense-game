@@ -64,7 +64,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
-            canvas.drawRect(new Rect(450, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 450, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
+            //canvas.drawRect(new Rect(450, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 450, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
             //Manager will draw the characters and hand
             manager.draw(canvas);
         }

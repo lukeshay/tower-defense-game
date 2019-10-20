@@ -34,12 +34,13 @@ public class GameObjectSpritesHolder {
             }
             removePlayedCardByCard(playedCard.getCard(), playedCard.getPlayer());
             playedCards.add(playedCard);
-            if(playedCard.getPlayer().equals(this.player.getUserId())){// && !playedCard.getName().contains("Tower")){
+            if(!playedCard.getPlayer().contains(this.player.getUserId())){// && !playedCard.getName().contains("Tower")){
                 sprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             } else{//if(!playedCard.getName().contains("Tower")) {
                 sprites.add(CardUtilities.getGameObjectSpriteForCard(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             }
         }
+        Log.d("SPRITES_HOLDER", "SpritesHolder has " + sprites.size() + " sprites.");
     }
 
     public List<Card> getWrappedCards(){

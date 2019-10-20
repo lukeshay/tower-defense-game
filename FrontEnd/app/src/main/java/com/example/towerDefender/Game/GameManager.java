@@ -60,13 +60,14 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
+        for(CardInHand card : player.getHand()){
+            card.draw(canvas);
+        }
         player.draw(canvas);
         for(GameObjectSprite sprite : gameObjectSprites.getSprites()){
             sprite.draw(canvas);
         }
-        for(CardInHand card : player.getHand()){
-            card.draw(canvas);
-        }
+
     }
 
     /**

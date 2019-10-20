@@ -60,6 +60,7 @@ public class CardUtilities {
                 break;
             case "Tower":
                 toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, false);
+                break;
             default:
                 toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
         }
