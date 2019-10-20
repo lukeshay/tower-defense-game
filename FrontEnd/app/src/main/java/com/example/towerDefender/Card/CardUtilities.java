@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Sprite;
+import com.example.towerDefender.R;
 
 import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
@@ -27,6 +28,9 @@ public class CardUtilities {
                 break;
             case "Card 2":
                 toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
+                break;
+            case "Tower":
+                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
                 break;
             default:
                 toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
@@ -54,6 +58,8 @@ public class CardUtilities {
             case "Card 2":
                 toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);
                 break;
+            case "Tower":
+                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, false);
             default:
                 toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
         }
