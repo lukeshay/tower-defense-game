@@ -14,13 +14,13 @@ public class Map {
     private String winner;
     private int counter;
 
-    private static final int MAX_X = 2999;
-    private static final int MAX_Y = 999;
-    private static final int TOWER1_Y = 150;
-    private static final int TOWER2_Y = 250;
-    private static final int TOWER3_Y = 350;
-    private static final int TOWER1_X = 150;
-    private static final int TOWER2_X = 100;
+    private static final int MAX_X = 1920;
+    private static final int MAX_Y = 1080;
+    private static final int TOWER1_Y = MAX_Y / 2 - 150;
+    private static final int TOWER2_Y = MAX_Y / 4 - 150;
+    private static final int TOWER3_Y = 3 * TOWER2_Y;
+    private static final int TOWER1_X = 50;
+    private static final int TOWER2_X = 150;
     private static final int TOWER3_X = 150;
 
 
@@ -36,9 +36,9 @@ public class Map {
         cardsP1.add(makeTower(TOWER2_X, TOWER2_Y, userId1));
         cardsP1.add(makeTower(TOWER3_X, TOWER3_Y, userId1));
 
-        cardsP2.add(makeTower(MAX_X - TOWER1_X, TOWER1_Y, userId2));
-        cardsP2.add(makeTower(MAX_X - TOWER2_X, TOWER1_Y, userId2));
-        cardsP2.add(makeTower(MAX_X - TOWER3_X, TOWER1_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER1_X - 200, TOWER1_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER2_X - 200, TOWER1_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER3_X - 200, TOWER1_Y, userId2));
     }
 
     public List<PlayedCard> getCards() {
