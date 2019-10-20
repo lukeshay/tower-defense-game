@@ -27,16 +27,14 @@ public class Game implements Runnable {
 
 	private void sendInPlayCards() {
 		CompletableFuture.runAsync(() -> {
-			try {
-				Future<Void> deliveryProgress1 =
-						playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
-				Future<Void> deliveryProgress2 =
-						playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
-				deliveryProgress1.isDone();
-				deliveryProgress2.isDone();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Future<Void> deliveryProgress1 =
+//						playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
+			Future<Void> deliveryProgress2 =
+//						playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
+					playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
+			deliveryProgress1.isDone();
+			deliveryProgress2.isDone();
 		});
 	}
 

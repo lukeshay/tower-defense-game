@@ -89,8 +89,31 @@ public class Map {
 
     public boolean clockCycle(){
         if (counter % 60 == 0) {
-            attackMove(cardsP1, cardsP2);
-            attackMove(cardsP2, cardsP1);
+            System.out.println("attack");
+            for (PlayedCard p1Cards : cardsP1) {
+                boolean attack = false;
+                for (PlayedCard p2Cards : cardsP2) {
+                    if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && !attack) {
+                        attack = true;
+                        p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+                    }
+                }
+                if(!attack){
+                    p1Cards.setxValue(p1Cards.getxValue() + p1Cards.getSpeed());
+                }
+            }
+            for (PlayedCard p2Cards : cardsP2) {
+                boolean attack = false;
+                for (PlayedCard p1Cards : cardsP1) {
+                    if (distance(p2Cards, p1Cards) <= p2Cards.getRange() && !attack) {
+                        attack = true;
+                        p1Cards.setHitPoints(p1Cards.getHitPoints() - p2Cards.getDamage());
+                    }
+                }
+                if(!attack){
+                    p2Cards.setxValue(p2Cards.getxValue() - p2Cards.getSpeed());
+                }
+            }
             for(PlayedCard p1 : cardsP1){
                 if(p1.getHitPoints() <= 0){
                     cardsP1.remove(p1);
@@ -103,6 +126,7 @@ public class Map {
             }
         }
         else {
+            System.out.println("move");
             for (PlayedCard p1Cards : cardsP1) {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
@@ -130,21 +154,6 @@ public class Map {
 
         counter++;
         return gameState;
-    }
-
-    private void attackMove(List<PlayedCard> cardsP1, List<PlayedCard> cardsP2) {
-        for (PlayedCard p1Cards : cardsP1) {
-            boolean attack = false;
-            for (PlayedCard p2Cards : cardsP2) {
-                if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && attack == false) {
-                    p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
-                    attack = true;
-                }
-            }
-            if(!attack){
-                p1Cards.setxValue(p1Cards.getxValue() + p1Cards.getSpeed());
-            }
-        }
     }
 
     private PlayedCard makeTower(int xValue, int yValue, String player){

@@ -1,9 +1,12 @@
 package com.pvptowerdefense.server.socket.models;
 
+import shared.PlayedCard;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Messages {
 	public static Map<String, String> connectedTrueMatchUpFalse() {
@@ -86,5 +89,24 @@ public class Messages {
 
 	public static ByteBuffer serializeToByteBuffer(Object obj) throws IOException {
 		return ByteBuffer.wrap(Objects.requireNonNull(serialize(obj)));
+	}
+
+	public static String convertToJson(List<PlayedCard> list) {
+		StringBuilder sb = new StringBuilder();
+		AtomicBoolean added = new AtomicBoolean(false);
+
+		sb.append("{");
+
+		list.forEach(e -> {
+			if (added.get()) {
+				sb.append(", ");
+			}
+			sb.append(e.toString());
+			added.set(true);
+		});
+
+		sb.append("}");
+
+		return sb.toString();
 	}
 }

@@ -76,7 +76,7 @@ public class SS5WebSocketClient {
 
 	@OnMessage
 	public void onTextMessage(String message) {
-
+		messages.enqueue(message);
 	}
 
 	/**

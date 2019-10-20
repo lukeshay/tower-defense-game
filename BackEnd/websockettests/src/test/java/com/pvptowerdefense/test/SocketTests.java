@@ -66,10 +66,10 @@ public class SocketTests {
 		System.out.println(webSocket2.getMessages().toString());
 
 		webSocket1.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
-				"UNIT", 150, 2500, 100, "1"));
+				"UNIT", 150, 200, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
-				"UNIT", 150, 200, 100, "2"));
-		Thread.sleep(1000);
+				"UNIT", 150, 2500, 100, "2"));
+		Thread.sleep(2000);
 		System.out.println(webSocket1.getMessages().toString());
 		System.out.println(webSocket2.getMessages().toString());
 
