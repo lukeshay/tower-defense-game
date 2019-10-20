@@ -1,5 +1,7 @@
 package shared;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 
 /**
@@ -258,18 +260,6 @@ public class PlayedCard implements Serializable {
 
     @Override
     public String toString() {
-        return "PlayedCard{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", cost=" + cost +
-                ", damage=" + damage +
-                ", hitPoints=" + hitPoints +
-                ", speed=" + speed +
-                ", type='" + type + '\'' +
-                ", range=" + range +
-                ", xValue=" + xValue +
-                ", yValue=" + yValue +
-                ", player='" + player + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

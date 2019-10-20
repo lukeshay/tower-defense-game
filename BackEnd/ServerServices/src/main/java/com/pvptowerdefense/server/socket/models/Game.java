@@ -39,9 +39,8 @@ public class Game implements Runnable {
 	}
 
 	void handleMessage(Session session, String message) {
-		PlayedCard obj = Messages.convertJsonToCard(message);
-
-		map.addCard(obj);
+		map.addCard(Messages.convertJsonToCard(message));
+		session.getAsyncRemote().sendText(Messages.cardAdded().toString());
 	}
 
 	private void gameOver(String winner) {
