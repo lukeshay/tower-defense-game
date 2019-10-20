@@ -89,7 +89,7 @@ public class MatchUp {
 	 * @param session the session
 	 * @param message the message
 	 */
-	public void sendMessage(Session session, byte[] message) {
+	public void sendMessage(Session session, String message) {
 		game.handleMessage(session, message);
 	}
 

@@ -108,7 +108,7 @@ public class SS5WebSocketClient {
 	 * @param message the message
 	 */
 	public void sendMessage(Object message) throws IOException {
-		this.session.getAsyncRemote().sendBinary(ByteBuffer.wrap(Objects.requireNonNull(Message.serialize(message))));
+		this.session.getAsyncRemote().sendText(Message.convertToJson(message));
 	}
 
 	/**

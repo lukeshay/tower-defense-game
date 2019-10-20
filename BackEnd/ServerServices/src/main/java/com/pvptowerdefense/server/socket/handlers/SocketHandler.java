@@ -51,7 +51,7 @@ public class SocketHandler {
 
 			if (idAndSession.size() % 2 == 1) {
 				session.getAsyncRemote().sendText(
-					Messages.connectedTrueMatchUpFalse().toString()
+						Messages.connectedTrueMatchUpFalse().toString()
 				);
 			}
 			else {
@@ -66,7 +66,7 @@ public class SocketHandler {
 								session));
 
 						otherSession.getAsyncRemote().sendText(
-							Messages.connectedTrueMatchUpTrue(id).toString()
+								Messages.connectedTrueMatchUpTrue(id).toString()
 						);
 
 						session.getAsyncRemote().sendText(
@@ -84,30 +84,14 @@ public class SocketHandler {
 	 * Calls the match up send message method if the user is in a match up.
 	 *
 	 * @param session The session sending the message.
-	 * @param bytes   The message as a byte[]. *NOTE This might change types.
+	 * @param message The message as a byte[]. *NOTE This might change types.
 	 */
 	@OnMessage
-	public void onByteMessage(Session session, byte[] bytes) {
+	public void onByteMessage(Session session, String message) {
 		CompletableFuture.runAsync(() -> {
 			MatchUp matchup = findMatchUp(session);
 			if (matchup != null) {
-				matchup.sendMessage(session, bytes);
-			}
-		});
-	}
-
-	/**
-	 * Sends message to the other user in the match up.
-	 * @param session The session
-	 * @param message The message
-	 */
-	@OnMessage
-	public void onTextMessage(Session session, String message) {
-		CompletableFuture.runAsync(() -> {
-			logger.info("Message received.");
-			MatchUp matchup = findMatchUp(session);
-			if (matchup != null) {
-				matchup.getOtherSession(session).getAsyncRemote().sendText(message);
+				matchup.sendMessage(session, message);
 			}
 		});
 	}

@@ -38,10 +38,10 @@ public class Game implements Runnable {
 		});
 	}
 
-	void handleMessage(Session session, byte[] message) {
-		Object obj = Messages.deserialize(message);
+	void handleMessage(Session session, String message) {
+		PlayedCard obj = Messages.convertJsonToCard(message);
 
-		map.addCard((PlayedCard) obj);
+		map.addCard(obj);
 	}
 
 	private void gameOver(String winner) {

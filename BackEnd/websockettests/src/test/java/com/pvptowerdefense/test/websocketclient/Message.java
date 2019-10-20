@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.Gson;
 
 public class Message {
 	public static byte[] serialize(Object obj) throws IOException {
@@ -35,5 +36,11 @@ public class Message {
 		ObjectInputStream ois =
 				new ObjectInputStream(new ByteArrayInputStream(data));
 		return (ArrayList<PlayedCard>) ois.readObject();
+	}
+
+	public static String convertToJson(Object message) {
+		Gson g = new Gson();
+
+		return g.toJson(message);
 	}
 }

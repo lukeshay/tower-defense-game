@@ -1,5 +1,6 @@
 package com.pvptowerdefense.server.socket.models;
 
+import com.google.gson.Gson;
 import shared.PlayedCard;
 
 import java.io.*;
@@ -108,5 +109,10 @@ public class Messages {
 		sb.append("}");
 
 		return sb.toString();
+	}
+
+	public static PlayedCard convertJsonToCard(String json) {
+		Gson g = new Gson();
+		return g.fromJson(json, PlayedCard.class);
 	}
 }
