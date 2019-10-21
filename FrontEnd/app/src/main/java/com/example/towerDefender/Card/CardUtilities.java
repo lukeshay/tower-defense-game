@@ -22,12 +22,12 @@ public class CardUtilities {
      */
     public static GameObjectSprite getGameObjectSpriteForCard(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
-        if(card.cardName.contains("Card 1") || card.cardName.contains("Reaper 2")){
+        if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
-        } else if(card.cardName.contains("Card 2") || card.cardName.contains("Reaper")){
+        } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
         } else if(card.cardName.contains("Tower")){
-            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y);
         } else {
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
         }
@@ -47,9 +47,9 @@ public class CardUtilities {
      */
     public static GameObjectSprite getEnemySprite(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
-        if(card.cardName.contains("Card 1") || card.cardName.contains("Reaper 2")){
+        if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
-        } else if(card.cardName.contains("Card 2") || card.cardName.contains("Reaper")){
+        } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
         } else if(card.cardName.contains("Tower")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y);

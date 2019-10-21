@@ -62,32 +62,20 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
+        for(GameObjectSprite sprite : gameObjectSprites.getSprites()){
+            sprite.draw(canvas);
+        }
         for(CardInHand card : player.getHand()){
             card.draw(canvas);
         }
         player.draw(canvas);
-        for(GameObjectSprite sprite : gameObjectSprites.getSprites()){
-            sprite.draw(canvas);
-        }
-
     }
-
-    /**
-     * Adds a {@link GameObjectSprite} to manage
-     * @param gameObjectSprite the {@link GameObjectSprite} to add
-     */
-   // public void addCharacter(GameObjectSprite gameObjectSprite){
-   //     gameObjectSprites.add(gameObjectSprite);
-   // }
 
     /**
      * Updates the {@link GameObjectSprite}s and {@link CardInHand}s.
      */
     public void update(){
         player.update();
-        for(GameObjectSprite gameObjectSprite : gameObjectSprites.getSprites()){
-            gameObjectSprite.update();
-        }
         for(CardInHand card :  getPlayer().getHand()){
             card.update();
         }
@@ -121,7 +109,7 @@ public class GameManager {
     public void playCard(int eventX, int eventY){
         try {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
-            toSend.cardName = toSend.cardName + cardsSent++;
+            toSend.cardName = toSend.cardName + "@" + cardsSent++;
             SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend, eventX, eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
