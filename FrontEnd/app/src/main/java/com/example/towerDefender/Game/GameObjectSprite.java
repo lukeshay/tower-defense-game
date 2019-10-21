@@ -3,9 +3,6 @@ package com.example.towerDefender.Game;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
-import com.example.towerDefender.Game.Sprite;
-
-import java.util.Random;
 
 public class GameObjectSprite extends Sprite {
 
