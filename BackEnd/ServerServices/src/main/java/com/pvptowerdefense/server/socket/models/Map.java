@@ -93,15 +93,8 @@ public class Map {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
                     if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && !attack) {
-                        System.out.println("P1 card: " + p1Cards.toString() + " has X: " + p1Cards.getxValue()+ " has Y: " + p1Cards.getyValue());
-                        System.out.println("P1 card: " + p1Cards.toString() + " has X: " + p1Cards.getxValue()+ " has Y: " + p1Cards.getyValue());
-                        System.out.println("Distance between: " + distance(p1Cards, p2Cards));
                         attack = true;
-                        System.out.println(attack);
-                        System.out.println("P1 DMG: " + p1Cards.getDamage());
-                        System.out.println("P2 HP before: " + p2Cards.getHitPoints());
                         p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
-                        System.out.println("P2 HP after: " + p2Cards.getHitPoints());
                     }
                 }
                 if(!attack){
@@ -163,7 +156,7 @@ public class Map {
     }
 
     private PlayedCard makeTower(int xValue, int yValue, String player){
-        return new PlayedCard("Tower", "tower", 0, 10, 100, 0, "UNIT", 100, xValue,
+        return new PlayedCard("Tower", "tower", 0, 1, 100, 0, "UNIT", 100, xValue,
                 yValue, player);
     }
 
