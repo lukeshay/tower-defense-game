@@ -45,10 +45,15 @@ public class CardsService {
 	 */
 	public void loadCardsToDatabase() {
 		List<Card> cards = Arrays.asList(
-				new Card("Card 1", "Card 1 desc", 1, 1, 1, 1, "UNIT", 50),
-				new Card("Card 2", "Card 2 desc", 2, 2, 2, 2, "SPELL", 40),
-				new Card("Card 3", "Card 3 desc", 3, 3, 3, 3, "UNIT", 5),
-				new Card("Card 4", "Card 4 desc", 4, 4, 4, 4, "SPELL", 100)
+				new Card("Reaper", "Weak reaper", 1, 1, 1, 1, "UNIT", 50),
+				new Card("Reaper", "Medium reaper", 2, 2, 2, 2, "UNIT", 40),
+				new Card("Reaper king", "Strong reaper", 5, 5, 5, 5, "UNIT", 50),
+				new Card("Fire Golem", "Weak fire golem", 1, 1, 1, 1, "UNIT", 50),
+				new Card("Fire Golem", "Medium fire golem", 2, 2, 2, 2, "UNIT", 40),
+				new Card("Golem King", "Strong golem", 5, 5, 5, 5, "UNIT", 50),
+				new Card("Wizard", "Weak wizard", 1, 1, 1, 1, "UNIT", 50),
+				new Card("Wizard", "Medium wizard", 2, 2, 2, 2, "UNIT", 40),
+				new Card("Master wizard", "Strong wizard", 5, 5, 5, 5, "UNIT", 50)
 		);
 
 		cardsDao.saveAll(cards);
