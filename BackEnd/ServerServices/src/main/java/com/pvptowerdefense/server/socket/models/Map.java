@@ -153,6 +153,7 @@ public class Map {
             if(playCard.getDescription().equals("tower")){
                 if(playCard.getName().equals("tower2") && playCard.getHitPoints() <= 0){
                     gameState = false;
+                    winner = player2;
                 }
             }
         }
@@ -161,6 +162,7 @@ public class Map {
             if(playCard.getDescription().equals("tower")){
                 if(playCard.getName().equals("tower2") && playCard.getHitPoints() <= 0){
                     gameState = false;
+                    winner = player1;
                 }
             }
         }
