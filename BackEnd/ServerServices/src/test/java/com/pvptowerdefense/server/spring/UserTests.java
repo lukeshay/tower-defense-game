@@ -27,6 +27,6 @@ public class UserTests {
 
     @BeforeAll
     static void setUrl() {
-        url = "http://localhost:" + port + "/cards";
+        url = "http://localhost:" + port + "/users";
     }
 }
