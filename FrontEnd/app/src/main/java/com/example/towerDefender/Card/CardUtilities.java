@@ -22,18 +22,14 @@ public class CardUtilities {
      */
     public static GameObjectSprite getGameObjectSpriteForCard(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
-        switch(card.cardName){
-            case "Card 1":
-                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
-                break;
-            case "Card 2":
-                toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
-                break;
-            case "Tower":
-                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
-                break;
-            default:
-                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
+        if(card.cardName.contains("Card 1") || card.cardName.contains("Reaper 2")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
+        } else if(card.cardName.contains("Card 2") || card.cardName.contains("Reaper")){
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
+        } else if(card.cardName.contains("Tower")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
+        } else {
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
         }
         toReturn.image = Bitmap.createScaledBitmap(toReturn.image, normalizedInventorySize, normalizedInventorySize, false);
         toReturn.xEnd = toReturn.xStart + normalizedInventorySize;
@@ -51,18 +47,14 @@ public class CardUtilities {
      */
     public static GameObjectSprite getEnemySprite(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
-        switch(card.cardName){
-            case "Card 1":
-                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y, false);
-                break;
-            case "Card 2":
-                toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);
-                break;
-            case "Tower":
-                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, false);
-                break;
-            default:
-                toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
+        if(card.cardName.contains("Card 1") || card.cardName.contains("Reaper 2")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
+        } else if(card.cardName.contains("Card 2") || card.cardName.contains("Reaper")){
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
+        } else if(card.cardName.contains("Tower")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y);
+        } else {
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
         }
         toReturn.image = Bitmap.createScaledBitmap(toReturn.image, normalizedInventorySize, normalizedInventorySize, false);
         toReturn.xEnd = toReturn.xStart + normalizedInventorySize;

@@ -42,6 +42,22 @@ public class Card {
 
     }
 
+    /**
+     * Constructs a new Card that's a copy of the provided card
+     * @param card the {@link Card} to copy.
+     */
+    public Card(Card card){
+        this.cardName = card.cardName;
+        this.cardDescription = card.cardDescription;
+        this.castingCost = card.castingCost;
+        this.damage = card.damage;
+        this.hitPoints = card.hitPoints;
+        this.speed = card.speed;
+        this.type = card.type;
+        this.range = card.range;
+        this.setCardType(card.type);
+    }
+
     public Card(String name, String cardDescription, int castingCost, int damage, int hitPoints, int speed, String type, int range){
         this.cardName = name;
         this.cardDescription = cardDescription;

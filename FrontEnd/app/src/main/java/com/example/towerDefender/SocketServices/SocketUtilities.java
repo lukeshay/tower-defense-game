@@ -91,6 +91,7 @@ public class SocketUtilities {
                 @Override
                 public void onMessage(String s) {
                     listener.onMessage(s);
+                    Log.i("SOCKET_MESSAGE", s);
                 }
 
                 @Override

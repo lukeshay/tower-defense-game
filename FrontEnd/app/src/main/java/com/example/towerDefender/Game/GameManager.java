@@ -32,6 +32,7 @@ public class GameManager {
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     private long lastUpdate;
+    private int cardsSent = 0;
 
     public GameManager(GameView gameView, Player player){
         this.gameView = gameView;
@@ -119,7 +120,9 @@ public class GameManager {
      */
     public void playCard(int eventX, int eventY){
         try {
-            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId())).toString());
+            Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
+            toSend.cardName = toSend.cardName + cardsSent++;
+            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend, eventX, eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){
@@ -151,7 +154,6 @@ public class GameManager {
             lastUpdate = System.currentTimeMillis();
             gameObjectSprites.clearSprites();
             //Update once a second
-            Log.d("SOCKET_INCOMING", message);
             if(message.contains("connected=true")){
                 Log.i("SOCKET_INFO", "Connected.");
             } else {
@@ -162,7 +164,7 @@ public class GameManager {
                         for(PlayedCard playedCard : playedCards){
                             gameObjectSprites.add(playedCard);
                         }
-                    } else{
+                    } else if(message.contains("name")){
                         gameObjectSprites.addAll(JsonUtils.jsonToPlayedCardArray(message));
                     }
 
