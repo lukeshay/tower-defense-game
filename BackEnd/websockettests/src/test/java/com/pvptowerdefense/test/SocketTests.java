@@ -58,7 +58,8 @@ public class SocketTests {
 	}
 
 	@Test
-	public void sendCardTest() throws InterruptedException, IOException {
+	public void sendCardByEnemyTowerTest() throws InterruptedException,
+			IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		Thread.sleep(1000);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
@@ -66,10 +67,31 @@ public class SocketTests {
 		System.out.println(webSocket2.getMessages().toString());
 
 		webSocket1.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
-				"UNIT", 150, 2500, 100, "1"));
+				"UNIT", 250, 1900, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
-				"UNIT", 150, 200, 100, "2"));
-		Thread.sleep(2000);
+				"UNIT", 250, 100, 100, "2"));
+		Thread.sleep(120000);
+		System.out.println(webSocket1.getMessages().toString());
+		System.out.println(webSocket2.getMessages().toString());
+
+		webSocket1.close();
+		webSocket2.close();
+	}
+
+	@Test
+	public void sendCardByOwnTowerTest() throws InterruptedException,
+			IOException {
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
+		Thread.sleep(1000);
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
+		System.out.println(webSocket1.getMessages().toString());
+		System.out.println(webSocket2.getMessages().toString());
+
+		webSocket1.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+				"UNIT", 250, 100, 100, "1"));
+		webSocket2.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+				"UNIT", 250, 1900, 100, "2"));
+		Thread.sleep(120000);
 		System.out.println(webSocket1.getMessages().toString());
 		System.out.println(webSocket2.getMessages().toString());
 

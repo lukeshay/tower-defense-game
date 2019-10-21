@@ -9,6 +9,7 @@ import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +23,8 @@ public class SS5WebSocketClient {
 	 * 'ws://localhost:8080/socket/%s'. For testing on the server the url
 	 * is 'ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s'.
 	 */
-//	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
-	private static final String serverUrl = "ws://localhost:8080/socket/%s";
+	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
+//	private static final String serverUrl = "ws://localhost:8080/socket/%s";
 
 	private String id = null;
 	private Queue<Object> messages = null;
@@ -76,6 +77,7 @@ public class SS5WebSocketClient {
 
 	@OnMessage
 	public void onTextMessage(String message) {
+		logger.info("Message: " + id + ", Time: " + new Date().getTime());
 		messages.enqueue(message);
 	}
 

@@ -1,10 +1,6 @@
 package com.pvptowerdefense.server.socket.models;
 
-import rx.Completable;
-import shared.PlayedCard;
-
 import javax.websocket.Session;
-import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -49,13 +45,17 @@ public class Game implements Runnable {
 	}
 
 	private void sendResultMessages(String winner) {
-		if (winner.equals(playerOneId)) {
-			playerOneSession.getAsyncRemote().sendObject(Messages.gameWin());
-			playerTwoSession.getAsyncRemote().sendObject(Messages.gameLoss());
+		if (winner == null) {
+			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
+			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
+		}
+		else if (winner.equals(playerOneId)) {
+			playerOneSession.getAsyncRemote().sendText(Messages.gameWin().toString());
+			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
 		}
 		else {
-			playerOneSession.getAsyncRemote().sendObject(Messages.gameLoss());
-			playerTwoSession.getAsyncRemote().sendObject(Messages.gameWin());
+			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
+			playerTwoSession.getAsyncRemote().sendText(Messages.gameWin().toString());
 		}
 	}
 
@@ -67,6 +67,7 @@ public class Game implements Runnable {
 	public void run() {
 		long startTime = new Date().getTime();
 		boolean cont = true;
+		System.out.println(startTime);
 
 		while (cont) {
 			boolean someoneDed = map.clockCycle();
@@ -84,6 +85,8 @@ public class Game implements Runnable {
 			catch (InterruptedException ignore) {
 			}
 		}
+
+		System.out.println(new Date().getTime() - startTime);
 		String winner = map.getWinner();
 		gameOver(winner);
 	}
