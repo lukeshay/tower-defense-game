@@ -89,13 +89,19 @@ public class Map {
 
     public boolean clockCycle(){
         if (counter % 60 == 0) {
-            System.out.println("attack");
             for (PlayedCard p1Cards : cardsP1) {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
                     if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && !attack) {
+                        System.out.println("P1 card: " + p1Cards.toString() + " has X: " + p1Cards.getxValue()+ " has Y: " + p1Cards.getyValue());
+                        System.out.println("P1 card: " + p1Cards.toString() + " has X: " + p1Cards.getxValue()+ " has Y: " + p1Cards.getyValue());
+                        System.out.println("Distance between: " + distance(p1Cards, p2Cards));
                         attack = true;
+                        System.out.println(attack);
+                        System.out.println("P1 DMG: " + p1Cards.getDamage());
+                        System.out.println("P2 HP before: " + p2Cards.getHitPoints());
                         p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+                        System.out.println("P2 HP after: " + p2Cards.getHitPoints());
                     }
                 }
                 if(!attack){
