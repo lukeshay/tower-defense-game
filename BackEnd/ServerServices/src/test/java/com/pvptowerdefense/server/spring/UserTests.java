@@ -39,7 +39,8 @@ public class UserTests {
 
     @BeforeEach
     void setup() {
-        testUser = new User("1", "TestUser1", "testemail", "TestFN", "TestLN", "User")
+        testUser = new User("1", "TestUser1", "testemail", "TestFN", "TestLN"
+                , "User");
         testUserList = new ArrayList<>();
         testUserList.add(testUser);
 
