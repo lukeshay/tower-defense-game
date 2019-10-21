@@ -2,6 +2,7 @@ package com.example.towerDefender.Game;
 
 import android.graphics.Canvas;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
@@ -138,7 +139,11 @@ public class GameManager {
             //Update once a second
             if(message.contains("connected=true")){
                 Log.i("SOCKET_INFO", "Connected.");
-            } else {
+            } else if(message.contains("game=win") || message.contains("game=loss")){
+                Log.i("SOCKET_INFO", "GAME OVER: " + message);
+                Toast toast = Toast.makeText(this.gameView.getContext(), message, Toast.LENGTH_SHORT);
+                toast.show();
+            } else{
                 try {
                     //If message is not formatted yet it will be an array and contain "PlayedCard"
                     if(message.contains("PlayedCard")){
