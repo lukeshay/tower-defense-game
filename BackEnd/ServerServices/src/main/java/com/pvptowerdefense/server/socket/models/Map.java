@@ -32,13 +32,13 @@ public class Map {
         gameState = true;
         counter = 0;
 
-        cardsP1.add(makeTower(TOWER1_X, TOWER1_Y, userId1));
-        cardsP1.add(makeTower(TOWER2_X, TOWER2_Y, userId1));
-        cardsP1.add(makeTower(TOWER3_X, TOWER3_Y, userId1));
+        cardsP1.add(makeTower(TOWER1_X, TOWER1_Y, userId1, "tower1"));
+        cardsP1.add(makeTower(TOWER2_X, TOWER2_Y, userId1, "tower2"));
+        cardsP1.add(makeTower(TOWER3_X, TOWER3_Y, userId1, "tower3"));
 
-        cardsP2.add(makeTower(MAX_X - TOWER1_X - 250, TOWER1_Y, userId2));
-        cardsP2.add(makeTower(MAX_X - TOWER2_X - 250, TOWER2_Y, userId2));
-        cardsP2.add(makeTower(MAX_X - TOWER3_X - 250, TOWER3_Y, userId2));
+        cardsP2.add(makeTower(MAX_X - TOWER1_X - 250, TOWER1_Y, userId2, "tower1"));
+        cardsP2.add(makeTower(MAX_X - TOWER2_X - 250, TOWER2_Y, userId2, "tower2"));
+        cardsP2.add(makeTower(MAX_X - TOWER3_X - 250, TOWER3_Y, userId2, "tower3"));
     }
 
     public List<PlayedCard> getCards() {
@@ -93,8 +93,15 @@ public class Map {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
                     if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && !attack) {
+                        System.out.println("P1 card: " + p1Cards.toString() + " has X: " + p1Cards.getxValue()+ " has Y: " + p1Cards.getyValue());
+                        System.out.println("P2 card: " + p2Cards.toString() + " has X: " + p2Cards.getxValue()+ " has Y: " + p2Cards.getyValue());
+                        System.out.println("Distance between: " + distance(p1Cards, p2Cards));
                         attack = true;
+                        System.out.println(attack);
+                        System.out.println("P1 DMG: " + p1Cards.getDamage());
+                        System.out.println("P2 HP before: " + p2Cards.getHitPoints());
                         p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+
                     }
                 }
                 if(!attack){
@@ -155,9 +162,10 @@ public class Map {
         return gameState;
     }
 
-    private PlayedCard makeTower(int xValue, int yValue, String player){
-        return new PlayedCard("Tower", "tower", 0, 1, 100, 0, "UNIT", 100, xValue,
-                yValue, player);
+    private PlayedCard makeTower(int xValue, int yValue, String player, String towerName){
+        return new PlayedCard(towerName, "tower", 0, 1, 100, 0, "UNIT", 100, xValue,
+                    yValue, player);
+
     }
 
     private double distance(PlayedCard card1, PlayedCard card2){
