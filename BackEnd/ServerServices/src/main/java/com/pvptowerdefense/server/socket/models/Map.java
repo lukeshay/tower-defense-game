@@ -125,7 +125,6 @@ public class Map {
             }
         }
         else {
-            System.out.println("move");
             for (PlayedCard p1Cards : cardsP1) {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {

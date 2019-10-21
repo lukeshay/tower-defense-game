@@ -66,11 +66,11 @@ public class SocketHandler {
 								session));
 
 						otherSession.getAsyncRemote().sendText(
-								Messages.connectedTrueMatchUpTrue(id).toString()
+								Messages.connectedTrueMatchUpTrue("left").toString()
 						);
 
 						session.getAsyncRemote().sendText(
-								Messages.connectedTrueMatchUpTrue(id).toString()
+								Messages.connectedTrueMatchUpTrue("right").toString()
 						);
 					}
 				}

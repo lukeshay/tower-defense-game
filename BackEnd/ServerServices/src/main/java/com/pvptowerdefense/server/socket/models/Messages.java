@@ -3,11 +3,8 @@ package com.pvptowerdefense.server.socket.models;
 import com.google.gson.Gson;
 import shared.PlayedCard;
 
-import java.io.*;
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Messages {
 	public static Map<String, String> connectedTrueMatchUpFalse() {
@@ -15,7 +12,7 @@ public class Messages {
 
 		map.put("connected", "true");
 		map.put("matchUp", "false");
-		map.put("opp", "");
+		map.put("side", "");
 
 		return map;
 	}
@@ -25,7 +22,7 @@ public class Messages {
 
 		map.put("connected", "true");
 		map.put("matchUp", "true");
-		map.put("opp", opp);
+		map.put("side", opp);
 
 		return map;
 	}
@@ -35,7 +32,7 @@ public class Messages {
 
 		map.put("connected", "false");
 		map.put("matchUp", "false");
-		map.put("opp", "");
+		map.put("side", "");
 
 		return map;
 	}

@@ -45,15 +45,15 @@ public class CardsService {
 	 */
 	public void loadCardsToDatabase() {
 		List<Card> cards = Arrays.asList(
-				new Card("Reaper", "Weak reaper", 1, 1, 1, 1, "UNIT", 50),
-				new Card("Reaper", "Medium reaper", 2, 2, 2, 2, "UNIT", 40),
-				new Card("Reaper king", "Strong reaper", 5, 5, 5, 5, "UNIT", 50),
-				new Card("Fire Golem", "Weak fire golem", 1, 1, 1, 1, "UNIT", 50),
-				new Card("Fire Golem", "Medium fire golem", 2, 2, 2, 2, "UNIT", 40),
-				new Card("Golem King", "Strong golem", 5, 5, 5, 5, "UNIT", 50),
-				new Card("Wizard", "Weak wizard", 1, 1, 1, 1, "UNIT", 50),
-				new Card("Wizard", "Medium wizard", 2, 2, 2, 2, "UNIT", 40),
-				new Card("Master wizard", "Strong wizard", 5, 5, 5, 5, "UNIT", 50)
+				new Card("Reaper", "Weak reaper", 1, 1, 1, 1, "UNIT", 250),
+				new Card("Reaper", "Medium reaper", 2, 2, 2, 2, "UNIT", 250),
+				new Card("Reaper king", "Strong reaper", 5, 5, 5, 5, "UNIT", 250),
+				new Card("Fire Golem", "Weak fire golem", 1, 1, 1, 1, "UNIT", 250),
+				new Card("Fire Golem", "Medium fire golem", 2, 2, 2, 2, "UNIT", 250),
+				new Card("Golem King", "Strong golem", 5, 5, 5, 5, "UNIT", 250),
+				new Card("Wizard", "Weak wizard", 1, 1, 1, 1, "UNIT", 650),
+				new Card("Wizard", "Medium wizard", 2, 2, 2, 2, "UNIT", 650),
+				new Card("Master wizard", "Strong wizard", 5, 5, 5, 5, "UNIT", 650)
 		);
 
 		cardsDao.saveAll(cards);
