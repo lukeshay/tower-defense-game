@@ -71,13 +71,13 @@ public class SS5WebSocketClient {
 	 */
 	@OnMessage
 	public void onMessage(byte[] message) throws IOException, ClassNotFoundException {
-		logger.info("Message " + id);
+		System.out.println("Message: " + id + ", Time: " + new Date().getTime());
 		messages.enqueue(Objects.requireNonNull(Message.deserializeToList(message)));
 	}
 
 	@OnMessage
 	public void onTextMessage(String message) {
-		logger.info("Message: " + id + ", Time: " + new Date().getTime());
+		System.out.println("Message: " + id + ", Time: " + new Date().getTime());
 		messages.enqueue(message);
 	}
 
@@ -89,6 +89,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
+		System.out.println("close " + id);
 		this.session = null;
 	}
 
@@ -100,6 +101,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnError
 	public void onError(Session session, Throwable throwable) {
+		System.out.println("error " + id);
 		messages.enqueue(String.format("Error: %s",
 				throwable.getMessage()));
 	}
