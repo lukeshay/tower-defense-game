@@ -7,13 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import shared.PlayedCard;
+import com.example.towerDefender.Card.PlayedCard;
 
 public class JsonUtils {
 
@@ -101,25 +100,7 @@ public class JsonUtils {
     }
 
     public static Collection<PlayedCard> socketCardsToPlayedCards(String message){
-        //Convert to json format
-        /*
-        String jsonMessage = message.replaceAll("=",":");
-        jsonMessage = jsonMessage.replaceAll("PlayedCard", "");
-        jsonMessage = jsonMessage.substring(1, jsonMessage.length()-1);
-        jsonMessage = "[" + jsonMessage + "]";
-        jsonMessage = jsonMessage.replaceAll("name", "\"name\"");
-        jsonMessage = jsonMessage.replaceAll("description", "\"description\"");
-        jsonMessage = jsonMessage.replaceAll("cost", "\"cost\"");
-        jsonMessage = jsonMessage.replaceAll("damage", "\"damage\"");
-        jsonMessage = jsonMessage.replaceAll("hitPoints", "\"hitPoints\"");
-        jsonMessage = jsonMessage.replaceAll("speed", "\"speed\"");
-        jsonMessage = jsonMessage.replaceAll("type", "\"type\"");
-        jsonMessage = jsonMessage.replaceAll("range", "\"range\"");
-        jsonMessage = jsonMessage.replaceAll("xValue", "\"xValue\"");
-        jsonMessage = jsonMessage.replaceAll("yValue", "\"yValue\"");
-        jsonMessage = jsonMessage.replaceAll("player", "\"player\"");
-        jsonMessage = jsonMessage.replaceAll("'", "\"");
-        Log.i("DEBUG", jsonMessage);*/
+        //TODO: get rid of method? No additional parsing is needed anymore
         return jsonToPlayedCardArray(message);
     }
 

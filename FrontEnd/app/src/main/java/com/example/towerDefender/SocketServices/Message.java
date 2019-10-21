@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import shared.PlayedCard;
+import com.example.towerDefender.Card.PlayedCard;
 
 public class Message {
     public static byte[] serialize(Object obj) throws IOException {

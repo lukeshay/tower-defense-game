@@ -1,23 +1,18 @@
 package com.example.towerDefender.Game;
 
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
-import com.example.towerDefender.Card.CardUtilities;
-import com.example.towerDefender.R;
-import com.example.towerDefender.SocketServices.Message;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import shared.PlayedCard;
+import com.example.towerDefender.Card.PlayedCard;
 
 /**
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
@@ -26,7 +21,7 @@ public class GameManager {
     public static GameManager instance;
     private GameView gameView;
     private Player player;
-    private GameObjectSpritesHolder gameObjectSprites;
+    private PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
@@ -37,7 +32,7 @@ public class GameManager {
     public GameManager(GameView gameView, Player player){
         this.gameView = gameView;
         this.player = player;
-        gameObjectSprites = new GameObjectSpritesHolder(new ArrayList<PlayedCard>(), this.player);
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
         isPlayingCard = false;
         cardToPlayIndex = 0;
         initializeDeck();
@@ -62,8 +57,8 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
-        for(GameObjectSprite sprite : gameObjectSprites.getSprites()){
-            sprite.draw(canvas);
+        for(PlayedCard playedCard : playedCards.getPlayedCards()){
+            playedCard.draw(canvas);
         }
         for(CardInHand card : player.getHand()){
             card.draw(canvas);
@@ -140,7 +135,6 @@ public class GameManager {
     public void passMessageToManager(String message){
         if(System.currentTimeMillis() - lastUpdate >= 250){
             lastUpdate = System.currentTimeMillis();
-            gameObjectSprites.clearSprites();
             //Update once a second
             if(message.contains("connected=true")){
                 Log.i("SOCKET_INFO", "Connected.");
@@ -150,10 +144,10 @@ public class GameManager {
                     if(message.contains("PlayedCard")){
                         Collection<PlayedCard> playedCards = JsonUtils.socketCardsToPlayedCards(message);
                         for(PlayedCard playedCard : playedCards){
-                            gameObjectSprites.add(playedCard);
+                            this.playedCards.addOrUpdate(playedCard, this);
                         }
                     } else if(message.contains("name")){
-                        gameObjectSprites.addAll(JsonUtils.jsonToPlayedCardArray(message));
+                        playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
                     }
 
                 } catch (Exception e){

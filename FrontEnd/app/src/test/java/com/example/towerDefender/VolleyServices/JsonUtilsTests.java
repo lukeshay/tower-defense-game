@@ -8,14 +8,12 @@ import com.example.towerDefender.Game.Player;
 
 import junit.framework.TestCase;
 
-import org.json.JSONObject;
 import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import shared.PlayedCard;
+import com.example.towerDefender.Card.PlayedCard;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

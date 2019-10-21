@@ -1,6 +1,12 @@
-package shared;
+package com.example.towerDefender.Card;
+
+import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Game.GameObjectSprite;
+import com.example.towerDefender.Game.GameView;
+import com.example.towerDefender.Game.Player;
 
 import java.io.Serializable;
 
@@ -22,34 +28,7 @@ public class PlayedCard implements Serializable {
     private int yValue;
     private String player;
 
-    /**
-     * Instantiates a new Played card.
-     *
-     * @param name        the name
-     * @param description the description
-     * @param cost        the cost
-     * @param damage      the damage
-     * @param hitPoints   the hit points
-     * @param speed       the speed
-     * @param type        the type
-     * @param range       the range
-     * @param xValue      the x value
-     * @param yValue      the y value
-     * @param player      the player
-     */
-    public PlayedCard(String name, String description, int cost, int damage, int hitPoints, int speed, String type, int range, int xValue, int yValue, String player) {
-        this.name = name;
-        this.description = description;
-        this.cost = cost;
-        this.damage = damage;
-        this.hitPoints = hitPoints;
-        this.speed = speed;
-        this.type = type;
-        this.range = range;
-        this.xValue = xValue;
-        this.yValue = yValue;
-        this.player = player;
-    }
+    private GameObjectSprite sprite;
 
     /**
      *
@@ -70,6 +49,7 @@ public class PlayedCard implements Serializable {
         this.xValue = xValue;
         this.yValue = yValue;
         this.player = player;
+        this.sprite = null;
     }
 
     /**
@@ -284,6 +264,28 @@ public class PlayedCard implements Serializable {
      */
     public Card getCard(){
         return new Card(this.name, this.description, this.cost, this.damage, this.hitPoints, this.speed, this.type, this.range);
+    }
+
+    /**
+     * Updates and draws the wrapped {@link GameObjectSprite}, initializing it if necessary.
+     * @param canvas the canvas to draw to
+     */
+    public void draw(Canvas canvas){
+        if(this.sprite == null){
+            Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
+        } else {
+            this.sprite.xStart = this.xValue;
+            this.sprite.yStart = this.yValue;
+            this.sprite.draw(canvas);
+        }
+    }
+
+    /**
+     * Sets the sprite associated with this {@link PlayedCard} to the given card
+     * @param sprite the sprite to set
+     */
+    public void setSprite(GameObjectSprite sprite){
+        this.sprite = sprite;
     }
 
     @Override

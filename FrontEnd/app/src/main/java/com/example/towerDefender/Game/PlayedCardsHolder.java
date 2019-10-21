@@ -3,41 +3,45 @@ package com.example.towerDefender.Game;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.Card.CardUtilities;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import shared.PlayedCard;
+import com.example.towerDefender.Card.CardUtilities;
+import com.example.towerDefender.Card.PlayedCard;
 
 /**
  * A wrapper class to house the game's played cards. Replaces adding playedCards by with updating based upon the existing card
  */
-public class GameObjectSpritesHolder {
+public class PlayedCardsHolder {
     private List<PlayedCard> playedCards;
     private List<GameObjectSprite> sprites;
     private Player player;
-    public GameObjectSpritesHolder(List<PlayedCard> playedCards, Player player){
+
+    public PlayedCardsHolder(List<PlayedCard> playedCards, Player player){
         this.playedCards = playedCards;
         this.sprites = new ArrayList<>();
         this.player = player;
     }
 
-    public void add(PlayedCard playedCard){
-        if(playedCards.contains(playedCard)){
+    /**
+     * Adds the provided card to the holder, or updates it if it is a
+     * @param playedCard the {@link PlayedCard} to addOrUpdate
+     */
+    public void addOrUpdate(PlayedCard playedCard, GameManager manager){
+        int index = contains(playedCard);
+        if(index != -1){
+            playedCards.get(index).setxValue(playedCard.getxValue());
+            playedCards.get(index).setyValue(playedCard.getyValue());
+            playedCards.get(index).setHitPoints(playedCard.getHitPoints());
             Log.d("SPRITES_HOLDER", "Did not add card, already existed in list without need to update");
         } else {
-            //the card exists, but its position has changed
-            if(removePlayedCardByCard(playedCard.getCard(), playedCard.getPlayer())){
-                Log.d("SPRITES_HOLDER", "Updated card");
-            }
-            removePlayedCardByCard(playedCard.getCard(), playedCard.getPlayer());
             playedCards.add(playedCard);
-            if(!playedCard.getPlayer().contains(this.player.getUserId())){
-                sprites.add(CardUtilities.getEnemySprite(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
-            } else{
-                sprites.add(CardUtilities.getGameObjectSpriteForCard(this.player.getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+            if(playedCard.getPlayer().equals(manager.getPlayer().getUserId())){
+                playedCard.setSprite(CardUtilities.getGameObjectSpriteForCard(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+            } else {
+                playedCard.setSprite(CardUtilities.getEnemySprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             }
         }
         Log.d("SPRITES_HOLDER", "SpritesHolder has " + sprites.size() + " sprites.");
@@ -67,24 +71,29 @@ public class GameObjectSpritesHolder {
         return false;
     }
 
-    public void clearSprites(){
-        sprites.clear();
-    }
-
     /**
-     * @return the played cards in this GameObjectSpritesHolder
+     * @return the played cards in this PlayedCardsHolder
      */
     public Collection<PlayedCard> getPlayedCards(){
         return playedCards;
     }
 
-    public Collection<GameObjectSprite> getSprites(){
-        return sprites;
+    public void addAll(Collection<PlayedCard> cards, GameManager manager){
+        for(PlayedCard card : cards){
+            addOrUpdate(card, manager);
+        }
     }
 
-    public void addAll(Collection<PlayedCard> cards){
-        for(PlayedCard card : cards){
-            add(card);
+    public int contains(PlayedCard playedCard){
+        for(int i = 0; i < playedCards.size(); i++){
+            //if the card name is the same, we treat the played card as the same
+            if(playedCards.get(i).getCard().cardName.equals(playedCard.getCard().cardName)){
+                return i;
+            } else {
+                continue;
+            }
         }
+        return -1;
+
     }
 }
