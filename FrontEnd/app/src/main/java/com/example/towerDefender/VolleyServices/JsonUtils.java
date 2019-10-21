@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import shared.PlayedCard;
@@ -86,14 +87,22 @@ public class JsonUtils {
      * @return a {@link Collection} of {@link Card}s described by the provided json
      */
     public static Collection<PlayedCard> jsonToPlayedCardArray(String json){
+        Collection<PlayedCard> cards;
         Gson gson = new Gson();
         Type collectionType = new TypeToken<Collection<PlayedCard>>(){}.getType();
-        Collection<PlayedCard> cards = gson.fromJson(json, collectionType);
+        try{
+            cards = gson.fromJson(json, collectionType);
+        } catch (Exception e){
+            cards = new ArrayList<>();
+            cards.add(gson.fromJson(json, PlayedCard.class));
+        }
+
         return cards;
     }
 
     public static Collection<PlayedCard> socketCardsToPlayedCards(String message){
         //Convert to json format
+        /*
         String jsonMessage = message.replaceAll("=",":");
         jsonMessage = jsonMessage.replaceAll("PlayedCard", "");
         jsonMessage = jsonMessage.substring(1, jsonMessage.length()-1);
@@ -110,8 +119,8 @@ public class JsonUtils {
         jsonMessage = jsonMessage.replaceAll("yValue", "\"yValue\"");
         jsonMessage = jsonMessage.replaceAll("player", "\"player\"");
         jsonMessage = jsonMessage.replaceAll("'", "\"");
-        Log.i("DEBUG", jsonMessage);
-        return jsonToPlayedCardArray(jsonMessage);
+        Log.i("DEBUG", jsonMessage);*/
+        return jsonToPlayedCardArray(message);
     }
 
 

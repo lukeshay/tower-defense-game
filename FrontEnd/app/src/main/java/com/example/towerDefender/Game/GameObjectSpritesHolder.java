@@ -81,4 +81,10 @@ public class GameObjectSpritesHolder {
     public Collection<GameObjectSprite> getSprites(){
         return sprites;
     }
+
+    public void addAll(Collection<PlayedCard> cards){
+        for(PlayedCard card : cards){
+            add(card);
+        }
+    }
 }

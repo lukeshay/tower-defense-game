@@ -54,9 +54,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
         final GameView gameView = new GameView(ctx, new Player(ctx, passed));
-        //SocketUtilities.connect2(gameView);
-        //TODO: get rid of random int added on. This is just for testing
-        SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s" + new Random().nextInt(5), new SocketListener() {
+        SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s", new SocketListener() {
             @OnMessage
             @Override
             public void onMessage(String message) {

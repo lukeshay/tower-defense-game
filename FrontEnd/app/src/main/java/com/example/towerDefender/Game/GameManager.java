@@ -8,6 +8,7 @@ import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.Card.CardUtilities;
 import com.example.towerDefender.R;
+import com.example.towerDefender.SocketServices.Message;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
@@ -119,8 +120,6 @@ public class GameManager {
     public void playCard(int eventX, int eventY){
         try {
             SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(player.getCardInHand(cardToPlayIndex).getCard(), eventX, eventY, this.player.getUserId())).toString());
-            //TODO: add the character when it gets sent back from the server in gameList
-            //this.addCharacter(new GameObjectSprite(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){
@@ -148,7 +147,7 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        if(System.currentTimeMillis() - lastUpdate >= 1000){
+        if(System.currentTimeMillis() - lastUpdate >= 250){
             lastUpdate = System.currentTimeMillis();
             gameObjectSprites.clearSprites();
             //Update once a second
@@ -164,12 +163,12 @@ public class GameManager {
                             gameObjectSprites.add(playedCard);
                         }
                     } else{
-                        PlayedCard playedCard = JsonUtils.jsonToPlayedCard(message);
-                        gameObjectSprites.add(playedCard);
+                        gameObjectSprites.addAll(JsonUtils.jsonToPlayedCardArray(message));
                     }
 
                 } catch (Exception e){
                     Log.e("ERROR", e.getMessage());
+                    e.printStackTrace();
                 }
             }
         }

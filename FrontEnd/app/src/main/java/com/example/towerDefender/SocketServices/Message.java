@@ -41,5 +41,4 @@ public class Message {
         return ByteBuffer.wrap(Objects.requireNonNull(serialize(obj)));
     }
 
-
 }
