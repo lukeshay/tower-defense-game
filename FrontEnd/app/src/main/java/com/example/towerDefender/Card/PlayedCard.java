@@ -273,7 +273,7 @@ public class PlayedCard implements Serializable {
     public void draw(Canvas canvas){
         if(this.sprite == null){
             Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
-        } else {
+        } else if(hitPoints > 0){
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);

@@ -44,7 +44,7 @@ public class PlayedCardsHolder {
                 playedCard.setSprite(CardUtilities.getEnemySprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             }
         }
-        Log.d("SPRITES_HOLDER", "SpritesHolder has " + sprites.size() + " sprites.");
+        Log.d("SPRITES_HOLDER", "PlayedCardsHolder has " + playedCards.size() + " cards.");
     }
 
     public List<Card> getWrappedCards(){
@@ -87,7 +87,7 @@ public class PlayedCardsHolder {
     public int contains(PlayedCard playedCard){
         for(int i = 0; i < playedCards.size(); i++){
             //if the card name is the same, we treat the played card as the same
-            if(playedCards.get(i).getCard().cardName.equals(playedCard.getCard().cardName)){
+            if(playedCards.get(i).getCard().cardName.equals(playedCard.getCard().cardName) && playedCards.get(i).getPlayer().equals(playedCard.getPlayer())){
                 return i;
             } else {
                 continue;
