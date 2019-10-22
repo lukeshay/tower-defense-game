@@ -1,6 +1,8 @@
 package com.example.towerDefender.Game;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,6 +31,8 @@ public class GameManager {
     private int cardToPlayIndex;
     private long lastUpdate;
     private int cardsSent = 0;
+    private boolean gameOver = false;
+    private Paint textPaint;
 
     public GameManager(GameView gameView, Player player){
         this.gameView = gameView;
@@ -39,6 +43,8 @@ public class GameManager {
         initializeDeck();
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
         lastUpdate = System.currentTimeMillis();
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(250);
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -58,13 +64,18 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
-        for(PlayedCard playedCard : playedCards.getPlayedCards()){
-            playedCard.draw(canvas);
+        if(!gameOver){
+            for(PlayedCard playedCard : playedCards.getPlayedCards()){
+                playedCard.draw(canvas);
+            }
+            for(CardInHand card : player.getHand()){
+                card.draw(canvas);
+            }
+            player.draw(canvas);
+        } else{
+            canvas.drawText("GAME OVER", 0, Sprite.screenHeight / 2, textPaint);
         }
-        for(CardInHand card : player.getHand()){
-            card.draw(canvas);
-        }
-        player.draw(canvas);
+
     }
 
     /**
@@ -134,15 +145,14 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        if(System.currentTimeMillis() - lastUpdate >= 250){
-            lastUpdate = System.currentTimeMillis();
-            //Update once a second
+        if(System.currentTimeMillis() - lastUpdate >= 2000){
+            this.gameOver = true;
+        }
             if(message.contains("connected=true")){
                 Log.i("SOCKET_INFO", "Connected.");
-            } else if(message.contains("game=win") || message.contains("game=loss")){
+            } else if(message.contains("win") || message.contains("loss")){
                 Log.i("SOCKET_INFO", "GAME OVER: " + message);
-                Toast toast = Toast.makeText(this.gameView.getContext(), message, Toast.LENGTH_SHORT);
-                toast.show();
+                this.gameOver = true;
             } else{
                 try {
                     //If message is not formatted yet it will be an array and contain "PlayedCard"
@@ -151,16 +161,17 @@ public class GameManager {
                         for(PlayedCard playedCard : playedCards){
                             this.playedCards.addOrUpdate(playedCard, this);
                         }
+                        lastUpdate = System.currentTimeMillis();
                     } else if(message.contains("name")){
                         playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+                        lastUpdate = System.currentTimeMillis();
                     }
-
                 } catch (Exception e){
                     Log.e("ERROR", e.getMessage());
                     e.printStackTrace();
                 }
             }
-        }
+
 
 
     }

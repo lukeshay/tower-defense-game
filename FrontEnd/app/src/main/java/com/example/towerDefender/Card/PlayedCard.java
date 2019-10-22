@@ -1,6 +1,8 @@
 package com.example.towerDefender.Card;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
@@ -27,7 +29,7 @@ public class PlayedCard implements Serializable {
     private int xValue;
     private int yValue;
     private String player;
-
+    private static Paint textPaint;
     private GameObjectSprite sprite;
 
     /**
@@ -50,6 +52,8 @@ public class PlayedCard implements Serializable {
         this.yValue = yValue;
         this.player = player;
         this.sprite = null;
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(50);
     }
 
     /**
@@ -277,6 +281,7 @@ public class PlayedCard implements Serializable {
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
+            //canvas.drawText("HP:" + this.hitPoints, this.getxValue(), this.getyValue() - 50, textPaint);
         }
     }
 
