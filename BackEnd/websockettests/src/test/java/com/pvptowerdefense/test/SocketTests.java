@@ -1,17 +1,17 @@
 package com.pvptowerdefense.test;
 
+import com.pvptowerdefense.test.websocketclient.Message;
 import com.pvptowerdefense.test.websocketclient.SS5WebSocketClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shared.PlayedCard;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SocketTests {
 	@Test
-	public void connectToSocketTest() throws InterruptedException, IOException {
+	public void connectToSocketTest() throws IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 		SS5WebSocketClient webSocket3 = new SS5WebSocketClient("3");
@@ -30,24 +30,10 @@ public class SocketTests {
 				() -> Assertions.assertTrue(webSocket4.isOpen())
 		);
 
-		webSocket1.sendMessage("####### HELLO1 #######");
-		webSocket2.sendMessage("####### HELLO2 #######");
-		webSocket3.sendMessage("####### HELLO3 #######");
-		webSocket4.sendMessage("####### HELLO4 #######");
-
-		Thread.sleep(10000);
-
-		System.out.println(webSocket1.getMessages().toString());
-		System.out.println(webSocket2.getMessages().toString());
-		System.out.println(webSocket3.getMessages().toString());
-		System.out.println(webSocket4.getMessages().toString());
-
 		webSocket1.close();
 		webSocket2.close();
 		webSocket3.close();
 		webSocket4.close();
-
-		Thread.sleep(5000);
 
 		Assertions.assertAll(
 				() -> Assertions.assertTrue(webSocket1.isClosed()),
@@ -63,16 +49,48 @@ public class SocketTests {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		Thread.sleep(1000);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
-		System.out.println(webSocket1.getMessages().toString());
-		System.out.println(webSocket2.getMessages().toString());
 
-		webSocket1.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
 				"UNIT", 250, 1900, 100, "1"));
-		webSocket2.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 100, 0,
 				"UNIT", 250, 100, 100, "2"));
-		Thread.sleep(120000);
-		System.out.println(webSocket1.getMessages().toString());
-		System.out.println(webSocket2.getMessages().toString());
+		Thread.sleep(5000);
+
+//		String socket1Messages = webSocket1.getMessages().toString();
+//		String socket2Messages = webSocket2.getMessages().toString();
+
+//		Assertions.assertAll(
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Card1")),
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Card2")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Card1")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Card2")),
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Tower1")),
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Tower2")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Tower1")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Tower3"))
+//		);
+
+		List<PlayedCard> cards1 =
+				Message.convertToListOfPlayedCards(webSocket1.getMessages().get(8));
+		List<PlayedCard> cards2 =
+				Message.convertToListOfPlayedCards(webSocket2.getMessages().get(8));
+
+		System.out.println(cards1.toString());
+
+		Assertions.assertAll(
+				() -> Assertions.assertTrue(100 == cards1.get(3).getHitPoints()),
+				() -> Assertions.assertTrue(100 == cards2.get(3).getHitPoints()),
+				() -> Assertions.assertTrue(100 == cards1.get(7).getHitPoints()),
+				() -> Assertions.assertTrue(100 == cards2.get(7).getHitPoints())
+		);
 
 		webSocket1.close();
 		webSocket2.close();
@@ -84,16 +102,52 @@ public class SocketTests {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		Thread.sleep(1000);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
-		System.out.println(webSocket1.getMessages().toString());
-		System.out.println(webSocket2.getMessages().toString());
 
-		webSocket1.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 1000, 0,
 				"UNIT", 250, 100, 100, "1"));
-		webSocket2.sendMessage(new PlayedCard("Card", "Card", 1, 1, 100, 5,
+		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 1000, 0,
 				"UNIT", 250, 1900, 100, "2"));
-		Thread.sleep(120000);
-		System.out.println(webSocket1.getMessages().toString());
-		System.out.println(webSocket2.getMessages().toString());
+		Thread.sleep(2000);
+
+//		String socket1Messages = webSocket1.getMessages().toString();
+//		String socket2Messages = webSocket2.getMessages().toString();
+
+//		Assertions.assertAll(
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Card1")),
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Card2")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Card1")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Card2")),
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Tower1")),
+//				() -> Assertions.assertTrue(socket1Messages.contains(
+//						"Tower2")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Tower1")),
+//				() -> Assertions.assertTrue(socket2Messages.contains(
+//						"Tower3"))
+//		);
+
+		List<PlayedCard> cards1 =
+				Message.convertToListOfPlayedCards(webSocket1.getMessages().get(8));
+		List<PlayedCard> cards2 =
+				Message.convertToListOfPlayedCards(webSocket2.getMessages().get(8));
+
+		System.out.println(cards1.toString());
+
+		Assertions.assertAll(
+				() -> Assertions.assertTrue(1000 <=
+						cards1.get(3).getHitPoints()),
+				() -> Assertions.assertTrue(1000 <=
+						cards2.get(3).getHitPoints()),
+				() -> Assertions.assertTrue(1000 <=
+						cards1.get(7).getHitPoints()),
+				() -> Assertions.assertTrue(1000 <=
+						cards2.get(7).getHitPoints())
+		);
 
 		webSocket1.close();
 		webSocket2.close();

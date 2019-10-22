@@ -1,5 +1,7 @@
 package com.pvptowerdefense.server.socket.models;
 
+import shared.PlayedCard;
+
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Date;
@@ -34,8 +36,11 @@ public class Game implements Runnable {
 	}
 
 	void handleMessage(Session session, String message) {
-		map.addCard(Messages.convertJsonToCard(message));
-//		session.getAsyncRemote().sendText(Messages.cardAdded().toString());
+		PlayedCard card = Messages.convertJsonToCard(message);
+		if (card != null) {
+			map.addCard(card);
+			session.getAsyncRemote().sendText(Messages.cardAdded().toString());
+		}
 	}
 
 	private void gameOver(String winner) {
@@ -72,7 +77,6 @@ public class Game implements Runnable {
 	public void run() {
 		long startTime = new Date().getTime();
 		boolean cont = true;
-		System.out.println(startTime);
 
 		while (cont) {
 			boolean someoneDed = map.clockCycle();
@@ -90,7 +94,6 @@ public class Game implements Runnable {
 			}
 		}
 
-		System.out.println(new Date().getTime() - startTime);
 		String winner = map.getWinner();
 		gameOver(winner);
 	}
