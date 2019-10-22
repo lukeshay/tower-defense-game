@@ -6,8 +6,7 @@ import com.pvptowerdefense.server.spring.models.Card;
 import com.pvptowerdefense.server.spring.models.User;
 import com.pvptowerdefense.server.spring.services.CardsService;
 import com.pvptowerdefense.server.spring.services.UsersService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,5 +55,84 @@ public class UserTests {
             usersService.addUserToDb(testUser);
         }
         catch (Exception ignored) {}
+    }
+
+    @AfterEach
+    void removeCard() {
+        try{
+            usersService.deleteUserById(testUser.getPhoneId());
+        }
+        catch (Exception ignored) {}
+    }
+
+    @Test
+    void deleteUserTest(){
+        User testUserGet = usersService.findUserById((testUser.getPhoneId()));
+
+        Assertions.assertNotNull(testUserGet);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(testUser.getPhoneId(), testUserGet.getPhoneId()),
+                () -> Assertions.assertEquals(testUser.getFirstName(), testUserGet.getFirstName()),
+                () -> Assertions.assertEquals(testUser.getLastName(), testUserGet.getLastName()),
+                () -> Assertions.assertEquals(testUser.getUserName(), testUserGet.getUserName()),
+                () -> Assertions.assertEquals(testUser.getUserType(), testUserGet.getUserType()),
+                () -> Assertions.assertEquals(testUser.getEmail(), testUserGet.getEmail())
+        );
+
+        usersService.deleteUserById(testUser.getPhoneId());
+        User deletedUser = usersService.findUserById(testUser.getPhoneId());
+
+        Assertions.assertNull(deletedUser);
+
+    }
+
+    @Test
+    void getAllUsersTestMock(){
+        List<User> allUsers = usersServiceMock.getAllUsers();
+
+        Assertions.assertIterableEquals(testUserList , allUsers);
+    }
+
+    @Test
+    void getUserTestMock(){
+        User testUserGet = usersService.findUserById((testUser.getPhoneId()));
+
+        Assertions.assertNotNull(testUserGet);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(testUser.getPhoneId(), testUserGet.getPhoneId()),
+                () -> Assertions.assertEquals(testUser.getFirstName(), testUserGet.getFirstName()),
+                () -> Assertions.assertEquals(testUser.getLastName(), testUserGet.getLastName()),
+                () -> Assertions.assertEquals(testUser.getUserName(), testUserGet.getUserName()),
+                () -> Assertions.assertEquals(testUser.getUserType(), testUserGet.getUserType()),
+                () -> Assertions.assertEquals(testUser.getEmail(), testUserGet.getEmail())
+        );
+    }
+
+    @Test
+    void updateUserTestMock(){
+        User testUserGet = usersService.findUserById((testUser.getPhoneId()));
+
+        Assertions.assertNotNull(testUserGet);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(testUser.getPhoneId(), testUserGet.getPhoneId()),
+                () -> Assertions.assertEquals(testUser.getFirstName(), testUserGet.getFirstName()),
+                () -> Assertions.assertEquals(testUser.getLastName(), testUserGet.getLastName()),
+                () -> Assertions.assertEquals(testUser.getUserName(), testUserGet.getUserName()),
+                () -> Assertions.assertEquals(testUser.getUserType(), testUserGet.getUserType()),
+                () -> Assertions.assertEquals(testUser.getEmail(), testUserGet.getEmail())
+        );
+
+        testUser.setUserName("NewUN");
+        User testChange = usersService.findUserById((testUser.getPhoneId()));
+
+        Assertions.assertNotNull(testChange);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(testUser.getPhoneId(), testChange.getPhoneId()),
+                () -> Assertions.assertEquals(testUser.getFirstName(), testChange.getFirstName()),
+                () -> Assertions.assertEquals(testUser.getLastName(), testChange.getLastName()),
+                () -> Assertions.assertEquals(testUser.getUserName(), testChange.getUserName()),
+                () -> Assertions.assertEquals(testUser.getUserType(), testChange.getUserType()),
+                () -> Assertions.assertEquals(testUser.getEmail(), testChange.getEmail())
+        );
     }
 }
