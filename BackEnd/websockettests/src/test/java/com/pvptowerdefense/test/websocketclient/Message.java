@@ -1,5 +1,6 @@
 package com.pvptowerdefense.test.websocketclient;
 
+import com.google.gson.reflect.TypeToken;
 import shared.PlayedCard;
 
 import java.io.*;
@@ -42,5 +43,11 @@ public class Message {
 		Gson g = new Gson();
 
 		return g.toJson(message);
+	}
+
+	public static List<PlayedCard> convertToListOfPlayedCards(String message) {
+		Gson g = new Gson();
+		return g.fromJson(message,
+				new TypeToken<List<PlayedCard>>(){}.getType());
 	}
 }

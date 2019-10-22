@@ -166,6 +166,7 @@ public class Map {
                 }
             }
         }
+
         counter++;
         return gameState;
     }

@@ -10,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CardTests {
 	@LocalServerPort
@@ -18,12 +21,14 @@ class CardTests {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
+
 	@Autowired
 	private CardsService cardsService;
 
 	private CardsService cardsServiceMock;
 
 	private Card testCard;
+	private List<Card> testCardList = new ArrayList<>();
 
 	@BeforeAll
 	static void setUrl() {
@@ -31,10 +36,14 @@ class CardTests {
 	}
 
 	@BeforeEach
-	void addCard() {
+	void setup() {
 		testCard = new Card("Test Card", "Test Card desc",
 				100, 100, 100, 100, "UNIT",
 				100);
+
+		testCardList.add(testCard);
+		testCardList.add(testCard);
+		testCardList.add(testCard);
 
 		CardsDao cardsDaoMock = Mockito.mock(CardsDao.class);
 		cardsServiceMock = new CardsService(cardsDaoMock);
@@ -43,6 +52,7 @@ class CardTests {
 				.thenReturn(testCard);
 		Mockito.when(cardsDaoMock.existsById(testCard.getName()))
 				.thenReturn(true);
+		Mockito.when(cardsDaoMock.findAll()).thenReturn(testCardList);
 
 		try {
 			cardsService.addCard(testCard);
@@ -161,5 +171,12 @@ class CardTests {
 				() -> Assertions.assertEquals(testCard.getRange(),
 						getCardMock.getRange())
 		);
+	}
+
+	@Test
+	void findAllCardTestMock() {
+		List<Card> findAllList = cardsServiceMock.getAllCards();
+
+		Assertions.assertIterableEquals(testCardList, findAllList);
 	}
 }

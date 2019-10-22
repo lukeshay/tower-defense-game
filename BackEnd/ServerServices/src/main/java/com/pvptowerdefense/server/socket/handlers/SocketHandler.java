@@ -87,10 +87,11 @@ public class SocketHandler {
 	 * @param message The message as a byte[]. *NOTE This might change types.
 	 */
 	@OnMessage
-	public void onByteMessage(Session session, String message) {
+	public void onMessage(Session session, String message) {
 		CompletableFuture.runAsync(() -> {
 			MatchUp matchup = findMatchUp(session);
 			if (matchup != null) {
+				System.out.println(message);
 				matchup.sendMessage(session, message);
 			}
 		});

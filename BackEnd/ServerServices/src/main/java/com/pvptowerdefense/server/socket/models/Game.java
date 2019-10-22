@@ -1,6 +1,9 @@
 package com.pvptowerdefense.server.socket.models;
 
+import shared.PlayedCard;
+
 import javax.websocket.Session;
+import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -24,10 +27,8 @@ public class Game implements Runnable {
 	private void sendInPlayCards() {
 		CompletableFuture.runAsync(() -> {
 			Future<Void> deliveryProgress1 =
-//						playerOneSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
 					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
 			Future<Void> deliveryProgress2 =
-//						playerTwoSession.getAsyncRemote().sendBinary(Messages.serializeToByteBuffer(map.getCards()));
 					playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
 			deliveryProgress1.isDone();
 			deliveryProgress2.isDone();
@@ -35,8 +36,11 @@ public class Game implements Runnable {
 	}
 
 	void handleMessage(Session session, String message) {
-		map.addCard(Messages.convertJsonToCard(message));
-		session.getAsyncRemote().sendText(Messages.cardAdded().toString());
+		PlayedCard card = Messages.convertJsonToCard(message);
+		if (card != null) {
+			map.addCard(card);
+			session.getAsyncRemote().sendText(Messages.cardAdded().toString());
+		}
 	}
 
 	private void gameOver(String winner) {
@@ -57,6 +61,12 @@ public class Game implements Runnable {
 			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
 			playerTwoSession.getAsyncRemote().sendText(Messages.gameWin().toString());
 		}
+
+		try {
+			playerOneSession.close();
+			playerTwoSession.close();
+		} catch (IOException ignore) {
+		}
 	}
 
 	private boolean checkBothConnected() {
@@ -67,7 +77,6 @@ public class Game implements Runnable {
 	public void run() {
 		long startTime = new Date().getTime();
 		boolean cont = true;
-		System.out.println(startTime);
 
 		while (cont) {
 			boolean someoneDed = map.clockCycle();
@@ -76,8 +85,7 @@ public class Game implements Runnable {
 			sendInPlayCards();
 
 			cont = new Date().getTime() - startTime < 100000 &&
-					someoneDed &&
-					bothConnected;
+					someoneDed && bothConnected;
 
 			try {
 				Thread.sleep(1000 / 60);
@@ -86,7 +94,6 @@ public class Game implements Runnable {
 			}
 		}
 
-		System.out.println(new Date().getTime() - startTime);
 		String winner = map.getWinner();
 		gameOver(winner);
 	}

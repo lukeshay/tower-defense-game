@@ -3,15 +3,12 @@ package com.pvptowerdefense.test.websocketclient;
 import com.pvptowerdefense.test.queue.Queue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shared.PlayedCard;
 
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.ByteBuffer;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * The type My web socket client.
@@ -23,11 +20,11 @@ public class SS5WebSocketClient {
 	 * 'ws://localhost:8080/socket/%s'. For testing on the server the url
 	 * is 'ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s'.
 	 */
-	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
-//	private static final String serverUrl = "ws://localhost:8080/socket/%s";
+//	private static final String serverUrl = "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s";
+	private static final String serverUrl = "ws://localhost:8080/socket/%s";
 
 	private String id = null;
-	private Queue<Object> messages = null;
+	private List<String> messages = null;
 	private Session session = null;
 
 	private static Logger logger =
@@ -40,7 +37,7 @@ public class SS5WebSocketClient {
 	 */
 	public SS5WebSocketClient(String userId) {
 		this.id = userId;
-		messages = new Queue<>();
+		messages = new ArrayList<>();
 
 		try {
 			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
@@ -60,25 +57,13 @@ public class SS5WebSocketClient {
 	public void onOpen(Session session) {
 		String connect = String.format("Connected: %s",
 				String.format(serverUrl, id));
-		messages.enqueue(connect);
+		messages.add(connect);
 		setSession(session);
 	}
 
-	/**
-	 * On message.
-	 *
-	 * @param message the message
-	 */
 	@OnMessage
-	public void onMessage(byte[] message) throws IOException, ClassNotFoundException {
-		logger.info("Message " + id);
-		messages.enqueue(Objects.requireNonNull(Message.deserializeToList(message)));
-	}
-
-	@OnMessage
-	public void onTextMessage(String message) {
-		logger.info("Message: " + id + ", Time: " + new Date().getTime());
-		messages.enqueue(message);
+	public void onMessage(String message) {
+		messages.add(message);
 	}
 
 	/**
@@ -100,7 +85,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnError
 	public void onError(Session session, Throwable throwable) {
-		messages.enqueue(String.format("Error: %s",
+		messages.add(String.format("Error: %s",
 				throwable.getMessage()));
 	}
 
@@ -175,7 +160,7 @@ public class SS5WebSocketClient {
 	 *
 	 * @return the messages
 	 */
-	public Queue<Object> getMessages() {
+	public List<String> getMessages() {
 		return messages;
 	}
 
@@ -184,7 +169,7 @@ public class SS5WebSocketClient {
 	 *
 	 * @param messages the messages
 	 */
-	public void setMessages(Queue<Object> messages) {
+	public void setMessages(List<String> messages) {
 		this.messages = messages;
 	}
 
