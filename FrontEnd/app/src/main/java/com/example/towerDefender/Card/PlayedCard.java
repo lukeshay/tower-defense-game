@@ -1,4 +1,14 @@
-package shared;
+package com.example.towerDefender.Card;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
+
+import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Game.GameObjectSprite;
+import com.example.towerDefender.Game.GameView;
+import com.example.towerDefender.Game.Player;
 
 import java.io.Serializable;
 
@@ -19,34 +29,31 @@ public class PlayedCard implements Serializable {
     private int xValue;
     private int yValue;
     private String player;
+    private static Paint textPaint;
+    private GameObjectSprite sprite;
 
     /**
-     * Instantiates a new Played card.
      *
-     * @param name        the name
-     * @param description the description
-     * @param cost        the cost
-     * @param damage      the damage
-     * @param hitPoints   the hit points
-     * @param speed       the speed
-     * @param type        the type
-     * @param range       the range
-     * @param xValue      the x value
-     * @param yValue      the y value
-     * @param player      the player
+     * @param cardToPlay the {@link Card} to play and construct this played card from
+     * @param xValue x value of the current card
+     * @param yValue y value of the current card
+     * @param player the player who played the card
      */
-    public PlayedCard(String name, String description, int cost, int damage, int hitPoints, int speed, String type, int range, int xValue, int yValue, String player) {
-        this.name = name;
-        this.description = description;
-        this.cost = cost;
-        this.damage = damage;
-        this.hitPoints = hitPoints;
-        this.speed = speed;
-        this.type = type;
-        this.range = range;
+    public PlayedCard(Card cardToPlay, int xValue, int yValue, String player){
+        this.name = cardToPlay.cardName;
+        this.description = cardToPlay.cardDescription;
+        this.cost = cardToPlay.castingCost;
+        this.damage = cardToPlay.damage;
+        this.hitPoints = cardToPlay.hitPoints;
+        this.speed = cardToPlay.speed;
+        this.type =  cardToPlay.type;
+        this.range = cardToPlay.range;
         this.xValue = xValue;
         this.yValue = yValue;
         this.player = player;
+        this.sprite = null;
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(50);
     }
 
     /**
@@ -254,6 +261,36 @@ public class PlayedCard implements Serializable {
      */
     public void setPlayer(String player) {
         this.player = player;
+    }
+
+    /**
+     * Constructs a {@link Card} from the parameters of this played card
+     */
+    public Card getCard(){
+        return new Card(this.name, this.description, this.cost, this.damage, this.hitPoints, this.speed, this.type, this.range);
+    }
+
+    /**
+     * Updates and draws the wrapped {@link GameObjectSprite}, initializing it if necessary.
+     * @param canvas the canvas to draw to
+     */
+    public void draw(Canvas canvas){
+        if(this.sprite == null){
+            Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
+        } else if(hitPoints > 0){
+            this.sprite.xStart = this.xValue;
+            this.sprite.yStart = this.yValue;
+            this.sprite.draw(canvas);
+            //canvas.drawText("HP:" + this.hitPoints, this.getxValue(), this.getyValue() - 50, textPaint);
+        }
+    }
+
+    /**
+     * Sets the sprite associated with this {@link PlayedCard} to the given card
+     * @param sprite the sprite to set
+     */
+    public void setSprite(GameObjectSprite sprite){
+        this.sprite = sprite;
     }
 
     @Override

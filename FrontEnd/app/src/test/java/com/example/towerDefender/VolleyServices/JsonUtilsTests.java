@@ -11,6 +11,9 @@ import junit.framework.TestCase;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
+import com.example.towerDefender.Card.PlayedCard;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,5 +34,53 @@ public class JsonUtilsTests extends TestCase {
         deck = new Deck(player, context, new ArrayList<Card>());
         deck.setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response)));
         Assert.assertTrue(deck.size() == 5);
+    }
+
+    public void testJsonFromPlayedCard(){
+        try{
+            Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
+            PlayedCard playedCard = new PlayedCard(card, 5, 15, "test Player");
+            Assert.assertNotNull(playedCard);
+            JsonUtils.playedCardToJson(playedCard);
+            Assert.assertNotNull(JsonUtils.playedCardToJson(playedCard));
+        } catch(Exception e){
+            e.printStackTrace();
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    public void testPlayedCardFromJson(){
+        String json = "{\"name\":\"Reaper\"," +
+                "\"description\":\"basicReaper\"," +
+                "\"cost\":5,\"damage\":5," +
+                "\"hitPoints\":5," +
+                "\"speed\":5," +
+                "\"type\":" +
+                "\"UNIT\"," +
+                "\"range\":5," +
+                "\"xValue\":5," +
+                "\"yValue\":15," +
+                "\"player\":\"test Player\"}";
+        PlayedCard card = JsonUtils.jsonToPlayedCard(json);
+        Assert.assertNotNull(card);
+        Assert.assertTrue(card.getName().equals("Reaper"));
+        Assert.assertTrue(card.getDescription().equals("basicReaper"));
+        Assert.assertTrue(card.getPlayer().equals("test Player"));
+    }
+
+    public void testPlayedCardArrayFromJson(){
+        String json = "[{\"name\":\"Reaper\"," +
+                "\"description\":\"basicReaper\"," +
+                "\"cost\":5," +
+                "\"damage\":5," +
+                "\"hitPoints\":5," +
+                "\"speed\":5," +
+                "\"type\": \"UNIT\"," +
+                "\"range\":5," +
+                "\"xValue\":5," +
+                "\"yValue\":15," +
+                "\"player\":\"test Player\"}]";
+        Collection<PlayedCard> cards = JsonUtils.jsonToPlayedCardArray(json);
+        Assert.assertNotNull(cards);
     }
 }

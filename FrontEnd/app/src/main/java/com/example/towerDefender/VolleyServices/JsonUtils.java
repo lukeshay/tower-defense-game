@@ -1,22 +1,36 @@
 package com.example.towerDefender.VolleyServices;
 
+import android.util.Log;
+
 import com.example.towerDefender.Card.Card;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
+
+import com.example.towerDefender.Card.PlayedCard;
 
 public class JsonUtils {
 
+    /**
+     * Converts a json String to a {@link Card} object
+     * @param json the json {@link String} to construct a {@link Card} from
+     * @return a {@link Card} described by the json
+     */
     public static Card jsonToCard(String json){
         Gson test = new Gson();
         return test.fromJson(json, Card.class);
     }
 
+    /**
+     * Converts a json String to a collection of cards
+     * @param json the json {@link String} to construct the {@link Collection} from
+     * @return a {@link Collection} of {@link Card}s described by the provided json
+     */
     public static Collection<Card> jsonToCardArray(String json){
         Gson gson = new Gson();
         Type collectionType = new TypeToken<Collection<Card>>(){}.getType();
@@ -24,23 +38,71 @@ public class JsonUtils {
         return enums;
     }
 
+    /**
+     * Converts a card to a {@link JSONObject}
+     * @param card the initial {@link Card}
+     * @return a {@link JSONObject} corresponding to the original {@link Card}
+     */
     public static JSONObject cardtoJson(Card card){
         Gson gson = new Gson();
         String json = gson.toJson(card);
-        JSONParser parser = new JSONParser();
         try {
-            JSONObject jsonObject = new JSONObject(json);
-            return jsonObject;
+            return new JSONObject(json);
         } catch(Exception e){
-            //TODO: handle parse exception
-            System.out.println("Encountered a parse exception: " + e.getMessage());
+            Log.e("ERROR", "Encountered a parse exception: " + e.getMessage());
             return null;
         }
     }
 
-    public static void main(String[] args){
-        String json = "[{\"name\":\"Card 1\",\"description\":\"Card 1 desc\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":50},{\"name\":\"Card 2\",\"description\":\"Card 2 desc\",\"cost\":2,\"damage\":2,\"hitPoints\":2,\"speed\":2,\"type\":\"SPELL\",\"range\":40},{\"name\":\"Card 3\",\"description\":\"Card 3 desc\",\"cost\":3,\"damage\":3,\"hitPoints\":3,\"speed\":3,\"type\":\"UNIT\",\"range\":5},{\"name\":\"Card 4\",\"description\":\"Card 4 desc\",\"cost\":4,\"damage\":4,\"hitPoints\":4,\"speed\":4,\"type\":\"SPELL\",\"range\":100},{\"name\":\"added3 card\",\"description\":\"added card description\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":50},{\"name\":\"added4 card\",\"description\":\"added card description\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":0},{\"name\":\"added1 card\",\"description\":\"added card description\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":50},{\"name\":\"added card\",\"description\":\"added card description\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":0},{\"name\":\"addasdfed1 card\",\"description\":\"added card description\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":0,\"type\":\"UNIT\",\"range\":50},{\"name\":\"hello from front end\",\"description\":\"testing sending cards to DB from app\",\"cost\":5,\"damage\":5,\"hitPoints\":5,\"speed\":2,\"type\":\"UNIT\",\"range\":40}]";
-        Collection<Card> cards = jsonToCardArray(json);
-        System.out.println("");
+    /**
+     * Converts a {@link PlayedCard} to a {@link JSONObject}
+     * @param playedCard the {@link PlayedCard} to convert
+     * @return the {@link JSONObject} corresponding to the original played card
+     */
+    public static JSONObject playedCardToJson(PlayedCard playedCard){
+        Gson gson = new Gson();
+        String json = gson.toJson(playedCard);
+        try {
+            return new JSONObject(json);
+        } catch(Exception e){
+            Log.e("ERROR", "Encountered a parse exception: " + e.getMessage());
+            return null;
+        }
     }
+
+    /**
+     * Converts a json {@link String} to a {@link PlayedCard}
+     * @param json the initial json string
+     * @return the {@link PlayedCard} corresponding to the json
+     */
+    public static PlayedCard jsonToPlayedCard(String json){
+        Gson test = new Gson();
+        return test.fromJson(json, PlayedCard.class);
+    }
+
+    /**
+     * Converts a json String to a collection of played cards
+     * @param json the json {@link String} to construct the {@link Collection} from
+     * @return a {@link Collection} of {@link Card}s described by the provided json
+     */
+    public static Collection<PlayedCard> jsonToPlayedCardArray(String json){
+        Collection<PlayedCard> cards;
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<PlayedCard>>(){}.getType();
+        try{
+            cards = gson.fromJson(json, collectionType);
+        } catch (Exception e){
+            cards = new ArrayList<>();
+            cards.add(gson.fromJson(json, PlayedCard.class));
+        }
+
+        return cards;
+    }
+
+    public static Collection<PlayedCard> socketCardsToPlayedCards(String message){
+        //TODO: get rid of method? No additional parsing is needed anymore
+        return jsonToPlayedCardArray(message);
+    }
+
+
 }

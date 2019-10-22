@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.example.towerDefender.Game.Character;
+import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.Game.Sprite;
 import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
@@ -26,7 +26,7 @@ public class CardInHand {
     private Status status;
     private Card card;
     //TODO: not always a character!
-    private Character cardSprite;
+    private GameObjectSprite cardSprite;
     private Player player;
     private int cardIndex;
 
@@ -145,13 +145,9 @@ public class CardInHand {
      * @param card the card to update the {@link Sprite} for
      */
     private void updateCardAndImage(Card card){
-        this.cardSprite = (Character)CardUtilities.getBitmapForCard(player.getPlayerContext(), card);
+        this.cardSprite = (GameObjectSprite)CardUtilities.getGameObjectSpriteForCard(player.getPlayerContext(), card,
+                450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
         this.card = card;
-        this.cardSprite.xStart = 450 + cardIndex * normalizedInventorySize;
-        this.cardSprite.yStart = Resources.getSystem().getDisplayMetrics().heightPixels - 250;
-        this.cardSprite.image = Bitmap.createScaledBitmap(this.cardSprite.image, normalizedInventorySize, normalizedInventorySize, false);
-        this.cardSprite.xEnd = this.cardSprite.xStart + normalizedInventorySize;
-        this.cardSprite.yEnd = this.cardSprite.yStart + normalizedInventorySize;
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
     }
 
