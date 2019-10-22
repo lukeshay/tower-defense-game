@@ -40,7 +40,7 @@ public class WebSocketClientConnectionTest extends TestCase {
         try{
             Thread.sleep(5000);
         } catch(Exception e){
-            
+            Assert.fail(e.getMessage());
         }
         Assert.assertTrue(SocketUtilities.isOpen());
         Assert.assertTrue(SocketUtilities.getLastMessage().contains("connected=true"));

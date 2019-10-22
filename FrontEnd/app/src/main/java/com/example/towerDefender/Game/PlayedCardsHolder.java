@@ -35,7 +35,7 @@ public class PlayedCardsHolder {
             playedCards.get(index).setxValue(playedCard.getxValue());
             playedCards.get(index).setyValue(playedCard.getyValue());
             playedCards.get(index).setHitPoints(playedCard.getHitPoints());
-            Log.d("SPRITES_HOLDER", "Did not add card, already existed in list without need to update");
+            //Log.d("SPRITES_HOLDER", "Did not add card, already existed in list without need to update");
         } else {
             playedCards.add(playedCard);
             if(playedCard.getPlayer().equals(manager.getPlayer().getUserId())){
@@ -44,7 +44,7 @@ public class PlayedCardsHolder {
                 playedCard.setSprite(CardUtilities.getEnemySprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             }
         }
-        Log.d("SPRITES_HOLDER", "PlayedCardsHolder has " + playedCards.size() + " cards.");
+        //Log.d("SPRITES_HOLDER", "PlayedCardsHolder has " + playedCards.size() + " cards.");
     }
 
     public List<Card> getWrappedCards(){

@@ -42,7 +42,6 @@ public class JsonUtilsTests extends TestCase {
             PlayedCard playedCard = new PlayedCard(card, 5, 15, "test Player");
             Assert.assertNotNull(playedCard);
             JsonUtils.playedCardToJson(playedCard);
-            //{"name":"Reaper","description":"basicReaper","cost":5,"damage":5,"hitPoints":5,"speed":5,"type":"UNIT","range":5,"xValue":5,"yValue":15,"player":"test Player"}
             Assert.assertNotNull(JsonUtils.playedCardToJson(playedCard));
         } catch(Exception e){
             e.printStackTrace();
