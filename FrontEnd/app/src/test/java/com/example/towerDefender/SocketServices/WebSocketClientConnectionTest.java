@@ -1,44 +1,48 @@
 package com.example.towerDefender.SocketServices;
 
-import com.example.towerDefender.SocketServices.WebSocketClientConnection;
+import android.util.Log;
+
 import junit.framework.TestCase;
+
+import org.java_websocket.handshake.ServerHandshake;
 import org.junit.Assert;
 
 import java.io.IOException;
 
 public class WebSocketClientConnectionTest extends TestCase {
 
-    public void testSocketConnects(){
+    public void testSocketConnects() {
+        SocketUtilities.connectForTest("ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s", new SocketListener() {
+
+            @Override
+            public void onMessage(String message) {
+                System.out.println("Got a message: " + message);
+                SocketUtilities.setLastMessage(message);
+            }
+
+            @Override
+            public void onOpen(ServerHandshake handshake) {
+                System.out.println("opened connection");
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                System.out.println("closed connection");
+            }
+
+            @Override
+            public void onError(Exception e) {
+                System.out.println("Encountered an exception: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+        });
         try{
-            WebSocketClientConnection connection = new WebSocketClientConnection("1");
-            WebSocketClientConnection connection2 = new WebSocketClientConnection("2");
-            WebSocketClientConnection connection3 = new WebSocketClientConnection("3");
-            WebSocketClientConnection connection4 = new WebSocketClientConnection("4");
-            Assert.assertTrue(connection.waitForConnection());
-            Assert.assertTrue(connection2.waitForConnection());
-            Assert.assertTrue(connection3.waitForConnection());
-            Assert.assertTrue(connection4.waitForConnection());
-            Assert.assertTrue(connection.isOpen());
-            Assert.assertTrue(connection2.isOpen());
-            Assert.assertTrue(connection3.isOpen());
-            Assert.assertTrue(connection4.isOpen());
-            connection.sendMessage("HELLO FROM SOCKET 1");
-            connection2.sendMessage("HELLO FROM SOCKET 2");
-            connection3.sendMessage("HELLO FROM SOCKET 3");
-            connection4.sendMessage("HELLO FROM SOCKET 4");
-            Assert.assertFalse(connection.getMessages().isEmpty());
-            Assert.assertFalse(connection2.getMessages().isEmpty());
-            Assert.assertFalse(connection3.getMessages().isEmpty());
-            Assert.assertFalse(connection4.getMessages().isEmpty());
-            connection2.close();
-            connection.close();
-            connection3.close();
-            connection4.close();
-        }catch(IOException e){
+            Thread.sleep(5000);
+        } catch(Exception e){
             Assert.fail(e.getMessage());
         }
-
-
+        Assert.assertTrue(SocketUtilities.isOpen());
+        Assert.assertTrue(SocketUtilities.getLastMessage().contains("connected=true"));
     }
-
-}
+   }

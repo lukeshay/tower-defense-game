@@ -1,26 +1,65 @@
 package com.example.towerDefender.Card;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.towerDefender.Game.Character;
+import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Sprite;
+import com.example.towerDefender.R;
+
+import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
 public class CardUtilities {
 
-    public static Sprite getBitmapForCard(Context context, Card card){
-        //TODO: not always characters
-        Sprite toReturn;
-        switch(card.cardName){
-            case "Card 1":
-                toReturn = new Character(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), 0, 0);
-                break;
-            case "Card 2":
-                toReturn= new Character(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), 0, 0);
-                break;
-            default:
-                toReturn = new Character(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), 0, 0);
+    /**
+     * Returns a sprite representing the provided card at the provided location.
+     * @param context the game context, used for getting resources
+     * @param card the card to construct the gameObjectSprite from
+     * @param x the x position of the sprite
+     * @param y the y position of the sprite
+     * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
+     */
+    public static GameObjectSprite getGameObjectSpriteForCard(Context context, Card card, int x, int y){
+        GameObjectSprite toReturn;
+        if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
+        } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
+        } else if(card.cardName.contains("tower")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
+        } else {
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
         }
+        toReturn.image = Bitmap.createScaledBitmap(toReturn.image, normalizedInventorySize, normalizedInventorySize, false);
+        toReturn.xEnd = toReturn.xStart + normalizedInventorySize;
+        toReturn.yEnd = toReturn.yStart + normalizedInventorySize;
         return toReturn;
     }
+
+    /**
+     * Returns a flipped version of the expected sprite for a given card. Used for cards played by opponent
+     * @param context the game context, used for getting resources
+     * @param card the card to construct the gameObjectSprite from
+     * @param x the x position of the sprite
+     * @param y the y position of the sprite
+     * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
+     */
+    public static GameObjectSprite getEnemySprite(Context context, Card card, int x, int y){
+        GameObjectSprite toReturn;
+        if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);
+        } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y, false);
+        } else if(card.cardName.contains("tower")){
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, false);
+        } else {
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
+        }
+        toReturn.image = Bitmap.createScaledBitmap(toReturn.image, normalizedInventorySize, normalizedInventorySize, false);
+        toReturn.xEnd = toReturn.xStart + normalizedInventorySize;
+        toReturn.yEnd = toReturn.yStart + normalizedInventorySize;
+        return toReturn;
+    }
+
 }

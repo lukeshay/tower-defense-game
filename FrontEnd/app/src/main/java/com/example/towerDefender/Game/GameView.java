@@ -18,7 +18,6 @@ import com.example.towerDefender.Activities.NavigationActivity;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView instance;
     private MainThread mainThread;
-    private BackButton backButton;
     private Paint paint;
     private GameManager manager;
     private Player player;
@@ -44,7 +43,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         mainThread.start();
         manager = new GameManager(this, player);
         manager.getPlayer().drawHand();
-        backButton = new BackButton(BitmapFactory.decodeResource(getResources(), com.example.towerDefender.R.drawable.back_button));
     }
 
     @Override
@@ -66,10 +64,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
-            canvas.drawRect(new Rect(450, Resources.getSystem().getDisplayMetrics().heightPixels - 250, Resources.getSystem().getDisplayMetrics().widthPixels - 450, Resources.getSystem().getDisplayMetrics().heightPixels), paint);
             //Manager will draw the characters and hand
             manager.draw(canvas);
-            backButton.draw(canvas);
         }
     }
 
@@ -82,12 +78,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     manager.setPlayingCard(-1, false);
                 }
             } else {
-                if(event.getX() <= backButton.getxEnd() &&
-                    event.getX() >= backButton.getxStart() &&
-                    event.getY() <= backButton.getyEnd() &&
-                    event.getY() >= backButton.getyStart()){
-                    this.backToNavigation(this);
-                }
                 //Is the event within the bounds of one of our CardInHand objects?
                 for(int i = 0; i < 4; i++){
                     if (event.getX() <= manager.getPlayer().getCardInHand(i).getSprite().getxEnd() &&
@@ -111,14 +101,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void update(){
         manager.update();
-    }
-
-    /**
-     * Returns to the {@link NavigationActivity}.
-     */
-    public void backToNavigation(View view){
-        Intent intent = new Intent(this.getContext(), NavigationActivity.class);
-        this.getContext().startActivity(intent);
     }
 
     /**

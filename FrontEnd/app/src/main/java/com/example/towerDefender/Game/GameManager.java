@@ -1,49 +1,50 @@
 package com.example.towerDefender.Game;
 
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
-import com.example.towerDefender.R;
-import com.example.towerDefender.SocketServices.WebSocketClientConnection;
+import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.VolleyServices.JsonUtils;
+//import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+
+import com.example.towerDefender.Card.PlayedCard;
 
 /**
- * The GameManager handles all the {@link Player}s and {@link Character}s for the {@link GameView} to streamline code.
+ * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
+    public static GameManager instance;
     private GameView gameView;
     private Player player;
-    private List<Character> characters;
-    private Turret[] turrets;
+    private PlayedCardsHolder playedCards;
+    //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
-    private WebSocketClientConnection socketConnection;
-
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
+    private long lastUpdate;
+    private int cardsSent = 0;
+    private boolean gameOver = false;
+    private Paint textPaint;
+
     public GameManager(GameView gameView, Player player){
         this.gameView = gameView;
         this.player = player;
-        characters = new ArrayList<>();
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
         isPlayingCard = false;
         cardToPlayIndex = 0;
         initializeDeck();
-        turrets = new Turret[6];
-        initializeTurrets(turrets);
-       // socketConnection = new WebSocketClientConnection(this.player.getUserId());
-    }
-
-    //For testing purposes only!
-    public GameManager(){
-        this.gameView = null;
-        this.player = new Player(null, new ArrayList<Card>());
-        characters = new ArrayList<>();
-        isPlayingCard = false;
-        cardToPlayIndex = 0;
-        initializeDeck();
+        SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
+        lastUpdate = System.currentTimeMillis();
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(250);
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -59,38 +60,29 @@ public class GameManager {
     }
 
     /**
-     * Draws the {@link Character}s and {@link CardInHand}s on the provided canvas
+     * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
-        player.draw(canvas);
-        for(Character sprite : characters){
-            sprite.draw(canvas);
+        if(!gameOver){
+            for(PlayedCard playedCard : playedCards.getPlayedCards()){
+                playedCard.draw(canvas);
+            }
+            for(CardInHand card : player.getHand()){
+                card.draw(canvas);
+            }
+            player.draw(canvas);
+        } else{
+            canvas.drawText("GAME OVER", 0, Sprite.screenHeight / 2, textPaint);
         }
-        for(CardInHand card : player.getHand()){
-            card.draw(canvas);
-        }
-        for(Turret turret : turrets){
-            turret.draw(canvas);
-        }
+
     }
 
     /**
-     * Adds a {@link Character} to manage
-     * @param character the {@link Character} to add
-     */
-    public void addCharacter(Character character){
-        characters.add(character);
-    }
-
-    /**
-     * Updates the {@link Character}s and {@link CardInHand}s.
+     * Updates the {@link GameObjectSprite}s and {@link CardInHand}s.
      */
     public void update(){
         player.update();
-        for(Character character : characters){
-            character.update();
-        }
         for(CardInHand card :  getPlayer().getHand()){
             card.update();
         }
@@ -122,11 +114,16 @@ public class GameManager {
      * @param eventY the Y value of the event playing this card
      */
     public void playCard(int eventX, int eventY){
-        //if(player.hand[cardToPlayIndex].getCard().getCardType() == Card.CardType.UNIT){
-        this.addCharacter(new Character(player.getCardInHand(cardToPlayIndex).getSprite().image, eventX, eventY));
-        player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
-        player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
-        //socketConnection.sendCardToPlay(player.getCardInHand(cardToPlayIndex).getCard());
+        try {
+            Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
+            toSend.cardName = toSend.cardName + "@" + cardsSent++;
+            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend, eventX, eventY, this.player.getUserId())).toString()  );
+            player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
+            player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
+        } catch (Exception e){
+            Log.e("ERROR", "Encountered an error sending card over socket.");
+        }
+
     }
 
     /**
@@ -144,19 +141,39 @@ public class GameManager {
     }
 
     /**
-     * Adds the opponent's played unit to this game's units
+     * Sends a message to the game manager
+     * @param message the message to send to the game manager
      */
-    //TODO: play cards from socket messages
-    public void addOpponentsCard(Card card){
+    public void passMessageToManager(String message){
+        if(System.currentTimeMillis() - lastUpdate >= 2000){
+            this.gameOver = true;
+        }
+            if(message.contains("connected=true")){
+                Log.i("SOCKET_INFO", "Connected.");
+            } else if(message.contains("win") || message.contains("loss")){
+                Log.i("SOCKET_INFO", "GAME OVER: " + message);
+                this.gameOver = true;
+            } else{
+                try {
+                    //If message is not formatted yet it will be an array and contain "PlayedCard"
+                    if(message.contains("PlayedCard")){
+                        Collection<PlayedCard> playedCards = JsonUtils.socketCardsToPlayedCards(message);
+                        for(PlayedCard playedCard : playedCards){
+                            this.playedCards.addOrUpdate(playedCard, this);
+                        }
+                        lastUpdate = System.currentTimeMillis();
+                    } else if(message.contains("name")){
+                        playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+                        lastUpdate = System.currentTimeMillis();
+                    }
+                } catch (Exception e){
+                    Log.e("ERROR", e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+
 
     }
 
-    public void initializeTurrets(Turret[] turrets){
-        turrets[0] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower), 50, Sprite.screenHeight / 2);
-        turrets[1] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower),150, Sprite.screenHeight / 4);
-        turrets[2] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.friendly_tower),150, 3 * Sprite.screenHeight / 4);
-        turrets[3] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower),Sprite.screenWidth - 150, Sprite.screenHeight / 2);
-        turrets[4] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower),Sprite.screenWidth - 250, Sprite.screenHeight / 4);
-        turrets[5] = new Turret(BitmapFactory.decodeResource(this.player.getPlayerContext().getResources(), R.drawable.enemy_tower), Sprite.screenWidth - 250, 3 * Sprite.screenHeight / 4);
-    }
 }

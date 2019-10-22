@@ -4,12 +4,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.provider.Settings;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.Card.Deck;
 
 import java.util.ArrayList;
+
+import static android.provider.Settings.Secure.ANDROID_ID;
 
 public class Player {
     //The amount of mana to regenerate every second
@@ -32,7 +35,7 @@ public class Player {
         this.currentMana = 5;
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
-        this.userId = "3";
+        this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID);
     }
 
     public void drawHand(){
