@@ -145,7 +145,8 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        if(System.currentTimeMillis() - lastUpdate >= 2000){
+        //have we gone 5 seconds without server communication?
+        if(System.currentTimeMillis() - lastUpdate >= 5000){
             this.gameOver = true;
         }
             if(message.contains("connected=true")){
