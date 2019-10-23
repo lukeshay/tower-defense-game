@@ -1,11 +1,9 @@
 package com.pvptowerdefense.server.socket.handlers;
 
-import com.pvptowerdefense.server.socket.SocketConfig;
 import com.pvptowerdefense.server.socket.models.MatchUp;
 import com.pvptowerdefense.server.socket.models.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -14,7 +12,6 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
