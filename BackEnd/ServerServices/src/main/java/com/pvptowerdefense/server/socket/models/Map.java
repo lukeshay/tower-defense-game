@@ -1,7 +1,5 @@
 package com.pvptowerdefense.server.socket.models;
 
-import shared.PlayedCard;
-
 import java.util.*;
 
 public class Map {
@@ -22,7 +20,6 @@ public class Map {
     private static final int TOWER1_X = 50;
     private static final int TOWER2_X = 150;
     private static final int TOWER3_X = 150;
-
 
     public Map(String userId1, String userId2){
         cardsP1 = new ArrayList<PlayedCard>();
