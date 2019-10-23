@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
@@ -45,6 +46,15 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
+			if (!isValidUser(id)) {
+				try {
+					session.close();
+				} catch (IOException ignore) {
+				}
+
+				return;
+			}
+
 			logger.info(id + " connected");
 			purgeMapsAndList();
 
@@ -144,7 +154,7 @@ public class SocketHandler {
 					matchUp -> matchUp.getPlayerOneSession().equals(session) ||
 							matchUp.getPlayerTwoSession().equals(session)
 			)
-			.collect(Collectors.toList()).get(0);
+					.collect(Collectors.toList()).get(0);
 
 		} catch (Exception e) {
 			return null;
@@ -165,5 +175,9 @@ public class SocketHandler {
 				}
 			}
 		});
+	}
+
+	private boolean isValidUser(String id) {
+		return true;
 	}
 }

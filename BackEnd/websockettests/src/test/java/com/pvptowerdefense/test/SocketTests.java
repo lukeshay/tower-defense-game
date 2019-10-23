@@ -51,9 +51,9 @@ class SocketTests {
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 
 		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
-				"UNIT", 250, 100, 100, "1"));
+				"UNIT", 50, 100, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 100, 0,
-				"UNIT", 250, 1900, 100, "2"));
+				"UNIT", 50, 1900, 100, "2"));
 		Thread.sleep(1500);
 
 		List<PlayedCard> cards1 = Message.convertToListOfPlayedCards(
