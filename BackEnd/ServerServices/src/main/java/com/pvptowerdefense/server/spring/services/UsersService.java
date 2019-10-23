@@ -90,4 +90,11 @@ public class UsersService {
         new Deck(new ArrayList<Card>(), deckName, deckId);
     }
 
+    /*
+     * Method to update the user to the current version
+     * @param User user - the user to be updated
+     */
+    public void updateUser(User user){
+        usersDao.save(user);
+    }
 }
