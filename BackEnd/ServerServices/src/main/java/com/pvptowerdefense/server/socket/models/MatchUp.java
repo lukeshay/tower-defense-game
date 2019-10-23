@@ -41,7 +41,7 @@ public class MatchUp implements Runnable {
 	}
 
 	private void sendInPlayCards() {
-		logger.trace("sending cards");
+		logger.info("sending cards");
 		CompletableFuture.runAsync(() -> {
 			Future<Void> deliveryProgress1 =
 					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
@@ -53,7 +53,7 @@ public class MatchUp implements Runnable {
 	}
 
 	public void handleMessage(Session session, String message) {
-		logger.trace("handling message");
+		logger.info("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
 		if (card != null) {
 			map.addCard(card);

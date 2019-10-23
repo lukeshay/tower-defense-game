@@ -29,9 +29,6 @@ public class SocketHandler {
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
 
-	private static AnnotationConfigApplicationContext context =
-			new AnnotationConfigApplicationContext(SocketConfig.class);
-
 	/**
 	 * This class handles the incoming socket requests.
 	 */
@@ -48,12 +45,14 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
-			logger.trace(id + " connected");
+			logger.info(id + " connected");
+			purgeMapsAndList();
+
 			idAndSession.put(id, session);
 			sessionAndId.put(session, id);
 
 			if (idAndSession.size() % 2 == 1) {
-				logger.trace(id + " not added to game");
+				logger.info(id + " not added to game");
 				session.getAsyncRemote().sendText(
 						Messages.connectedTrueMatchUpFalse().toString()
 				);
@@ -66,7 +65,7 @@ public class SocketHandler {
 					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchUp ->
 							(matchUp.getPlayerOneSession().equals(otherSession) ||
 									matchUp.getPlayerTwoSession().equals(otherSession)))) {
-						logger.trace("matching up " + otherId + " and " + id);
+						logger.info("matching up " + otherId + " and " + id);
 
 						matchUpList.add(new MatchUp(otherId, otherSession, id,
 								session));
@@ -81,9 +80,7 @@ public class SocketHandler {
 					}
 				}
 			}
-			MatchUp.getPool().purge();
 		});
-
 	}
 
 	/**
@@ -122,7 +119,7 @@ public class SocketHandler {
 				MatchUp.getPool().remove(matchUp);
 			}
 
-			MatchUp.getPool().purge();
+			purgeMapsAndList();
 		});
 	}
 
@@ -150,8 +147,23 @@ public class SocketHandler {
 			.collect(Collectors.toList()).get(0);
 
 		} catch (Exception e) {
-			logger.error("Error when finding MatchUp", e);
 			return null;
 		}
+	}
+
+	private void purgeMapsAndList() {
+		logger.info("purging");
+		idAndSession.forEach((id, session) -> {
+			if (!session.isOpen()) {
+				idAndSession.remove(id);
+				sessionAndId.remove(session);
+
+				MatchUp matchUp = findMatchUp(session);
+				if (matchUp != null) {
+					matchUpList.remove(matchUp);
+					MatchUp.getPool().remove(matchUp);
+				}
+			}
+		});
 	}
 }
