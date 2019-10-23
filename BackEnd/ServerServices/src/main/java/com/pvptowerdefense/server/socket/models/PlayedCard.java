@@ -12,11 +12,17 @@ public class PlayedCard {
     private int damage;
     private int hitPoints;
     private int speed;
+    // private int currentSpeed; // If they are attacking this would be 0.
+    // Can be used when spells are implemented.
     private String type;
     private int range;
     private int xValue;
     private int yValue;
     private String player;
+    // Possible variables for future.
+    // private boolean attacking;
+    // private String cardAttacking; // The card this card is attacking.
+    // private boolean healing;
 
     /**
      * Instantiates a new Played card.
