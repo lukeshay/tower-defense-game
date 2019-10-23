@@ -1,7 +1,6 @@
 package com.pvptowerdefense.server.socket.models;
 
 import com.google.gson.Gson;
-import shared.PlayedCard;
 
 import java.util.*;
 import java.util.Map;

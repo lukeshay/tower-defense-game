@@ -1,17 +1,14 @@
 package com.pvptowerdefense.server.socket.models;
 
-import shared.PlayedCard;
-
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class Game implements Runnable {
+public class MatchUp implements Runnable {
 	private static final int MAX_T = 10;
 	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
 
@@ -22,8 +19,8 @@ public class Game implements Runnable {
 
 	private Map map;
 
-	public Game(String playerOneId, Session playerOneSession,
-	            String playerTwoId, Session playerTwoSession) {
+	public MatchUp(String playerOneId, Session playerOneSession,
+	               String playerTwoId, Session playerTwoSession) {
 		this.playerOneSession = playerOneSession;
 		this.playerTwoSession = playerTwoSession;
 
@@ -56,11 +53,6 @@ public class Game implements Runnable {
 	}
 
 	private void gameOver(String winner) {
-		sendInPlayCards();
-		sendResultMessages(winner);
-	}
-
-	private void sendResultMessages(String winner) {
 		if (winner == null) {
 			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
 			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
@@ -81,7 +73,7 @@ public class Game implements Runnable {
 		}
 	}
 
-	private boolean checkBothConnected() {
+	private boolean areBothConnected() {
 		return playerOneSession.isOpen() && playerTwoSession.isOpen();
 	}
 
@@ -100,7 +92,7 @@ public class Game implements Runnable {
 
 		while (cont) {
 			boolean someoneDed = map.clockCycle();
-			boolean bothConnected = checkBothConnected();
+			boolean bothConnected = areBothConnected();
 
 			sendInPlayCards();
 

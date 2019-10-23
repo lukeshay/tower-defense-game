@@ -1,9 +1,11 @@
 package com.pvptowerdefense.server.socket.handlers;
 
-import com.pvptowerdefense.server.socket.models.Game;
+import com.pvptowerdefense.server.socket.SocketConfig;
+import com.pvptowerdefense.server.socket.models.MatchUp;
 import com.pvptowerdefense.server.socket.models.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -23,9 +25,12 @@ import java.util.stream.Collectors;
 public class SocketHandler {
 	private static HashMap<String, Session> idAndSession = new HashMap<>();
 	private static HashMap<Session, String> sessionAndId = new HashMap<>();
-	private static List<Game> gameList = new ArrayList<>();
+	private static List<MatchUp> matchUpList = new ArrayList<>();
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
+
+	private static AnnotationConfigApplicationContext context =
+			new AnnotationConfigApplicationContext(SocketConfig.class);
 
 	/**
 	 * This class handles the incoming socket requests.
@@ -57,10 +62,10 @@ public class SocketHandler {
 					Session otherSession = entry.getKey();
 					String otherId = entry.getValue();
 
-					if (!otherId.equals(id) && gameList.stream().noneMatch(game ->
-							(game.getPlayerOneSession().equals(otherSession) ||
-									game.getPlayerTwoSession().equals(otherSession)))) {
-						gameList.add(new Game(otherId, otherSession, id,
+					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchUp ->
+							(matchUp.getPlayerOneSession().equals(otherSession) ||
+									matchUp.getPlayerTwoSession().equals(otherSession)))) {
+						matchUpList.add(new MatchUp(otherId, otherSession, id,
 								session));
 
 						otherSession.getAsyncRemote().sendText(
@@ -73,7 +78,7 @@ public class SocketHandler {
 					}
 				}
 			}
-			Game.getPool().purge();
+			MatchUp.getPool().purge();
 		});
 
 	}
@@ -87,9 +92,9 @@ public class SocketHandler {
 	@OnMessage
 	public void onMessage(Session session, String message) {
 		CompletableFuture.runAsync(() -> {
-			Game game = findMatchUp(session);
-			if (game != null) {
-				game.handleMessage(session, message);
+			MatchUp matchUp = findMatchUp(session);
+			if (matchUp != null) {
+				matchUp.handleMessage(session, message);
 			}
 		});
 	}
@@ -106,15 +111,15 @@ public class SocketHandler {
 			idAndSession.remove(id);
 			sessionAndId.remove(session);
 
-			gameList.remove(findMatchUp(session));
-			Game game = findMatchUp(session);
+			matchUpList.remove(findMatchUp(session));
+			MatchUp matchUp = findMatchUp(session);
 
-			if (game != null) {
-				gameList.remove(game);
-				Game.getPool().remove(game);
+			if (matchUp != null) {
+				matchUpList.remove(matchUp);
+				MatchUp.getPool().remove(matchUp);
 			}
 
-			Game.getPool().purge();
+			MatchUp.getPool().purge();
 		});
 	}
 
@@ -133,9 +138,9 @@ public class SocketHandler {
 	 * @param session The session whose match up is being looked for.
 	 * @return The match up.
 	 */
-	private Game findMatchUp(Session session) {
+	private MatchUp findMatchUp(Session session) {
 		try {
-			return gameList.stream().filter(getMatchUpPredicate(session))
+			return matchUpList.stream().filter(getMatchUpPredicate(session))
 					.collect(Collectors.toList()).get(0);
 		} catch (Exception e) {
 			return null;
@@ -148,9 +153,9 @@ public class SocketHandler {
 	 * @param session The session being looked for.
 	 * @return Predicate for the match up.
 	 */
-	private Predicate<Game> getMatchUpPredicate(Session session) {
-		return game -> game.getPlayerOneSession().equals(session) ||
-				game.getPlayerTwoSession().equals(session);
+	private Predicate<MatchUp> getMatchUpPredicate(Session session) {
+		return matchUp -> matchUp.getPlayerOneSession().equals(session) ||
+				matchUp.getPlayerTwoSession().equals(session);
 	}
 
 }

@@ -1,37 +1,21 @@
-package shared;
+package com.pvptowerdefense.server.socket.models;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * The type Played card.
  */
-public class PlayedCard implements Serializable {
-    private static final long serialVersionUID = 69L;
-
-    @SerializedName("name")
+public class PlayedCard {
     private String name;
-    @SerializedName("description")
     private String description;
-    @SerializedName("cost")
     private int cost;
-    @SerializedName("damage")
     private int damage;
-    @SerializedName("hitPoints")
     private int hitPoints;
-    @SerializedName("speed")
     private int speed;
-    @SerializedName("type")
     private String type;
-    @SerializedName("range")
     private int range;
-    @SerializedName("xValue")
     private int xValue;
-    @SerializedName("yValue")
     private int yValue;
-    @SerializedName("player")
     private String player;
 
     /**
@@ -61,15 +45,6 @@ public class PlayedCard implements Serializable {
         this.xValue = xValue;
         this.yValue = yValue;
         this.player = player;
-    }
-
-    /**
-     * Gets serial version uid.
-     *
-     * @return the serial version uid
-     */
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     /**
