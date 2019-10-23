@@ -10,6 +10,7 @@ public class PlayedCard {
     private String description;
     private int cost;
     private int damage;
+    // private int currentDamage; // Can be used when spells are implemented.
     private int hitPoints;
     private int speed;
     // private int currentSpeed; // If they are attacking this would be 0.

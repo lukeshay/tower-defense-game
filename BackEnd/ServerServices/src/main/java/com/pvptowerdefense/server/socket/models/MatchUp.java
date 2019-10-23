@@ -1,5 +1,9 @@
 package com.pvptowerdefense.server.socket.models;
 
+import com.pvptowerdefense.server.socket.handlers.SocketHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Date;
@@ -9,6 +13,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MatchUp implements Runnable {
+	private static Logger logger =
+			LoggerFactory.getLogger(MatchUp.class.getName());
+
 	private static final int MAX_T = 10;
 	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
 
@@ -34,6 +41,7 @@ public class MatchUp implements Runnable {
 	}
 
 	private void sendInPlayCards() {
+		logger.trace("sending cards");
 		CompletableFuture.runAsync(() -> {
 			Future<Void> deliveryProgress1 =
 					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
@@ -45,6 +53,7 @@ public class MatchUp implements Runnable {
 	}
 
 	public void handleMessage(Session session, String message) {
+		logger.trace("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
 		if (card != null) {
 			map.addCard(card);
@@ -54,16 +63,16 @@ public class MatchUp implements Runnable {
 
 	private void gameOver(String winner) {
 		if (winner == null) {
-			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
-			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
+			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss());
+			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss());
 		}
 		else if (winner.equals(playerOneId)) {
-			playerOneSession.getAsyncRemote().sendText(Messages.gameWin().toString());
-			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
+			playerOneSession.getAsyncRemote().sendText(Messages.gameWin());
+			playerTwoSession.getAsyncRemote().sendText(Messages.gameLoss());
 		}
 		else {
-			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss().toString());
-			playerTwoSession.getAsyncRemote().sendText(Messages.gameWin().toString());
+			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss());
+			playerTwoSession.getAsyncRemote().sendText(Messages.gameWin());
 		}
 
 		try {

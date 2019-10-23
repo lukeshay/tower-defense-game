@@ -48,11 +48,12 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
-			logger.info(id + " connected");
+			logger.trace(id + " connected");
 			idAndSession.put(id, session);
 			sessionAndId.put(session, id);
 
 			if (idAndSession.size() % 2 == 1) {
+				logger.trace(id + " not added to game");
 				session.getAsyncRemote().sendText(
 						Messages.connectedTrueMatchUpFalse().toString()
 				);
@@ -65,6 +66,8 @@ public class SocketHandler {
 					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchUp ->
 							(matchUp.getPlayerOneSession().equals(otherSession) ||
 									matchUp.getPlayerTwoSession().equals(otherSession)))) {
+						logger.trace("matching up " + otherId + " and " + id);
+
 						matchUpList.add(new MatchUp(otherId, otherSession, id,
 								session));
 

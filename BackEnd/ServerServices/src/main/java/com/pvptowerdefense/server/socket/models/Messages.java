@@ -6,58 +6,58 @@ import java.util.*;
 import java.util.Map;
 
 public class Messages {
-	public static Map<String, String> connectedTrueMatchUpFalse() {
+	public static String connectedTrueMatchUpFalse() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("connected", "true");
 		map.put("matchUp", "false");
 		map.put("side", "");
 
-		return map;
+		return new Gson().toJson(map);
 	}
 
-	public static Map<String, String> connectedTrueMatchUpTrue(String opp) {
+	public static String connectedTrueMatchUpTrue(String opp) {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("connected", "true");
 		map.put("matchUp", "true");
 		map.put("side", opp);
 
-		return map;
+		return new Gson().toJson(map);
 	}
 
-	public static Map<String, String> connectedFalseMatchUpFalse() {
+	public static String connectedFalseMatchUpFalse() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("connected", "false");
 		map.put("matchUp", "false");
 		map.put("side", "");
 
-		return map;
+		return new Gson().toJson(map);
 	}
 
-	public static Map<String, String> gameWin() {
+	public static String gameWin() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("game", "win");
 
-		return map;
+		return new Gson().toJson(map);
 	}
 
-	public static Map<String, String> gameLoss() {
+	public static String gameLoss() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("game", "loss");
 
-		return map;
+		return new Gson().toJson(map);
 	}
 
-	public static Map<String, String> cardAdded() {
+	public static String cardAdded() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("card", "added");
 
-		return map;
+		return new Gson().toJson(map);
 	}
 
 	public static String convertToJson(Object obj) {
