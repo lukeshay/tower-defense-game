@@ -5,10 +5,16 @@ import shared.PlayedCard;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Game implements Runnable {
+	private static final int MAX_T = 10;
+	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
+
 	private Session playerOneSession;
 	private String playerOneId;
 	private Session playerTwoSession;
@@ -22,6 +28,12 @@ public class Game implements Runnable {
 		this.playerTwoSession = playerTwoSession;
 
 		map = new Map(playerOneId, playerTwoId);
+
+		pool.execute(this);
+	}
+
+	public static ThreadPoolExecutor getPool() {
+		return pool;
 	}
 
 	private void sendInPlayCards() {
@@ -35,7 +47,7 @@ public class Game implements Runnable {
 		});
 	}
 
-	void handleMessage(Session session, String message) {
+	public void handleMessage(Session session, String message) {
 		PlayedCard card = Messages.convertJsonToCard(message);
 		if (card != null) {
 			map.addCard(card);
@@ -71,6 +83,14 @@ public class Game implements Runnable {
 
 	private boolean checkBothConnected() {
 		return playerOneSession.isOpen() && playerTwoSession.isOpen();
+	}
+
+	public Session getPlayerOneSession() {
+		return playerOneSession;
+	}
+
+	public Session getPlayerTwoSession() {
+		return playerTwoSession;
 	}
 
 	@Override
