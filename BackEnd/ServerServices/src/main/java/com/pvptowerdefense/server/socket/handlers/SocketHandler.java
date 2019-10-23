@@ -130,7 +130,7 @@ public class SocketHandler {
 	public void onError(Session session, Throwable throwable) {
 		CompletableFuture.runAsync(() -> {
 			session.getAsyncRemote().sendText("ERROR " + throwable.getMessage());
-			throwable.printStackTrace();
+			logger.error("Error in SocketHandler", throwable);
 		});
 	}
 
@@ -143,22 +143,15 @@ public class SocketHandler {
 	 */
 	private MatchUp findMatchUp(Session session) {
 		try {
-			return matchUpList.stream().filter(getMatchUpPredicate(session))
-					.collect(Collectors.toList()).get(0);
+			return matchUpList.stream().filter(
+					matchUp -> matchUp.getPlayerOneSession().equals(session) ||
+							matchUp.getPlayerTwoSession().equals(session)
+			)
+			.collect(Collectors.toList()).get(0);
+
 		} catch (Exception e) {
+			logger.error("Error when finding MatchUp", e);
 			return null;
 		}
 	}
-
-	/**
-	 * Helper for findMatchUp.
-	 *
-	 * @param session The session being looked for.
-	 * @return Predicate for the match up.
-	 */
-	private Predicate<MatchUp> getMatchUpPredicate(Session session) {
-		return matchUp -> matchUp.getPlayerOneSession().equals(session) ||
-				matchUp.getPlayerTwoSession().equals(session);
-	}
-
 }
