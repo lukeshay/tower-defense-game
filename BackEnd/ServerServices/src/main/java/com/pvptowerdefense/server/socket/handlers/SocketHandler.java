@@ -10,10 +10,8 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -45,11 +43,23 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
+			if (!isValidUser(id)) {
+				try {
+					session.close();
+				} catch (IOException ignore) {
+				}
+
+				return;
+			}
+
 			logger.info(id + " connected");
+			purgeMapsAndList();
+
 			idAndSession.put(id, session);
 			sessionAndId.put(session, id);
 
 			if (idAndSession.size() % 2 == 1) {
+				logger.info(id + " not added to game");
 				session.getAsyncRemote().sendText(
 						Messages.connectedTrueMatchUpFalse().toString()
 				);
@@ -59,9 +69,11 @@ public class SocketHandler {
 					Session otherSession = entry.getKey();
 					String otherId = entry.getValue();
 
-					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchSession ->
-							(matchSession.getPlayerOneSession().equals(otherSession) ||
-									matchSession.getPlayerTwoSession().equals(otherSession)))) {
+					if (!otherId.equals(id) && matchUpList.stream().noneMatch(matchUp ->
+							(matchUp.getPlayerOneSession().equals(otherSession) ||
+									matchUp.getPlayerTwoSession().equals(otherSession)))) {
+						logger.info("matching up " + otherId + " and " + id);
+
 						matchUpList.add(new MatchUp(otherId, otherSession, id,
 								session));
 
@@ -75,9 +87,7 @@ public class SocketHandler {
 					}
 				}
 			}
-			MatchUp.getPool().purge();
 		});
-
 	}
 
 	/**
@@ -89,10 +99,9 @@ public class SocketHandler {
 	@OnMessage
 	public void onMessage(Session session, String message) {
 		CompletableFuture.runAsync(() -> {
-			MatchUp matchup = findMatchUp(session);
-			if (matchup != null) {
-				System.out.println(message);
-				matchup.sendMessage(session, message);
+			MatchUp matchUp = findMatchUp(session);
+			if (matchUp != null) {
+				matchUp.handleMessage(session, message);
 			}
 		});
 	}
@@ -114,10 +123,10 @@ public class SocketHandler {
 
 			if (matchUp != null) {
 				matchUpList.remove(matchUp);
-				MatchUp.getPool().remove(matchUp.getGame());
+				MatchUp.getPool().remove(matchUp);
 			}
 
-			MatchUp.getPool().purge();
+			purgeMapsAndList();
 		});
 	}
 
@@ -125,7 +134,7 @@ public class SocketHandler {
 	public void onError(Session session, Throwable throwable) {
 		CompletableFuture.runAsync(() -> {
 			session.getAsyncRemote().sendText("ERROR " + throwable.getMessage());
-			throwable.printStackTrace();
+			logger.error("Error in SocketHandler", throwable);
 		});
 	}
 
@@ -138,22 +147,34 @@ public class SocketHandler {
 	 */
 	private MatchUp findMatchUp(Session session) {
 		try {
-			return matchUpList.stream().filter(getMatchUpPredicate(session))
+			return matchUpList.stream().filter(
+					matchUp -> matchUp.getPlayerOneSession().equals(session) ||
+							matchUp.getPlayerTwoSession().equals(session)
+			)
 					.collect(Collectors.toList()).get(0);
+
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	/**
-	 * Helper for findMatchUp.
-	 *
-	 * @param session The session being looked for.
-	 * @return Predicate for the match up.
-	 */
-	private Predicate<MatchUp> getMatchUpPredicate(Session session) {
-		return matchUp -> matchUp.getPlayerOneSession().equals(session) ||
-				matchUp.getPlayerTwoSession().equals(session);
+	private void purgeMapsAndList() {
+		logger.info("purging");
+		idAndSession.forEach((id, session) -> {
+			if (!session.isOpen()) {
+				idAndSession.remove(id);
+				sessionAndId.remove(session);
+
+				MatchUp matchUp = findMatchUp(session);
+				if (matchUp != null) {
+					matchUpList.remove(matchUp);
+					MatchUp.getPool().remove(matchUp);
+				}
+			}
+		});
 	}
 
+	private boolean isValidUser(String id) {
+		return true;
+	}
 }

@@ -6,6 +6,8 @@ import com.pvptowerdefense.server.spring.models.Deck;
 import com.pvptowerdefense.server.spring.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Arrays;
 
 @Service
 public class UsersService {
+    private static Logger logger =
+            LoggerFactory.getLogger(UsersService.class.getName());
     private UsersDao usersDao;
 
     @Autowired
@@ -21,6 +25,7 @@ public class UsersService {
     }
 
     public List<User> getAllUsers(){
+        logger.info("getting all users");
         List<User> users = new ArrayList<>();
         usersDao.findAll().forEach(users::add);
 
@@ -28,6 +33,7 @@ public class UsersService {
     }
 
     public void loadPresetUsersToDatabase(){
+        logger.info("loading users to database");
         List<User> users = Arrays.asList(
                 new User("user1", "phoneId1", "firstName1", "lastName1", 
                         "email1", "User"),
@@ -40,22 +46,20 @@ public class UsersService {
     }
 
     public User findUserById(String phoneId){
+        logger.info("finding user " + phoneId);
         return usersDao.findUserByPhoneId(phoneId);
     }
 
     public void deleteUserById(String id){
+        logger.info("deleting user " + id);
         usersDao.deleteById(id);
     }
 
     public void addUserToDb(User id){
+        logger.info("adding user " + id);
         if(!usersDao.existsById(id.getPhoneId())) {
             usersDao.save(id);
         }
         else{ throw new IllegalArgumentException("This phone already has a user connected to it!"); }
     }
-
-    public void addEmptyDeck(String deckName, int deckId){
-        new Deck(new ArrayList<Card>(), deckName, deckId);
-    }
-
 }

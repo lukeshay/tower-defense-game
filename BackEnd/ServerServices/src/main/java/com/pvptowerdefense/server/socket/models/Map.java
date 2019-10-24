@@ -1,7 +1,5 @@
 package com.pvptowerdefense.server.socket.models;
 
-import shared.PlayedCard;
-
 import java.util.*;
 
 public class Map {
@@ -22,7 +20,6 @@ public class Map {
     private static final int TOWER1_X = 50;
     private static final int TOWER2_X = 150;
     private static final int TOWER3_X = 150;
-
 
     public Map(String userId1, String userId2){
         cardsP1 = new ArrayList<PlayedCard>();
@@ -93,8 +90,16 @@ public class Map {
                 boolean attack = false;
                 for (PlayedCard p2Cards : cardsP2) {
                     if (distance(p1Cards, p2Cards) <= p1Cards.getRange() && !attack) {
+                        System.out.println("P1 X: " + p1Cards.getxValue());
+                        System.out.println("P2 X: " + p2Cards.getxValue());
+                        System.out.println("Distance: " + distance(p1Cards, p2Cards));
+                        System.out.println(p1Cards.getName() + " is P1, " + p2Cards.getName() + " is P2.");
+                        System.out.println("P1 DMG: " + p1Cards.getDamage());
+                        System.out.println("P2 HP before: " + p2Cards.getHitPoints());
                         attack = true;
                         p2Cards.setHitPoints(p2Cards.getHitPoints() - p1Cards.getDamage());
+                        System.out.println("P2 HP after: " + p2Cards.getHitPoints());
+
                     }
                 }
                 if(!attack){
@@ -105,8 +110,15 @@ public class Map {
                 boolean attack = false;
                 for (PlayedCard p1Cards : cardsP1) {
                     if (distance(p2Cards, p1Cards) <= p2Cards.getRange() && !attack) {
+                        System.out.println("P2 X: " + p2Cards.getxValue());
+                        System.out.println("P1 X: " + p1Cards.getxValue());
+                        System.out.println("Distance: " + distance(p1Cards, p2Cards));
+                        System.out.println(p2Cards.getName() + " is P2, " + p1Cards.getName() + " is P1.");
+                        System.out.println("P2 DMG: " + p2Cards.getDamage());
+                        System.out.println("P1 HP before: " + p1Cards.getHitPoints());
                         attack = true;
                         p1Cards.setHitPoints(p1Cards.getHitPoints() - p2Cards.getDamage());
+                        System.out.println("P1 HP after: " + p1Cards.getHitPoints());
                     }
                 }
                 if(!attack){
