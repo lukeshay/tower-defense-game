@@ -5,11 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
-import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.Game.GameObjectSprite;
-import com.example.towerDefender.Game.GameView;
-import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.Game.Sprite;
 
 import java.io.Serializable;
@@ -274,9 +270,9 @@ public class PlayedCard implements Serializable {
 
     /**
      * Updates and draws the wrapped {@link GameObjectSprite}, initializing it if necessary.
-     * @param canvas the canvas to drawAsFriendly to
+     * @param canvas the canvas to drawLeftFacing to
      */
-    public void drawAsFriendly(Canvas canvas){
+    public void drawLeftFacing(Canvas canvas){
         if(this.sprite == null){
             Log.e("ERROR", "No sprite associated with card (" + this.name +"). Please addOrUpdate sprite.");
         } else if(hitPoints > 0){
@@ -289,9 +285,9 @@ public class PlayedCard implements Serializable {
 
     /**
      * Updates and draws the wrapped {@link GameObjectSprite} reversed (as an enemy)
-     * @param canvas the canvas to drawAsFriendly to
+     * @param canvas the canvas to drawLeftFacing to
      */
-    public void drawAsEnemy(Canvas canvas){
+    public void drawRightFacing(Canvas canvas){
         if(this.sprite == null){
             Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
         } else if(hitPoints > 0){
@@ -301,7 +297,7 @@ public class PlayedCard implements Serializable {
                 this.sprite.yStart = Sprite.screenHeight - this.sprite.image.getHeight() - this.yValue;
                 this.sprite.draw(canvas);
             } else{
-                drawAsFriendly(canvas);
+                drawLeftFacing(canvas);
             }
         }
     }

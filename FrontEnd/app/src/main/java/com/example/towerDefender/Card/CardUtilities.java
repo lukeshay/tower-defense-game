@@ -20,7 +20,7 @@ public class CardUtilities {
      * @param y the y position of the sprite
      * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
      */
-    public static GameObjectSprite getGameObjectSpriteForCard(Context context, Card card, int x, int y){
+    public static GameObjectSprite getGameObjectSpriteLeftFacing(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
@@ -45,7 +45,7 @@ public class CardUtilities {
      * @param y the y position of the sprite
      * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
      */
-    public static GameObjectSprite getEnemySprite(Context context, Card card, int x, int y){
+    public static GameObjectSprite getGameObjectSpriteRightFacing(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);

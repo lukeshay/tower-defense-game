@@ -22,6 +22,7 @@ import com.example.towerDefender.Card.PlayedCard;
 public class GameManager {
     public static GameManager instance;
     private GameView gameView;
+    public String playerSide;
     private Player player;
     private PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
@@ -44,6 +45,7 @@ public class GameManager {
         lastUpdate = System.currentTimeMillis();
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(250);
+        playerSide = "left";
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -60,15 +62,15 @@ public class GameManager {
 
     /**
      * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
-     * @param canvas the canvas to drawAsFriendly on
+     * @param canvas the canvas to drawLeftFacing on
      */
     public void draw(Canvas canvas){
         if(!gameOver){
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                if(playedCard.getPlayer().equals(this.getPlayer().getUserId())){
-                    playedCard.drawAsFriendly(canvas);
+                if(playedCard.getPlayer().equals(this.getPlayer().getUserId()) && playerSide != null && playerSide.equals("left")){
+                    playedCard.drawLeftFacing(canvas);
                 } else{
-                    playedCard.drawAsEnemy(canvas);
+                    playedCard.drawRightFacing(canvas);
                 }
             }
             for(CardInHand card : player.getHand()){
@@ -152,31 +154,34 @@ public class GameManager {
         if(System.currentTimeMillis() - lastUpdate >= 5000){
             this.gameOver = true;
         }
-            if(message.contains("connected=true")){
-                Log.i("SOCKET_INFO", "Connected.");
-            } else if(message.contains("win") || message.contains("loss")){
-                Log.i("SOCKET_INFO", "GAME OVER: " + message);
-                this.gameOver = true;
-            } else{
-                try {
-                    //If message is not formatted yet it will be an array and contain "PlayedCard"
-                    if(message.contains("PlayedCard")){
-                        Collection<PlayedCard> playedCards = JsonUtils.socketCardsToPlayedCards(message);
-                        for(PlayedCard playedCard : playedCards){
-                            this.playedCards.addOrUpdate(playedCard, this);
-                        }
-                        lastUpdate = System.currentTimeMillis();
-                    } else if(message.contains("name")){
-                        playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
-                        lastUpdate = System.currentTimeMillis();
-                    }
-                } catch (Exception e){
-                    Log.e("ERROR", e.getMessage());
-                    e.printStackTrace();
-                }
+        if(message.contains("connected=true")){
+            Log.i("SOCKET_INFO", "Connected.");
+            if(message.contains("left")){
+                playerSide = "left";
+            } else if(message.contains("right")){
+                playerSide = "right";
             }
-
-
+        } else if(message.contains("win") || message.contains("loss")){
+            Log.i("SOCKET_INFO", "GAME OVER: " + message);
+            this.gameOver = true;
+        } else{
+            try {
+                //If message is not formatted yet it will be an array and contain "PlayedCard"
+                if(message.contains("PlayedCard")){
+                    Collection<PlayedCard> playedCards = JsonUtils.socketCardsToPlayedCards(message);
+                    for(PlayedCard playedCard : playedCards){
+                        this.playedCards.addOrUpdate(playedCard, this);
+                    }
+                    lastUpdate = System.currentTimeMillis();
+                } else if(message.contains("name")){
+                    playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+                    lastUpdate = System.currentTimeMillis();
+                }
+            } catch (Exception e){
+                Log.e("ERROR", e.getMessage());
+                e.printStackTrace();
+            }
+        }
 
     }
 

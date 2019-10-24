@@ -1,26 +1,20 @@
 package com.example.towerDefender.Card;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.towerDefender.Activities.MultiplayerGameActivity;
 import com.example.towerDefender.Game.GameObjectSprite;
-import com.example.towerDefender.R;
 
 import junit.framework.TestCase;
 
 import org.junit.Assert;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class CardUtilitiesImplementationTests extends TestCase {
     private static Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
@@ -29,16 +23,16 @@ public class CardUtilitiesImplementationTests extends TestCase {
     public void testFriendlySpritesDiffer(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.getResources();
-        GameObjectSprite reaperSprite = CardUtilities.getGameObjectSpriteForCard(context, card, 15, 15);
-        GameObjectSprite wizardSprite = CardUtilities.getGameObjectSpriteForCard(context, card1, 15, 15);
+        GameObjectSprite reaperSprite = CardUtilities.getGameObjectSpriteLeftFacing(context, card, 15, 15);
+        GameObjectSprite wizardSprite = CardUtilities.getGameObjectSpriteLeftFacing(context, card1, 15, 15);
         Assert.assertFalse(reaperSprite.image.sameAs(wizardSprite.image));
     }
 
     public void testEnemySprite(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.getResources();
-        GameObjectSprite spriteActual = CardUtilities.getGameObjectSpriteForCard(context, card, 15, 15);
-        GameObjectSprite spriteEnemy = CardUtilities.getEnemySprite(context, card, 15, 15);
+        GameObjectSprite spriteActual = CardUtilities.getGameObjectSpriteLeftFacing(context, card, 15, 15);
+        GameObjectSprite spriteEnemy = CardUtilities.getGameObjectSpriteRightFacing(context, card, 15, 15);
         Assert.assertFalse(spriteActual.image.sameAs(spriteEnemy.image));
     }
 

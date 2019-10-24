@@ -1,7 +1,5 @@
 package com.example.towerDefender.Game;
 
-import android.util.Log;
-
 import com.example.towerDefender.Card.Card;
 
 import java.util.ArrayList;
@@ -35,16 +33,14 @@ public class PlayedCardsHolder {
             playedCards.get(index).setxValue(playedCard.getxValue());
             playedCards.get(index).setyValue(playedCard.getyValue());
             playedCards.get(index).setHitPoints(playedCard.getHitPoints());
-            //Log.d("SPRITES_HOLDER", "Did not add card, already existed in list without need to update");
         } else {
             playedCards.add(playedCard);
-            if(playedCard.getPlayer().equals(manager.getPlayer().getUserId())){
-                playedCard.setSprite(CardUtilities.getGameObjectSpriteForCard(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+            if(manager.playerSide.equals("left") && playedCard.getPlayer().contains(manager.getPlayer().getUserId()) || manager.playerSide.contains("right") && !playedCard.getPlayer().contains(manager.getPlayer().getUserId())){
+                playedCard.setSprite(CardUtilities.getGameObjectSpriteLeftFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             } else {
-                playedCard.setSprite(CardUtilities.getEnemySprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                playedCard.setSprite(CardUtilities.getGameObjectSpriteRightFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             }
         }
-        //Log.d("SPRITES_HOLDER", "PlayedCardsHolder has " + playedCards.size() + " cards.");
     }
 
     public List<Card> getWrappedCards(){

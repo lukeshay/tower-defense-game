@@ -1,7 +1,6 @@
 package com.example.towerDefender.Card;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -116,7 +115,7 @@ public class CardInHand {
 
     /**
      * Draws the {@link Card} represented by this object to the provided canvas, as well as a backing square with a color corresponding to the current {@link CardInHand.Status} of this object
-     * @param canvas the {@link Canvas} to drawAsFriendly to
+     * @param canvas the {@link Canvas} to drawLeftFacing to
      */
     public void draw(Canvas canvas) {
         statusColor.setColor(color);
@@ -145,7 +144,7 @@ public class CardInHand {
      * @param card the card to update the {@link Sprite} for
      */
     private void updateCardAndImage(Card card){
-        this.cardSprite = (GameObjectSprite)CardUtilities.getGameObjectSpriteForCard(player.getPlayerContext(), card,
+        this.cardSprite = (GameObjectSprite)CardUtilities.getGameObjectSpriteLeftFacing(player.getPlayerContext(), card,
                 450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
         this.card = card;
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
