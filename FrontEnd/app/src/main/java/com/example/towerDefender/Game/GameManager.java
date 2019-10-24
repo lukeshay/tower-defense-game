@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
@@ -61,12 +60,16 @@ public class GameManager {
 
     /**
      * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
-     * @param canvas the canvas to draw on
+     * @param canvas the canvas to drawAsFriendly on
      */
     public void draw(Canvas canvas){
         if(!gameOver){
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                playedCard.draw(canvas);
+                if(playedCard.getPlayer().equals(this.getPlayer().getUserId())){
+                    playedCard.drawAsFriendly(canvas);
+                } else{
+                    playedCard.drawAsEnemy(canvas);
+                }
             }
             for(CardInHand card : player.getHand()){
                 card.draw(canvas);

@@ -6,9 +6,11 @@ import android.graphics.Paint;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.GameView;
 import com.example.towerDefender.Game.Player;
+import com.example.towerDefender.Game.Sprite;
 
 import java.io.Serializable;
 
@@ -272,16 +274,35 @@ public class PlayedCard implements Serializable {
 
     /**
      * Updates and draws the wrapped {@link GameObjectSprite}, initializing it if necessary.
-     * @param canvas the canvas to draw to
+     * @param canvas the canvas to drawAsFriendly to
      */
-    public void draw(Canvas canvas){
+    public void drawAsFriendly(Canvas canvas){
         if(this.sprite == null){
-            Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
+            Log.e("ERROR", "No sprite associated with card (" + this.name +"). Please addOrUpdate sprite.");
         } else if(hitPoints > 0){
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
             //canvas.drawText("HP:" + this.hitPoints, this.getxValue(), this.getyValue() - 50, textPaint);
+        }
+    }
+
+    /**
+     * Updates and draws the wrapped {@link GameObjectSprite} reversed (as an enemy)
+     * @param canvas the canvas to drawAsFriendly to
+     */
+    public void drawAsEnemy(Canvas canvas){
+        if(this.sprite == null){
+            Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
+        } else if(hitPoints > 0){
+            //TODO: towers should also be mirrored
+            if(!this.name.contains("tower")){
+                this.sprite.xStart = Sprite.screenWidth - this.sprite.image.getWidth() - this.xValue;
+                this.sprite.yStart = Sprite.screenHeight - this.sprite.image.getHeight() - this.yValue;
+                this.sprite.draw(canvas);
+            } else{
+                drawAsFriendly(canvas);
+            }
         }
     }
 
