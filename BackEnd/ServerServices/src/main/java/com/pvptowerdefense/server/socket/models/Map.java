@@ -4,6 +4,10 @@ import shared.PlayedCard;
 
 import java.util.*;
 
+/**
+ * Map class type
+ * Used to contain the game logic and the list of cards being played for each player
+ */
 public class Map {
 
     private List<PlayedCard> cardsP1;
@@ -24,6 +28,11 @@ public class Map {
     private static final int TOWER3_X = 150;
 
 
+    /**
+     * Constructs a new game given the 2 player's IDs
+     * @param userId1 - the userId for player 1
+     * @param userId2 - the userId for player 2
+     */
     public Map(String userId1, String userId2){
         cardsP1 = new ArrayList<PlayedCard>();
         cardsP2 = new ArrayList<PlayedCard>();
@@ -41,6 +50,10 @@ public class Map {
         cardsP2.add(makeTower(MAX_X - TOWER3_X - 250, TOWER3_Y, userId2, "tower3"));
     }
 
+    /**
+     * Gets the list of all the played cards for each user
+     * @return list of played cards for each user
+     */
     public List<PlayedCard> getCards() {
         List<PlayedCard> total = new ArrayList<>();
         total.addAll(cardsP1);
@@ -48,6 +61,10 @@ public class Map {
         return total;
     }
 
+    /**
+     * Adds a card to the specified players list of played cards
+     * @param card - card to be added
+     */
     public void addCard(PlayedCard card){
         if(card.getPlayer().equals(player1)){
             cardsP1.add(card);
@@ -59,34 +76,66 @@ public class Map {
         }
     }
 
+    /**
+     * Gets player1's user Id
+     * @return the userId
+     */
     public String getPlayer1() {
         return player1;
     }
 
+    /**
+     * Sets player1's userId
+     * @param player1 - new userId
+     */
     public void setPlayer1(String player1) {
         this.player1 = player1;
     }
 
+    /**
+     * Gets player2's user Id
+     * @return the userId
+     */
     public String getPlayer2() {
         return player2;
     }
 
+    /**
+     * Sets player2's userId
+     * @param player2 - new userId
+     */
     public void setPlayer2(String player2) {
         this.player2 = player2;
     }
 
+    /**
+     * Gets the current game state
+     * @return the game state
+     */
     public boolean isGameState() {
         return gameState;
     }
 
+    /**
+     * Sets the current game state to the desired value
+     * @param gameState - new game state value
+     */
     public void setGameState(boolean gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * Gets the winner of the game
+     * @return the winner's userId
+     */
     public String getWinner() {
         return winner;
     }
 
+    /**
+     * Method that is called 60 times a second to move and attack the cards
+     * @return the game state to check if it should end
+     */
     public boolean clockCycle(){
         if (counter % 60 == 0) {
             for (PlayedCard p1Cards : cardsP1) {
@@ -186,12 +235,26 @@ public class Map {
         return gameState;
     }
 
+    /**
+     * Helper method to make the towers at the start of the game
+     * @param xValue - x value for the turret
+     * @param yValue - y value for the turret
+     * @param player - which player the turret is for
+     * @param towerName - the tower's name
+     * @return the created played card
+     */
     private PlayedCard makeTower(int xValue, int yValue, String player, String towerName){
         return new PlayedCard(towerName, "tower", 0, 1, 5, 0, "UNIT", 100, xValue,
                     yValue, player);
 
     }
 
+    /**
+     * Helper method to find the distance between 2 cards
+     * @param card1 - first card
+     * @param card2 - second card
+     * @return - distance between the first and second card
+     */
     private double distance(PlayedCard card1, PlayedCard card2){
         int x = card1.getxValue() - card2.getxValue();
         int y = card1.getyValue() - card2.getyValue();
