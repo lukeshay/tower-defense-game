@@ -20,8 +20,6 @@ import com.example.towerDefender.Card.PlayedCard;
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
-    public static GameManager instance;
-    private GameView gameView;
     private String playerSide;
     private Player player;
     private boolean isConnected = false;
@@ -36,7 +34,6 @@ public class GameManager {
     private Paint textPaint;
 
     public GameManager(GameView gameView, Player player){
-        this.gameView = gameView;
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
         isPlayingCard = false;
@@ -206,5 +203,13 @@ public class GameManager {
      */
     public PlayedCardsHolder getPlayedCards(){
         return playedCards;
+    }
+
+    /**
+     *
+     * @return true if the game is over
+     */
+    public boolean isGameOver(){
+        return gameOver;
     }
 }

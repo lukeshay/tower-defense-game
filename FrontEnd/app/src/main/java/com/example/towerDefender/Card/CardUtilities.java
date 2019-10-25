@@ -28,7 +28,7 @@ public class CardUtilities {
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
         } else if(card.cardName.contains("tower")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
-        } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) {
+        } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) {// for testing purposes, so that tests do not need to rely upon the application resources
             return null;
         } else {
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
@@ -55,7 +55,7 @@ public class CardUtilities {
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y, false);
         } else if(card.cardName.contains("tower")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, false);
-        } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) {
+        } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) { // for testing purposes, so that tests do not need to rely upon the application resources
             return null;
         } else {
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
