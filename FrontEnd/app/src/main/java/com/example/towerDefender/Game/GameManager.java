@@ -24,6 +24,7 @@ public class GameManager {
     private GameView gameView;
     private String playerSide;
     private Player player;
+    private boolean isConnected = false;
     private PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
@@ -154,8 +155,9 @@ public class GameManager {
         if(System.currentTimeMillis() - lastUpdate >= 5000){
             this.gameOver = true;
         }
-        if(message.contains("connected=true")){
+        if(message.contains("true")){
             Log.i("SOCKET_INFO", "Connected.");
+            isConnected = true;
             if(message.contains("left")){
                 playerSide = "left";
             } else if(message.contains("right")){
@@ -192,4 +194,17 @@ public class GameManager {
         return playerSide;
     }
 
+    /**
+     * @return true if the socket has sent over a message confirming the connection
+     */
+    public boolean isConnected(){
+        return isConnected;
+    }
+
+    /**
+     * @return the {@link PlayedCardsHolder} containing all the played cards
+     */
+    public PlayedCardsHolder getPlayedCards(){
+        return playedCards;
+    }
 }
