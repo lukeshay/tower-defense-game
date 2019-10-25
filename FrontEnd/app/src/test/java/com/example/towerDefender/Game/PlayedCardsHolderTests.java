@@ -42,6 +42,7 @@ public class PlayedCardsHolderTests extends TestCase {
         GameManager manager = mock(GameManager.class);
         when(player.getUserId()).thenReturn("testUser");
         when(manager.getPlayer()).thenReturn(player);
+        when(manager.getPlayerSide()).thenReturn("left");
         when(manager.getPlayer().getPlayerContext()).thenThrow(new MockitoException("Started to initialize new sprite!"));
         holder = new PlayedCardsHolder(setup(), player);
         Assert.assertEquals(5, holder.getPlayedCards().size());
@@ -61,6 +62,7 @@ public class PlayedCardsHolderTests extends TestCase {
         GameManager manager = mock(GameManager.class);
         when(player.getUserId()).thenReturn("testUser");
         when(manager.getPlayer()).thenReturn(player);
+        when(manager.getPlayerSide()).thenReturn("left");
         when(manager.getPlayer().getPlayerContext()).thenThrow(new MockitoException("Started to initialize new sprite!"));
         holder = new PlayedCardsHolder(setup(), player);
         Assert.assertEquals(5, holder.getPlayedCards().size());

@@ -35,7 +35,7 @@ public class PlayedCardsHolder {
             playedCards.get(index).setHitPoints(playedCard.getHitPoints());
         } else {
             playedCards.add(playedCard);
-            if(manager.playerSide.equals("left") && playedCard.getPlayer().contains(manager.getPlayer().getUserId()) || manager.playerSide.contains("right") && !playedCard.getPlayer().contains(manager.getPlayer().getUserId())){
+            if(manager.getPlayerSide().equals("left") && playedCard.getPlayer().contains(manager.getPlayer().getUserId()) || manager.getPlayerSide().contains("right") && !playedCard.getPlayer().contains(manager.getPlayer().getUserId())){
                 playedCard.setSprite(CardUtilities.getGameObjectSpriteLeftFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
             } else {
                 playedCard.setSprite(CardUtilities.getGameObjectSpriteRightFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));

@@ -22,7 +22,7 @@ import com.example.towerDefender.Card.PlayedCard;
 public class GameManager {
     public static GameManager instance;
     private GameView gameView;
-    public String playerSide;
+    private String playerSide;
     private Player player;
     private PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
@@ -183,6 +183,13 @@ public class GameManager {
             }
         }
 
+    }
+
+    /**
+     * @return this game manager's player's side (left or right)
+     */
+    public String getPlayerSide(){
+        return playerSide;
     }
 
 }
