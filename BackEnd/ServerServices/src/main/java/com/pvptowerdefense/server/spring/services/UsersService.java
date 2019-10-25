@@ -13,17 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+/*
+* User type service
+ */
 @Service
 public class UsersService {
     private static Logger logger =
             LoggerFactory.getLogger(UsersService.class.getName());
-    private UsersDao usersDao;
 
+    private UsersDao usersDao;
+    /*
+    * Create a new instance of card service
+    * @param usersDao - the usersDao
+     */
     @Autowired
     public UsersService(UsersDao usersDao){
         this.usersDao = usersDao;
     }
 
+    /*
+    * Method to return all of the Users
+    * @return List of Users containing all the users
+     */
     public List<User> getAllUsers(){
         logger.info("getting all users");
         List<User> users = new ArrayList<>();
@@ -32,6 +43,9 @@ public class UsersService {
         return users;
     }
 
+    /*
+    * Method to create a hard-coded list of users and add them to the database
+     */
     public void loadPresetUsersToDatabase(){
         logger.info("loading users to database");
         List<User> users = Arrays.asList(
@@ -45,16 +59,29 @@ public class UsersService {
         usersDao.saveAll(users);
     }
 
+    /*
+    * Method to get a user by their phoneId using the crud repository
+    * @param String phoneId - phoneID possibly for a User
+    * @return a User who's phoneID matches the given phoneID
+     */
     public User findUserById(String phoneId){
         logger.info("finding user " + phoneId);
         return usersDao.findUserByPhoneId(phoneId);
     }
 
+    /*
+     * Method to delete the user given their phoneID
+     * @param String phoneID - phoneID possibly for a User
+     */
     public void deleteUserById(String id){
         logger.info("deleting user " + id);
         usersDao.deleteById(id);
     }
 
+    /*
+     * Method to add a User to the database
+     * @param User id - user to be added
+     */
     public void addUserToDb(User id){
         logger.info("adding user " + id);
         if(!usersDao.existsById(id.getPhoneId())) {
@@ -63,7 +90,20 @@ public class UsersService {
         else{ throw new IllegalArgumentException("This phone already has a user connected to it!"); }
     }
 
+    /*
+     * Method to add an empty deck of cards for the user
+     * @param String deckname - name for the deck
+     * @param int deckId - id for the deck
+     */
     public void addEmptyDeck(String deckName, int deckId){
         new Deck(new ArrayList<Card>(), deckName, deckId);
+    }
+
+    /*
+     * Method to update the user to the current version
+     * @param User user - the user to be updated
+     */
+    public void updateUser(User user){
+        usersDao.save(user);
     }
 }
