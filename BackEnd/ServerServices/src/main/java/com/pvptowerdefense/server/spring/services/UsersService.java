@@ -20,7 +20,6 @@ import java.util.Arrays;
 public class UsersService {
     private static Logger logger =
             LoggerFactory.getLogger(UsersService.class.getName());
-    private UsersDao usersDao;
 
     private UsersDao usersDao;
     /*
