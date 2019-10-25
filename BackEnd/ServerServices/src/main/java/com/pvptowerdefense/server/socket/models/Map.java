@@ -1,7 +1,5 @@
 package com.pvptowerdefense.server.socket.models;
 
-import shared.PlayedCard;
-
 import java.util.*;
 
 /**

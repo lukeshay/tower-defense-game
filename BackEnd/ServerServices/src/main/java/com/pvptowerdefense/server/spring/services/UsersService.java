@@ -6,6 +6,8 @@ import com.pvptowerdefense.server.spring.models.Deck;
 import com.pvptowerdefense.server.spring.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,9 @@ import java.util.Arrays;
  */
 @Service
 public class UsersService {
+    private static Logger logger =
+            LoggerFactory.getLogger(UsersService.class.getName());
+    private UsersDao usersDao;
 
     private UsersDao usersDao;
     /*
@@ -32,6 +37,7 @@ public class UsersService {
     * @return List of Users containing all the users
      */
     public List<User> getAllUsers(){
+        logger.info("getting all users");
         List<User> users = new ArrayList<>();
         usersDao.findAll().forEach(users::add);
 
@@ -42,6 +48,7 @@ public class UsersService {
     * Method to create a hard-coded list of users and add them to the database
      */
     public void loadPresetUsersToDatabase(){
+        logger.info("loading users to database");
         List<User> users = Arrays.asList(
                 new User("user1", "phoneId1", "firstName1", "lastName1", 
                         "email1", "User"),
@@ -59,6 +66,7 @@ public class UsersService {
     * @return a User who's phoneID matches the given phoneID
      */
     public User findUserById(String phoneId){
+        logger.info("finding user " + phoneId);
         return usersDao.findUserByPhoneId(phoneId);
     }
 
@@ -67,6 +75,7 @@ public class UsersService {
      * @param String phoneID - phoneID possibly for a User
      */
     public void deleteUserById(String id){
+        logger.info("deleting user " + id);
         usersDao.deleteById(id);
     }
 
@@ -75,6 +84,7 @@ public class UsersService {
      * @param User id - user to be added
      */
     public void addUserToDb(User id){
+        logger.info("adding user " + id);
         if(!usersDao.existsById(id.getPhoneId())) {
             usersDao.save(id);
         }
