@@ -3,10 +3,10 @@ package com.pvptowerdefense.server.socket.models;
 import java.util.*;
 
 /**
- * Map class type
+ * Game class type
  * Used to contain the game logic and the list of cards being played for each player
  */
-public class Map {
+public class Game {
 
     private List<PlayedCard> cardsP1;
     private List<PlayedCard> cardsP2;
@@ -31,7 +31,7 @@ public class Map {
      * @param userId1 - the userId for player 1
      * @param userId2 - the userId for player 2
      */
-    public Map(String userId1, String userId2){
+    public Game(String userId1, String userId2){
         cardsP1 = new ArrayList<PlayedCard>();
         cardsP2 = new ArrayList<PlayedCard>();
         player1 = userId1;
@@ -43,9 +43,9 @@ public class Map {
         cardsP1.add(makeTower(TOWER2_X, TOWER2_Y, userId1, "tower2"));
         cardsP1.add(makeTower(TOWER3_X, TOWER3_Y, userId1, "tower3"));
 
-        cardsP2.add(makeTower(MAX_X - TOWER1_X - 250, TOWER1_Y, userId2, "tower1"));
-        cardsP2.add(makeTower(MAX_X - TOWER2_X - 250, TOWER2_Y, userId2, "tower2"));
-        cardsP2.add(makeTower(MAX_X - TOWER3_X - 250, TOWER3_Y, userId2, "tower3"));
+        cardsP2.add(makeTower(MAX_X - TOWER1_X - 250, TOWER1_Y, userId2, "tower4"));
+        cardsP2.add(makeTower(MAX_X - TOWER2_X - 250, TOWER2_Y, userId2, "tower5"));
+        cardsP2.add(makeTower(MAX_X - TOWER3_X - 250, TOWER3_Y, userId2, "tower6"));
     }
 
     /**
@@ -222,7 +222,7 @@ public class Map {
 
         for(PlayedCard playCard : cardsP2){
             if(playCard.getDescription().equals("tower")){
-                if(playCard.getName().equals("tower2") && playCard.getHitPoints() <= 0){
+                if(playCard.getName().equals("tower5") && playCard.getHitPoints() <= 0){
                     gameState = false;
                     winner = player1;
                 }

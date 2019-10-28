@@ -1,6 +1,5 @@
 package com.pvptowerdefense.server.socket.models;
 
-import com.pvptowerdefense.server.socket.handlers.SocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,14 +23,14 @@ public class MatchUp implements Runnable {
 	private Session playerTwoSession;
 	private String playerTwoId;
 
-	private Map map;
+	private Game game;
 
 	public MatchUp(String playerOneId, Session playerOneSession,
 	               String playerTwoId, Session playerTwoSession) {
 		this.playerOneSession = playerOneSession;
 		this.playerTwoSession = playerTwoSession;
 
-		map = new Map(playerOneId, playerTwoId);
+		game = new Game(playerOneId, playerTwoId);
 
 		pool.execute(this);
 	}
@@ -44,12 +43,9 @@ public class MatchUp implements Runnable {
 		logger.info("sending cards");
 		CompletableFuture.runAsync(() -> {
 			Future<Void> deliveryProgress1 =
-					playerOneSession.getAsyncRemote()
-							.sendText(Messages.convertToJson(map.getCards()));
+					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(game.getCards()));
 			Future<Void> deliveryProgress2 =
-					playerTwoSession.getAsyncRemote()
-							.sendText(Messages.convertToJson(map.getCards()));
-
+					playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(game.getCards()));
 			deliveryProgress1.isDone();
 			deliveryProgress2.isDone();
 		});
@@ -59,8 +55,8 @@ public class MatchUp implements Runnable {
 		logger.info("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
 		if (card != null) {
-			map.addCard(card);
-			session.getAsyncRemote().sendText(Messages.cardAdded());
+			game.addCard(card);
+			session.getAsyncRemote().sendText(Messages.convertToJson(Messages.cardAdded()));
 		}
 	}
 
@@ -103,7 +99,7 @@ public class MatchUp implements Runnable {
 		boolean cont = true;
 
 		while (cont) {
-			boolean someoneDed = map.clockCycle();
+			boolean someoneDed = game.clockCycle();
 			boolean bothConnected = areBothConnected();
 
 			sendInPlayCards();
@@ -118,7 +114,7 @@ public class MatchUp implements Runnable {
 			}
 		}
 
-		String winner = map.getWinner();
+		String winner = game.getWinner();
 		gameOver(winner);
 	}
 }
