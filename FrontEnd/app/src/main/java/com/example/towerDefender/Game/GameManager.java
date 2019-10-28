@@ -33,6 +33,7 @@ public class GameManager {
     private int cardsSent = 0;
     private boolean gameOver = false;
     private Paint textPaint;
+    private boolean playerSideSet = false;
 
     public GameManager(Player player){
         this.player = player;
@@ -164,15 +165,21 @@ public class GameManager {
             try {
                 if(message.contains("name")){
                     playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
-                    for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                        if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
-                                && (playedCard.getCard().cardName.contains("tower4")
-                                || playedCard.getCard().cardName.contains("tower5")
-                                || playedCard.getCard().cardName.contains("tower6"))){
-                            this.setPlayerSide("right");
+                    //If the player side hasn't already been updated, go through and check
+                    if(!playerSideSet){
+                        for(PlayedCard playedCard : playedCards.getPlayedCards()){
+                            if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
+                                    && (playedCard.getCard().cardName.contains("tower4")
+                                    || playedCard.getCard().cardName.contains("tower5")
+                                    || playedCard.getCard().cardName.contains("tower6"))){
+                                this.setPlayerSide("right");
+                            }
                         }
+                        //Either the side has been set to right, or the left-sided-ness of this Player has been confirmed
+                        playerSideSet = true;
+                        lastUpdate = System.currentTimeMillis();
                     }
-                    lastUpdate = System.currentTimeMillis();
+
                 }
             } catch (Exception e){
                 Log.e("ERROR", e.getMessage());
