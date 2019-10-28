@@ -44,9 +44,12 @@ public class MatchUp implements Runnable {
 		logger.info("sending cards");
 		CompletableFuture.runAsync(() -> {
 			Future<Void> deliveryProgress1 =
-					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
+					playerOneSession.getAsyncRemote()
+							.sendText(Messages.convertToJson(map.getCards()));
 			Future<Void> deliveryProgress2 =
-					playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(map.getCards()));
+					playerTwoSession.getAsyncRemote()
+							.sendText(Messages.convertToJson(map.getCards()));
+
 			deliveryProgress1.isDone();
 			deliveryProgress2.isDone();
 		});
@@ -57,7 +60,7 @@ public class MatchUp implements Runnable {
 		PlayedCard card = Messages.convertJsonToCard(message);
 		if (card != null) {
 			map.addCard(card);
-			session.getAsyncRemote().sendText(Messages.cardAdded().toString());
+			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 	}
 
