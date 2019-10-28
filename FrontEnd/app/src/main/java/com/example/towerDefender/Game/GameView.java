@@ -41,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder){
         mainThread.setRunning(true);
         mainThread.start();
-        manager = new GameManager(this, player);
+        manager = new GameManager(player);
         manager.getPlayer().drawHand();
     }
 

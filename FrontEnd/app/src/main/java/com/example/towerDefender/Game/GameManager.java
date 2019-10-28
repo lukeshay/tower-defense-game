@@ -33,7 +33,7 @@ public class GameManager {
     private boolean gameOver = false;
     private Paint textPaint;
 
-    public GameManager(GameView gameView, Player player){
+    public GameManager(Player player){
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
         isPlayingCard = false;
