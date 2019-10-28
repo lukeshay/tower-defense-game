@@ -89,10 +89,13 @@ public class UsersController {
      * @param deckName - name for the deck
      * @param deckId - ID for the deck
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{deckId}")
-    public void addEmptyDeck(@PathVariable String deckName, @PathVariable int deckId){
-        usersService.addEmptyDeck(deckName, deckId);
+    @RequestMapping(method = RequestMethod.POST, value = "{userId}/deck/{deckName}")
+    public void addEmptyDeck(@PathVariable String deckName, @PathVariable String userId){
+        usersService.addEmptyDeck(deckName, userId);
     }
+
+//    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{cardName}")
+//    public void addCardToDeck()
 
     /*
      * Helper method to create a success message in JSON format

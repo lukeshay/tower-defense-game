@@ -44,6 +44,9 @@ public class User {
     @ElementCollection
     private List<String> deckNames;
 
+    @ElementCollection
+    private List<Deck> decks;
+
     /*
      * Creates a new empty user
      */
@@ -83,6 +86,14 @@ public class User {
         setUserType(userType);
         this.ownedCards = ownedCards;
         this.deckNames = deckNames;
+    }
+
+    public List<Deck> getDecks() {
+        return decks;
+    }
+
+    public void setDecks(List<Deck> decks) {
+        this.decks = decks;
     }
 
     /*

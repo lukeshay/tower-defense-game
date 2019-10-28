@@ -95,8 +95,8 @@ public class UsersService {
      * @param String deckname - name for the deck
      * @param int deckId - id for the deck
      */
-    public void addEmptyDeck(String deckName, int deckId){
-        new Deck(new ArrayList<Card>(), deckName, deckId);
+    public void addEmptyDeck(String deckName, String userId){
+        usersDao.findUserByPhoneId(userId).getDecks().add(new Deck(new ArrayList<Card>(), deckName));
     }
 
     /*
