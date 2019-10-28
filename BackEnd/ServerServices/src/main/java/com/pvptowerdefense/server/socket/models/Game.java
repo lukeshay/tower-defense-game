@@ -3,10 +3,10 @@ package com.pvptowerdefense.server.socket.models;
 import java.util.*;
 
 /**
- * Map class type
+ * Game class type
  * Used to contain the game logic and the list of cards being played for each player
  */
-public class Map {
+public class Game {
 
     private List<PlayedCard> cardsP1;
     private List<PlayedCard> cardsP2;
@@ -31,7 +31,7 @@ public class Map {
      * @param userId1 - the userId for player 1
      * @param userId2 - the userId for player 2
      */
-    public Map(String userId1, String userId2){
+    public Game(String userId1, String userId2){
         cardsP1 = new ArrayList<PlayedCard>();
         cardsP2 = new ArrayList<PlayedCard>();
         player1 = userId1;
