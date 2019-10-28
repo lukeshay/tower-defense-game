@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.spring.models;
 
 import com.pvptowerdefense.server.spring.models.Card;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,8 +16,11 @@ public class Deck {
     @ElementCollection
     private List<Card> deck;
 
+    @Column(unique = false, name = "USER_ID", nullable = false)
+    private String userId;
 
-    @GeneratedValue @Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true, name = "DECK_ID", nullable = false)
     private int deckId;
 
@@ -35,9 +39,10 @@ public class Deck {
      * @param deck - list of cards, possibly empty
      * @param deckName - the name for the deck
      */
-    public Deck(List<Card> deck, String deckName) {
+    public Deck(List<Card> deck, String deckName, String userId) {
         this.deck = deck;
         this.deckName = deckName;
+        this.userId = userId;
     }
 
     /**

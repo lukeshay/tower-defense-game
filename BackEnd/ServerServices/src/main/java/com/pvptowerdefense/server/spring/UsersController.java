@@ -1,6 +1,8 @@
 package com.pvptowerdefense.server.spring;
 
+import com.pvptowerdefense.server.spring.models.Deck;
 import com.pvptowerdefense.server.spring.models.User;
+import com.pvptowerdefense.server.spring.services.DecksService;
 import com.pvptowerdefense.server.spring.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +22,16 @@ public class UsersController {
      */
     private UsersService usersService;
 
+    private DecksService decksService;
+
     /*
      * Constructs a usersService to access Users database table
      * @param UsersService autoWiredUsersService - autowired instance of the UsersService
      */
     @Autowired
-    public UsersController(final UsersService autowiredUsersService) {
+    public UsersController(final UsersService autowiredUsersService, final DecksService autowiredDecksService) {
         this.usersService = autowiredUsersService;
+        this.decksService = autowiredDecksService;
     }
 
     /*
@@ -36,6 +41,15 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET, value = "")
     public List<User> getAllUsers () {
         return usersService.getAllUsers();
+    }
+
+    /*
+     * Returns a list of all the users
+     * @return list of all users
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/decks")
+    public List<Deck> getAllDecks () {
+        return decksService.getAllDecks();
     }
 
     /**
@@ -91,7 +105,7 @@ public class UsersController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/deck/{deckName}")
     public void addEmptyDeck(@PathVariable String deckName, @PathVariable String userId){
-        usersService.addEmptyDeck(deckName, userId);
+        decksService.addEmptyDeck(deckName, userId);
     }
 
 //    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{cardName}")

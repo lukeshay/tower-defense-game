@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.spring.models;
 
 import com.pvptowerdefense.server.spring.models.Card;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -41,12 +42,6 @@ public class User {
     @ElementCollection
     private List<Card> ownedCards;
 
-    @ElementCollection
-    private List<String> deckNames;
-
-    @ElementCollection
-    private List<Deck> decks;
-
     /*
      * Creates a new empty user
      */
@@ -66,7 +61,6 @@ public class User {
         this.trophies = 0;
         setUserType(userType);
         this.ownedCards = new ArrayList<>();
-        this.deckNames = new ArrayList<>();
     }
 
     /*
@@ -85,15 +79,6 @@ public class User {
         this.trophies = trophies;
         setUserType(userType);
         this.ownedCards = ownedCards;
-        this.deckNames = deckNames;
-    }
-
-    public List<Deck> getDecks() {
-        return decks;
-    }
-
-    public void setDecks(List<Deck> decks) {
-        this.decks = decks;
     }
 
     /*
@@ -233,21 +218,6 @@ public class User {
         this.ownedCards = ownedCards;
     }
 
-    /**
-     * Gets the list of the user's deck names
-     * @return list of deck names
-     */
-    public List<String> getDeckNames() {
-        return deckNames;
-    }
-
-    /**
-     * Sets the user's list of deck names to the desired names
-     * @param deckNames - list of names to be changed to
-     */
-    public void setDeckNames(List<String> deckNames) {
-        this.deckNames = deckNames;
-    }
 
     /**
      * Sets the user's type to the given type if valid
