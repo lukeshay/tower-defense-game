@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.Game.Sprite;
@@ -28,15 +29,16 @@ public class CardInHand {
     private GameObjectSprite cardSprite;
     private Player player;
     private int cardIndex;
-
+    private String playerSide;
     /**
      * @param player the player that whose hand this card is in
      * @param card the card currently represented by this object
      * @param cardIndex the placement of this card within the hand
      */
-    public CardInHand(Player player, Card card, int cardIndex){
+    public CardInHand(Player player, Card card, int cardIndex, String playerSide){
         this.cardIndex = cardIndex;
         this.player = player;
+        this.playerSide = playerSide;
         this.updateCardAndImage(card);
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
         color = Color.GREEN;
@@ -51,10 +53,11 @@ public class CardInHand {
      * @param card the card currently represented by this object
      * @param cardIndex the placement of this card within the hand
      */
-    public CardInHand(Player player, Card card, int cardIndex, boolean setImage){
+    public CardInHand(Player player, Card card, int cardIndex, boolean setImage, String playerSide){
         this.cardIndex = cardIndex;
         this.player = player;
         this.card = card;
+        this.playerSide = playerSide;
         if(setImage){
             this.updateCardAndImage(card);
             background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
@@ -69,6 +72,7 @@ public class CardInHand {
      * Updates the load time and updates the {@link CardInHand.Status} if necessary.
      */
     public void update(){
+        updateCardAndImage(this.card);
         if(this.status != Status.PLACING && player.getCurrentMana() >= this.card.castingCost){
             setStatus(Status.READY);
         } else if(this.status != Status.PLACING){
@@ -115,14 +119,13 @@ public class CardInHand {
 
     /**
      * Draws the {@link Card} represented by this object to the provided canvas, as well as a backing square with a color corresponding to the current {@link CardInHand.Status} of this object
-     * @param canvas the {@link Canvas} to drawLeftFacing to
+     * @param canvas the {@link Canvas} to drawNormal to
      */
     public void draw(Canvas canvas) {
         statusColor.setColor(color);
         canvas.drawRect(background, statusColor);
         this.cardSprite.draw(canvas);
         canvas.drawText(this.card.cardName, this.cardSprite.xStart, this.cardSprite.yStart - 20, textPaint);
-
     }
 
     /**
@@ -144,8 +147,13 @@ public class CardInHand {
      * @param card the card to update the {@link Sprite} for
      */
     private void updateCardAndImage(Card card){
-        this.cardSprite = (GameObjectSprite)CardUtilities.getGameObjectSpriteLeftFacing(player.getPlayerContext(), card,
-                450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+        if(GameManager.playerSide.contains("left")){
+            this.cardSprite = (GameObjectSprite)CardUtilities.getGameObjectSpriteLeftFacing(player.getPlayerContext(), card,
+                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+        } else {
+            this.cardSprite = (GameObjectSprite)CardUtilities.getGameObjectSpriteRightFacing(player.getPlayerContext(), card,
+                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+        }
         this.card = card;
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);
     }
