@@ -3,6 +3,7 @@ package com.example.towerDefender.Card;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
@@ -281,6 +282,11 @@ public class PlayedCard implements Serializable {
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
+            Rect health = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.getHitPoints()), this.sprite.yStart + 10);
+            Paint myPaint = new Paint();
+            myPaint.setColor(Color.rgb(0, 255, 0));
+            myPaint.setStrokeWidth(10);
+            canvas.drawRect(health, myPaint);
             //canvas.drawText("HP:" + this.hitPoints, this.getxValue(), this.getyValue() - 50, textPaint);
         }
     }
