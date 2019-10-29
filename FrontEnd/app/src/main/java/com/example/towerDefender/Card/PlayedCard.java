@@ -50,7 +50,7 @@ public class PlayedCard implements Serializable {
         this.yValue = yValue;
         this.player = player;
         this.sprite = null;
-        textPaint = new Paint(Color.BLACK);
+        textPaint = new Paint(Color.LTGRAY);
         textPaint.setTextSize(50);
     }
 
@@ -284,7 +284,7 @@ public class PlayedCard implements Serializable {
             myPaint.setColor(Color.rgb(0, 255, 0));
             myPaint.setStrokeWidth(10);
             canvas.drawRect(health, myPaint);
-            //canvas.drawText("HP:" + this.hitPoints, this.getxValue(), this.getyValue() - 50, textPaint);
+            //canvas.drawText("HP: " + this.getHitPoints(), this.xValue, this.yValue - 20, textPaint);
         }
     }
 

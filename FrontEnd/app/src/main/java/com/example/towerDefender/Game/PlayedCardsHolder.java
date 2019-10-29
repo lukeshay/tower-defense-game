@@ -14,12 +14,10 @@ import com.example.towerDefender.Card.PlayedCard;
  */
 public class PlayedCardsHolder {
     private List<PlayedCard> playedCards;
-    private List<GameObjectSprite> sprites;
     private Player player;
 
     public PlayedCardsHolder(List<PlayedCard> playedCards, Player player){
         this.playedCards = playedCards;
-        this.sprites = new ArrayList<>();
         this.player = player;
     }
 

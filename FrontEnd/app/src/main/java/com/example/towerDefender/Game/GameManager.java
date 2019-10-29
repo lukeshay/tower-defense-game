@@ -83,7 +83,7 @@ public class GameManager {
      */
     public void update(){
         //has it been 10 seconds since the last update?
-        if(System.currentTimeMillis() - lastUpdate >= 10000){
+        if(System.currentTimeMillis() - lastUpdate >= 15000){
             this.gameOver = true;
         }
         player.update();
