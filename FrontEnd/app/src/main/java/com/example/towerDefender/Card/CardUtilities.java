@@ -20,7 +20,7 @@ public class CardUtilities {
      * @param y the y position of the sprite
      * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
      */
-    public static GameObjectSprite getGameObjectSpriteForCard(Context context, Card card, int x, int y){
+    public static GameObjectSprite getGameObjectSpriteLeftFacing(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y);
@@ -28,6 +28,8 @@ public class CardUtilities {
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
         } else if(card.cardName.contains("tower")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
+        } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) {// for testing purposes, so that tests do not need to rely upon the application resources
+            return null;
         } else {
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y);
         }
@@ -45,7 +47,7 @@ public class CardUtilities {
      * @param y the y position of the sprite
      * @return a {@link GameObjectSprite} based upon the object represented by the {@link Card} provided
      */
-    public static GameObjectSprite getEnemySprite(Context context, Card card, int x, int y){
+    public static GameObjectSprite getGameObjectSpriteRightFacing(Context context, Card card, int x, int y){
         GameObjectSprite toReturn;
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);
@@ -53,6 +55,8 @@ public class CardUtilities {
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y, false);
         } else if(card.cardName.contains("tower")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, false);
+        } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) { // for testing purposes, so that tests do not need to rely upon the application resources
+            return null;
         } else {
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
         }
@@ -60,6 +64,10 @@ public class CardUtilities {
         toReturn.xEnd = toReturn.xStart + normalizedInventorySize;
         toReturn.yEnd = toReturn.yStart + normalizedInventorySize;
         return toReturn;
+    }
+
+    public static int flipLeftToRight(int x){
+        return Sprite.screenWidth - 200 - x;
     }
 
 }

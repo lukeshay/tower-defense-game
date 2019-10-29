@@ -4,10 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.Card.CardUtilities;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
@@ -21,9 +21,9 @@ import com.example.towerDefender.Card.PlayedCard;
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
-    public static GameManager instance;
-    private GameView gameView;
+    public static String playerSide;
     private Player player;
+    private boolean isConnected = false;
     private PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
@@ -33,14 +33,14 @@ public class GameManager {
     private int cardsSent = 0;
     private boolean gameOver = false;
     private Paint textPaint;
+    private boolean playerSideSet = false;
 
-    public GameManager(GameView gameView, Player player){
-        this.gameView = gameView;
+    public GameManager(Player player){
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
         isPlayingCard = false;
         cardToPlayIndex = 0;
-        initializeDeck();
+        playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
         lastUpdate = System.currentTimeMillis();
         textPaint = new Paint(Color.BLACK);
@@ -61,12 +61,12 @@ public class GameManager {
 
     /**
      * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
-     * @param canvas the canvas to draw on
+     * @param canvas the canvas to drawNormal on
      */
     public void draw(Canvas canvas){
         if(!gameOver){
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                playedCard.draw(canvas);
+                    playedCard.drawNormal(canvas);
             }
             for(CardInHand card : player.getHand()){
                 card.draw(canvas);
@@ -82,6 +82,10 @@ public class GameManager {
      * Updates the {@link GameObjectSprite}s and {@link CardInHand}s.
      */
     public void update(){
+        //has it been 10 seconds since the last update?
+        if(System.currentTimeMillis() - lastUpdate >= 15000){
+            this.gameOver = true;
+        }
         player.update();
         for(CardInHand card :  getPlayer().getHand()){
             card.update();
@@ -145,36 +149,80 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        //have we gone 5 seconds without server communication?
-        if(System.currentTimeMillis() - lastUpdate >= 5000){
+        if(message.contains("true")){
+            Log.i("SOCKET_INFO", "Connected.");
+            isConnected = true;
+            if(message.contains("left")){
+                playerSide = "left";
+            } else if(message.contains("right")){
+                playerSide = "right";
+            }
+            initializeDeck();
+        } else if(message.contains("win") || message.contains("loss")){
+            Log.i("SOCKET_INFO", "GAME OVER: " + message);
             this.gameOver = true;
-        }
-            if(message.contains("connected=true")){
-                Log.i("SOCKET_INFO", "Connected.");
-            } else if(message.contains("win") || message.contains("loss")){
-                Log.i("SOCKET_INFO", "GAME OVER: " + message);
-                this.gameOver = true;
-            } else{
-                try {
-                    //If message is not formatted yet it will be an array and contain "PlayedCard"
-                    if(message.contains("PlayedCard")){
-                        Collection<PlayedCard> playedCards = JsonUtils.socketCardsToPlayedCards(message);
-                        for(PlayedCard playedCard : playedCards){
-                            this.playedCards.addOrUpdate(playedCard, this);
+        } else{
+            try {
+                if(message.contains("name")){
+                    playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+                    //If the player side hasn't already been updated, go through and check
+                    if(!playerSideSet){
+                        for(PlayedCard playedCard : playedCards.getPlayedCards()){
+                            if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
+                                    && (playedCard.getCard().cardName.contains("tower4")
+                                    || playedCard.getCard().cardName.contains("tower5")
+                                    || playedCard.getCard().cardName.contains("tower6"))){
+                                this.setPlayerSide("right");
+                            }
                         }
-                        lastUpdate = System.currentTimeMillis();
-                    } else if(message.contains("name")){
-                        playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+                        //Either the side has been set to right, or the left-sided-ness of this Player has been confirmed
+                        playerSideSet = true;
                         lastUpdate = System.currentTimeMillis();
                     }
-                } catch (Exception e){
-                    Log.e("ERROR", e.getMessage());
-                    e.printStackTrace();
+
                 }
+            } catch (Exception e){
+                Log.e("ERROR", e.getMessage());
+                e.printStackTrace();
             }
-
-
+        }
 
     }
 
+    /**
+     * @return this game manager's player's side (left or right)
+     */
+    public String getPlayerSide(){
+        return playerSide;
+    }
+
+    /**
+     * @return true if the socket has sent over a message confirming the connection
+     */
+    public boolean isConnected(){
+        return isConnected;
+    }
+
+    /**
+     * @return the {@link PlayedCardsHolder} containing all the played cards
+     */
+    public PlayedCardsHolder getPlayedCards(){
+        return playedCards;
+    }
+
+    /**
+     *
+     * @return true if the game is over
+     */
+    public boolean isGameOver(){
+        return gameOver;
+    }
+
+    /**
+     * Sets the side this {@link GameManager}'s {@link Player} is on.
+     * @param side the side to set to
+     */
+    public void setPlayerSide(String side){
+        playerSide = side;
+    }
 }

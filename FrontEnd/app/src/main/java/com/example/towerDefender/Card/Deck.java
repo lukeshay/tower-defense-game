@@ -3,6 +3,7 @@ package com.example.towerDefender.Card;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.VolleyServices.JsonUtils;
@@ -16,7 +17,7 @@ public class Deck {
     private ArrayList<Card> deck;
     private int index;
     private Player player; // the player that owns this deck
-
+    private String playerSide;
     /**
      * Constructs a new {@link Deck} for the provided {@link Player}, consisting of the provided {@link Card}s.
      * @param player the {@link Player} whose deck this is
@@ -40,7 +41,7 @@ public class Deck {
         if(++index == deck.size()){
             index = 0;
         }
-        return new CardInHand(player, deck.get(index),cardInHandIndex);
+        return new CardInHand(player, deck.get(index),cardInHandIndex, this.playerSide);
     }
 
     public CardInHand drawCard(int cardInHandIndex, boolean setImage){
@@ -48,7 +49,7 @@ public class Deck {
         if(++index == deck.size()){
             index = 0;
         }
-        return new CardInHand(player, deck.get(index),cardInHandIndex, setImage);
+        return new CardInHand(player, deck.get(index),cardInHandIndex, setImage, this.playerSide);
     }
 
     public void add(Card card){

@@ -29,10 +29,10 @@ public class Player {
 
     public Player(Context context, ArrayList<Card> startingHand){
         this.context = context;
-        deck = new Deck(this, context, startingHand);
         hand = new CardInHand[4];
         this.maxMana = 5;
         this.currentMana = 5;
+        deck = new Deck(this, context, startingHand);
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
         this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID);
@@ -126,7 +126,7 @@ public class Player {
 
     /**
      * Draws the player's userName and current mana to the canvas
-     * @param canvas the {@link Canvas} to draw info on
+     * @param canvas the {@link Canvas} to drawNormal info on
      */
     public void draw(Canvas canvas){
         canvas.drawText( "MANA:" + currentMana + "/" + maxMana, 0, Sprite.screenHeight - 15, textPaint);
@@ -138,4 +138,5 @@ public class Player {
     public String getUserId(){
         return userId;
     }
+
 }

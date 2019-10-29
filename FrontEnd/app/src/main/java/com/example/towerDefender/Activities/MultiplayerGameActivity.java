@@ -30,6 +30,8 @@ import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
+    private String lastSocketMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,11 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                gameView.getManager().passMessageToManager(message);
+                if(lastSocketMessage != null && lastSocketMessage.equals(message)){
+                    //don't do anything, the message is the same
+                } else{
+                    gameView.getManager().passMessageToManager(message);
+                }
             }
 
 

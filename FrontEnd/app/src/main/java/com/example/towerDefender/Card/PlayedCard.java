@@ -3,12 +3,10 @@ package com.example.towerDefender.Card;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.Log;
 
-import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Game.GameObjectSprite;
-import com.example.towerDefender.Game.GameView;
-import com.example.towerDefender.Game.Player;
 
 import java.io.Serializable;
 
@@ -52,7 +50,7 @@ public class PlayedCard implements Serializable {
         this.yValue = yValue;
         this.player = player;
         this.sprite = null;
-        textPaint = new Paint(Color.BLACK);
+        textPaint = new Paint(Color.LTGRAY);
         textPaint.setTextSize(50);
     }
 
@@ -272,16 +270,21 @@ public class PlayedCard implements Serializable {
 
     /**
      * Updates and draws the wrapped {@link GameObjectSprite}, initializing it if necessary.
-     * @param canvas the canvas to draw to
+     * @param canvas the canvas to drawNormal to
      */
-    public void draw(Canvas canvas){
+    public void drawNormal(Canvas canvas){
         if(this.sprite == null){
-            Log.e("ERROR", "No sprite associated with card. Please addOrUpdate sprite.");
+            Log.e("ERROR", "No sprite associated with card (" + this.name +"). Please addOrUpdate sprite.");
         } else if(hitPoints > 0){
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
-            //canvas.drawText("HP:" + this.hitPoints, this.getxValue(), this.getyValue() - 50, textPaint);
+            Rect health = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.getHitPoints()), this.sprite.yStart + 10);
+            Paint myPaint = new Paint();
+            myPaint.setColor(Color.rgb(0, 255, 0));
+            myPaint.setStrokeWidth(10);
+            canvas.drawRect(health, myPaint);
+            //canvas.drawText("HP: " + this.getHitPoints(), this.xValue, this.yValue - 20, textPaint);
         }
     }
 

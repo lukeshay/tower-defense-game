@@ -12,9 +12,9 @@ public class GameObjectSprite extends Sprite {
         super(bitmap, xPos, yPos, 0, 0);
     }
 
-    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean friendly){
+    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing){
         super(bitmap, xPos, yPos, 0, 0);
-        if(!friendly){
+        if(!leftFacing){
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
             image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
