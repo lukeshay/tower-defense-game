@@ -13,11 +13,7 @@ public class SpriteAnimation {
     private int currentFrame;
     private Bitmap spriteSheet;
     private long lastFrameChange;
-    private Rect frameToDraw = new Rect(
-            0,
-            0,
-            frameWidth,
-            frameHeight);
+    private Rect frameToDraw;
     /**
      * Constructs a new sprite animation based on the provided spritesheet
      * @param bitmap the spritesheet
@@ -31,6 +27,11 @@ public class SpriteAnimation {
         this.frameCount = frameCount;
         this.currentFrame = 0;
         this.spriteSheet = bitmap;
+        this.frameToDraw = new Rect(
+                0,
+                0,
+                frameWidth,
+                frameHeight);
         lastFrameChange = System.currentTimeMillis();
         this.spriteSheet = Bitmap.createScaledBitmap(spriteSheet, frameWidth * frameCount, frameHeight, false);
     }
