@@ -18,6 +18,10 @@ public class MatchUp implements Runnable {
 	private static final int MAX_T = 10;
 	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
 
+	private static final int PRE_GAME_TIME = 30000;
+	private static final int IN_GAME_TIME = 600000;
+	private static final int POST_GAME_TIME = 600000;
+
 	private Session playerOneSession;
 	private String playerOneId;
 	private Session playerTwoSession;
@@ -73,12 +77,6 @@ public class MatchUp implements Runnable {
 			playerOneSession.getAsyncRemote().sendText(Messages.gameLoss());
 			playerTwoSession.getAsyncRemote().sendText(Messages.gameWin());
 		}
-
-		try {
-			playerOneSession.close();
-			playerTwoSession.close();
-		} catch (IOException ignore) {
-		}
 	}
 
 	private boolean areBothConnected() {
@@ -93,28 +91,49 @@ public class MatchUp implements Runnable {
 		return playerTwoSession;
 	}
 
+	private void nap(int milliseconds) {
+		try {
+			Thread.sleep(milliseconds);
+		}
+		catch (Exception ignore) {
+		}
+	}
+
 	@Override
 	public void run() {
-		long startTime = new Date().getTime();
+		// sendPreGameMessage();
+		nap(PRE_GAME_TIME);
+
+		long time = new Date().getTime();
 		boolean cont = true;
+
+		// sendStartGameMessage();
+		nap(3000);
+		time = new Date().getTime();
 
 		while (cont) {
 			boolean someoneDed = game.clockCycle();
 			boolean bothConnected = areBothConnected();
 
 			sendInPlayCards();
+			// sendInGameMessage();
 
-			cont = new Date().getTime() - startTime < 100000 &&
+			nap(1000 / 60);
+
+			cont = new Date().getTime() - time < IN_GAME_TIME &&
 					someoneDed && bothConnected;
-
-			try {
-				Thread.sleep(1000 / 60);
-			}
-			catch (InterruptedException ignore) {
-			}
 		}
 
 		String winner = game.getWinner();
 		gameOver(winner);
+		// socketMessage.setWinner(winner);
+		// sendGameOverMessage():
+		time = new Date().getTime();
+
+		while (areBothConnected() && new Date().getTime() - time < POST_GAME_TIME) {
+			nap(1000);
+		}
+
+		pool.remove(this);
 	}
 }
