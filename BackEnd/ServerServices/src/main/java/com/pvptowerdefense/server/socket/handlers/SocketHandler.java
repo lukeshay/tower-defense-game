@@ -2,8 +2,10 @@ package com.pvptowerdefense.server.socket.handlers;
 
 import com.pvptowerdefense.server.socket.models.MatchUp;
 import com.pvptowerdefense.server.socket.models.Messages;
+import com.pvptowerdefense.server.spring.services.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -27,10 +29,14 @@ public class SocketHandler {
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
 
+	private UsersService usersService;
+
 	/**
 	 * This class handles the incoming socket requests.
 	 */
-	public SocketHandler() {
+	@Autowired
+	public SocketHandler(UsersService usersService) {
+		this.usersService = usersService;
 	}
 
 	/**
@@ -130,6 +136,12 @@ public class SocketHandler {
 		});
 	}
 
+	/**
+	 * Logs errors and sends them to the sessions they are linked to.
+	 *
+	 * @param session the session
+	 * @param throwable the error
+	 */
 	@OnError
 	public void onError(Session session, Throwable throwable) {
 		CompletableFuture.runAsync(() -> {
@@ -158,6 +170,9 @@ public class SocketHandler {
 		}
 	}
 
+	/**
+	 * Cleans up the maps and lists. Removed sessions and games that are stale.
+	 */
 	private void purgeMapsAndList() {
 		logger.info("purging");
 		idAndSession.forEach((id, session) -> {
@@ -174,7 +189,15 @@ public class SocketHandler {
 		});
 	}
 
+	/**
+	 * TODO
+	 * Makes sure the user trying to connect is valid.
+	 *
+	 * @param id the userId
+	 * @return boolean
+	 */
 	private boolean isValidUser(String id) {
+//		usersService.isUserInDatabase(id);
 		return true;
 	}
 }
