@@ -190,14 +190,12 @@ public class SocketHandler {
 	}
 
 	/**
-	 * TODO
 	 * Makes sure the user trying to connect is valid.
 	 *
 	 * @param id the userId
 	 * @return boolean
 	 */
 	private boolean isValidUser(String id) {
-//		usersService.isUserInDatabase(id);
-		return true;
+		return usersService.isUserInDatabase(id);
 	}
 }
