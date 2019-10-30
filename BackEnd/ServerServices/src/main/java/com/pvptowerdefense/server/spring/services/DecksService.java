@@ -31,6 +31,11 @@ public class DecksService {
         return decks;
     }
 
+    /**
+     * Returns a deck given it's id
+     * @param deckId - deck's deckId
+     * @return a deck matching the deckId
+     */
     public Deck findDeckByDeckId(int deckId){ return decksDao.findDeckByDeckId(deckId); }
 
     /*

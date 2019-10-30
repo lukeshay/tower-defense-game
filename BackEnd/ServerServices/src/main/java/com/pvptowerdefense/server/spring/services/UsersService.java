@@ -91,7 +91,6 @@ public class UsersService {
     }
 
 
-
     /*
      * Method to update the user to the current version
      * @param User user - the user to be updated
