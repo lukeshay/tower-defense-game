@@ -20,6 +20,10 @@ public class DecksService {
     @Autowired
     public DecksService(DecksDao decksDao){ this.decksDao = decksDao; }
 
+    /**
+     * Returns all the decks
+     * @return list of all the decks
+     */
     public List<Deck> getAllDecks(){
         List<Deck> decks = new ArrayList<Deck>();
         decksDao.findAll().forEach(decks::add);
@@ -37,5 +41,23 @@ public class DecksService {
     public void addEmptyDeck(String deckName, String userId){
         decksDao.save(new Deck(new ArrayList<Card>(), deckName, userId));
         logger.info("Adding empty deck");
+    }
+
+    /**
+     * Returns the amount of decks for a user
+     * @param userId - the user's Id
+     * @return total amount of decks
+     */
+    public int getTotalDecksPerUser(String userId){
+        return decksDao.findDecksByUserId(userId).size();
+    }
+
+    /**
+     * Adds a card to a specified deck
+     * @param card - card to be added
+     * @param deckId - deckId of the deck the card will be added to
+     */
+    public void addCardToDeck(Card card, int deckId){
+        decksDao.findDeckByDeckId(deckId).addCard(card);
     }
 }

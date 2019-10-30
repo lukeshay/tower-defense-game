@@ -1,7 +1,9 @@
 package com.pvptowerdefense.server.spring;
 
+import com.pvptowerdefense.server.spring.models.Card;
 import com.pvptowerdefense.server.spring.models.Deck;
 import com.pvptowerdefense.server.spring.models.User;
+import com.pvptowerdefense.server.spring.services.CardsService;
 import com.pvptowerdefense.server.spring.services.DecksService;
 import com.pvptowerdefense.server.spring.services.UsersService;
 
@@ -23,6 +25,8 @@ public class UsersController {
     private UsersService usersService;
 
     private DecksService decksService;
+
+    private CardsService cardsService;
 
     /*
      * Constructs a usersService to access Users database table
@@ -108,8 +112,26 @@ public class UsersController {
         decksService.addEmptyDeck(deckName, userId);
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{cardName}")
-//    public void addCardToDeck()
+    /**
+     * Returns how many decks a user has
+     * @param userId - the user's Id
+     * @return total amount of decks
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/totalDecks")
+    public int getTotalDecksPerUser(@PathVariable String userId){
+        return decksService.getTotalDecksPerUser(userId);
+    }
+
+    /**
+     * Adds a card to a specific deck
+     * @param deckId - deckId for the deck
+     * @param cardName - name of the card
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckId}/{cardName}")
+    public void addCardToDeck(@PathVariable int deckId, @PathVariable String cardName){
+        Card card = cardsService.getCardByName(cardName);
+        decksService.addCardToDeck(card, deckId);
+    }
 
     /*
      * Helper method to create a success message in JSON format
