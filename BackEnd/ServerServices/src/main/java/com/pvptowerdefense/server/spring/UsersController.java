@@ -109,7 +109,12 @@ public class UsersController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "{userId}/deck/{deckName}")
     public void addEmptyDeck(@PathVariable String deckName, @PathVariable String userId){
-        decksService.addEmptyDeck(deckName, userId);
+        if(decksService.getTotalDecksPerUser(userId) >= 3){
+            throw new IllegalArgumentException("User already has 3 decks!");
+        }
+        else {
+            decksService.addEmptyDeck(deckName, userId);
+        }
     }
 
     /**
