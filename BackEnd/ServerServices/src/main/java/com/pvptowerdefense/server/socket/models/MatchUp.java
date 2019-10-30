@@ -29,12 +29,15 @@ public class MatchUp implements Runnable {
 
 	private Game game;
 
+	private SocketMessage socketMessage;
+
 	public MatchUp(String playerOneId, Session playerOneSession,
 	               String playerTwoId, Session playerTwoSession) {
 		this.playerOneSession = playerOneSession;
 		this.playerTwoSession = playerTwoSession;
 
 		game = new Game(playerOneId, playerTwoId);
+		socketMessage = new SocketMessage(playerOneId, playerTwoId);
 
 		pool.execute(this);
 	}
@@ -45,22 +48,16 @@ public class MatchUp implements Runnable {
 
 	private void sendInPlayCards() {
 		logger.info("sending cards");
-		CompletableFuture.runAsync(() -> {
-			Future<Void> deliveryProgress1 =
-					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(game.getCards()));
-			Future<Void> deliveryProgress2 =
-					playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(game.getCards()));
-			deliveryProgress1.isDone();
-			deliveryProgress2.isDone();
-		});
+		sendMessage(game.getCards());
 	}
 
 	public void handleMessage(Session session, String message) {
 		logger.info("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
+
 		if (card != null) {
 			game.addCard(card);
-			session.getAsyncRemote().sendText(Messages.convertToJson(Messages.cardAdded()));
+			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 	}
 
@@ -94,20 +91,71 @@ public class MatchUp implements Runnable {
 	private void nap(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);
+		} catch (Exception ignore) {
 		}
-		catch (Exception ignore) {
-		}
+	}
+
+	private void sendMessage(Object o) {
+		CompletableFuture.runAsync(() -> {
+			Future<Void> deliveryProgress1 =
+					playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(o));
+			Future<Void> deliveryProgress2 =
+					playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(o));
+
+			deliveryProgress1.isDone();
+			deliveryProgress2.isDone();
+		});
+	}
+
+	private void sendPreGameMessage() {
+		logger.info("sending pre-game message");
+
+		socketMessage.setGameState("pre-game");
+		socketMessage.setServerMessage("");
+		sendMessage(socketMessage);
+
+	}
+
+	private void sendStartGameMessage() {
+		logger.info("sending starting-game message");
+
+		socketMessage.setGameState("starting-game");
+		socketMessage.setServerMessage("starting game in 3 seconds");
+		sendMessage(socketMessage);
+	}
+
+	private void sendInGameMessage(String message, int time) {
+		logger.info("sending in-game message");
+
+		socketMessage.setGameState("in-game");
+		socketMessage.setServerMessage(message);
+		socketMessage.setPlayedCards(game.getCards());
+//		socketMessage.setTurnState(game.getTurnState());
+		socketMessage.setCurrentTime(time);
+		sendMessage(socketMessage);
+	}
+
+	private void sendPostGameMessage(int time) {
+		logger.info("sending in-game message");
+
+		socketMessage.setGameState("in-game");
+		socketMessage.setServerMessage("");
+		socketMessage.setPlayedCards(game.getCards());
+		socketMessage.setTurnState("");
+		socketMessage.setWinner(game.getWinner());
+		socketMessage.setCurrentTime(time);
+		sendMessage(socketMessage);
 	}
 
 	@Override
 	public void run() {
-		// sendPreGameMessage();
+		sendPreGameMessage();
 		nap(PRE_GAME_TIME);
 
-		long time = new Date().getTime();
+		long time;
 		boolean cont = true;
 
-		// sendStartGameMessage();
+		sendStartGameMessage();
 		nap(3000);
 		time = new Date().getTime();
 
@@ -115,8 +163,7 @@ public class MatchUp implements Runnable {
 			boolean someoneDed = game.clockCycle();
 			boolean bothConnected = areBothConnected();
 
-			sendInPlayCards();
-			// sendInGameMessage();
+			sendInGameMessage("", Math.toIntExact(new Date().getTime() - time));
 
 			nap(1000 / 60);
 
@@ -124,13 +171,10 @@ public class MatchUp implements Runnable {
 					someoneDed && bothConnected;
 		}
 
-		String winner = game.getWinner();
-		gameOver(winner);
-		// socketMessage.setWinner(winner);
-		// sendGameOverMessage():
 		time = new Date().getTime();
 
 		while (areBothConnected() && new Date().getTime() - time < POST_GAME_TIME) {
+			sendPostGameMessage(Math.toIntExact(new Date().getTime() - time));
 			nap(1000);
 		}
 

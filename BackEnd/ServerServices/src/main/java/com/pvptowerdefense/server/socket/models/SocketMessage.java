@@ -15,10 +15,13 @@ public class SocketMessage {
 
 	private String winner;
 	private String gameState;
+	private String turnState;
 
 	private int currentTime;
 
 	private List<PlayedCard> playedCards;
+
+	private String serverMessage;
 
 	/**
 	 * Instantiates a new Socket message.
@@ -35,10 +38,13 @@ public class SocketMessage {
 
 		this.winner = "";
 		this.gameState = "";
+		this.turnState = "";
 
 		this.currentTime = 0;
 
 		this.playedCards = new ArrayList<>();
+
+		this.serverMessage = "";
 	}
 
 	/**
@@ -150,6 +156,24 @@ public class SocketMessage {
 	}
 
 	/**
+	 * Gets turn state.
+	 *
+	 * @return the turn state
+	 */
+	public String getTurnState() {
+		return turnState;
+	}
+
+	/**
+	 * Sets turn state.
+	 *
+	 * @param turnState the turn state
+	 */
+	public void setTurnState(String turnState) {
+		this.turnState = turnState;
+	}
+
+	/**
 	 * Gets current time.
 	 *
 	 * @return the current time
@@ -183,5 +207,23 @@ public class SocketMessage {
 	 */
 	public void setPlayedCards(List<PlayedCard> playedCards) {
 		this.playedCards = playedCards;
+	}
+
+	/**
+	 * Gets server message.
+	 *
+	 * @return the server message
+	 */
+	public String getServerMessage() {
+		return serverMessage;
+	}
+
+	/**
+	 * Sets server message.
+	 *
+	 * @param serverMessage the server message
+	 */
+	public void setServerMessage(String serverMessage) {
+		this.serverMessage = serverMessage;
 	}
 }
