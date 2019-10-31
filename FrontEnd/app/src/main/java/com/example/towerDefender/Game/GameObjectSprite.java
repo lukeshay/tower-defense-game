@@ -30,6 +30,26 @@ public class GameObjectSprite extends Sprite {
         }
     }
 
+    /**
+     * Constructs a new GameObjectSprite based off of a spritesheet
+     * @param bitmap
+     * @param xPos
+     * @param yPos
+     * @param leftFacing
+     * @param frameCount
+     * @param frameWidth
+     * @param frameHeight
+     */
+    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing, int frameCount, int frameWidth, int frameHeight){
+        super(bitmap, xPos, yPos, 0, 0);
+        if(!leftFacing){
+            Matrix matrix = new Matrix();
+            matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
+            image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+            this.animation = new SpriteAnimation(image, frameHeight, frameWidth, frameCount);
+        }
+    }
+
     @Override
     public void update() {
         xStart += xVel;

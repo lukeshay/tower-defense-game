@@ -3,6 +3,7 @@ package com.example.towerDefender.Game;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.example.towerDefender.Activities.NavigationActivity;
+import com.example.towerDefender.R;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public GameView instance;
@@ -21,7 +23,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Paint paint;
     private GameManager manager;
     private Player player;
-
     public GameView(Context context, Player player){
         super(context);
         instance = this;
