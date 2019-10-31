@@ -3,6 +3,8 @@ package com.pvptowerdefense.server.socket;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type My web socket client.
@@ -16,8 +18,7 @@ public class SS5WebSocketClient {
 	 */
 	private static final String serverUrl = "ws://localhost:%d/socket/%s/";
 
-	private String id;
-	private Queue<String> messages;
+	private List<String> messages;
 	private Session session = null;
 
 	/**
@@ -26,8 +27,11 @@ public class SS5WebSocketClient {
 	 * @param userId the socket id
 	 */
 	public SS5WebSocketClient(String userId, int port) {
-		this.id = userId;
-		messages = new Queue<>();
+		messages = new ArrayList<>();
+		System.out.println("####################################");
+		System.out.println(String.format(serverUrl,
+				port, userId));
+		System.out.println("####################################");
 
 		try {
 			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
@@ -45,8 +49,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnOpen
 	public void onOpen(Session session) {
-		messages.enqueue(String.format("Connected: %s%s", serverUrl, id));
-		setSession(session);
+		this.session = session;
 	}
 
 	/**
@@ -56,7 +59,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnMessage
 	public void onMessage(String message) {
-		messages.enqueue(String.format("Message: %s", message));
+		messages.add(message);
 	}
 
 	/**
@@ -67,7 +70,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnClose
 	public void onClose(Session session, CloseReason reason) {
-		messages.enqueue(String.format("Closed: %s", reason.getReasonPhrase()));
+		messages.add(String.format("Closed: %s", reason.getReasonPhrase()));
 		this.session = null;
 	}
 
@@ -79,7 +82,7 @@ public class SS5WebSocketClient {
 	 */
 	@OnError
 	public void onError(Session session, Throwable throwable) {
-		messages.enqueue(String.format("Error: %s", throwable.getMessage()));
+		messages.add(String.format("Error: %s", throwable.getMessage()));
 	}
 
 	/**
@@ -117,69 +120,6 @@ public class SS5WebSocketClient {
 	 */
 	public boolean isClosed() {
 		return session == null || !session.isOpen();
-	}
-
-	/**
-	 * Gets server url.
-	 *
-	 * @return the server url
-	 */
-	public static String getServerUrl() {
-		return serverUrl;
-	}
-
-	/**
-	 * Gets id.
-	 *
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Sets id.
-	 *
-	 * @param id the id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * Gets messages.
-	 *
-	 * @return the messages
-	 */
-	public Queue<String> getMessages() {
-		return messages;
-	}
-
-	/**
-	 * Sets messages.
-	 *
-	 * @param messages the messages
-	 */
-	public void setMessages(Queue<String> messages) {
-		this.messages = messages;
-	}
-
-	/**
-	 * Gets session.
-	 *
-	 * @return the session
-	 */
-	public Session getSession() {
-		return session;
-	}
-
-	/**
-	 * Sets session.
-	 *
-	 * @param session the session
-	 */
-	public void setSession(Session session) {
-		this.session = session;
 	}
 
 	/**

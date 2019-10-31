@@ -33,6 +33,8 @@ public class SocketHandler {
 
 	/**
 	 * This class handles the incoming socket requests.
+	 *
+	 * @param usersService the users service
 	 */
 	@Autowired
 	public SocketHandler(UsersService usersService) {
@@ -139,7 +141,7 @@ public class SocketHandler {
 	/**
 	 * Logs errors and sends them to the sessions they are linked to.
 	 *
-	 * @param session the session
+	 * @param session   the session
 	 * @param throwable the error
 	 */
 	@OnError

@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 
+/**
+ * The type User.
+ */
 /*
  * User type class
  */
@@ -50,6 +53,16 @@ public class User {
     private User() {
     }
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param phoneId   the phone id
+     * @param userName  the user name
+     * @param email     the email
+     * @param firstName the first name
+     * @param lastName  the last name
+     * @param userType  the user type
+     */
     /*
      * Creates a new User without initial set lup of trophies or xp or decks/cards
      */
@@ -66,6 +79,20 @@ public class User {
         this.deckNames = new ArrayList<>();
     }
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param phoneId    the phone id
+     * @param userName   the user name
+     * @param email      the email
+     * @param firstName  the first name
+     * @param lastName   the last name
+     * @param xp         the xp
+     * @param trophies   the trophies
+     * @param userType   the user type
+     * @param ownedCards the owned cards
+     * @param deckNames  the deck names
+     */
     /*
      * Creates a new users that completely fills all of the User's initial variables
      */
@@ -85,6 +112,11 @@ public class User {
         this.deckNames = deckNames;
     }
 
+    /**
+     * Gets phone id.
+     *
+     * @return the phone id
+     */
     /*
      * Gets the user's phoneId
      * @return user's phoneId
@@ -96,6 +128,7 @@ public class User {
 
     /**
      * Sets the the user's phoneId to the desired id
+     *
      * @param phoneId - phoneId to be changed to
      */
     public void setPhoneId(String phoneId) {
@@ -104,7 +137,8 @@ public class User {
 
     /**
      * Gets the user's user name
-     * @return username
+     *
+     * @return username user name
      */
     public String getUserName() {
         return userName;
@@ -112,6 +146,7 @@ public class User {
 
     /**
      * Sets the user's username to the desired username
+     *
      * @param userName - username to be changed to
      */
     public void setUserName(String userName) {
@@ -120,6 +155,7 @@ public class User {
 
     /**
      * Gets the user's email address
+     *
      * @return the email address
      */
     public String getEmail() {
@@ -128,6 +164,7 @@ public class User {
 
     /**
      * Sets the user's email address to the desired email address
+     *
      * @param email - email to be changed to
      */
     public void setEmail(String email) {
@@ -136,6 +173,7 @@ public class User {
 
     /**
      * Gets the user's first name
+     *
      * @return their first name
      */
     public String getFirstName() {
@@ -144,6 +182,7 @@ public class User {
 
     /**
      * Sets the user's first name to the desired first name
+     *
      * @param firstName - name to be changed to
      */
     public void setFirstName(String firstName) {
@@ -152,6 +191,7 @@ public class User {
 
     /**
      * Gets the user's last name
+     *
      * @return their last name
      */
     public String getLastName() {
@@ -160,6 +200,7 @@ public class User {
 
     /**
      * Sets the user's last name to the desired last name
+     *
      * @param lastName - last name to be changed to
      */
     public void setLastName(String lastName) {
@@ -168,6 +209,7 @@ public class User {
 
     /**
      * Gets the user's current xp value
+     *
      * @return the xp value
      */
     public int getXp() {
@@ -176,6 +218,7 @@ public class User {
 
     /**
      * Sets the user's xp to the desired xp value
+     *
      * @param xp - xp value to be set
      */
     public void setXp(int xp) {
@@ -184,6 +227,7 @@ public class User {
 
     /**
      * Gets the user's current trophy count
+     *
      * @return the trophy count
      */
     public int getTrophies() {
@@ -192,6 +236,7 @@ public class User {
 
     /**
      * Sets the user's trophy count to the desired trophy count
+     *
      * @param trophies - trophy count to be set
      */
     public void setTrophies(int trophies) {
@@ -200,6 +245,7 @@ public class User {
 
     /**
      * Gets the user's current type
+     *
      * @return the user type
      */
     public String getUserType() {
@@ -208,6 +254,7 @@ public class User {
 
     /**
      * Gets the list of the user's cards
+     *
      * @return list of cards
      */
     public List<Card> getOwnedCards() {
@@ -216,6 +263,7 @@ public class User {
 
     /**
      * Sets the user's list of cards to the desired list
+     *
      * @param ownedCards - list of cards to be changed to
      */
     public void setOwnedCards(List<Card> ownedCards) {
@@ -224,6 +272,7 @@ public class User {
 
     /**
      * Gets the list of the user's deck names
+     *
      * @return list of deck names
      */
     public List<String> getDeckNames() {
@@ -232,6 +281,7 @@ public class User {
 
     /**
      * Sets the user's list of deck names to the desired names
+     *
      * @param deckNames - list of names to be changed to
      */
     public void setDeckNames(List<String> deckNames) {
@@ -240,6 +290,7 @@ public class User {
 
     /**
      * Sets the user's type to the given type if valid
+     *
      * @param type - type to be changed to
      */
     public void setUserType(String type){

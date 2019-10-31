@@ -22,8 +22,8 @@ public class MatchUp implements Runnable {
 	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
 
 	private static final int PRE_GAME_TIME = 30000;
-	private static final int IN_GAME_TIME = 600000;
-	private static final int POST_GAME_TIME = 600000;
+	private static final int IN_GAME_TIME = 300000;
+	private static final int POST_GAME_TIME = 300000;
 
 	private Session playerOneSession;
 	private String playerOneId;

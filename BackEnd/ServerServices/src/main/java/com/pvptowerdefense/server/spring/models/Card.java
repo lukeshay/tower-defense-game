@@ -187,7 +187,7 @@ public class Card {
 
 	/**
 	 * Sets type.
-	 *
+	 * <p>
 	 * TODO - verify it matches enum with following fields: unit, spell
 	 *
 	 * @param type the type

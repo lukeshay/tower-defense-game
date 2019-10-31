@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
+/**
+ * The type Users service.
+ */
 /*
  * User type service
  */
@@ -102,7 +105,7 @@ public class UsersService {
 	 * Method to add an empty deck of cards for the user
 	 *
 	 * @param deckName - name for the deck
-	 * @param deckId - id for the deck
+	 * @param deckId   - id for the deck
 	 */
 	public void addEmptyDeck(String deckName, int deckId) {
 		new Deck(new ArrayList<Card>(), deckName, deckId);
@@ -121,7 +124,7 @@ public class UsersService {
 	 * Returns whether the id is found in the database.
 	 *
 	 * @param id the id
-	 * @return boolean
+	 * @return boolean boolean
 	 */
 	public boolean isUserInDatabase(String id) {
 		return usersDao.findUserByPhoneId(id) != null;

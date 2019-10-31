@@ -92,6 +92,11 @@ public class CardsService {
 		}
 	}
 
+	/**
+	 * Update card.
+	 *
+	 * @param card the card
+	 */
 	public void updateCard(Card card) {
 		logger.info("updating card " + card.getName());
 		cardsDao.save(card);
