@@ -149,22 +149,37 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
+        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+
+        if (socketMessage.getGameState().equals("pre-game") || socketMessage.getGameState().equals("starting-game")) {
+            return;
+        }
+
         if(message.contains("true")){
             Log.i("SOCKET_INFO", "Connected.");
             isConnected = true;
-            if(message.contains("left")){
+
+            if (message.contains("left")) {
                 playerSide = "left";
-            } else if(message.contains("right")){
+            }
+            else if (message.contains("right")) {
                 playerSide = "right";
             }
+
             initializeDeck();
-        } else if(message.contains("win") || message.contains("loss")){
-            Log.i("SOCKET_INFO", "GAME OVER: " + message);
+
+        }
+        else if (socketMessage.getGameState().equals("post-game")) { //message.contains("win") || message.contains("loss")){
+            Log.i("SOCKET_INFO", "GAME OVER: " + socketMessage.getWinner());
+            // socketMessage.getWinner().equals(player.getUserId()); // This will check if the current user is the winner
             this.gameOver = true;
-        } else{
+
+        }
+        else {
             try {
-                if(message.contains("name")){
-                    playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+                if (socketMessage.getPlayedCards().size() > 0) { // message.contains("name")){
+                    playedCards.addAll(socketMessage.getPlayedCards(), this);//JsonUtils.jsonToPlayedCardArray(message), this);
+
                     //If the player side hasn't already been updated, go through and check
                     if(!playerSideSet){
                         for(PlayedCard playedCard : playedCards.getPlayedCards()){
@@ -181,7 +196,8 @@ public class GameManager {
                     }
 
                 }
-            } catch (Exception e){
+            }
+            catch (Exception e){
                 Log.e("ERROR", e.getMessage());
                 e.printStackTrace();
             }

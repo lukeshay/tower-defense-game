@@ -69,7 +69,7 @@ public class SocketHandler {
 			if (idAndSession.size() % 2 == 1) {
 				logger.info(id + " not added to game");
 				session.getAsyncRemote().sendText(
-						Messages.connectedTrueMatchUpFalse().toString()
+						Messages.connectedTrueMatchUpFalse()
 				);
 			}
 			else {
@@ -86,11 +86,11 @@ public class SocketHandler {
 								session));
 
 						otherSession.getAsyncRemote().sendText(
-								Messages.connectedTrueMatchUpTrue("left").toString()
+								Messages.connectedTrueMatchUpTrue("left")
 						);
 
 						session.getAsyncRemote().sendText(
-								Messages.connectedTrueMatchUpTrue("right").toString()
+								Messages.connectedTrueMatchUpTrue("right")
 						);
 					}
 				}
