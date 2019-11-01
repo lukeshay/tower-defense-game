@@ -14,12 +14,19 @@ import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
 public class CardInHand {
 
+    /**
+     * An enumeration that carries the status of this {@link CardInHand}.
+     * Is it ready to be played, currently being played, just played, or not ready to be played?
+     */
     public enum Status {
         READY, PLACING, NOT_READY, PLAYED
     }
 
     //Used to create the inventory box behind our Card's sprite
     private Rect background;
+    /**
+     * The color to paint the background of the {@link Sprite}, associated with the {@link CardInHand.Status} of this {@link CardInHand}.
+     */
     public Paint statusColor;
     private Paint textPaint;
     private int color;

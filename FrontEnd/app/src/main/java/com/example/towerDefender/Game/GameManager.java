@@ -21,6 +21,9 @@ import com.example.towerDefender.Card.PlayedCard;
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
+    /**
+     * The side the {@link GameManager}'s player is on. (left or right)
+     */
     public static String playerSide;
     private Player player;
     private boolean isConnected = false;
@@ -35,6 +38,10 @@ public class GameManager {
     private Paint textPaint;
     private boolean playerSideSet = false;
 
+    /**
+     * Constructs a new {@link GameManager}
+     * @param player the {@link Player} to use
+     */
     public GameManager(Player player){
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
@@ -55,6 +62,9 @@ public class GameManager {
         player.drawHand();
     }
 
+    /**
+     * @return this {@link GameManager}'s {@link Player}
+     */
     public Player getPlayer(){
         return player;
     }

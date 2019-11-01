@@ -10,21 +10,36 @@ public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
     private GameView gameView;
     private boolean running;
+    /**
+     * The {@link Canvas} associated with this {@link Thread}
+     */
     public static Canvas canvas;
     private int targetFPS = 60;
     private long averageFPS;
 
+    /**
+     * Constructs a new {@link MainThread}.
+     * @param surfaceHolder the {@link SurfaceHolder} for this {@link Thread} to use
+     * @param gameView the {@link GameView} associated with this {@link Thread}
+     */
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
     }
 
+    /**
+     * Sets the value of the 'running' field to the provided boolean
+     * @param isRunning the value to set 'running' to
+     */
     public void setRunning(boolean isRunning){
         running = isRunning;
     }
 
 
+    /**
+     * Draws to the canvas when if a certain amount of time has passed between the last update. Prints out FPS at each update
+     */
     @Override
     public void run() {
         long startTime;

@@ -27,6 +27,11 @@ public class Player {
     private int currentMana;
     private long millisOfLastManaRecharge = 0;
 
+    /**
+     * Constructs a new {@link Player} belonging to the provided {@link Context}, with the provided startingHand.
+     * @param context the {@link Context} to use as the playerContext
+     * @param startingHand the {@link ArrayList} of {@link Card}s that will serve as the first hand
+     */
     public Player(Context context, ArrayList<Card> startingHand){
         this.context = context;
         hand = new CardInHand[4];
@@ -38,6 +43,9 @@ public class Player {
         this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID);
     }
 
+    /**
+     * Draws a new hand of {@link Card}s.
+     */
     public void drawHand(){
         hand[0] = deck.drawCard(0, true);
         hand[1] = deck.drawCard(1, true);
@@ -45,6 +53,9 @@ public class Player {
         hand[3] = deck.drawCard(3, true);
     }
 
+    /**
+     * @return the {@link Context} this {@link Player} uses
+     */
     public Context getPlayerContext(){
         return context;
     }

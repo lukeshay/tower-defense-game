@@ -16,15 +16,18 @@ import android.view.View;
 import com.example.towerDefender.Activities.NavigationActivity;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-    public GameView instance;
     private MainThread mainThread;
     private Paint paint;
     private GameManager manager;
     private Player player;
 
+    /**
+     * Constructs a new {@link GameView} based on the provided {@link Context} with the provided {@link Player}
+     * @param context the base {@link Context} for this {@link GameView} to reference
+     * @param player the {@link Player} to be used in this {@link GameView}'s {@link GameManager}
+     */
     public GameView(Context context, Player player){
         super(context);
-        instance = this;
         this.player = player;
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
@@ -59,6 +62,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * Draws the background and all game information on the provided {@link Canvas}
+     * @param canvas the {@link Canvas} to draw on
+     */
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
@@ -69,6 +76,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    /**
+     * Checks to see if any of the core buttons have been clicked or if a card needs to be played on a touch event.
+     * @param event the {@link MotionEvent} triggering this listener
+     * @return true if the event was handled
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {

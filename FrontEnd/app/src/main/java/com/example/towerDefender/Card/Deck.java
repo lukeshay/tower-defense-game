@@ -44,6 +44,12 @@ public class Deck {
         return new CardInHand(player, deck.get(index),cardInHandIndex, this.playerSide);
     }
 
+    /**
+     * Draws and returns a {@link CardInHand} from this deck.
+     * @param cardInHandIndex the index to store the card in
+     * @param setImage whether or not the image of the {@link CardInHand} should be set
+     * @return a {@link CardInHand} representing the next card in this deck
+     */
     public CardInHand drawCard(int cardInHandIndex, boolean setImage){
         //Players can never run out of cards in their deck. When the index is maxed out, we will shuffle the deck and start index back at 0.
         if(++index == deck.size()){
@@ -57,6 +63,11 @@ public class Deck {
     }
 
     //public for testing purposes
+
+    /**
+     * Sets this {@link Deck}'s list of {@link Card}s to the provided {@link Card}s
+     * @param cards the {@link ArrayList} of {@link Card}s to set the deck to
+     */
     public void setDeck(ArrayList<Card> cards){
         this.deck = cards;
     }

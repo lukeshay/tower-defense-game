@@ -8,10 +8,23 @@ public class GameObjectSprite extends Sprite {
 
     //TODO: get rid of velocity altogether
 
+    /**
+     * Constructs a new {@link GameObjectSprite}.
+     * @param bitmap the {@link Bitmap} to use as the image
+     * @param xPos the x position of the sprite
+     * @param yPos the y position of the sprite
+     */
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos){
         super(bitmap, xPos, yPos, 0, 0);
     }
 
+    /**
+     * Constructs a new {@link GameObjectSprite}
+     * @param bitmap the {@link Bitmap} to use as the image
+     * @param xPos the x position of the sprite
+     * @param yPos the y position of the sprite
+     * @param leftFacing a boolean that determines if the sprite faces left (true) or right (false)
+     */
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing){
         super(bitmap, xPos, yPos, 0, 0);
         if(!leftFacing){
@@ -21,6 +34,9 @@ public class GameObjectSprite extends Sprite {
         }
     }
 
+    /**
+     * Updates the x and y values based upon its velocity.
+     */
     @Override
     public void update() {
         xStart += xVel;
