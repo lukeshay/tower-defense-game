@@ -66,8 +66,4 @@ public class CardUtilities {
         return toReturn;
     }
 
-    public static int flipLeftToRight(int x){
-        return Sprite.screenWidth - 200 - x;
-    }
-
 }

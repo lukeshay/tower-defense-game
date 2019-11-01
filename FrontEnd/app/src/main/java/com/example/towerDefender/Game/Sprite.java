@@ -31,9 +31,24 @@ public abstract class Sprite {
 
     public abstract void update();
 
+    /**
+     * @return the starting x value of this {@link Sprite}'s {@link Bitmap}
+     */
     public int getxStart(){ return xStart; }
+
+    /**
+     * @return the starting y value of this {@link Sprite}'s {@link Bitmap}
+     */
     public int getyStart(){ return yStart; }
+
+    /**
+     * @return the ending x value of this {@link Sprite}'s {@link Bitmap}
+     */
     public int getxEnd(){ return xEnd; }
+
+    /**
+     * @return the ending y value of this {@link Sprite}'s {@link Bitmap}
+     */
     public int getyEnd(){ return yEnd; }
 
 }

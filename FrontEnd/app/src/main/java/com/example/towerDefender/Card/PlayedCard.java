@@ -31,7 +31,7 @@ public class PlayedCard implements Serializable {
     private GameObjectSprite sprite;
 
     /**
-     *
+     * Constructs a new {@link PlayedCard} with the provided parameters.
      * @param cardToPlay the {@link Card} to play and construct this played card from
      * @param xValue x value of the current card
      * @param yValue y value of the current card

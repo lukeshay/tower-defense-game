@@ -22,7 +22,7 @@ public class PlayedCardsHolder {
     }
 
     /**
-     * Adds the provided card to the holder, or updates it if it is a
+     * Adds the provided card to the holder, or updates it if it is already present
      * @param playedCard the {@link PlayedCard} to addOrUpdate
      */
     public void addOrUpdate(PlayedCard playedCard, GameManager manager){
@@ -42,6 +42,9 @@ public class PlayedCardsHolder {
         }
     }
 
+    /**
+     * @return a {@link List} of {@link Card}s that are represnted by the {@link PlayedCard}s  of this {@link PlayedCardsHolder}
+     */
     public List<Card> getWrappedCards(){
         ArrayList<Card> wrappedCards = new ArrayList<>();
         for(PlayedCard playedCard : playedCards){
@@ -73,12 +76,22 @@ public class PlayedCardsHolder {
         return playedCards;
     }
 
+    /**
+     * Adds all the provided {@link PlayedCard}s to this {@link PlayedCardsHolder}.
+     * @param cards the {@link Card}s to add
+     * @param manager the {@link GameManager} the {@link Card}s belong to
+     */
     public void addAll(Collection<PlayedCard> cards, GameManager manager){
         for(PlayedCard card : cards){
             addOrUpdate(card, manager);
         }
     }
 
+    /**
+     * Returns the index of the provided {@link PlayedCard} if it is present in this {@link PlayedCardsHolder}
+     * @param playedCard the {@link PlayedCard} to search for
+     * @return the index of the provided card if it exists. If it does not exist, returns -1
+     */
     public int contains(PlayedCard playedCard){
         for(int i = 0; i < playedCards.size(); i++){
             //if the card name is the same, we treat the played card as the same
