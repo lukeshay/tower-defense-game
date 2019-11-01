@@ -60,11 +60,11 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                if(lastSocketMessage != null && lastSocketMessage.equals(message)){
-                    //don't do anything, the message is the same
-                } else{
+//                if (lastSocketMessage == null || !lastSocketMessage.equals(message)){
                     gameView.getManager().passMessageToManager(message);
-                }
+                    Log.i("GAME_MESSAGE", message);
+//                    lastSocketMessage = message;
+//                }
             }
 
 
@@ -79,7 +79,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                     });
                 }
                 catch(Exception e){e.printStackTrace();}
-                }
+            }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {

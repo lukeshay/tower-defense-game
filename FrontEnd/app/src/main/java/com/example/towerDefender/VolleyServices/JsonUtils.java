@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import com.example.towerDefender.Card.PlayedCard;
 
@@ -112,6 +113,10 @@ public class JsonUtils {
      */
     public static SocketMessage jsonToSocketMessage(String json) {
         return new Gson().fromJson(json, SocketMessage.class);
+    }
+
+    public static Map<String, String> jsonToMap(String json) {
+        return new Gson().fromJson(json, Map.class);
     }
 
 }
