@@ -130,9 +130,10 @@ class GameTests {
 
 	@Test
 	void gameOverTest() throws CloneNotSupportedException {
-		p1Card.setxValue(1600);
+		p1Card.setxValue(0);
 		p1Card.setHitPoints(Integer.MAX_VALUE);
 		p1Card.setDamage(Integer.MAX_VALUE);
+		p1Card.setRange(Integer.MAX_VALUE);
 
 		game.addCard(p1Card.clone());
 
@@ -148,6 +149,40 @@ class GameTests {
 		Assertions.assertAll(
 				() -> Assertions.assertFalse(finalGameState, "Game should have finished but did not."),
 				() -> Assertions.assertEquals("1", game.getWinner(), "The winner is incorrect.")
+		);
+	}
+
+	@Test
+	void cardCannotGoPastMaxMinTest() throws CloneNotSupportedException {
+		p1Card.setHitPoints(Integer.MAX_VALUE);
+		p1Card.setRange(0);
+		p1Card.setSpeed(500);
+
+		p2Card.setHitPoints(Integer.MAX_VALUE);
+		p2Card.setRange(0);
+		p2Card.setSpeed(500);
+
+		game.addCard(p1Card.clone());
+		game.addCard(p2Card.clone());
+
+		for (int i = 0; i < FIVE_HUNDRED_CYCLES; i++) {
+			game.clockCycle();
+		}
+
+		PlayedCard p1CardPostCycle = game.getCards()
+				.stream()
+				.filter(e -> e.getName().equals("Card1"))
+				.findFirst()
+				.get();
+		PlayedCard p2CardPostCycle = game.getCards()
+				.stream()
+				.filter(e -> e.getName().equals("Card2"))
+				.findFirst()
+				.get();
+
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(1919, p1CardPostCycle.getxValue(), "Player ones card is at incorrect x location."),
+				() -> Assertions.assertEquals(0, p2CardPostCycle.getxValue(), "Player twos card is at incorrect x location.")
 		);
 	}
 }

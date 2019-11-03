@@ -204,7 +204,16 @@ public class Game {
 				attacked.setHitPoints(attacked.getHitPoints() - actionCard.getDamage());
 			}
 			else if (!actionCard.isAttacking()) {
-				actionCard.setxValue(actionCard.getxValue() + (actionCard.getSpeed() * direction));
+				if (direction == 1) {
+					int newXValue = actionCard.getxValue() + actionCard.getSpeed();
+					newXValue = Math.min(newXValue, MAX_X - 1);
+					actionCard.setxValue(newXValue);
+				}
+				else if (direction == -1) {
+					int newXValue = actionCard.getxValue() - actionCard.getSpeed();
+					newXValue = Math.max(newXValue, 0);
+					actionCard.setxValue(newXValue);
+				}
 			}
 		}
 	}
