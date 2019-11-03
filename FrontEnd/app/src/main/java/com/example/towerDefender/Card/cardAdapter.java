@@ -50,7 +50,7 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
         holder.mTextView.setText(mDataSet.get(position).cardName);
-        holder.mCardView.setImageBitmap(CardUtilities.getGameObjectSpriteLeftFacing(mContext, mDataSet.get(position), 0, 0).image);
+        holder.mCardView.setImageBitmap(CardUtilities.getGameObjectSprite(mContext, mDataSet.get(position), 0, 0, true).image);
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.WHITE);
         gd.setCornerRadius(5);

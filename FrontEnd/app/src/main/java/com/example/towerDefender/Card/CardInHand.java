@@ -148,11 +148,11 @@ public class CardInHand {
      */
     private void updateCardAndImage(Card card){
         if(GameManager.playerSide.contains("left")){
-            this.cardSprite = CardUtilities.getGameObjectSpriteLeftFacing(player.getPlayerContext(), card,
-                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+            this.cardSprite = CardUtilities.getGameObjectSprite(player.getPlayerContext(), card,
+                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250, true);
         } else {
-            this.cardSprite = CardUtilities.getGameObjectSpriteRightFacing(player.getPlayerContext(), card,
-                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+            this.cardSprite = CardUtilities.getGameObjectSprite(player.getPlayerContext(), card,
+                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250, false);
         }
         this.card = card;
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);

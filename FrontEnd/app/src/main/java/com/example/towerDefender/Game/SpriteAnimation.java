@@ -22,11 +22,10 @@ public class SpriteAnimation {
      * @param frameCount the number of frames
      */
     public SpriteAnimation(Bitmap bitmap, int frameWidth, int frameHeight, int frameCount){
-        this.frameWidth = (frameHeight / frameWidth) *Sprite.normalizedInventorySize;
+        this.frameWidth = Sprite.normalizedInventorySize;
         this.frameHeight =  Sprite.normalizedInventorySize;
         this.frameCount = frameCount;
         this.currentFrame = 0;
-        Bitmap.createScaledBitmap(bitmap, this.frameWidth, this.frameHeight, false);
         this.spriteSheet = bitmap;
         this.frameToDraw = new Rect(
                 0,

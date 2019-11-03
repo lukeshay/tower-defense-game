@@ -26,8 +26,8 @@ public class GameObjectSprite extends Sprite {
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
             image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-            this.animation = new SpriteAnimation(image, bitmap.getWidth(), bitmap.getHeight(), 1);
         }
+        this.animation = new SpriteAnimation(image, bitmap.getWidth(), bitmap.getHeight(), 1);
     }
 
     /**
@@ -46,8 +46,8 @@ public class GameObjectSprite extends Sprite {
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
             image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-            this.animation = new SpriteAnimation(image, frameHeight, frameWidth, frameCount);
         }
+        this.animation = new SpriteAnimation(image, frameHeight, frameWidth, frameCount);
     }
 
     @Override

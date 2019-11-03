@@ -35,9 +35,9 @@ public class PlayedCardsHolder {
             playedCards.add(playedCard);
             if(manager.getPlayerSide().equals("left") && playedCard.getPlayer().contains(manager.getPlayer().getUserId())
                     || manager.getPlayerSide().contains("right") && !playedCard.getPlayer().contains(manager.getPlayer().getUserId())){
-                playedCard.setSprite(CardUtilities.getGameObjectSpriteLeftFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                playedCard.setSprite(CardUtilities.getGameObjectSprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue(), true));
             } else {
-                playedCard.setSprite(CardUtilities.getGameObjectSpriteRightFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                playedCard.setSprite(CardUtilities.getGameObjectSprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue(), false));
             }
         }
     }
