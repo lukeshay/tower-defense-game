@@ -149,6 +149,8 @@ public class Game {
 	 * @return the game state to check if it should end
 	 */
 	public boolean clockCycle() {
+		if (!gameState) throw new IllegalStateException("Game is over.");
+
 		attackOrMove(playerOneCards, playerTwoCards, 1);
 		attackOrMove(playerTwoCards, playerOneCards, -1);
 
@@ -157,7 +159,7 @@ public class Game {
 			if (card.getHitPoints() <= 0) {
 			    if (card.getName().equals("tower2")) {
 			        gameState = false;
-			        winner = player1;
+			        winner = player2;
                 }
 				cards.remove();
 			}
@@ -166,9 +168,9 @@ public class Game {
 		for (ListIterator<PlayedCard> cards = playerTwoCards.listIterator(); cards.hasNext();) {
 			PlayedCard card = cards.next();
 			if (card.getHitPoints() <= 0) {
-                if (card.getName().equals("tower4")) {
+                if (card.getName().equals("tower5")) {
                     gameState = false;
-                    winner = player2;
+                    winner = player1;
                 }
 				cards.remove();
 			}

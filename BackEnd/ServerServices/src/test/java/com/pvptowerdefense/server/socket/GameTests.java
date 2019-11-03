@@ -127,4 +127,27 @@ class GameTests {
 						"Player two card lost health but should not have")
 		);
 	}
+
+	@Test
+	void gameOverTest() throws CloneNotSupportedException {
+		p1Card.setxValue(1600);
+		p1Card.setHitPoints(Integer.MAX_VALUE);
+		p1Card.setDamage(Integer.MAX_VALUE);
+
+		game.addCard(p1Card.clone());
+
+		boolean gameState = true;
+
+		for (int i = 0; i < FIVE_HUNDRED_CYCLES && gameState; i++) {
+			gameState = game.clockCycle();
+		}
+
+		System.out.println(game.getCards());
+
+		boolean finalGameState = gameState;
+		Assertions.assertAll(
+				() -> Assertions.assertFalse(finalGameState, "Game should have finished but did not."),
+				() -> Assertions.assertEquals("1", game.getWinner(), "The winner is incorrect.")
+		);
+	}
 }
