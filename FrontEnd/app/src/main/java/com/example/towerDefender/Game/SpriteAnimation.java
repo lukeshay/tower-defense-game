@@ -6,7 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 public class SpriteAnimation {
-    private static final int FRAME_LENGTH_MILLIS = 500;
+    private static final int FRAME_LENGTH_MILLIS = 200;
     private int frameWidth;
     private int frameHeight;
     private int frameCount;
@@ -22,8 +22,8 @@ public class SpriteAnimation {
      * @param frameCount the number of frames
      */
     public SpriteAnimation(Bitmap bitmap, int frameWidth, int frameHeight, int frameCount){
-        this.frameWidth = Sprite.normalizedInventorySize;
-        this.frameHeight = (frameWidth / frameHeight) * Sprite.normalizedInventorySize;
+        this.frameWidth = (frameHeight / frameWidth) *Sprite.normalizedInventorySize;
+        this.frameHeight =  Sprite.normalizedInventorySize;
         this.frameCount = frameCount;
         this.currentFrame = 0;
         Bitmap.createScaledBitmap(bitmap, this.frameWidth, this.frameHeight, false);
@@ -34,7 +34,7 @@ public class SpriteAnimation {
                 this.frameWidth,
                 this.frameHeight);
         lastFrameChange = System.currentTimeMillis();
-        this.spriteSheet = Bitmap.createScaledBitmap(spriteSheet, this.frameWidth * frameCount, this.frameHeight, false);
+        this.spriteSheet = Bitmap.createScaledBitmap(spriteSheet, this.frameWidth * this.frameCount, this.frameHeight, false);
     }
 
     /**

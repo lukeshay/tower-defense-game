@@ -83,9 +83,9 @@ public class GameManager {
      */
     public void update(){
         //has it been 10 seconds since the last update?
-        if(System.currentTimeMillis() - lastUpdate >= 15000){
-            this.gameOver = true;
-        }
+        //if(System.currentTimeMillis() - lastUpdate >= 15000){
+        //    this.gameOver = true;
+        //}
         player.update();
         for(CardInHand card :  getPlayer().getHand()){
             card.update();

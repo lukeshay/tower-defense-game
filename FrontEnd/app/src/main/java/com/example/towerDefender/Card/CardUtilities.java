@@ -27,7 +27,7 @@ public class CardUtilities {
         } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y);
         } else if(card.cardName.contains("Skeleton")){
-            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, false, 18, 43, 37);
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, false, 15, 43, 37);
         } else if(card.cardName.contains("tower")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y);
         } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) {// for testing purposes, so that tests do not need to rely upon the application resources
@@ -54,7 +54,7 @@ public class CardUtilities {
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, false);
         } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
-            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, false, 18, 16, 33);
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.test), x, y, false, 2, 32, 32);
             //toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper), x, y, false);
         } else if(card.cardName.contains("Skeleton")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, false, 18, 16, 33);
@@ -63,6 +63,7 @@ public class CardUtilities {
         } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) { // for testing purposes, so that tests do not need to rely upon the application resources
             return null;
         } else {
+           // toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, false, 18, 16, 33);
             toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.flame_demon), x, y, false);
         }
         toReturn.image = Bitmap.createScaledBitmap(toReturn.image, normalizedInventorySize, normalizedInventorySize, false);
