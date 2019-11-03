@@ -51,15 +51,14 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
-//			if (!isValidUser(id)) {
-//				try {
-//					session.close();
-//				}
-//				catch (IOException ignore) {
-//				}
-//
-//				return;
-//			}
+			if (!isValidUser(id)) {
+				try {
+					session.close();
+				} catch (IOException ignore) {
+				}
+
+				return;
+			}
 
 			logger.info(id + " connected");
 			purgeMapsAndList();

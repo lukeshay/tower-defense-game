@@ -14,8 +14,6 @@ import com.example.towerDefender.VolleyServices.JsonUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
 
 import com.example.towerDefender.Card.PlayedCard;
 
@@ -151,64 +149,60 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        Log.i("MESSAGE_INFO", message);
+        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
 
-        Map<String, String> map = JsonUtils.jsonToMap(message);
-
-        if (map != null) {
-            if (Objects.requireNonNull(map.get("connected")).equals("true")) {
-                isConnected = true;
-            }
-
-            playerSide = map.get("side");
-            playerSideSet = true;
-
+        if (socketMessage.getGameState().equals("pre-game") || socketMessage.getGameState().equals("starting-game")) {
             return;
         }
 
-        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+        if(message.contains("true")){
+            Log.i("SOCKET_INFO", "Connected.");
+            isConnected = true;
 
-        // If the socket message has not been received or the game state is pregame, nothing happens
-        switch(socketMessage.getGameState()) {
-            case "starting-game":
-                initializeDeck();
+            if (message.contains("left")) {
+                playerSide = "left";
+            }
+            else if (message.contains("right")) {
+                playerSide = "right";
+            }
 
-            case "post-game":
-                Log.i("SOCKET_INFO", "GAME OVER: " + socketMessage.getWinner());
-                // socketMessage.getWinner().equals(player.getUserId()); // This will check if the current user is the winner
-                this.gameOver = true;
+            initializeDeck();
 
-            case "in-game":
-                try {
-                    if (socketMessage.getPlayedCards().size() > 0) { // message.contains("name")){
-                        playedCards.addAll(socketMessage.getPlayedCards(), this);//JsonUtils.jsonToPlayedCardArray(message), this);
-
-                        //If the player side hasn't already been updated, go through and check
-                        if(!playerSideSet){
-                            for(PlayedCard playedCard : socketMessage.getPlayedCards()){
-                                if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
-                                        && (playedCard.getCard().cardName.contains("tower4")
-                                        || playedCard.getCard().cardName.contains("tower5")
-                                        || playedCard.getCard().cardName.contains("tower6"))){
-
-                                    this.setPlayerSide("right");
-                                }
-                            }
-                            //Either the side has been set to right, or the left-sided-ness of this Player has been confirmed
-                            playerSideSet = true;
-                            lastUpdate = System.currentTimeMillis();
-                        }
-
-                    }
-                }
-                catch (Exception e){
-                    Log.e("ERROR", e.getMessage());
-                    e.printStackTrace();
-                }
-
-            default:
-                break;
         }
+        else if (socketMessage.getGameState().equals("post-game")) { //message.contains("win") || message.contains("loss")){
+            Log.i("SOCKET_INFO", "GAME OVER: " + socketMessage.getWinner());
+            // socketMessage.getWinner().equals(player.getUserId()); // This will check if the current user is the winner
+            this.gameOver = true;
+
+        }
+        else {
+            try {
+                if (socketMessage.getPlayedCards().size() > 0) { // message.contains("name")){
+                    playedCards.addAll(socketMessage.getPlayedCards(), this);//JsonUtils.jsonToPlayedCardArray(message), this);
+
+                    //If the player side hasn't already been updated, go through and check
+                    if(!playerSideSet){
+                        for(PlayedCard playedCard : playedCards.getPlayedCards()){
+                            if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
+                                    && (playedCard.getCard().cardName.contains("tower4")
+                                    || playedCard.getCard().cardName.contains("tower5")
+                                    || playedCard.getCard().cardName.contains("tower6"))){
+                                this.setPlayerSide("right");
+                            }
+                        }
+                        //Either the side has been set to right, or the left-sided-ness of this Player has been confirmed
+                        playerSideSet = true;
+                        lastUpdate = System.currentTimeMillis();
+                    }
+
+                }
+            }
+            catch (Exception e){
+                Log.e("ERROR", e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**
