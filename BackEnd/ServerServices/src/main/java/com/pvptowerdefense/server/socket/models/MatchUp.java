@@ -54,9 +54,12 @@ public class MatchUp implements Runnable {
 	public void handleMessage(Session session, String message) {
 		logger.info("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
-		if (card != null) {
+		if (card != null && game.isValidCard(card)) {
 			game.addCard(card);
-			session.getAsyncRemote().sendText(Messages.convertToJson(Messages.cardAdded()));
+			session.getAsyncRemote().sendText(Messages.cardAdded());
+		}
+		else {
+			session.getAsyncRemote().sendText(Messages.cardNotAdded("Invalid location or user."));
 		}
 	}
 

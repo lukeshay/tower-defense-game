@@ -67,4 +67,13 @@ public class Messages {
 	public static PlayedCard convertJsonToCard(String json) {
 		return new Gson().fromJson(json, PlayedCard.class);
 	}
+
+	public static String cardNotAdded(String reason) {
+		Map<String, String> map = new HashMap<>();
+
+		map.put("card", "not added");
+		map.put("reason", reason);
+
+		return new Gson().toJson(map);
+	}
 }

@@ -248,4 +248,8 @@ public class Game {
 		int ySquare = y * y;
 		return Math.sqrt(xSquare + ySquare);
 	}
+
+	boolean isValidCard(PlayedCard card) {
+		return card.getxValue() < MAX_X && card.getxValue() >= 0 && card.getyValue() >= 0 && card.getyValue() < MAX_Y && (card.getPlayer().equals(player1) || card.getPlayer().equals(player2));
+	}
 }
