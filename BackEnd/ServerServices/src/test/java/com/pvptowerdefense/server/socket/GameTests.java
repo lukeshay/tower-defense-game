@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class GameTests {
+class GameTests {
 	private static final int TEN_CYCLES = 10;
 	private static final int TWENTY_CYCLES = 20;
 	private static final int FIVE_HUNDRED_CYCLES = 500;

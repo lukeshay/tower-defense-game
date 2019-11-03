@@ -22,7 +22,8 @@ public class PlayedCard implements Cloneable {
     private String player;
     // Possible variables for future.
     private boolean attacking;
-    // private String cardAttacking; // The card this card is attacking.
+    private String cardAttacking; // The card this card is attacking.
+    private int cardAttackingDistance;
     // private boolean healing;
 
     /**
@@ -260,11 +261,28 @@ public class PlayedCard implements Cloneable {
         this.attacking = attacking;
     }
 
+    public String getCardAttacking() {
+        return cardAttacking;
+    }
+
+    public void setCardAttacking(String cardAttacking) {
+        this.cardAttacking = cardAttacking;
+    }
+
+    public int getCardAttackingDistance() {
+        return cardAttackingDistance;
+    }
+
+    public void setCardAttackingDistance(int cardAttackingDistance) {
+        this.cardAttackingDistance = cardAttackingDistance;
+    }
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
     }
 
+    @Override
     public PlayedCard clone() throws CloneNotSupportedException {
         return (PlayedCard) super.clone();
     }

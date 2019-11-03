@@ -78,8 +78,6 @@ public class Game {
 		else if (card.getPlayer().equals(player2)) {
 			playerTwoCards.add(card);
 		}
-		else { // do nothing
-		}
 	}
 
 	/**
@@ -154,23 +152,25 @@ public class Game {
 		attackOrMove(playerOneCards, playerTwoCards, 1);
 		attackOrMove(playerTwoCards, playerOneCards, -1);
 
-		for (PlayedCard card : playerOneCards) {
+		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext();) {
+			PlayedCard card = cards.next();
 			if (card.getHitPoints() <= 0) {
 			    if (card.getName().equals("tower2")) {
 			        gameState = false;
 			        winner = player1;
                 }
-				playerOneCards.remove(card);
+				cards.remove();
 			}
 		}
 
-		for (PlayedCard card : playerTwoCards) {
+		for (ListIterator<PlayedCard> cards = playerTwoCards.listIterator(); cards.hasNext();) {
+			PlayedCard card = cards.next();
 			if (card.getHitPoints() <= 0) {
                 if (card.getName().equals("tower4")) {
                     gameState = false;
                     winner = player2;
                 }
-				playerTwoCards.remove(card);
+				cards.remove();
 			}
 		}
 
@@ -178,24 +178,30 @@ public class Game {
 		return gameState;
 	}
 
-	private void attackOrMove(List<PlayedCard> actionCards,
-	                          List<PlayedCard> otherCards, int direction) {
+	private void attackOrMove(List<PlayedCard> actionCards, List<PlayedCard> otherCards, int direction) {
 		for (PlayedCard actionCard : actionCards) {
 			actionCard.setAttacking(false);
+			actionCard.setCardAttackingDistance(Integer.MAX_VALUE);
+
 			for (PlayedCard otherCard : otherCards) {
-				if (distance(actionCard, otherCard) <= actionCard.getRange() && !actionCard.isAttacking()) {
+				double distance = distance(actionCard, otherCard);
+
+				if (distance <= actionCard.getRange() && distance < actionCard.getCardAttackingDistance()) {
+					actionCard.setCardAttacking(otherCard.getName());
+					actionCard.setCardAttackingDistance((int) distance);
 					actionCard.setAttacking(true);
-					if (counter % 60 == 0) {
-						logger.info(String.format("%s hp before: %d",
-								otherCard.getName(), otherCard.getHitPoints()));
-						otherCard.setHitPoints(otherCard.getHitPoints() - actionCard.getDamage());
-						logger.info(String.format("%s hp after: %d",
-								otherCard.getName(), otherCard.getHitPoints()));
-					}
 				}
 			}
 
-			if (!actionCard.isAttacking()) {
+			if (actionCard.isAttacking() && counter % 60 == 0) {
+				PlayedCard attacked = otherCards.stream()
+						.filter(card -> actionCard.getCardAttacking().equals(card.getName()) && actionCard.getCardAttackingDistance() == (int) distance(actionCard, card))
+						.findFirst()
+						.get();
+
+				attacked.setHitPoints(attacked.getHitPoints() - actionCard.getDamage());
+			}
+			else if (!actionCard.isAttacking()) {
 				actionCard.setxValue(actionCard.getxValue() + (actionCard.getSpeed() * direction));
 			}
 		}
