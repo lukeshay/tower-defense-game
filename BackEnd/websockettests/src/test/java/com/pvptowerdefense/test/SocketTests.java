@@ -51,15 +51,15 @@ class SocketTests {
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 
 		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
-				"UNIT", 50, 100, 100, "1"));
+				"UNIT", 200, 1900, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 100, 0,
-				"UNIT", 50, 1900, 100, "2"));
-		Thread.sleep(1500);
+				"UNIT", 200, 100, 100, "2"));
+		Thread.sleep(5000);
 
 		List<PlayedCard> cards1 = Message.convertToListOfPlayedCards(
 						webSocket1.getMessages().get(webSocket1.getMessages().size() - 5));
 		List<PlayedCard> cards2 = Message.convertToListOfPlayedCards(
-						webSocket2.getMessages().get(webSocket1.getMessages().size() - 5));
+						webSocket2.getMessages().get(webSocket2.getMessages().size() - 5));
 
 		System.out.println(cards1.toString());
 		System.out.println(cards2.toString());
@@ -103,15 +103,18 @@ class SocketTests {
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 
 		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
-				"UNIT", 250, 1900, 100, "1"));
+				"UNIT", 250, 100, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 100, 0,
-				"UNIT", 250, 100, 100, "2"));
+				"UNIT", 250, 1900, 100, "2"));
 		Thread.sleep(5000);
 
 		List<PlayedCard> cards1 = Message.convertToListOfPlayedCards(
-				webSocket1.getMessages().get(8));
+				webSocket1.getMessages().get(webSocket2.getMessages().size() - 5));
 		List<PlayedCard> cards2 = Message.convertToListOfPlayedCards(
-				webSocket2.getMessages().get(8));
+				webSocket2.getMessages().get(webSocket2.getMessages().size() - 5));
+
+		System.out.println(cards1.toString());
+		System.out.println(cards2.toString());
 
 		Assertions.assertAll(
 				() -> Assertions.assertTrue(cards1.toString().contains(
