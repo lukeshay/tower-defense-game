@@ -1,17 +1,5 @@
 apply plugin: 'com.android.application'
 
-buildscript {
-    repositories {
-        google() // For Gradle 4.0+
-        mavenCentral() // For Gradle < 4.0
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
-    }
-}
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -30,9 +18,7 @@ android {
         }
     }
 }
-repositories { jcenter()
-    google()
-}
+repositories { jcenter() }
 android.testOptions.unitTests.includeAndroidResources = true
 android.testOptions.unitTests.returnDefaultValues = true
 

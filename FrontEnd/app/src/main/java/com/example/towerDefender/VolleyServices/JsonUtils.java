@@ -3,7 +3,6 @@ package com.example.towerDefender.VolleyServices;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.Game.SocketMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -105,13 +104,5 @@ public class JsonUtils {
         return jsonToPlayedCardArray(message);
     }
 
-    /**
-     * Converts the json into the new socket message.
-     * @param json of the socket message
-     * @return the converted message
-     */
-    public static SocketMessage jsonToSocketMessage(String json) {
-        return new Gson().fromJson(json, SocketMessage.class);
-    }
 
 }
