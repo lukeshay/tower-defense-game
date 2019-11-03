@@ -1,70 +1,77 @@
 package com.example.towerDefender.Game;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 
-import com.example.towerDefender.R;
+import com.example.towerDefender.Card.CardUtilities;
 
 
 public class GameObjectSprite extends Sprite {
 
-    private SpriteAnimation animation;
+    private SpriteAnimation moveAnimation;
+    private SpriteAnimation attackAnimation;
+    private SpriteAnimation idleAnimation;
+    private SpriteAnimation deathAnimation;
 
-    //TODO: get rid of velocity altogether
-
-    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos){
-        super(bitmap, xPos, yPos, 0, 0);
-        this.animation = new SpriteAnimation(bitmap, bitmap.getWidth(), bitmap.getHeight(), 1);
-    }
-
+    @Deprecated
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing){
-        super(bitmap, xPos, yPos, 0, 0);
+        super(bitmap, xPos, yPos);
+        this.status = SPRITE_STATUS.MOVING;
         if(!leftFacing){
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
             image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
         }
-        this.animation = new SpriteAnimation(image, bitmap.getWidth(), bitmap.getHeight(), 1);
+        this.moveAnimation = new SpriteAnimation(image, 1);
     }
 
     /**
      * Constructs a new GameObjectSprite based off of a spritesheet
-     * @param bitmap
-     * @param xPos
-     * @param yPos
-     * @param leftFacing
-     * @param frameCount
-     * @param frameWidth
-     * @param frameHeight
+     * @param bitmap the {@link Bitmap} to base this {@link GameObjectSprite}'s walking animation on
+     * @param xPos the x position of the sprite
+     * @param yPos the y position of the sprite
+     * @param leftFacing is this sprite facing left?
+     * @param frameCount the number of frames present in the spritesheet provided as a {@link Bitmap}
      */
-    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing, int frameCount, int frameWidth, int frameHeight){
-        super(bitmap, xPos, yPos, 0, 0);
+    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing, int frameCount){
+        super(bitmap, xPos, yPos);
+        this.status = SPRITE_STATUS.MOVING;
         if(!leftFacing){
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
             image = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
         }
-        this.animation = new SpriteAnimation(image, frameHeight, frameWidth, frameCount);
+        this.moveAnimation = new SpriteAnimation(image, frameCount);
     }
 
     @Override
     public void update() {
-        xStart += xVel;
-        yStart += yVel;
-        if (xStart >= screenWidth - image.getWidth() || xStart <= 0) {
-            xVel = xVel * -1;
-        }
-        if (yStart >= screenHeight - image.getHeight() || yStart <= 0) {
-            yVel = yVel * -1;
-        }
     }
 
     @Override
     public void draw(Canvas canvas){
-        animation.draw(canvas, this.xStart, this.yStart);
+        if(this.status.equals(SPRITE_STATUS.MOVING)){
+            moveAnimation.draw(canvas, this.xStart, this.yStart);
+        } else if (this.status.equals(SPRITE_STATUS.ATTACKING)){
+            attackAnimation.draw(canvas, this.xStart, this.yStart);
+        }
+    }
+
+    /**
+     * Sets the move animation to the provided animation
+     * @param animation the {@link SpriteAnimation} to use as the move animation
+     */
+    public void setMoveAnimation(SpriteAnimation animation){
+        moveAnimation = animation;
+    }
+
+    /**
+     * Sets the attack animation to the provided animation
+     * @param animation the {@link SpriteAnimation} to use as the attack animation
+     */
+    public void setAttackAnimation(SpriteAnimation animation){
+        moveAnimation = animation;
     }
 
 }
