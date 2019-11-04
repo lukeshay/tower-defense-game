@@ -65,7 +65,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
-            //Manager will drawNormal the characters and hand
+            //Manager will draw the characters and hand
             manager.draw(canvas);
         }
     }

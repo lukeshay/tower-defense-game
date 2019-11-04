@@ -39,4 +39,8 @@ public abstract class Sprite {
     public int getxEnd(){ return xEnd; }
     public int getyEnd(){ return yEnd; }
 
+    public void setStatus(Sprite.SPRITE_STATUS status){
+        this.status = status;
+    }
+
 }

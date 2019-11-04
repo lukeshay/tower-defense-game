@@ -17,7 +17,7 @@ public class SpriteAnimation {
     private int frameHeight;
     private int frameCount;
     private int currentFrame;
-    private Bitmap spriteSheet;
+    public Bitmap spriteSheet;
     private long lastFrameChange;
     private Rect frameToDraw;
     /**

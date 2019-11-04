@@ -119,7 +119,7 @@ public class CardInHand {
 
     /**
      * Draws the {@link Card} represented by this object to the provided canvas, as well as a backing square with a color corresponding to the current {@link CardInHand.Status} of this object
-     * @param canvas the {@link Canvas} to drawNormal to
+     * @param canvas the {@link Canvas} to draw to
      */
     public void draw(Canvas canvas) {
         statusColor.setColor(color);

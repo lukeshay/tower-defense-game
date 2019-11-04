@@ -7,13 +7,11 @@ import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
-import com.example.towerDefender.Card.CardUtilities;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import com.example.towerDefender.Card.PlayedCard;
 
@@ -34,7 +32,7 @@ public class GameManager {
     private boolean gameOver = false;
     private Paint textPaint;
     private boolean playerSideSet = false;
-
+    private boolean wonOrLost = false; // true if they won
     public GameManager(Player player){
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
@@ -61,19 +59,24 @@ public class GameManager {
 
     /**
      * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
-     * @param canvas the canvas to drawNormal on
+     * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
         if(!gameOver){
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                    playedCard.drawNormal(canvas);
+                    playedCard.draw(canvas);
             }
             for(CardInHand card : player.getHand()){
                 card.draw(canvas);
             }
             player.draw(canvas);
         } else{
-            canvas.drawText("GAME OVER", 0, Sprite.screenHeight / 2, textPaint);
+            if(this.wonOrLost){
+                canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
+            } else{
+                canvas.drawText("YOU LOST", 0, Sprite.screenHeight / 2, textPaint);
+            }
+
         }
 
     }
@@ -149,7 +152,7 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        if(message.contains("true")){
+        if(message.contains("true") && !isConnected){
             Log.i("SOCKET_INFO", "Connected.");
             isConnected = true;
             if(message.contains("left")){
@@ -158,9 +161,14 @@ public class GameManager {
                 playerSide = "right";
             }
             initializeDeck();
-        } else if(message.contains("win") || message.contains("loss")){
+        } else if(message.contains("win")){
             Log.i("SOCKET_INFO", "GAME OVER: " + message);
             this.gameOver = true;
+            this.wonOrLost = true;
+        } else if(message.contains("loss")){
+            Log.i("SOCKET_INFO", "GAME OVER: " + message);
+            this.gameOver = true;
+            this.wonOrLost = false;
         } else{
             try {
                 if(message.contains("name")){

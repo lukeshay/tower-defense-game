@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import com.example.towerDefender.Game.GameObjectSprite;
+import com.example.towerDefender.Game.Sprite;
 
 import java.io.Serializable;
 
@@ -26,6 +27,9 @@ public class PlayedCard implements Serializable {
     private int range;
     private int xValue;
     private int yValue;
+    private boolean attacking;
+    private String cardAttacking;
+    private int cardAttackingDistance;
     private String player;
     private static Paint textPaint;
     private GameObjectSprite sprite;
@@ -270,12 +274,17 @@ public class PlayedCard implements Serializable {
 
     /**
      * Updates and draws the wrapped {@link GameObjectSprite}, initializing it if necessary.
-     * @param canvas the canvas to drawNormal to
+     * @param canvas the canvas to draw to
      */
-    public void drawNormal(Canvas canvas){
+    public void draw(Canvas canvas){
         if(this.sprite == null){
             Log.e("ERROR", "No sprite associated with card (" + this.name +"). Please addOrUpdate sprite.");
         } else if(hitPoints > 0){
+            if(this.attacking){
+                this.sprite.setStatus(Sprite.SPRITE_STATUS.ATTACKING);
+            } else {
+                this.sprite.setStatus(Sprite.SPRITE_STATUS.MOVING);
+            }
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
@@ -294,6 +303,22 @@ public class PlayedCard implements Serializable {
      */
     public void setSprite(GameObjectSprite sprite){
         this.sprite = sprite;
+    }
+
+    /**
+     * Sets this card's 'attacking' value to the provided boolean
+     * @param attacking the value to set 'attacking' to
+     */
+    public void setAttacking(boolean attacking){
+        this.attacking = attacking;
+    }
+
+    /**
+     *
+     * @return the value of the 'attacking' boolean
+     */
+    public boolean getAttacking(){
+        return this.attacking;
     }
 
     @Override

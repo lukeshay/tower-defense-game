@@ -31,6 +31,7 @@ public class PlayedCardsHolder {
             playedCards.get(index).setxValue(playedCard.getxValue());
             playedCards.get(index).setyValue(playedCard.getyValue());
             playedCards.get(index).setHitPoints(playedCard.getHitPoints());
+            playedCards.get(index).setAttacking(playedCard.getAttacking());
         } else {
             playedCards.add(playedCard);
             if(manager.getPlayerSide().equals("left") && playedCard.getPlayer().contains(manager.getPlayer().getUserId())

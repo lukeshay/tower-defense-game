@@ -9,6 +9,7 @@ import com.example.towerDefender.Card.CardUtilities;
 
 public class GameObjectSprite extends Sprite {
 
+    private boolean leftFacing;
     private SpriteAnimation moveAnimation;
     private SpriteAnimation attackAnimation;
     private SpriteAnimation idleAnimation;
@@ -17,6 +18,7 @@ public class GameObjectSprite extends Sprite {
     @Deprecated
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing){
         super(bitmap, xPos, yPos);
+        this.leftFacing = leftFacing;
         this.status = SPRITE_STATUS.MOVING;
         if(!leftFacing){
             Matrix matrix = new Matrix();
@@ -37,6 +39,7 @@ public class GameObjectSprite extends Sprite {
     public GameObjectSprite(Bitmap bitmap, int xPos, int yPos, boolean leftFacing, int frameCount){
         super(bitmap, xPos, yPos);
         this.status = SPRITE_STATUS.MOVING;
+        this.leftFacing = leftFacing;
         if(!leftFacing){
             Matrix matrix = new Matrix();
             matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
@@ -51,10 +54,10 @@ public class GameObjectSprite extends Sprite {
 
     @Override
     public void draw(Canvas canvas){
-        if(this.status.equals(SPRITE_STATUS.MOVING)){
-            moveAnimation.draw(canvas, this.xStart, this.yStart);
-        } else if (this.status.equals(SPRITE_STATUS.ATTACKING)){
+        if (this.status.equals(SPRITE_STATUS.ATTACKING) && this.attackAnimation != null){
             attackAnimation.draw(canvas, this.xStart, this.yStart);
+        } else{
+            moveAnimation.draw(canvas, this.xStart, this.yStart);
         }
     }
 
@@ -71,7 +74,12 @@ public class GameObjectSprite extends Sprite {
      * @param animation the {@link SpriteAnimation} to use as the attack animation
      */
     public void setAttackAnimation(SpriteAnimation animation){
-        moveAnimation = animation;
+        attackAnimation = animation;
+        if(!this.leftFacing){
+            Matrix matrix = new Matrix();
+            matrix.postScale(-1, 1, image.getWidth() / 2, image.getHeight() / 2);
+            attackAnimation.spriteSheet = Bitmap.createBitmap(attackAnimation.spriteSheet, 0, 0, attackAnimation.spriteSheet.getWidth(), attackAnimation.spriteSheet.getHeight(), matrix, true);
+        }
     }
 
 }
