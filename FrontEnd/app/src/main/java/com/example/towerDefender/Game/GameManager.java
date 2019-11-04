@@ -172,6 +172,7 @@ public class GameManager {
         } else{
             try {
                 if(message.contains("name")){
+                    //TODO: check if any units died 
                     playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
                     //If the player side hasn't already been updated, go through and check
                     if(!playerSideSet){

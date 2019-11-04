@@ -78,6 +78,14 @@ public class PlayedCardsHolder {
         for(PlayedCard card : cards){
             addOrUpdate(card, manager);
         }
+        if(cards.size() != this.playedCards.size()){
+            for(PlayedCard card : this.playedCards){
+                if(!cards.contains(card)){
+                   //If a card is present in our list but not the server's, it must have died
+                   this.playedCards.remove(card);
+                }
+            }
+        }
     }
 
     public int contains(PlayedCard playedCard){
