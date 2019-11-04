@@ -23,16 +23,16 @@ public class CardUtilitiesImplementationTests extends TestCase {
     public void testFriendlySpritesDiffer(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.getResources();
-        GameObjectSprite reaperSprite = CardUtilities.getGameObjectSpriteLeftFacing(context, card, 15, 15);
-        GameObjectSprite wizardSprite = CardUtilities.getGameObjectSpriteLeftFacing(context, card1, 15, 15);
+        GameObjectSprite reaperSprite = CardUtilities.getGameObjectSprite(context, card, 15, 15, true);
+        GameObjectSprite wizardSprite = CardUtilities.getGameObjectSprite(context, card1, 15, 15, true);
         Assert.assertFalse(reaperSprite.image.sameAs(wizardSprite.image));
     }
 
     public void testEnemySprite(){
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         context.getResources();
-        GameObjectSprite spriteActual = CardUtilities.getGameObjectSpriteLeftFacing(context, card, 15, 15);
-        GameObjectSprite spriteEnemy = CardUtilities.getGameObjectSpriteRightFacing(context, card, 15, 15);
+        GameObjectSprite spriteActual = CardUtilities.getGameObjectSprite(context, card, 15, 15, true);
+        GameObjectSprite spriteEnemy = CardUtilities.getGameObjectSprite(context, card, 15, 15, false);
         Assert.assertFalse(spriteActual.image.sameAs(spriteEnemy.image));
     }
 

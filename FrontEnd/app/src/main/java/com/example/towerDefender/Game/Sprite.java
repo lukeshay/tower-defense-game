@@ -6,21 +6,24 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public abstract class Sprite {
+
+    public enum SPRITE_STATUS{
+        ATTACKING, MOVING, IDLE, DYING
+    }
+
+
     public Bitmap image;
     public int xStart, yStart, xEnd, yEnd;
-    //TODO: get rid of velocities altogether, only updating position when server updates card list
-    protected float xVel, yVel;
+    protected Sprite.SPRITE_STATUS status;
     public static int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     public static int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     public static int normalizedInventorySize = (screenWidth - 900) / 4;
     public static int normalizedButtonSize = screenWidth / 15;
 
-    public Sprite(Bitmap bitmap, int xStart, int yPos, int xVel, int yVel){
+    public Sprite(Bitmap bitmap, int xStart, int yPos){
         image = bitmap;
         this.xStart = xStart;
         this.yStart = yPos;
-        this.xVel = xVel;
-        this.yVel = yVel;
         xEnd = this.xStart + image.getWidth();
         yEnd = this.yStart + image.getHeight();
     }
@@ -50,5 +53,9 @@ public abstract class Sprite {
      * @return the ending y value of this {@link Sprite}'s {@link Bitmap}
      */
     public int getyEnd(){ return yEnd; }
+
+    public void setStatus(Sprite.SPRITE_STATUS status){
+        this.status = status;
+    }
 
 }

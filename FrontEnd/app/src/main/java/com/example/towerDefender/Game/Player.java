@@ -137,7 +137,7 @@ public class Player {
 
     /**
      * Draws the player's userName and current mana to the canvas
-     * @param canvas the {@link Canvas} to drawNormal info on
+     * @param canvas the {@link Canvas} to draw info on
      */
     public void draw(Canvas canvas){
         canvas.drawText( "MANA:" + currentMana + "/" + maxMana, 0, Sprite.screenHeight - 15, textPaint);

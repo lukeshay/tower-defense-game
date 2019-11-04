@@ -3,6 +3,7 @@ package com.example.towerDefender.Game;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import com.example.towerDefender.Activities.NavigationActivity;
+import com.example.towerDefender.R;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
@@ -71,7 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if(canvas != null){
             canvas.drawColor(Color.BLUE);
-            //Manager will drawNormal the characters and hand
+            //Manager will draw the characters and hand
             manager.draw(canvas);
         }
     }

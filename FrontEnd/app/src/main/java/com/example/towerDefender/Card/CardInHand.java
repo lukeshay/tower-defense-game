@@ -126,7 +126,7 @@ public class CardInHand {
 
     /**
      * Draws the {@link Card} represented by this object to the provided canvas, as well as a backing square with a color corresponding to the current {@link CardInHand.Status} of this object
-     * @param canvas the {@link Canvas} to drawNormal to
+     * @param canvas the {@link Canvas} to draw to
      */
     public void draw(Canvas canvas) {
         statusColor.setColor(color);
@@ -155,11 +155,11 @@ public class CardInHand {
      */
     private void updateCardAndImage(Card card){
         if(GameManager.playerSide.contains("left")){
-            this.cardSprite = CardUtilities.getGameObjectSpriteLeftFacing(player.getPlayerContext(), card,
-                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+            this.cardSprite = CardUtilities.getGameObjectSprite(player.getPlayerContext(), card,
+                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250, true);
         } else {
-            this.cardSprite = CardUtilities.getGameObjectSpriteRightFacing(player.getPlayerContext(), card,
-                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250);
+            this.cardSprite = CardUtilities.getGameObjectSprite(player.getPlayerContext(), card,
+                    450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250, false);
         }
         this.card = card;
         background = new Rect(this.cardSprite.xStart, this.cardSprite.yStart, this.cardSprite.xEnd, this.cardSprite.yEnd);

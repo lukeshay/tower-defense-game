@@ -1,10 +1,14 @@
 package com.example.towerDefender.Game;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.example.towerDefender.Game.GameView;
+import com.example.towerDefender.R;
 
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
@@ -14,6 +18,7 @@ public class MainThread extends Thread {
      * The {@link Canvas} associated with this {@link Thread}
      */
     public static Canvas canvas;
+    public Bitmap background;
     private int targetFPS = 60;
     private long averageFPS;
 
@@ -26,6 +31,7 @@ public class MainThread extends Thread {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
+        this.background = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.night_background);
     }
 
     /**
