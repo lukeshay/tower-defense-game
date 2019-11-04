@@ -15,10 +15,6 @@ public class GameObjectSprite extends Sprite {
     private SpriteAnimation idleAnimation;
     private SpriteAnimation deathAnimation;
 
-    public GameObjectSprite(Bitmap bitmap, int xPos, int yPos){
-        super(bitmap, xPos, yPos, 0, 0);
-    }
-
     /**
      * Constructs a new {@link GameObjectSprite}.
      * @param bitmap the {@link Bitmap} to use as the image
