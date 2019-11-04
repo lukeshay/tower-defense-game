@@ -31,13 +31,14 @@ public class PlayedCardsHolder {
             playedCards.get(index).setxValue(playedCard.getxValue());
             playedCards.get(index).setyValue(playedCard.getyValue());
             playedCards.get(index).setHitPoints(playedCard.getHitPoints());
+            playedCards.get(index).setAttacking(playedCard.getAttacking());
         } else {
             playedCards.add(playedCard);
             if(manager.getPlayerSide().equals("left") && playedCard.getPlayer().contains(manager.getPlayer().getUserId())
                     || manager.getPlayerSide().contains("right") && !playedCard.getPlayer().contains(manager.getPlayer().getUserId())){
-                playedCard.setSprite(CardUtilities.getGameObjectSpriteLeftFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                playedCard.setSprite(CardUtilities.getGameObjectSprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue(), true));
             } else {
-                playedCard.setSprite(CardUtilities.getGameObjectSpriteRightFacing(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue()));
+                playedCard.setSprite(CardUtilities.getGameObjectSprite(manager.getPlayer().getPlayerContext(), playedCard.getCard(), playedCard.getxValue(), playedCard.getyValue(), false));
             }
         }
     }
@@ -84,6 +85,14 @@ public class PlayedCardsHolder {
     public void addAll(Collection<PlayedCard> cards, GameManager manager){
         for(PlayedCard card : cards){
             addOrUpdate(card, manager);
+        }
+        if(cards.size() != this.playedCards.size()){
+            for(PlayedCard card : this.playedCards){
+                if(!cards.contains(card)){
+                   //If a card is present in our list but not the server's, it must have died
+                   this.playedCards.remove(card);
+                }
+            }
         }
     }
 
