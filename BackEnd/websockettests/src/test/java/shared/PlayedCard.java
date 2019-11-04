@@ -1,25 +1,29 @@
 package shared;
 
-import java.io.Serializable;
+import com.google.gson.Gson;
 
 /**
  * The type Played card.
  */
-public class PlayedCard implements Serializable {
-    private static final long serialVersionUID = 69L;
-
+public class PlayedCard {
     private String name;
     private String description;
     private int cost;
     private int damage;
+    // private int currentDamage; // Can be used when spells are implemented.
     private int hitPoints;
     private int speed;
+    // private int currentSpeed; // If they are attacking this would be 0.
+    // Can be used when spells are implemented.
     private String type;
     private int range;
     private int xValue;
     private int yValue;
     private String player;
-
+    // Possible variables for future.
+    private boolean attacking;
+    // private String cardAttacking; // The card this card is attacking.
+    // private boolean healing;
 
     /**
      * Instantiates a new Played card.
@@ -48,15 +52,6 @@ public class PlayedCard implements Serializable {
         this.xValue = xValue;
         this.yValue = yValue;
         this.player = player;
-    }
-
-    /**
-     * Gets serial version uid.
-     *
-     * @return the serial version uid
-     */
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     /**
@@ -257,20 +252,16 @@ public class PlayedCard implements Serializable {
         this.player = player;
     }
 
+    public boolean isAttacking() {
+        return attacking;
+    }
+
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
+    }
+
     @Override
     public String toString() {
-        return "PlayedCard{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", cost=" + cost +
-                ", damage=" + damage +
-                ", hitPoints=" + hitPoints +
-                ", speed=" + speed +
-                ", type='" + type + '\'' +
-                ", range=" + range +
-                ", xValue=" + xValue +
-                ", yValue=" + yValue +
-                ", player='" + player + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }
