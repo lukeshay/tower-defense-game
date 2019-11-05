@@ -1,6 +1,10 @@
 package com.pvptowerdefense.server.spring;
 
+import com.pvptowerdefense.server.spring.models.Card;
+import com.pvptowerdefense.server.spring.models.Deck;
 import com.pvptowerdefense.server.spring.models.User;
+import com.pvptowerdefense.server.spring.services.CardsService;
+import com.pvptowerdefense.server.spring.services.DecksService;
 import com.pvptowerdefense.server.spring.services.UsersService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +24,18 @@ public class UsersController {
      */
     private UsersService usersService;
 
+    private DecksService decksService;
+
+    private CardsService cardsService;
+
     /*
      * Constructs a usersService to access Users database table
      * @param UsersService autoWiredUsersService - autowired instance of the UsersService
      */
     @Autowired
-    public UsersController(final UsersService autowiredUsersService) {
+    public UsersController(final UsersService autowiredUsersService, final DecksService autowiredDecksService) {
         this.usersService = autowiredUsersService;
+        this.decksService = autowiredDecksService;
     }
 
     /*
@@ -36,6 +45,15 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET, value = "")
     public List<User> getAllUsers () {
         return usersService.getAllUsers();
+    }
+
+    /*
+     * Returns a list of all the users
+     * @return list of all users
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/decks")
+    public List<Deck> getAllDecks () {
+        return decksService.getAllDecks();
     }
 
     /**
@@ -89,9 +107,57 @@ public class UsersController {
      * @param deckName - name for the deck
      * @param deckId - ID for the deck
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckName}/{deckId}")
-    public void addEmptyDeck(@PathVariable String deckName, @PathVariable int deckId){
-        usersService.addEmptyDeck(deckName, deckId);
+    @RequestMapping(method = RequestMethod.POST, value = "{userId}/deck/{deckName}")
+    public void addEmptyDeck(@PathVariable String deckName, @PathVariable String userId){
+        if(decksService.getTotalDecksPerUser(userId) >= 3){
+            throw new IllegalArgumentException("User already has 3 decks!");
+        }
+        else {
+            decksService.addEmptyDeck(deckName, userId);
+        }
+    }
+
+    /**
+     * Returns how many decks a user has
+     * @param userId - the user's Id
+     * @return total amount of decks
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/totalDecks")
+    public int getTotalDecksPerUser(@PathVariable String userId){
+        return decksService.getTotalDecksPerUser(userId);
+    }
+
+    /**
+     * Adds a card to a specific deck
+     * @param deckId - deckId for the deck
+     * @param cardName - name of the card
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckId}/{cardName}")
+    public void addCardToDeck(@PathVariable int deckId, @PathVariable String cardName){
+        Card card = cardsService.getCardByName(cardName);
+        decksService.addCardToDeck(card, deckId);
+    }
+
+    /**
+     * Deletes a deck
+     * @param deckId - deckId to be deleted
+     * @return - success message
+     */
+    @RequestMapping(method = RequestMethod.DELETE, value = "/deck/delete/{deckId}")
+    public Map deleteDeck(@PathVariable int deckId){
+        decksService.deleteDeck(deckId);
+        return successMap();
+    }
+
+    /**
+     * Deletes a card from a deck
+     * @param deckId - deck id
+     * @param cardName - name of card
+     */
+    @RequestMapping(method = RequestMethod.DELETE, value = "deck/deleteCard/{deckId}/{cardName}")
+    public void deleteCardFromDeck(@PathVariable int deckId, @PathVariable String cardName){
+        Card card = cardsService.getCardByName(cardName);
+        decksService.deleteCardFromDeck(deckId, card);
     }
 
     /*

@@ -1,11 +1,9 @@
 package com.pvptowerdefense.server.spring.models;
 
 import com.pvptowerdefense.server.spring.models.Card;
+import org.hibernate.annotations.Cascade;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +16,11 @@ public class Deck {
     @ElementCollection
     private List<Card> deck;
 
+    @Column(unique = false, name = "USER_ID", nullable = false)
+    private String userId;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true, name = "DECK_ID", nullable = false)
     private int deckId;
 
@@ -36,12 +38,11 @@ public class Deck {
      * Creates a deck from given parameters
      * @param deck - list of cards, possibly empty
      * @param deckName - the name for the deck
-     * @param deckId - the unique deckId
      */
-    public Deck(List<Card> deck, String deckName, int deckId) {
+    public Deck(List<Card> deck, String deckName, String userId) {
         this.deck = deck;
         this.deckName = deckName;
-        this.deckId = deckId;
+        this.userId = userId;
     }
 
     /**
@@ -83,5 +84,11 @@ public class Deck {
     public void addCard(Card cardName){
         deck.add(cardName);
     }
+
+    /**
+     * Removes card from the deck
+     * @param card - card
+     */
+    public void removeCard(Card card) { deck.remove(card);}
 }
 

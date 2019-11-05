@@ -90,14 +90,6 @@ public class UsersService {
         else{ throw new IllegalArgumentException("This phone already has a user connected to it!"); }
     }
 
-    /*
-     * Method to add an empty deck of cards for the user
-     * @param String deckname - name for the deck
-     * @param int deckId - id for the deck
-     */
-    public void addEmptyDeck(String deckName, int deckId){
-        new Deck(new ArrayList<Card>(), deckName, deckId);
-    }
 
     /*
      * Method to update the user to the current version
