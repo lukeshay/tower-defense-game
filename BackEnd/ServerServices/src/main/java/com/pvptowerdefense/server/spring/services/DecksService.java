@@ -65,4 +65,12 @@ public class DecksService {
     public void addCardToDeck(Card card, int deckId){
         decksDao.findDeckByDeckId(deckId).addCard(card);
     }
+
+    /**
+     * Deletes a deck
+     * @param deckId - deckId to delete
+     */
+    public void deleteDeck(int deckId){
+        decksDao.delete(decksDao.findDeckByDeckId(deckId));
+    }
 }
