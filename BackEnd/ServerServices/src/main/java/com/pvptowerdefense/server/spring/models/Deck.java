@@ -36,8 +36,10 @@ public class Deck {
 
     /**
      * Creates a deck from given parameters
-     * @param deck - list of cards, possibly empty
+     *
+     * @param deck     - list of cards, possibly empty
      * @param deckName - the name for the deck
+     * @param deckId   - the unique deckId
      */
     public Deck(List<Card> deck, String deckName, String userId) {
         this.deck = deck;
@@ -47,6 +49,7 @@ public class Deck {
 
     /**
      * Gets the list of cards in the user's current deck
+     *
      * @return list of cards
      */
     public List<Card> getDeck() {
@@ -55,6 +58,7 @@ public class Deck {
 
     /**
      * Sets the list of cards to the desired list for the deck
+     *
      * @param deck - list of cards to be changed to
      */
     public void setDeck(List<Card> deck) {
@@ -63,6 +67,7 @@ public class Deck {
 
     /**
      * Gets the current deck's name
+     *
      * @return the deck name
      */
     public String getDeckName() {
@@ -71,6 +76,7 @@ public class Deck {
 
     /**
      * Sets the deck name to the desired name
+     *
      * @param deckName - name to change the deck name to
      */
     public void setDeckName(String deckName) {
@@ -79,6 +85,7 @@ public class Deck {
 
     /**
      * Adds a new card to the deck
+     *
      * @param cardName - card to be added
      */
     public void addCard(Card cardName){

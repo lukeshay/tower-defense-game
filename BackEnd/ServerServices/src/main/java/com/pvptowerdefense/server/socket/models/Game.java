@@ -66,6 +66,7 @@ public class Game {
 		return total;
 	}
 
+
 	/**
 	 * Adds a card to the specified players list of played cards
 	 *

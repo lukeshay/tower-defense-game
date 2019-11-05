@@ -5,8 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
+/**
+ * The interface Decks dao.
+ */
 @Repository
 public interface DecksDao extends CrudRepository<Deck, String> {
-    public Deck findDeckByDeckId(int deckId);
-    public List<Deck> findDecksByUserId(String userId);
+    Deck findDeckByDeckId(int deckId);
+    List<Deck> findDecksByUserId(String userId);
 }
