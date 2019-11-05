@@ -180,6 +180,13 @@ public class Game {
 		return gameState;
 	}
 
+	/**
+	 * Runs the attack or move cycle. Attacks once a second and moves if it is not in range.
+	 *
+	 * @param actionCards the cards attacking or moving
+	 * @param otherCards the cards being check against
+	 * @param direction the direction the card should move
+	 */
 	private void attackOrMove(List<PlayedCard> actionCards, List<PlayedCard> otherCards, int direction) {
 		for (PlayedCard actionCard : actionCards) {
 			actionCard.setAttacking(false);
@@ -204,16 +211,9 @@ public class Game {
 				attacked.setHitPoints(attacked.getHitPoints() - actionCard.getDamage());
 			}
 			else if (!actionCard.isAttacking()) {
-				if (direction == 1) {
-					int newXValue = actionCard.getxValue() + actionCard.getSpeed();
-					newXValue = Math.min(newXValue, MAX_X - 1);
+					int newXValue = actionCard.getxValue() + (actionCard.getSpeed() * direction);
+					newXValue = direction == 1 ? Math.min(newXValue, MAX_X - 1) : Math.max(newXValue, 0);
 					actionCard.setxValue(newXValue);
-				}
-				else if (direction == -1) {
-					int newXValue = actionCard.getxValue() - actionCard.getSpeed();
-					newXValue = Math.max(newXValue, 0);
-					actionCard.setxValue(newXValue);
-				}
 			}
 		}
 	}
@@ -228,10 +228,7 @@ public class Game {
 	 * @return the created played card
 	 */
 	private PlayedCard makeTower(int xValue, int yValue, String player, String towerName) {
-		return new PlayedCard(towerName, "tower", 0, 1, 200, 0, "UNIT", 300,
-				xValue,
-				yValue, player);
-
+		return new PlayedCard(towerName, "tower", 0, 1, 100, 0, "UNIT", 300, xValue, yValue, player);
 	}
 
 	/**
@@ -249,6 +246,11 @@ public class Game {
 		return Math.sqrt(xSquare + ySquare);
 	}
 
+	/**
+	 * Verifies the card is within the limits of the screen and is linked with one of the players in the current game.
+	 * @param card the card
+	 * @return boolean of whether it is valid
+	 */
 	boolean isValidCard(PlayedCard card) {
 		return card.getxValue() < MAX_X && card.getxValue() >= 0 && card.getyValue() >= 0 && card.getyValue() < MAX_Y && (card.getPlayer().equals(player1) || card.getPlayer().equals(player2));
 	}
