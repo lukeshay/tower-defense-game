@@ -11,18 +11,32 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Decks service.
+ */
 @Service
 public class DecksService {
     private static Logger logger =
             LoggerFactory.getLogger(DecksService.class.getName());
     private DecksDao decksDao;
 
+    /**
+     * Instantiates a new Decks service.
+     *
+     * @param decksDao the decks dao
+     */
     @Autowired
     public DecksService(DecksDao decksDao){ this.decksDao = decksDao; }
 
     /**
+<<<<<<< HEAD
      * Returns all the decks
      * @return list of all the decks
+=======
+     * Gets all decks.
+     *
+     * @return all decks in database
+>>>>>>> 21-implement-game-timer-and-new-message-protocol
      */
     public List<Deck> getAllDecks(){
         List<Deck> decks = new ArrayList<Deck>();
@@ -32,9 +46,16 @@ public class DecksService {
     }
 
     /**
+<<<<<<< HEAD
      * Returns a deck given it's id
      * @param deckId - deck's deckId
      * @return a deck matching the deckId
+=======
+     * Finds the deck that matches the given id.
+     *
+     * @param deckId the deck id
+     * @return the deck
+>>>>>>> 21-implement-game-timer-and-new-message-protocol
      */
     public Deck findDeckByDeckId(int deckId){ return decksDao.findDeckByDeckId(deckId); }
 
