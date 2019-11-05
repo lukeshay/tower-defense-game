@@ -149,6 +149,17 @@ public class UsersController {
         return successMap();
     }
 
+    /**
+     * Deletes a card from a deck
+     * @param deckId - deck id
+     * @param cardName - name of card
+     */
+    @RequestMapping(method = RequestMethod.DELETE, value = "deck/deleteCard/{deckId}/{cardName}")
+    public void deleteCardFromDeck(@PathVariable int deckId, @PathVariable String cardName){
+        Card card = cardsService.getCardByName(cardName);
+        decksService.deleteCardFromDeck(deckId, card);
+    }
+
     /*
      * Helper method to create a success message in JSON format
      * @return map containing a success message

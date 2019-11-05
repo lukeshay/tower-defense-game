@@ -84,5 +84,11 @@ public class Deck {
     public void addCard(Card cardName){
         deck.add(cardName);
     }
+
+    /**
+     * Removes card from the deck
+     * @param card - card
+     */
+    public void removeCard(Card card) { deck.remove(card);}
 }
 

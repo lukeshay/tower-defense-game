@@ -73,4 +73,13 @@ public class DecksService {
     public void deleteDeck(int deckId){
         decksDao.delete(decksDao.findDeckByDeckId(deckId));
     }
+
+    /**
+     * Deletes a card from a deck
+     * @param deckId - deck id
+     * @param card - card
+     */
+    public void deleteCardFromDeck(int deckId, Card card){
+        decksDao.findDeckByDeckId(deckId).removeCard(card);
+    }
 }
