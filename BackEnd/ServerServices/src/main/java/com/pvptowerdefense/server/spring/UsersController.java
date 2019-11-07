@@ -145,8 +145,7 @@ public class UsersController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckId}/{cardName}")
     public Map addCardToDeck(@PathVariable int deckId, @PathVariable String cardName){
-        Card card = cardsService.getCardByName(cardName);
-        decksService.addCardToDeck(card, deckId);
+        decksService.addCardToDeck(cardsService.getCardByName(cardName), deckId);
         return successMap();
     }
 
@@ -167,9 +166,10 @@ public class UsersController {
      * @param cardName - name of card
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "deck/deleteCard/{deckId}/{cardName}")
-    public void deleteCardFromDeck(@PathVariable int deckId, @PathVariable String cardName){
+    public Map<String, Boolean> deleteCardFromDeck(@PathVariable int deckId, @PathVariable String cardName){
         Card card = cardsService.getCardByName(cardName);
         decksService.deleteCardFromDeck(deckId, card);
+        return successMap();
     }
 
     /**
