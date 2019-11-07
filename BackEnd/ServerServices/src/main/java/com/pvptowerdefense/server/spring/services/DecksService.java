@@ -103,4 +103,13 @@ public class DecksService {
     public void deleteCardFromDeck(int deckId, Card card){
         decksDao.findDeckByDeckId(deckId).removeCard(card);
     }
+
+    /**
+     * Returns a deck of cards
+     * @param deckId - id of the deck
+     * @return - deck
+     */
+    public List<Card> getDeck(int deckId){
+        return decksDao.findDeckByDeckId(deckId).getDeck();
+    }
 }

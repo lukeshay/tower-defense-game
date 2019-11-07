@@ -31,7 +31,7 @@ public class Deck {
      * Creates an empty deck
      */
     public Deck(){
-        this.deck = new ArrayList<>();
+        this.deck = new ArrayList<Card>();
     }
 
     /**
@@ -79,10 +79,10 @@ public class Deck {
 
     /**
      * Adds a new card to the deck
-     * @param cardName - card to be added
+     * @param card - card to be added
      */
-    public void addCard(Card cardName){
-        deck.add(cardName);
+    public void addCard(Card card){
+        deck.add(card);
     }
 
     /**
@@ -98,4 +98,6 @@ public class Deck {
     public int getDeckId(){
         return deckId;
     }
+
+    public String getUserId() { return userId; }
 }

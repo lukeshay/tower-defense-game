@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +38,10 @@ public class UsersController {
      * @param autowiredUsersService - autowired instance of the UsersService
      */
     @Autowired
-    public UsersController(final UsersService autowiredUsersService, final DecksService autowiredDecksService) {
+    public UsersController(final UsersService autowiredUsersService, final DecksService autowiredDecksService, final CardsService autowiredCardsService) {
         this.usersService = autowiredUsersService;
         this.decksService = autowiredDecksService;
+        this.cardsService = autowiredCardsService;
     }
 
     /**
@@ -56,7 +58,7 @@ public class UsersController {
      * Returns a list of all the users
      * @return list of all users
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/decks")
+    @RequestMapping(method = RequestMethod.GET, value = "/deck")
     public List<Deck> getAllDecks () {
         return decksService.getAllDecks();
     }
@@ -68,7 +70,7 @@ public class UsersController {
      * @return Success message
      */
     @RequestMapping(method = RequestMethod.PUT, value = "")
-    public Map<String, Boolean> updateCardInDb(@RequestBody User user) {
+    public Map<String, Boolean> updateUserInDb(@RequestBody User user) {
         usersService.updateUser(user);
         return successMap();
     }
@@ -142,9 +144,10 @@ public class UsersController {
      * @param cardName - name of the card
      */
     @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckId}/{cardName}")
-    public void addCardToDeck(@PathVariable int deckId, @PathVariable String cardName){
+    public Map addCardToDeck(@PathVariable int deckId, @PathVariable String cardName){
         Card card = cardsService.getCardByName(cardName);
         decksService.addCardToDeck(card, deckId);
+        return successMap();
     }
 
     /**
@@ -167,6 +170,16 @@ public class UsersController {
     public void deleteCardFromDeck(@PathVariable int deckId, @PathVariable String cardName){
         Card card = cardsService.getCardByName(cardName);
         decksService.deleteCardFromDeck(deckId, card);
+    }
+
+    /**
+     * Returns  a list of cards (deck)
+     * @param deckId - id of the deck
+     * @return - deck
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "deck/{deckId}")
+    public List<Card> getDeck(@PathVariable int deckId){
+        return decksService.getDeck(deckId);
     }
 
     /**
