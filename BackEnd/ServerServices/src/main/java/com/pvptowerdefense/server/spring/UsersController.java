@@ -183,6 +183,16 @@ public class UsersController {
     }
 
     /**
+     * Get the decks for a certain user
+     * @param userId - user's id
+     * @return list of decks
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/deck")
+    public List<Deck> getUsersDeck(@PathVariable String userId){
+        return decksService.getUsersDeck(userId);
+    }
+
+    /**
      * Helper method to create a success message in JSON format
      *
      * @return map containing a success message
