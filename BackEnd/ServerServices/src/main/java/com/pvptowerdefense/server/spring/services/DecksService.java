@@ -84,7 +84,9 @@ public class DecksService {
      * @param deckId - deckId of the deck the card will be added to
      */
     public void addCardToDeck(Card card, int deckId){
-        decksDao.findDeckByDeckId(deckId).addCard(card);
+        Deck deck = decksDao.findDeckByDeckId(deckId);
+        deck.addCard(card);
+        decksDao.save(deck);
     }
 
     /**
@@ -101,7 +103,9 @@ public class DecksService {
      * @param card - card
      */
     public void deleteCardFromDeck(int deckId, Card card){
-        decksDao.findDeckByDeckId(deckId).removeCard(card);
+        Deck deck = decksDao.findDeckByDeckId(deckId);
+        deck.removeCard(card);
+        decksDao.save(deck);
     }
 
     /**
