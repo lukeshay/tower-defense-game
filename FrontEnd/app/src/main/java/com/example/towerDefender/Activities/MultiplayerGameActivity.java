@@ -60,6 +60,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
+                Log.i("socket message: ", message);
                 if(lastSocketMessage != null && lastSocketMessage.equals(message)){
                     //don't do anything, the message is the same
                 } else{

@@ -3,6 +3,7 @@ package com.example.towerDefender.VolleyServices;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -99,10 +100,8 @@ public class JsonUtils {
         return cards;
     }
 
-    public static Collection<PlayedCard> socketCardsToPlayedCards(String message){
-        //TODO: get rid of method? No additional parsing is needed anymore
-        return jsonToPlayedCardArray(message);
+    public static SocketMessage jsonToSocketMessage(String json){
+        Gson test = new Gson();
+        return test.fromJson(json, SocketMessage.class);
     }
-
-
 }
