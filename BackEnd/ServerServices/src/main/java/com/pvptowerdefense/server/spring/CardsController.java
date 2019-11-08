@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Cards controller.
+ */
 @RestController
 @RequestMapping("/cards")
 public class CardsController {
@@ -34,7 +37,8 @@ public class CardsController {
 	 * Adds a card to the database by sending a post request to the /cards
 	 * url with the card in the request body.
 	 *
-	 *  @param card The card information in JSON format
+	 * @param card The card information in JSON format
+	 * @return the map
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "")
 	public Map<String, Boolean> addCardToDb(@Valid @RequestBody Card card) {
@@ -68,6 +72,8 @@ public class CardsController {
 
 	/**
 	 * Loads a list of temporary cards into the cards database.
+	 *
+	 * @return the map
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/load")
 	public Map<String, Boolean> loadCardsToDatabase() {
