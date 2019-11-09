@@ -24,6 +24,9 @@ public class CardUtilities {
         } else if(card.cardName.contains("Skeleton")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, leftFacing, 5);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_attack), 8));
+        } else if(card.cardName.contains("blob")){
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_walk), x, y, leftFacing, 8);
+            toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_attack), 8));
         } else if(card.cardName.contains("tower")){
             if(leftFacing){
                 if(card.cardName.contains("1") || card.cardName.contains("2") || card.cardName.contains("3")){

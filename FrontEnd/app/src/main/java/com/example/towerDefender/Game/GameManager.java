@@ -169,6 +169,7 @@ public class GameManager {
             }
             initializeDeck();
         } else if(message.contains("win")){
+            //TODO: update the win/loss logic
             Log.i("SOCKET_INFO", "GAME OVER: " + message);
             this.gameOver = true;
             this.wonOrLost = true;
@@ -180,7 +181,6 @@ public class GameManager {
             try {
                 if(message.contains("name")){
                     playedCards.addAll(JsonUtils.jsonToSocketMessage(message).getPlayedCards(), this);
-                   // playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
                     //If the player side hasn't already been updated, go through and check
                     if(!playerSideSet){
                         for(PlayedCard playedCard : playedCards.getPlayedCards()){
