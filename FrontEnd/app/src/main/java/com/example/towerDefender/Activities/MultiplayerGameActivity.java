@@ -71,6 +71,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
 
             @Override
             public void onOpen(ServerHandshake handshake) {
+                Log.i("SOCKET_INFO", "Connected. Handshake status: \"" + handshake.getHttpStatusMessage() + "\"");
                 try {
                     MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
                         @Override
