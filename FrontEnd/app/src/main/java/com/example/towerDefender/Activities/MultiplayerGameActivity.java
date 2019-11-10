@@ -84,7 +84,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                Log.i("SOCKET_INFO", "Socket closed: " + reason);
+                Log.i("SOCKET_INFO", "Socket closed. Reason: \"" + reason + "\"");
             }
 
             @Override

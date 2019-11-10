@@ -18,9 +18,9 @@ public class CardUtilities {
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard_idle), x, y, leftFacing, 10);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard_attack),9));
-            //toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), com.example.towerDefender.R.drawable.reaper2), x, y, leftFacing);
         } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
-            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.reaper), x, y, leftFacing, 3);
+            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.minotaur_walk), x, y, leftFacing, 7);
+            toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.minotaur_attack), 8));
         } else if(card.cardName.contains("Skeleton")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, leftFacing, 5);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_attack), 8));
