@@ -228,6 +228,7 @@ public class MatchUp implements Runnable {
 	 */
 	private void sendPostGameMessage(int time) {
 		logger.info("sending in-game message");
+		String winner;
 
 		if (game.getWinner() == null || game.getWinner().equals("")) {
 			List<PlayedCard> playerOneTowers = game.getPlayerOneCards().stream().filter(card -> card.getName().contains("tower")).collect(Collectors.toList());
@@ -236,14 +237,18 @@ public class MatchUp implements Runnable {
 			int oneTowerHealth = playerOneTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
 			int twoTowerHealth = playerTwoTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
 
-			String winner = oneTowerHealth > twoTowerHealth ? playerOneId : playerTwoId;
-			socketMessage.setWinner(winner);
+			winner = oneTowerHealth > twoTowerHealth ? playerOneId : playerTwoId;
 		}
 		else {
-			socketMessage.setWinner(game.getWinner());
+			winner = game.getWinner();
 		}
 
-		socketMessage.setGameState("in-game");
+		sendPostGameMessage(time, winner);
+	}
+
+	private void sendPostGameMessage(int time, String winner) {
+		socketMessage.setGameState("post-game");
+		socketMessage.setWinner(winner);
 		socketMessage.setServerMessage("");
 		socketMessage.setPlayedCards(game.getCards());
 		socketMessage.setTurnState("");
@@ -291,16 +296,6 @@ public class MatchUp implements Runnable {
 		catch (URISyntaxException e) {
 			logger.error("Error when getting trophies", e);
 		}
-
-
-//		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, 20), null);
-//		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, 20), null);
-//		try {
-//			webClientBuilder.build().put().uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, 20))).retrieve();
-//			webClientBuilder.build().put().uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, 20))).retrieve();
-//		} catch (URISyntaxException e) {
-//			logger.error("Error when sending trophies", e);
-//		}
 	}
 
 	@Override
@@ -320,15 +315,18 @@ public class MatchUp implements Runnable {
 		time = getTime();
 
 		while (cont) {
+			if (!areBothConnected()) {
+				sendPostGameMessage(Math.toIntExact(time), getPlayerOneSession().isOpen() ? playerOneId : playerTwoId);
+				break;
+			}
+
 			boolean someoneDed = game.clockCycle();
-			boolean bothConnected = areBothConnected();
 
 			sendInGameMessage("", Math.toIntExact(getTime() - time));
 
 			nap(1000 / 60);
 
-			cont = getTime() - time < IN_GAME_TIME &&
-					someoneDed && bothConnected;
+			cont = getTime() - time < IN_GAME_TIME && someoneDed;
 		}
 
 		time = getTime();

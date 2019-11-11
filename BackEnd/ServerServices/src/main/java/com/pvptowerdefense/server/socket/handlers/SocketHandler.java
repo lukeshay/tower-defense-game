@@ -122,15 +122,6 @@ public class SocketHandler {
 		CompletableFuture.runAsync(() -> {
 			idAndSession.remove(id);
 			sessionAndId.remove(session);
-
-			matchUpList.remove(findMatchUp(session));
-			MatchUp matchUp = findMatchUp(session);
-
-			if (matchUp != null) {
-				matchUpList.remove(matchUp);
-				MatchUp.getPool().remove(matchUp);
-			}
-
 			purgeMapsAndList();
 		});
 	}
