@@ -125,4 +125,13 @@ public class DecksService {
     public List<Deck> getUsersDeck(String userId) {
         return decksDao.findDecksByUserId(userId);
     }
+
+    /**
+     * Gets the userId of the deck
+     * @param deckId - deck's id
+     * @return - UserId
+     */
+    public String getUserByDeckId(int deckId) {
+        return decksDao.findDeckByDeckId(deckId).getUserId();
+    }
 }
