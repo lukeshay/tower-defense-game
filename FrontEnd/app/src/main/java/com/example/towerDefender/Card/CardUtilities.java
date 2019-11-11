@@ -21,10 +21,7 @@ public class CardUtilities {
         } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.minotaur_walk), x, y, leftFacing, 7);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.minotaur_attack), 8));
-        } else if(card.cardName.contains("Skeleton")){
-            toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_walk), x, y, leftFacing, 5);
-            toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.skeleton_attack), 8));
-        } else if(card.cardName.contains("blob")){
+        } else if(card.cardName.contains("blob") || card.cardName.contains("Skeleton") ){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_walk), x, y, leftFacing, 8);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_attack), 8));
         } else if(card.cardName.contains("tower")){
