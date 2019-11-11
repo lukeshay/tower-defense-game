@@ -236,7 +236,7 @@ public class MatchUp implements Runnable {
 			int oneTowerHealth = playerOneTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
 			int twoTowerHealth = playerTwoTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
 
-			String winner = oneTowerHealth < twoTowerHealth ? playerOneId : playerTwoId;
+			String winner = oneTowerHealth > twoTowerHealth ? playerOneId : playerTwoId;
 			socketMessage.setWinner(winner);
 		}
 		else {
