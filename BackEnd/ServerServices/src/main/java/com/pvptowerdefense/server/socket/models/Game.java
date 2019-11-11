@@ -279,15 +279,6 @@ public class Game {
 		return Math.sqrt(xSquare + ySquare);
 	}
 
-	/**
-	 * Verifies the card is within the limits of the screen and is linked with one of the players in the current game.
-	 * @param card the card
-	 * @return boolean of whether it is valid
-	 */
-	boolean isValidCard(PlayedCard card) {
-		return card.getxValue() < MAX_X && card.getxValue() >= 0 && card.getyValue() >= 0 && card.getyValue() < MAX_Y && (card.getPlayer().equals(player1) || card.getPlayer().equals(player2));
-	}
-
 	void trophyUpdate(String winner){
 //		if(winner.equals(player1)){
 //			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";

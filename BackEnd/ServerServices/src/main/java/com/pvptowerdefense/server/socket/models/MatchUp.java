@@ -3,9 +3,12 @@ package com.pvptowerdefense.server.socket.models;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -36,7 +39,7 @@ public class MatchUp implements Runnable {
 	private SocketMessage socketMessage;
 
 	private static RestTemplate restTemplate = new RestTemplate();
-
+	private static WebClient.Builder webClientBuilder = WebClient.builder();
 	/**
 	 * Instantiates a new Match up.
 	 *
@@ -228,6 +231,12 @@ public class MatchUp implements Runnable {
 
 //		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, 20), null);
 //		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, 20), null);
+//		try {
+//			webClientBuilder.build().put().uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, 20))).retrieve();
+//			webClientBuilder.build().put().uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, 20))).retrieve();
+//		} catch (URISyntaxException e) {
+//			logger.error("Error when sending trophies", e);
+//		}
 	}
 
 	/**
