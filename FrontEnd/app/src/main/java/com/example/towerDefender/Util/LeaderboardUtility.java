@@ -32,7 +32,7 @@ public class LeaderboardUtility {
         int num = rightEnd - left + 1;
 
         while(left <= leftEnd && right <= rightEnd)
-            if(a[left].compareTo(a[right]) <= 0)
+            if(a[left].compareTo(a[right]) > 0)
                 tmp[k++] = a[left++];
             else
                 tmp[k++] = a[right++];
