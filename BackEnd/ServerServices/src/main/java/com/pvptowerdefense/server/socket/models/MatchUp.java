@@ -20,27 +20,22 @@ import java.util.concurrent.ThreadPoolExecutor;
  * The type Match up.
  */
 public class MatchUp implements Runnable {
-	private static Logger logger =
-			LoggerFactory.getLogger(MatchUp.class.getName());
-
 	private static final int MAX_T = 10;
-	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
-
 	private static final int PRE_GAME_TIME = 30000;
 	private static final int IN_GAME_TIME = 300000;
 	private static final int POST_GAME_TIME = 300000;
-
+	private static Logger logger =
+			LoggerFactory.getLogger(MatchUp.class.getName());
+	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
+	private static RestTemplate restTemplate = new RestTemplate();
+	private static WebClient.Builder webClientBuilder = WebClient.builder();
 	private Session playerOneSession;
 	private String playerOneId;
 	private Session playerTwoSession;
 	private String playerTwoId;
-
 	private Game game;
-
 	private SocketMessage socketMessage;
 
-	private static RestTemplate restTemplate = new RestTemplate();
-	private static WebClient.Builder webClientBuilder = WebClient.builder();
 	/**
 	 * Instantiates a new Match up.
 	 *
@@ -67,6 +62,15 @@ public class MatchUp implements Runnable {
 	 */
 	public static ThreadPoolExecutor getPool() {
 		return pool;
+	}
+
+	/**
+	 * Gets the time in milliseconds.
+	 *
+	 * @return the current time in milliseconds
+	 */
+	private static long getTime() {
+		return new Date().getTime();
 	}
 
 	/**
@@ -154,6 +158,7 @@ public class MatchUp implements Runnable {
 
 	/**
 	 * Sends the given object to both players as json.
+	 *
 	 * @param o the message
 	 */
 	private void sendMessage(Object o) {
@@ -198,7 +203,7 @@ public class MatchUp implements Runnable {
 	 * game message.
 	 *
 	 * @param message a message from the server
-	 * @param time the game time in milliseconds
+	 * @param time    the game time in milliseconds
 	 */
 	private void sendInGameMessage(String message, int time) {
 		logger.info("sending in-game message");
@@ -233,27 +238,28 @@ public class MatchUp implements Runnable {
 		try {
 			User user1 = webClientBuilder.build()
 					.get()
-					.uri(new URI(String.format("http://coms-309-ss-5.misc.iastate.edu:3306/users/%s", playerOneId)))
+					.uri(new URI(String.format("http://localhost:8080/users/%s", playerOneId)))
 					.retrieve().bodyToMono(User.class).block();
 			User user2 = webClientBuilder.build()
 					.get()
-					.uri(new URI(String.format("http://coms-309-ss-5.misc.iastate.edu:3306/users/%s", playerTwoId)))
+					.uri(new URI(String.format("http://localhost:8080/users/%s", playerTwoId)))
 					.retrieve().bodyToMono(User.class).block();
-			if(user1.getPhoneId().equals(game.getWinner())){
+
+			if (user1.getPhoneId().equals(game.getWinner())) {
 				user1.setTrophies(user1.getTrophies() + 10);
-				if(user2.getTrophies() < 5){
+				if (user2.getTrophies() < 5) {
 					user2.setTrophies(0);
 				}
-				else{
+				else {
 					user2.setTrophies(user2.getTrophies() - 5);
 				}
 			}
-			else{
+			else {
 				user2.setTrophies(user2.getTrophies() + 10);
-				if(user1.getTrophies() < 5){
+				if (user1.getTrophies() < 5) {
 					user1.setTrophies(0);
 				}
-				else{
+				else {
 					user1.setTrophies(user1.getTrophies() - 5);
 				}
 			}
@@ -266,7 +272,8 @@ public class MatchUp implements Runnable {
 					.put()
 					.uri("http://localhost:8080/users", user2)
 					.retrieve();
-		} catch (URISyntaxException e) {
+		}
+		catch (URISyntaxException e) {
 			logger.error("Error when getting trophies", e);
 		}
 
@@ -281,14 +288,6 @@ public class MatchUp implements Runnable {
 //		}
 	}
 
-	/**
-	 * Gets the time in milliseconds.
-	 * @return the current time in milliseconds
-	 */
-	private static long getTime() {
-		return new Date().getTime();
-	}
-
 	@Override
 	public void run() {
 		long time = getTime();
@@ -296,7 +295,7 @@ public class MatchUp implements Runnable {
 
 		sendPreGameMessage();
 
-		while(getTime() - time > PRE_GAME_TIME) {
+		while (getTime() - time > PRE_GAME_TIME) {
 			nap(1000);
 		}
 
