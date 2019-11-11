@@ -187,7 +187,7 @@ public class Game {
 
 		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext();) {
 			PlayedCard card = cards.next();
-			if (card.getHitPoints() <= 0) {
+			if (card.getCurrentHitPoints() <= 0) {
 			    if (card.getName().equals("tower2")) {
 			        gameState = false;
 			        winner = player2;
@@ -199,7 +199,7 @@ public class Game {
 
 		for (ListIterator<PlayedCard> cards = playerTwoCards.listIterator(); cards.hasNext();) {
 			PlayedCard card = cards.next();
-			if (card.getHitPoints() <= 0) {
+			if (card.getCurrentHitPoints() <= 0) {
                 if (card.getName().equals("tower5")) {
                     gameState = false;
                     winner = player1;
@@ -241,7 +241,7 @@ public class Game {
 						.findFirst()
 						.get();
 
-				attacked.setHitPoints(attacked.getHitPoints() - actionCard.getDamage());
+				attacked.setCurrentHitPoints(attacked.getCurrentHitPoints() - actionCard.getDamage());
 			}
 			else if (!actionCard.isAttacking()) {
 					int newXValue = actionCard.getxValue() + (actionCard.getSpeed() * direction);

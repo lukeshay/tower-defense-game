@@ -11,7 +11,8 @@ public class PlayedCard implements Cloneable {
     private int cost;
     private int damage;
     // private int currentDamage; // Can be used when spells are implemented.
-    private int hitPoints;
+    private int currentHitPoints;
+    private int totalHitPoints;
     private int speed;
     // private int currentSpeed; // If they are attacking this would be 0.
     // Can be used when spells are implemented.
@@ -41,12 +42,13 @@ public class PlayedCard implements Cloneable {
      * @param yValue      the y value
      * @param player      the player
      */
-    public PlayedCard(String name, String description, int cost, int damage, int hitPoints, int speed, String type, int range, int xValue, int yValue, String player) {
+    public PlayedCard(String name, String description, int cost, int damage, int totalHitPoints, int speed, String type, int range, int xValue, int yValue, String player) {
         this.name = name;
         this.description = description;
         this.cost = cost;
         this.damage = damage;
-        this.hitPoints = hitPoints;
+        this.totalHitPoints = totalHitPoints;
+        this.currentHitPoints = totalHitPoints;
         this.speed = speed;
         this.type = type;
         this.range = range;
@@ -127,22 +129,20 @@ public class PlayedCard implements Cloneable {
         this.damage = damage;
     }
 
-    /**
-     * Gets hit points.
-     *
-     * @return the hit points
-     */
-    public int getHitPoints() {
-        return hitPoints;
+    public int getCurrentHitPoints() {
+        return currentHitPoints;
     }
 
-    /**
-     * Sets hit points.
-     *
-     * @param hitPoints the hit points
-     */
-    public void setHitPoints(int hitPoints) {
-        this.hitPoints = hitPoints;
+    public void setCurrentHitPoints(int currentHitPoints) {
+        this.currentHitPoints = currentHitPoints;
+    }
+
+    public int getTotalHitPoints() {
+        return totalHitPoints;
+    }
+
+    public void setTotalHitPoints(int totalHitPoints) {
+        this.totalHitPoints = totalHitPoints;
     }
 
     /**
