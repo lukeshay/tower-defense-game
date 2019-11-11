@@ -15,6 +15,8 @@ public class Game {
 
 	private List<PlayedCard> playerOneCards;
 	private List<PlayedCard> playerTwoCards;
+	private int playerOneMana;
+	private int playerTwoMana;
 	private String player1;
 	private String player2;
 	private boolean gameState;
@@ -44,6 +46,8 @@ public class Game {
 		player2 = userId2;
 		gameState = true;
 		counter = 0;
+		playerOneMana = 0;
+		playerTwoMana = 0;
 
 		playerOneCards.add(makeTower(TOWER1_X, TOWER1_Y, userId1, "tower1"));
 		playerOneCards.add(makeTower(TOWER2_X, TOWER2_Y, userId1, "tower2"));
@@ -117,6 +121,22 @@ public class Game {
 		this.player2 = player2;
 	}
 
+	public int getPlayerOneMana() {
+		return playerOneMana;
+	}
+
+	public void setPlayerOneMana(int playerOneMana) {
+		this.playerOneMana = playerOneMana;
+	}
+
+	public int getPlayerTwoMana() {
+		return playerTwoMana;
+	}
+
+	public void setPlayerTwoMana(int playerTwoMana) {
+		this.playerTwoMana = playerTwoMana;
+	}
+
 	/**
 	 * Gets the current game state
 	 *
@@ -144,6 +164,10 @@ public class Game {
 		return winner;
 	}
 
+	public String getTurnState() {
+		return counter % 60 == 0 ? "attack" : "move";
+	}
+
 	/**
 	 * Method that is called 60 times a second to move and attack the cards
 	 *
@@ -154,6 +178,11 @@ public class Game {
 
 		attackOrMove(playerOneCards, playerTwoCards, 1);
 		attackOrMove(playerTwoCards, playerOneCards, -1);
+
+		if (counter % 60 == 0) {
+			playerOneMana = playerOneMana < 5 ? playerOneMana + 1: 5;
+			playerTwoMana = playerTwoMana > 5 ? playerTwoMana + 1: 5;
+		}
 
 		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext();) {
 			PlayedCard card = cards.next();

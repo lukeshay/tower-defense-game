@@ -2,6 +2,7 @@ package com.pvptowerdefense.server.socket.models;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class MatchUp implements Runnable {
 	private Game game;
 
 	private SocketMessage socketMessage;
+
+	private static RestTemplate restTemplate = new RestTemplate();
 
 	/**
 	 * Instantiates a new Match up.
@@ -195,8 +198,10 @@ public class MatchUp implements Runnable {
 		socketMessage.setGameState("in-game");
 		socketMessage.setServerMessage(message);
 		socketMessage.setPlayedCards(game.getCards());
-//		socketMessage.setTurnState(game.getTurnState());
+		socketMessage.setTurnState(game.getTurnState());
 		socketMessage.setCurrentTime(time);
+		socketMessage.setPlayerOneMana(game.getPlayerOneMana());
+		socketMessage.setPlayerTwoMana(game.getPlayerTwoMana());
 		sendMessage(socketMessage);
 	}
 
@@ -216,6 +221,9 @@ public class MatchUp implements Runnable {
 		socketMessage.setWinner(game.getWinner());
 		socketMessage.setCurrentTime(time);
 		sendMessage(socketMessage);
+
+//		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, 20), null);
+//		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, 20), null);
 	}
 
 	/**
