@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
@@ -159,6 +160,16 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
+        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+        if(!socketMessage.getWinner().trim().isEmpty()){
+            if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
+                this.gameOver = true;
+                this.wonOrLost = true;
+            } else {
+                this.gameOver = true;
+                this.wonOrLost = false;
+            }
+        }
         if(message.contains("true") && !isConnected){
             Log.i("SOCKET_INFO", "Connected.");
             isConnected = true;
@@ -168,15 +179,6 @@ public class GameManager {
                 playerSide = "right";
             }
             initializeDeck();
-        } else if(message.contains("win")){
-            //TODO: update the win/loss logic
-            Log.i("SOCKET_INFO", "GAME OVER: " + message);
-            this.gameOver = true;
-            this.wonOrLost = true;
-        } else if(message.contains("loss")){
-            Log.i("SOCKET_INFO", "GAME OVER: " + message);
-            this.gameOver = true;
-            this.wonOrLost = false;
         } else{
             try {
                 if(message.contains("name")){

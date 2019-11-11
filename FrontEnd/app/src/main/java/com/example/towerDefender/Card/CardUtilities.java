@@ -28,19 +28,7 @@ public class CardUtilities {
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_walk), x, y, leftFacing, 8);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_attack), 8));
         } else if(card.cardName.contains("tower")){
-            if(leftFacing){
-                if(card.cardName.contains("1") || card.cardName.contains("2") || card.cardName.contains("3")){
-                    toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y, leftFacing);
-                } else{
-                    toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, leftFacing);
-                }
-            } else {
-                if(card.cardName.contains("4") || card.cardName.contains("5") || card.cardName.contains("6")){
-                    toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y, leftFacing);
-                } else{
-                    toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.enemy_tower), x, y, leftFacing);
-                }
-            }
+            toReturn = new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.friendly_tower), x, y, leftFacing);
         } else if(card.cardName.contains("TEST-CARD-DO-NOT-USE")) { // for testing purposes, so that tests do not need to rely upon the application resources
             return null;
         } else {
