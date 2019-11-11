@@ -113,6 +113,14 @@ public class Game {
 		return player2;
 	}
 
+	public List<PlayedCard> getPlayerOneCards() {
+		return playerOneCards;
+	}
+
+	public List<PlayedCard> getPlayerTwoCards() {
+		return playerTwoCards;
+	}
+
 	/**
 	 * Sets player2's userId
 	 *

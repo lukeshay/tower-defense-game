@@ -11,10 +11,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 /**
  * The type Match up.
@@ -227,11 +229,24 @@ public class MatchUp implements Runnable {
 	private void sendPostGameMessage(int time) {
 		logger.info("sending in-game message");
 
+		if (game.getWinner() == null || game.getWinner().equals("")) {
+			List<PlayedCard> playerOneTowers = game.getPlayerOneCards().stream().filter(card -> card.getName().contains("tower")).collect(Collectors.toList());
+			List<PlayedCard> playerTwoTowers = game.getPlayerTwoCards().stream().filter(card -> card.getName().contains("tower")).collect(Collectors.toList());
+
+			int oneTowerHealth = playerOneTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
+			int twoTowerHealth = playerTwoTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
+
+			String winner = oneTowerHealth < twoTowerHealth ? playerOneId : playerTwoId;
+			socketMessage.setWinner(winner);
+		}
+		else {
+			socketMessage.setWinner(game.getWinner());
+		}
+
 		socketMessage.setGameState("in-game");
 		socketMessage.setServerMessage("");
 		socketMessage.setPlayedCards(game.getCards());
 		socketMessage.setTurnState("");
-		socketMessage.setWinner(game.getWinner());
 		socketMessage.setCurrentTime(time);
 		sendMessage(socketMessage);
 
