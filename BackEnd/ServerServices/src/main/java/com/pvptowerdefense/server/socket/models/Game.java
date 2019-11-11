@@ -260,54 +260,54 @@ public class Game {
 	}
 
 	void trophyUpdate(String winner){
-		if(winner.equals(player1)){
-			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
-			String uri2 = "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies/{trophies}";
-			Map<String, String> params = new HashMap<String, String>();
-			Map<String, String> params2 = new HashMap<String, String>();
-			Map<String, Integer> params3 = new HashMap<String, Integer>();
-			params.put("userId", player2);
-			params2.put("userId", player1);
-			RestTemplate restTemplate = new RestTemplate();
-			int trophies = restTemplate.getForObject(uri, Integer.class, params);
-			if(trophies < 5){
-				params3.put("trophies", 0);
-				restTemplate.put(uri2, params, params3);
-			}
-			else{
-				trophies -= 5;
-				params3.put("trophies", trophies);
-				restTemplate.put(uri2, params, params3);
-			}
-			int trophies2 = restTemplate.getForObject(uri, Integer.class, params2);
-			params3.remove("trophies");
-			params3.put("trophies", trophies2 + 10);
-			restTemplate.put(uri2, params2, params3);
-		}
-		else{
-			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
-			String uri2 = "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies/{trophies}";
-			Map<String, String> params = new HashMap<String, String>();
-			Map<String, String> params2 = new HashMap<String, String>();
-			Map<String, Integer> params3 = new HashMap<String, Integer>();
-			params.put("userId", player2);
-			params2.put("userId", player1);
-			RestTemplate restTemplate = new RestTemplate();
-			int trophies = restTemplate.getForObject(uri, Integer.class, params);
-			if(trophies < 5){
-				params3.put("trophies", 0);
-				restTemplate.put(uri2, params, params3);
-			}
-			else{
-				trophies -= 5;
-				params3.put("trophies", trophies);
-				restTemplate.put(uri2, params, params3);
-			}
-			int trophies2 = restTemplate.getForObject(uri, Integer.class, params2);
-			params3.remove("trophies");
-			params3.put("trophies", trophies2 + 10);
-			restTemplate.put(uri2, params2, params3);
-		}
+//		if(winner.equals(player1)){
+//			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
+//			String uri2 = "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies/{trophies}";
+//			Map<String, String> params = new HashMap<String, String>();
+//			Map<String, String> params2 = new HashMap<String, String>();
+//			Map<String, Integer> params3 = new HashMap<String, Integer>();
+//			params.put("userId", player2);
+//			params2.put("userId", player1);
+//			RestTemplate restTemplate = new RestTemplate();
+//			int trophies = restTemplate.getForObject(uri, Integer.class, params);
+//			if(trophies < 5){
+//				params3.put("trophies", 0);
+//				restTemplate.put(uri2, params, params3);
+//			}
+//			else{
+//				trophies -= 5;
+//				params3.put("trophies", trophies);
+//				restTemplate.put(uri2, params, params3);
+//			}
+//			int trophies2 = restTemplate.getForObject(uri, Integer.class, params2);
+//			params3.remove("trophies");
+//			params3.put("trophies", trophies2 + 10);
+//			restTemplate.put(uri2, params2, params3);
+//		}
+//		else{
+//			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
+//			String uri2 = "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies/{trophies}";
+//			Map<String, String> params = new HashMap<String, String>();
+//			Map<String, String> params2 = new HashMap<String, String>();
+//			Map<String, Integer> params3 = new HashMap<String, Integer>();
+//			params.put("userId", player2);
+//			params2.put("userId", player1);
+//			RestTemplate restTemplate = new RestTemplate();
+//			int trophies = restTemplate.getForObject(uri, Integer.class, params);
+//			if(trophies < 5){
+//				params3.put("trophies", 0);
+//				restTemplate.put(uri2, params, params3);
+//			}
+//			else{
+//				trophies -= 5;
+//				params3.put("trophies", trophies);
+//				restTemplate.put(uri2, params, params3);
+//			}
+//			int trophies2 = restTemplate.getForObject(uri, Integer.class, params2);
+//			params3.remove("trophies");
+//			params3.put("trophies", trophies2 + 10);
+//			restTemplate.put(uri2, params2, params3);
+//		}
 
 
 	}
