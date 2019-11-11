@@ -145,7 +145,12 @@ public class UsersController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/deck/{deckId}/{cardName}")
     public Map addCardToDeck(@PathVariable int deckId, @PathVariable String cardName){
-        decksService.addCardToDeck(cardsService.getCardByName(cardName), deckId);
+        if(usersService.userOwnsCard(decksService.getUserByDeckId(deckId), cardName)){
+            decksService.addCardToDeck(cardsService.getCardByName(cardName), deckId);
+        }
+        else{
+            throw new IllegalArgumentException("User does not own this card!");
+        }
         return successMap();
     }
 
@@ -164,6 +169,7 @@ public class UsersController {
      * Deletes a card from a deck
      * @param deckId - deck id
      * @param cardName - name of card
+     * @return success message
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "deck/deleteCard/{deckId}/{cardName}")
     public Map<String, Boolean> deleteCardFromDeck(@PathVariable int deckId, @PathVariable String cardName){
@@ -190,6 +196,19 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.GET, value = "{userId}/deck")
     public List<Deck> getUsersDeck(@PathVariable String userId){
         return decksService.getUsersDeck(userId);
+    }
+
+    /**
+     * Adds a card to user's list of owned cards
+     * @param userId - user's Id
+     * @param cardName - name of card
+     * @return success message
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "{userId}/ownedCard/{cardName}")
+    public Map addCardToOwnedCards(@PathVariable String userId, @PathVariable String cardName){
+        Card card = cardsService.getCardByName(cardName);
+        usersService.addCardToOwnedCards(userId, card);
+        return successMap();
     }
 
     /**

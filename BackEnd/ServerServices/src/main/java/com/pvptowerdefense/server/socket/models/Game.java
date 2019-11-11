@@ -173,6 +173,7 @@ public class Game {
                     gameState = false;
                     winner = player1;
                 }
+
 				cards.remove();
 			}
 		}
