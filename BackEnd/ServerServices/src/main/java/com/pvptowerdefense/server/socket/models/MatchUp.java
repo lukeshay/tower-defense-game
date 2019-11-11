@@ -135,13 +135,17 @@ public class MatchUp implements Runnable {
 		logger.info("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
 
-		if (card != null && game.isValidCard(card)) {
+		if (card != null) {
 			game.addCard(card);
 			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 		else {
-			session.getAsyncRemote().sendText(Messages.cardNotAdded("Invalid location or user."));
+			getOtherSession(session).getAsyncRemote().sendText(message);
 		}
+	}
+
+	private Session getOtherSession(Session session) {
+		return session.equals(playerOneSession) ? playerTwoSession : playerOneSession;
 	}
 
 	/**
