@@ -260,11 +260,11 @@ public class MatchUp implements Runnable {
 
 			webClientBuilder.build()
 					.put()
-					.uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, user1.getTrophies())))
+					.uri("http://localhost:8080/users", user1)
 					.retrieve();
 			webClientBuilder.build()
 					.put()
-					.uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, user2.getTrophies())))
+					.uri("http://localhost:8080/users", user2)
 					.retrieve();
 		} catch (URISyntaxException e) {
 			logger.error("Error when getting trophies", e);
