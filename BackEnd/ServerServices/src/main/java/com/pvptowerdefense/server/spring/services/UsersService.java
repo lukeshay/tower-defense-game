@@ -167,6 +167,14 @@ public class UsersService {
 		return usersDao.findUserByPhoneId(userId).getTrophies();
 	}
 
+	/**
+	 * Sets user's trophy count
+	 * @param userId - user's id
+	 * @param num - trophies
+	 */
 	public void setTrophies(String userId, int num) {
+		User user = usersDao.findUserByPhoneId(userId);
+		user.setTrophies(num);
+		usersDao.save(user);
 	}
 }
