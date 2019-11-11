@@ -1,5 +1,6 @@
 package com.pvptowerdefense.server.socket.models;
 
+import com.pvptowerdefense.server.spring.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
@@ -228,6 +229,47 @@ public class MatchUp implements Runnable {
 		socketMessage.setWinner(game.getWinner());
 		socketMessage.setCurrentTime(time);
 		sendMessage(socketMessage);
+
+		try {
+			User user1 = webClientBuilder.build()
+					.get()
+					.uri(new URI(String.format("http://coms-309-ss-5.misc.iastate.edu:3306/users/%s", playerOneId)))
+					.retrieve().bodyToMono(User.class).block();
+			User user2 = webClientBuilder.build()
+					.get()
+					.uri(new URI(String.format("http://coms-309-ss-5.misc.iastate.edu:3306/users/%s", playerTwoId)))
+					.retrieve().bodyToMono(User.class).block();
+			if(user1.getPhoneId().equals(game.getWinner())){
+				user1.setTrophies(user1.getTrophies() + 10);
+				if(user2.getTrophies() < 5){
+					user2.setTrophies(0);
+				}
+				else{
+					user2.setTrophies(user2.getTrophies() - 5);
+				}
+			}
+			else{
+				user2.setTrophies(user2.getTrophies() + 10);
+				if(user1.getTrophies() < 5){
+					user1.setTrophies(0);
+				}
+				else{
+					user1.setTrophies(user1.getTrophies() - 5);
+				}
+			}
+
+			webClientBuilder.build()
+					.put()
+					.uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, user1.getTrophies())))
+					.retrieve();
+			webClientBuilder.build()
+					.put()
+					.uri(new URI(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, user2.getTrophies())))
+					.retrieve();
+		} catch (URISyntaxException e) {
+			logger.error("Error when getting trophies", e);
+		}
+
 
 //		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerOneId, 20), null);
 //		restTemplate.put(String.format("http://localhost:8080/users/%s/trophies/%d", playerTwoId, 20), null);
