@@ -11,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.towerDefender.R;
 import com.example.towerDefender.Util.LeaderboardUtility;
-import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 import com.example.towerDefender.VolleyServices.User;
 import com.example.towerDefender.VolleyServices.UserRestServices;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -53,10 +54,13 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     private void displayUsers(User[] users){
         LinearLayout layout = this.findViewById(R.id.leaderboardLayout);
+        TextView leaderboardTitle = this.findViewById(R.id.leaderboardTitle);
         for (User user : users) {
             TextView textView = new TextView(this);
             textView.setText(user.phoneId + ": " + user.trophyCount + " trophies.");
+            textView.setLayoutParams(leaderboardTitle.getLayoutParams());
             //textView.setTextColor(getResources().getColor(R.color.colorAccent));
+            textView.setPadding(50, 50, 50, 50);
             textView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             layout.addView(textView);
