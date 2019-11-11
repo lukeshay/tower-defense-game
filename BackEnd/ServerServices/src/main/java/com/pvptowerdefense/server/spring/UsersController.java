@@ -212,6 +212,21 @@ public class UsersController {
     }
 
     /**
+     * Gets the number of trophies for a user
+     * @param userId - user's id
+     * @return number of trophies
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/trophies")
+    public int getUsersTrophies(@PathVariable String userId){
+        return usersService.getTrophies(userId);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "{userId}/trophies/{num}")
+    public void setUsersTrophies(@PathVariable String userId, @PathVariable int num){
+        usersService.setTrophies(userId, num);
+    }
+
+    /**
      * Helper method to create a success message in JSON format
      *
      * @return map containing a success message

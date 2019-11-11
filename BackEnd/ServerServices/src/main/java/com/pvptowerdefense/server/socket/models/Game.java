@@ -2,6 +2,7 @@ package com.pvptowerdefense.server.socket.models;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -173,7 +174,14 @@ public class Game {
                     gameState = false;
                     winner = player1;
                 }
-
+                String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("userId", player2);
+                RestTemplate restTemplate = new RestTemplate();
+                int trophies = restTemplate.getForObject(uri, Integer.class, params);
+                if(trophies < 5){
+                	
+				}
 				cards.remove();
 			}
 		}
