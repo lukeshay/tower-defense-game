@@ -14,6 +14,9 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.towerDefender.Activities.MultiplayerGameActivity;
 import com.example.towerDefender.Activities.NavigationActivity;
 import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
@@ -24,14 +27,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Paint paint;
     private GameManager manager;
     private Player player;
-
+    private AppCompatActivity parent;
     /**
      * Constructs a new {@link GameView} based on the provided {@link Context} with the provided {@link Player}
+     * @param parent the parent activity
      * @param context the base {@link Context} for this {@link GameView} to reference
      * @param player the {@link Player} to be used in this {@link GameView}'s {@link GameManager}
      */
-    public GameView(Context context, Player player){
+    public GameView(AppCompatActivity parent, Context context, Player player){
         super(context);
+        this.parent = parent;
         this.player = player;
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
@@ -88,6 +93,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(manager.isGameOver()){
+                //if the game is over, any click will send the user back to navigation page.
+                Intent intent = new Intent(this.parent, NavigationActivity.class);
+                this.parent.startActivity(intent);
+            }
             if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
                 SocketUtilities.closeSocket();
                 manager.setGameOver(true);

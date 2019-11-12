@@ -41,6 +41,8 @@ public class GameManager {
     private boolean playerSideSet = false;
     private boolean wonOrLost = false; // true if they won
     private Sprite closeButton;
+
+
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
@@ -77,7 +79,7 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
-        if(!gameOver){
+        if(isConnected && !gameOver){ // in game
             closeButton.draw(canvas);
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
                     playedCard.draw(canvas);
@@ -86,7 +88,9 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
-        } else{
+        } else if(!isConnected){ // waiting for game to start
+
+        } else { //game has ended
             if(this.wonOrLost){
                 canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
             } else{
