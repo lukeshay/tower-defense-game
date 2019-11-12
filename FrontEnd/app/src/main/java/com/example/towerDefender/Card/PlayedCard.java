@@ -30,12 +30,10 @@ public class PlayedCard implements Serializable {
     private int xValue;
     private int yValue;
     private boolean attacking;
-    private String cardAttacking;
-    private int cardAttackingDistance;
     private String player;
-    private static Paint textPaint;
     private GameObjectSprite sprite;
-
+    private static Paint greenHealthPaint;
+    private static Paint redHealthPaint;
     /**
      * Constructs a new {@link PlayedCard} with the provided parameters.
      * @param cardToPlay the {@link Card} to play and construct this played card from
@@ -57,8 +55,6 @@ public class PlayedCard implements Serializable {
         this.yValue = yValue;
         this.player = player;
         this.sprite = null;
-        textPaint = new Paint(Color.LTGRAY);
-        textPaint.setTextSize(50);
     }
 
     /**
@@ -309,12 +305,17 @@ public class PlayedCard implements Serializable {
             this.sprite.xStart = this.xValue;
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
-            Rect health = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.getCurrentHitpoints()), this.sprite.yStart + 10);
-            Paint myPaint = new Paint();
-            myPaint.setColor(Color.rgb(0, 255, 0));
-            myPaint.setStrokeWidth(10);
-            canvas.drawRect(health, myPaint);
-            //canvas.drawText("HP: " + this.getCurrentHitpoints(), this.xValue, this.yValue - 20, textPaint);
+
+            greenHealthPaint = new Paint();
+            greenHealthPaint.setColor(Color.rgb(0, 255, 0));
+            greenHealthPaint.setStrokeWidth(10);
+            redHealthPaint = new Paint();
+            redHealthPaint.setColor(Color.rgb(255, 9, 0));
+            redHealthPaint.setStrokeWidth(10);
+            Rect totalHealth = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.totalHitPoints), this.sprite.yStart + 10);
+            canvas.drawRect(totalHealth, redHealthPaint);
+            Rect currentHealth = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.getCurrentHitpoints()), this.sprite.yStart + 10);
+            canvas.drawRect(currentHealth, greenHealthPaint);
         }
     }
 
