@@ -31,7 +31,7 @@ import javax.websocket.OnMessage;
 public class MultiplayerGameActivity extends AppCompatActivity {
 
     private String lastSocketMessage;
-
+    private boolean inGame = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +61,21 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @Override
             public void onMessage(String message) {
                 Log.i("socket message: ", message);
+                if(!inGame){
+                    if(message.contains("\"matchUp\":\"true\"")){
+                        try {
+                            inGame = true;
+                            MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setContentView(gameView);
+                                }
+                            });
+                        }
+                        catch(Exception e){e.printStackTrace();}
+                    }
+                }
+
                 if(lastSocketMessage != null && lastSocketMessage.equals(message)){
                     //don't do anything, the message is the same
                 } else{
@@ -72,15 +87,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @Override
             public void onOpen(ServerHandshake handshake) {
                 Log.i("SOCKET_INFO", "Connected. Handshake status: \"" + handshake.getHttpStatusMessage() + "\"");
-                try {
-                    MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setContentView(gameView);
-                        }
-                    });
-                }
-                catch(Exception e){e.printStackTrace();}
+
                 }
 
             @Override

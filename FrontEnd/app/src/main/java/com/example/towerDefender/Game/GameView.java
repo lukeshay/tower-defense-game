@@ -87,9 +87,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(manager.isPlayingCard()){
-                if(manager.getCardToPlayIndex() != -1){
-                    manager.playCard((int)event.getX(), (int)event.getY());
-                    manager.setPlayingCard(-1, false);
+                if(manager.getCardToPlayIndex() != -1) {
+                    //Check to see if the event is on the player's side
+                    if ((manager.getPlayerSide().equals("left") && (int) event.getX() <= Sprite.screenWidth / 2)
+                            || (manager.getPlayerSide().equals("right") && (int) event.getX() >= Sprite.screenWidth / 2)) {
+                        manager.playCard((int) event.getX(), (int) event.getY());
+                        manager.setPlayingCard(-1, false);
+                    }
                 }
             } else {
                 //Is the event within the bounds of one of our CardInHand objects?
