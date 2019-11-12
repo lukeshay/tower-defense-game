@@ -31,7 +31,6 @@ public class GameManager {
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
-    private long lastUpdate;
     private int cardsSent = 0;
     private boolean gameOver = false;
     private Paint textPaint;
@@ -49,7 +48,6 @@ public class GameManager {
         cardToPlayIndex = 0;
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
-        lastUpdate = System.currentTimeMillis();
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(250);
     }
@@ -170,34 +168,21 @@ public class GameManager {
                 this.wonOrLost = false;
             }
         }
-        if(message.contains("true") && !isConnected){
+        if(socketMessage.getGameState().equals("in-game") && !isConnected){
             Log.i("SOCKET_INFO", "Connected.");
             isConnected = true;
-            if(message.contains("left")){
-                playerSide = "left";
-            } else if(message.contains("right")){
-                playerSide = "right";
-            }
             initializeDeck();
         } else{
             try {
-                if(message.contains("name")){
-                    playedCards.addAll(JsonUtils.jsonToSocketMessage(message).getPlayedCards(), this);
-                    //If the player side hasn't already been updated, go through and check
-                    if(!playerSideSet){
-                        for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                            if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
-                                    && (playedCard.getCard().cardName.contains("tower4")
-                                    || playedCard.getCard().cardName.contains("tower5")
-                                    || playedCard.getCard().cardName.contains("tower6"))){
-                                this.setPlayerSide("right");
-                            }
-                        }
-                        //Either the side has been set to right, or the left-sided-ness of this Player has been confirmed
-                        playerSideSet = true;
-                        lastUpdate = System.currentTimeMillis();
+                playedCards.addAll(socketMessage.getPlayedCards(), this);
+                //If the player side hasn't already been updated, go through and check
+                if(!playerSideSet){
+                    if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
+                        playerSide = "left";
+                    } else{
+                        playerSide = "right";
                     }
-
+                    playerSideSet = true;
                 }
             } catch (Exception e){
                 Log.e("ERROR", e.getMessage());
