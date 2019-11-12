@@ -1,5 +1,6 @@
 package com.example.towerDefender.Activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,17 +53,31 @@ public class LeaderboardActivity extends AppCompatActivity {
         LeaderboardUtility.mergeSort(users);
     }
 
+    /**
+     * Constructs a text view element for each provided user, displaying their trophy count along
+     * with their username
+     * @param users a sorted (in descending order) array of {@link User}s
+     */
     private void displayUsers(User[] users){
         LinearLayout layout = this.findViewById(R.id.leaderboardLayout);
         TextView leaderboardTitle = this.findViewById(R.id.leaderboardTitle);
-        for (User user : users) {
+        leaderboardTitle.setPadding(50, 50, 50, 50);
+        leaderboardTitle.setTextColor(Color.BLACK);
+        for(int i = 0; i < users.length - 1; i++){
+            User user = users[i];
             TextView textView = new TextView(this);
-            textView.setText(user.phoneId + ": " + user.trophyCount + " trophies.");
             textView.setLayoutParams(leaderboardTitle.getLayoutParams());
-            //textView.setTextColor(getResources().getColor(R.color.colorAccent));
+            if(i == 0){ //user is the highest ranked
+                textView.setBackgroundColor(getResources().getColor(R.color.colorGold));
+            } else if(i == 1 || i == 2 && users[i].trophyCount != 0){
+                textView.setBackgroundColor(getResources().getColor(R.color.colorSilver));
+            } else {
+                textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
+            textView.setText(user.phoneId + ": " + user.trophyCount + " trophies.");
             textView.setPadding(50, 50, 50, 50);
-            textView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textView.setTextColor(Color.BLACK);
             layout.addView(textView);
         }
     }
