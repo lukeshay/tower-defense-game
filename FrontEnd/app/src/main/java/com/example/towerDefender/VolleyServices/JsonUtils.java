@@ -117,5 +117,16 @@ public class JsonUtils {
         return users;
     }
 
+    /**
+     * Converts a json {@link String} to a {@link SocketMessage}
+     * @param json the json {@link String} to base the {@link SocketMessage} on
+     * @return a {@link SocketMessage} converted from json
+        Type collectionType = new TypeToken<Collection<User>>(){}.getType();
+     */
+    public static SocketMessage jsonToSocketMessage(String json){
+        Gson test = new Gson();
+        return test.fromJson(json, SocketMessage.class);
+    }
+
 
 }
