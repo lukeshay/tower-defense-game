@@ -89,7 +89,7 @@ public class GameManager {
             }
             player.draw(canvas);
         } else if(!isConnected){ // waiting for game to start
-
+            //TODO: loading screen??
         } else { //game has ended
             if(this.wonOrLost){
                 canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
