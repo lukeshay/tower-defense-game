@@ -31,7 +31,7 @@ import javax.websocket.OnMessage;
 public class MultiplayerGameActivity extends AppCompatActivity {
 
     private String lastSocketMessage;
-
+    private boolean inGame = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,22 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
+                Log.i("socket message: ", message);
+                if(!inGame){
+                    if(message.contains("\"matchUp\":\"true\"")){
+                        try {
+                            inGame = true;
+                            MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setContentView(gameView);
+                                }
+                            });
+                        }
+                        catch(Exception e){e.printStackTrace();}
+                    }
+                }
+
                 if(lastSocketMessage != null && lastSocketMessage.equals(message)){
                     //don't do anything, the message is the same
                 } else{
@@ -70,25 +86,18 @@ public class MultiplayerGameActivity extends AppCompatActivity {
 
             @Override
             public void onOpen(ServerHandshake handshake) {
-                try {
-                    MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setContentView(gameView);
-                        }
-                    });
-                }
-                catch(Exception e){e.printStackTrace();}
+                Log.i("SOCKET_INFO", "Connected. Handshake status: \"" + handshake.getHttpStatusMessage() + "\"");
+
                 }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-
+                Log.i("SOCKET_INFO", "Socket closed. Reason: \"" + reason + "\"");
             }
 
             @Override
             public void onError(Exception e) {
-
+                Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
             }
         });
     }

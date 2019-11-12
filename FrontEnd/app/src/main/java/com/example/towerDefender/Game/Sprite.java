@@ -11,7 +11,9 @@ public abstract class Sprite {
         ATTACKING, MOVING, IDLE, DYING
     }
 
-
+    /**
+     * The sprite sheet for this {@link Sprite}
+     */
     public Bitmap image;
     public int xStart, yStart, xEnd, yEnd;
     protected Sprite.SPRITE_STATUS status;

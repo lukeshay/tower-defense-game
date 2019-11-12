@@ -30,7 +30,7 @@ public class PlayedCardsHolder {
         if(index != -1){
             playedCards.get(index).setxValue(playedCard.getxValue());
             playedCards.get(index).setyValue(playedCard.getyValue());
-            playedCards.get(index).setHitPoints(playedCard.getHitPoints());
+            playedCards.get(index).setCurrentHitpoints(playedCard.getCurrentHitpoints());
             playedCards.get(index).setAttacking(playedCard.getAttacking());
         } else {
             playedCards.add(playedCard);
