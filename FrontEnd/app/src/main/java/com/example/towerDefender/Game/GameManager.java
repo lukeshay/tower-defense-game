@@ -1,12 +1,16 @@
 package com.example.towerDefender.Game;
 
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.icu.text.Collator;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.JsonUtils;
@@ -36,6 +40,8 @@ public class GameManager {
     private Paint textPaint;
     private boolean playerSideSet = false;
     private boolean wonOrLost = false; // true if they won
+    private Sprite closeButton;
+
 
     /**
      * Constructs a new {@link GameManager}
@@ -50,6 +56,7 @@ public class GameManager {
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(250);
+        closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -72,7 +79,8 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
-        if(!gameOver){
+        if(isConnected && !gameOver){ // in game
+            closeButton.draw(canvas);
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
                     playedCard.draw(canvas);
             }
@@ -80,7 +88,9 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
-        } else{
+        } else if(!isConnected){ // waiting for game to start
+            //TODO: loading screen??
+        } else { //game has ended
             if(this.wonOrLost){
                 canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
             } else{
@@ -227,5 +237,21 @@ public class GameManager {
      */
     public void setPlayerSide(String side){
         playerSide = side;
+    }
+
+    /**
+     * Sets gameOver.
+     * @param isGameOver the boolean to set gameOver to
+     */
+    public void setGameOver(boolean isGameOver){
+        this.gameOver = true;
+    }
+
+    /**
+     * Sets the winOrLost field of the manager. If win is '1', then the game was a win, otherwise it was a loss
+     * @param win the value to set winOrLost to: if '1', its a win, otherwise a loss
+     */
+    public void setWinOrLoss(boolean win){
+        this.wonOrLost = win;
     }
 }
