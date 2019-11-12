@@ -51,10 +51,10 @@ public class CardsService {
 	public void loadCardsToDatabase() {
 		logger.info("loading cards to database");
 		List<Card> cards = Arrays.asList(
-		        new Card("Skeleton", "Weak skeleton ground troop.", 1, 1, 1, 2, "UNIT", 250),
-				new Card("Reaper", "Weak reaper", 1, 1, 1, 2, "UNIT", 250),
-				new Card("Reaper", "Medium reaper", 2, 2, 2, 3, "UNIT", 250),
-				new Card("Reaper king", "Strong reaper", 5, 5, 5, 3, "UNIT", 250),
+		        new Card("Blob", "Weak ground troop.", 1, 1, 1, 2, "UNIT", 250),
+				new Card("Minotaur", "Minotaur reaper", 1, 1, 1, 2, "UNIT", 250),
+				new Card("Grown Minotaur", "Medium reaper", 2, 2, 2, 3, "UNIT", 250),
+				new Card("Minotaur king", "Strong reaper", 5, 5, 5, 3, "UNIT", 250),
 				new Card("Fire Golem", "Weak fire golem", 1, 1, 1, 2, "UNIT", 250),
 				new Card("Fire Golem", "Medium fire golem", 2, 2, 2, 3, "UNIT", 250),
 				new Card("Golem King", "Strong golem", 5, 5, 5, 3, "UNIT", 250),

@@ -2,7 +2,6 @@ package com.pvptowerdefense.server.socket.handlers;
 
 import com.pvptowerdefense.server.socket.models.MatchUp;
 import com.pvptowerdefense.server.socket.models.Messages;
-import com.pvptowerdefense.server.spring.services.UsersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -29,16 +27,15 @@ public class SocketHandler {
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
 
-	private UsersService usersService;
+//	private UsersService usersService; TODO needs replaced by RestTemplate
 
 	/**
 	 * This class handles the incoming socket requests.
 	 *
-	 * @param usersService the users service
 	 */
 	@Autowired
-	public SocketHandler(UsersService usersService) {
-		this.usersService = usersService;
+	public SocketHandler() {
+//		this.usersService = usersService;
 	}
 
 	/**
@@ -51,14 +48,14 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
-			if (!isValidUser(id)) {
-				try {
-					session.close();
-				} catch (IOException ignore) {
-				}
-
-				return;
-			}
+//			if (!isValidUser(id)) {
+//				try {
+//					session.close();
+//				} catch (IOException ignore) {
+//				}
+//
+//				return;
+//			}
 
 			logger.info(id + " connected");
 			purgeMapsAndList();
@@ -69,7 +66,7 @@ public class SocketHandler {
 			if (idAndSession.size() % 2 == 1) {
 				logger.info(id + " not added to game");
 				session.getAsyncRemote().sendText(
-						Messages.connectedTrueMatchUpFalse().toString()
+						Messages.connectedTrueMatchUpFalse()
 				);
 			}
 			else {
@@ -86,11 +83,11 @@ public class SocketHandler {
 								session));
 
 						otherSession.getAsyncRemote().sendText(
-								Messages.connectedTrueMatchUpTrue("left").toString()
+								Messages.connectedTrueMatchUpTrue("left")
 						);
 
 						session.getAsyncRemote().sendText(
-								Messages.connectedTrueMatchUpTrue("right").toString()
+								Messages.connectedTrueMatchUpTrue("right")
 						);
 					}
 				}
@@ -125,15 +122,6 @@ public class SocketHandler {
 		CompletableFuture.runAsync(() -> {
 			idAndSession.remove(id);
 			sessionAndId.remove(session);
-
-			matchUpList.remove(findMatchUp(session));
-			MatchUp matchUp = findMatchUp(session);
-
-			if (matchUp != null) {
-				matchUpList.remove(matchUp);
-				MatchUp.getPool().remove(matchUp);
-			}
-
 			purgeMapsAndList();
 		});
 	}
@@ -191,13 +179,13 @@ public class SocketHandler {
 		});
 	}
 
-	/**
-	 * Makes sure the user trying to connect is valid.
-	 *
-	 * @param id the userId
-	 * @return boolean
-	 */
-	private boolean isValidUser(String id) {
-		return usersService.isUserInDatabase(id);
-	}
+//	/**
+//	 * Makes sure the user trying to connect is valid.
+//	 *
+//	 * @param id the userId
+//	 * @return boolean
+//	 */
+//	private boolean isValidUser(String id) {
+//		return usersService.isUserInDatabase(id);
+//	}
 }

@@ -129,4 +129,60 @@ public class UsersService {
 	public boolean isUserInDatabase(String id) {
 		return usersDao.findUserByPhoneId(id) != null;
 	}
+
+	/**
+	 * Adds a card to list of owned cards
+	 * @param userId - user's id
+	 * @param card - card to be added
+	 */
+	public void addCardToOwnedCards(String userId, Card card) {
+		User user = usersDao.findUserByPhoneId(userId);
+		user.getOwnedCards().add(card);
+		usersDao.save(user);
+	}
+
+	/**
+	 * Checks if user owns a card
+	 * @param userId - user's Id
+	 * @param cardName - name of card
+	 * @return true or false if owned or not
+	 */
+	public boolean userOwnsCard(String userId, String cardName) {
+		User user = usersDao.findUserByPhoneId(userId);
+		List<Card> userCards = user.getOwnedCards();
+		for(Card cards : userCards){
+			if(cards.getName().equals(cardName)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Gets the user's trophy count
+	 * @param userId - user's id
+	 * @return # of trophies
+	 */
+	public int getTrophies(String userId) {
+		return usersDao.findUserByPhoneId(userId).getTrophies();
+	}
+
+	/**
+	 * Sets user's trophy count
+	 * @param userId - user's id
+	 * @param num - trophies
+	 */
+	public void setTrophies(String userId, int num) {
+		User user = usersDao.findUserByPhoneId(userId);
+		user.setTrophies(num);
+		usersDao.save(user);
+	}
+
+	/**
+	 * Gets user's owned cards
+	 * @param userId - user's id
+	 */
+	public List<Card> getUsersCards(String userId) {
+		return usersDao.findUserByPhoneId(userId).getOwnedCards();
+	}
 }

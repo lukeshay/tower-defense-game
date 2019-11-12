@@ -1,37 +1,41 @@
 package com.pvptowerdefense.server.socket.models;
 
+import com.pvptowerdefense.server.spring.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 /**
  * The type Match up.
  */
 public class MatchUp implements Runnable {
-	private static Logger logger =
-			LoggerFactory.getLogger(MatchUp.class.getName());
-
 	private static final int MAX_T = 10;
-	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
-
 	private static final int PRE_GAME_TIME = 30000;
 	private static final int IN_GAME_TIME = 300000;
 	private static final int POST_GAME_TIME = 300000;
-
+	private static Logger logger =
+			LoggerFactory.getLogger(MatchUp.class.getName());
+	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
+	private static RestTemplate restTemplate = new RestTemplate();
+	private static WebClient.Builder webClientBuilder = WebClient.builder();
 	private Session playerOneSession;
 	private String playerOneId;
 	private Session playerTwoSession;
 	private String playerTwoId;
-
 	private Game game;
-
 	private SocketMessage socketMessage;
 
 	/**
@@ -60,6 +64,15 @@ public class MatchUp implements Runnable {
 	 */
 	public static ThreadPoolExecutor getPool() {
 		return pool;
+	}
+
+	/**
+	 * Gets the time in milliseconds.
+	 *
+	 * @return the current time in milliseconds
+	 */
+	private static long getTime() {
+		return new Date().getTime();
 	}
 
 	/**
@@ -132,17 +145,22 @@ public class MatchUp implements Runnable {
 		logger.info("handling message");
 		PlayedCard card = Messages.convertJsonToCard(message);
 
-		if (card != null && game.isValidCard(card)) {
+		if (card != null) {
 			game.addCard(card);
 			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 		else {
-			session.getAsyncRemote().sendText(Messages.cardNotAdded("Invalid location or user."));
+			getOtherSession(session).getAsyncRemote().sendText(message);
 		}
+	}
+
+	private Session getOtherSession(Session session) {
+		return session.equals(playerOneSession) ? playerTwoSession : playerOneSession;
 	}
 
 	/**
 	 * Sends the given object to both players as json.
+	 *
 	 * @param o the message
 	 */
 	private void sendMessage(Object o) {
@@ -187,7 +205,7 @@ public class MatchUp implements Runnable {
 	 * game message.
 	 *
 	 * @param message a message from the server
-	 * @param time the game time in milliseconds
+	 * @param time    the game time in milliseconds
 	 */
 	private void sendInGameMessage(String message, int time) {
 		logger.info("sending in-game message");
@@ -195,8 +213,10 @@ public class MatchUp implements Runnable {
 		socketMessage.setGameState("in-game");
 		socketMessage.setServerMessage(message);
 		socketMessage.setPlayedCards(game.getCards());
-//		socketMessage.setTurnState(game.getTurnState());
+		socketMessage.setTurnState(game.getTurnState());
 		socketMessage.setCurrentTime(time);
+		socketMessage.setPlayerOneMana(game.getPlayerOneMana());
+		socketMessage.setPlayerTwoMana(game.getPlayerTwoMana());
 		sendMessage(socketMessage);
 	}
 
@@ -208,22 +228,74 @@ public class MatchUp implements Runnable {
 	 */
 	private void sendPostGameMessage(int time) {
 		logger.info("sending in-game message");
+		String winner;
 
-		socketMessage.setGameState("in-game");
+		if (game.getWinner() == null || game.getWinner().equals("")) {
+			List<PlayedCard> playerOneTowers = game.getPlayerOneCards().stream().filter(card -> card.getName().contains("tower")).collect(Collectors.toList());
+			List<PlayedCard> playerTwoTowers = game.getPlayerTwoCards().stream().filter(card -> card.getName().contains("tower")).collect(Collectors.toList());
+
+			int oneTowerHealth = playerOneTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
+			int twoTowerHealth = playerTwoTowers.stream().mapToInt(PlayedCard::getCurrentHitPoints).sum();
+
+			winner = oneTowerHealth > twoTowerHealth ? playerOneId : playerTwoId;
+		}
+		else {
+			winner = game.getWinner();
+		}
+
+		sendPostGameMessage(time, winner);
+	}
+
+	private void sendPostGameMessage(int time, String winner) {
+		socketMessage.setGameState("post-game");
+		socketMessage.setWinner(winner);
 		socketMessage.setServerMessage("");
 		socketMessage.setPlayedCards(game.getCards());
 		socketMessage.setTurnState("");
-		socketMessage.setWinner(game.getWinner());
 		socketMessage.setCurrentTime(time);
 		sendMessage(socketMessage);
-	}
 
-	/**
-	 * Gets the time in milliseconds.
-	 * @return the current time in milliseconds
-	 */
-	private static long getTime() {
-		return new Date().getTime();
+		try {
+			User user1 = webClientBuilder.build()
+					.get()
+					.uri(new URI(String.format("http://localhost:8080/users/%s", playerOneId)))
+					.retrieve().bodyToMono(User.class).block();
+			User user2 = webClientBuilder.build()
+					.get()
+					.uri(new URI(String.format("http://localhost:8080/users/%s", playerTwoId)))
+					.retrieve().bodyToMono(User.class).block();
+
+			if (user1.getPhoneId().equals(game.getWinner())) {
+				user1.setTrophies(user1.getTrophies() + 10);
+				if (user2.getTrophies() < 5) {
+					user2.setTrophies(0);
+				}
+				else {
+					user2.setTrophies(user2.getTrophies() - 5);
+				}
+			}
+			else {
+				user2.setTrophies(user2.getTrophies() + 10);
+				if (user1.getTrophies() < 5) {
+					user1.setTrophies(0);
+				}
+				else {
+					user1.setTrophies(user1.getTrophies() - 5);
+				}
+			}
+
+			webClientBuilder.build()
+					.put()
+					.uri("http://localhost:8080/users", user1)
+					.retrieve();
+			webClientBuilder.build()
+					.put()
+					.uri("http://localhost:8080/users", user2)
+					.retrieve();
+		}
+		catch (URISyntaxException e) {
+			logger.error("Error when getting trophies", e);
+		}
 	}
 
 	@Override
@@ -233,7 +305,7 @@ public class MatchUp implements Runnable {
 
 		sendPreGameMessage();
 
-		while(getTime() - time > PRE_GAME_TIME) {
+		while (getTime() - time > PRE_GAME_TIME) {
 			nap(1000);
 		}
 
@@ -243,15 +315,18 @@ public class MatchUp implements Runnable {
 		time = getTime();
 
 		while (cont) {
+			if (!areBothConnected()) {
+				sendPostGameMessage(Math.toIntExact(time), getPlayerOneSession().isOpen() ? playerOneId : playerTwoId);
+				break;
+			}
+
 			boolean someoneDed = game.clockCycle();
-			boolean bothConnected = areBothConnected();
 
 			sendInGameMessage("", Math.toIntExact(getTime() - time));
 
 			nap(1000 / 60);
 
-			cont = getTime() - time < IN_GAME_TIME &&
-					someoneDed && bothConnected;
+			cont = getTime() - time < IN_GAME_TIME && someoneDed;
 		}
 
 		time = getTime();
