@@ -177,4 +177,12 @@ public class UsersService {
 		user.setTrophies(num);
 		usersDao.save(user);
 	}
+
+	/**
+	 * Gets user's owned cards
+	 * @param userId - user's id
+	 */
+	public List<Card> getUsersCards(String userId) {
+		return usersDao.findUserByPhoneId(userId).getOwnedCards();
+	}
 }

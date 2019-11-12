@@ -221,9 +221,24 @@ public class UsersController {
         return usersService.getTrophies(userId);
     }
 
+    /**
+     * Sets the user's trophy count
+     * @param userId - user's id
+     * @param num - trophies
+     */
     @RequestMapping(method = RequestMethod.PUT, value = "{userId}/trophies/{num}")
     public void setUsersTrophies(@PathVariable String userId, @PathVariable int num){
         usersService.setTrophies(userId, num);
+    }
+
+    /**
+     * Gets user's owned cards
+     * @param userId - user's id
+     * @return list of cards
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "{userId}/ownedCards")
+    public List<Card> getUsersCards(@PathVariable String userId){
+        return usersService.getUsersCards(userId);
     }
 
     /**
