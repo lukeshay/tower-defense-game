@@ -74,12 +74,12 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                         }
                         catch(Exception e){e.printStackTrace();}
                     }
-                }
-
-                if(lastSocketMessage != null && lastSocketMessage.equals(message)){
-                    //don't do anything, the message is the same
-                } else{
-                    gameView.getManager().passMessageToManager(message);
+                } else {
+                    if(lastSocketMessage != null && lastSocketMessage.equals(message)){
+                        //don't do anything, the message is the same
+                    } else{
+                        gameView.getManager().passMessageToManager(message);
+                    }
                 }
             }
 

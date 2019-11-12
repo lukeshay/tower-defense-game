@@ -16,6 +16,8 @@ import android.view.View;
 
 import com.example.towerDefender.Activities.NavigationActivity;
 import com.example.towerDefender.R;
+import com.example.towerDefender.SocketServices.SocketMessage;
+import com.example.towerDefender.SocketServices.SocketUtilities;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
@@ -86,6 +88,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
+                SocketUtilities.closeSocket();
+                manager.setGameOver(true);
+                manager.setWinOrLoss(false);
+            }
             if(manager.isPlayingCard()){
                 if(manager.getCardToPlayIndex() != -1) {
                     //Check to see if the event is on the player's side
