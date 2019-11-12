@@ -21,7 +21,7 @@
             android:layout_marginTop="100dp"
             android:background="@color/colorPrimary"
             android:onClick="launchSinglePlayer"
-            android:text="Single Player Practice" />
+            android:text="@string/singleplayer_title" />
 
         <Button
             android:id="@+id/multiPlayerButton"
@@ -30,7 +30,7 @@
             android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"
             android:onClick="launchMultiplayer"
-            android:text="Multiplayer Game" />
+            android:text="@string/multiplayer_title" />
 
         <Button
             android:id="@+id/inventoryButton"
@@ -39,7 +39,16 @@
             android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"
             android:onClick="openInventory"
-            android:text="Inventory and Deckbuilder" />
+            android:text="@string/inventory_deckbuilder_title" />
+
+        <Button
+            android:id="@+id/leaderboardButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@color/colorPrimary"
+            android:onClick="openLeaderboard"
+            android:text="@string/leaderboard_title" />
 
         <Button
             android:id="@+id/settingsButton"
@@ -48,6 +57,6 @@
             android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"
             android:onClick="openSettings"
-            android:text="Settings" />
+            android:text="@string/settings_title" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

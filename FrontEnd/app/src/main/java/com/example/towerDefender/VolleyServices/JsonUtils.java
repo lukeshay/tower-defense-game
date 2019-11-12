@@ -96,12 +96,26 @@ public class JsonUtils {
             cards = new ArrayList<>();
             cards.add(gson.fromJson(json, PlayedCard.class));
         }
-
         return cards;
     }
 
-    public static SocketMessage jsonToSocketMessage(String json){
-        Gson test = new Gson();
-        return test.fromJson(json, SocketMessage.class);
+    /**
+     * Converts a json message to a collection of {@link User}s
+     * @param json the json message
+     * @return a collection of {@link User}s represented by the provided json
+     */
+    public static Collection<User> jsonToUserList(String json){
+        Collection<User> users;
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<User>>(){}.getType();
+        try{
+            users = gson.fromJson(json, collectionType);
+        } catch (Exception e){
+            users = new ArrayList<>();
+            users.add(gson.fromJson(json, User.class));
+        }
+        return users;
     }
+
+
 }
