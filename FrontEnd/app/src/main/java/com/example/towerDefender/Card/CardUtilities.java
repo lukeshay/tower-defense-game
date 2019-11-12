@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.towerDefender.Game.GameObjectSprite;
-import com.example.towerDefender.Game.Sprite;
 import com.example.towerDefender.Game.SpriteAnimation;
 import com.example.towerDefender.R;
 
@@ -18,10 +17,10 @@ public class CardUtilities {
         if(card.cardName.contains("Wizard") || card.cardName.contains("wizard")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard_idle), x, y, leftFacing, 10);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.wizard_attack),9));
-        } else if(card.cardName.contains("Reaper") || card.cardName.contains("reaper")){
+        } else if(card.cardName.contains("Minotaur")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.minotaur_walk), x, y, leftFacing, 7);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.minotaur_attack), 8));
-        } else if(card.cardName.contains("blob") || card.cardName.contains("Skeleton") ){
+        } else if(card.cardName.contains("Blob")){
             toReturn= new GameObjectSprite(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_walk), x, y, leftFacing, 8);
             toReturn.setAttackAnimation(new SpriteAnimation(BitmapFactory.decodeResource(context.getResources(), R.drawable.blob_attack), 8));
         } else if(card.cardName.contains("tower")){
