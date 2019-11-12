@@ -29,7 +29,6 @@ public class MatchUp implements Runnable {
 	private static Logger logger =
 			LoggerFactory.getLogger(MatchUp.class.getName());
 	private static ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_T);
-	private static RestTemplate restTemplate = new RestTemplate();
 	private static WebClient.Builder webClientBuilder = WebClient.builder();
 	private Session playerOneSession;
 	private String playerOneId;
@@ -293,7 +292,7 @@ public class MatchUp implements Runnable {
 					.uri("http://localhost:8080/users", user2)
 					.retrieve();
 		}
-		catch (URISyntaxException e) {
+		catch (Exception e) {
 			logger.error("Error when getting trophies", e);
 		}
 	}
