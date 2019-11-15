@@ -2,9 +2,10 @@ package com.pvptowerdefense.server.socket.models;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Game class type
@@ -113,10 +114,20 @@ public class Game {
 		return player2;
 	}
 
+	/**
+	 * Gets player one cards.
+	 *
+	 * @return the player one cards
+	 */
 	public List<PlayedCard> getPlayerOneCards() {
 		return playerOneCards;
 	}
 
+	/**
+	 * Gets player two cards.
+	 *
+	 * @return the player two cards
+	 */
 	public List<PlayedCard> getPlayerTwoCards() {
 		return playerTwoCards;
 	}
@@ -130,18 +141,38 @@ public class Game {
 		this.player2 = player2;
 	}
 
+	/**
+	 * Gets player one mana.
+	 *
+	 * @return the player one mana
+	 */
 	public int getPlayerOneMana() {
 		return playerOneMana;
 	}
 
+	/**
+	 * Sets player one mana.
+	 *
+	 * @param playerOneMana the player one mana
+	 */
 	public void setPlayerOneMana(int playerOneMana) {
 		this.playerOneMana = playerOneMana;
 	}
 
+	/**
+	 * Gets player two mana.
+	 *
+	 * @return the player two mana
+	 */
 	public int getPlayerTwoMana() {
 		return playerTwoMana;
 	}
 
+	/**
+	 * Sets player two mana.
+	 *
+	 * @param playerTwoMana the player two mana
+	 */
 	public void setPlayerTwoMana(int playerTwoMana) {
 		this.playerTwoMana = playerTwoMana;
 	}
@@ -173,6 +204,11 @@ public class Game {
 		return winner;
 	}
 
+	/**
+	 * Gets turn state.
+	 *
+	 * @return the turn state
+	 */
 	public String getTurnState() {
 		return counter % 60 == 0 ? "attack" : "move";
 	}

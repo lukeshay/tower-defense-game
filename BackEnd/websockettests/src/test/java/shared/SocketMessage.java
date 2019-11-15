@@ -1,6 +1,4 @@
-package com.pvptowerdefense.server.socket.models;
-
-import com.google.gson.Gson;
+package shared;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -227,10 +225,5 @@ public class SocketMessage {
 	 */
 	public void setServerMessage(String serverMessage) {
 		this.serverMessage = serverMessage;
-	}
-
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
 	}
 }
