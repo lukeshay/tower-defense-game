@@ -8,7 +8,6 @@ import com.pvptowerdefense.server.spring.services.DecksService;
 import com.pvptowerdefense.server.spring.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.Request;
 
 import javax.validation.Valid;
 import java.util.HashMap;
