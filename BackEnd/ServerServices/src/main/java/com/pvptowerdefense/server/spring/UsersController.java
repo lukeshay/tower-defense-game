@@ -125,6 +125,7 @@ public class UsersController {
 	@RequestMapping(method = RequestMethod.POST, value = "")
     public Map addUserToDb(@Valid @RequestBody User userId){
         usersService.addUserToDb(userId);
+        usersService.addCardToOwnedCards(userId.getPhoneId(), cardsService.getCardByName("Blob"));
         return successMap();
     }
 
