@@ -141,7 +141,8 @@ public class UsersController {
             throw new IllegalArgumentException("User already has 3 decks!");
         }
         else {
-            decksService.addEmptyDeck(deckName, userId);
+            Card card = cardsService.getCardByName("Blob");
+            decksService.addEmptyDeck(deckName, userId, card);
         }
         return successMap();
     }
@@ -233,7 +234,12 @@ public class UsersController {
 	@RequestMapping(method = RequestMethod.POST, value = "{userId}/ownedCard/{cardName}")
     public Map addCardToOwnedCards(@PathVariable String userId, @PathVariable String cardName){
         Card card = cardsService.getCardByName(cardName);
-        usersService.addCardToOwnedCards(userId, card);
+        if(!usersService.userOwnsCard(userId, cardName)){
+			usersService.addCardToOwnedCards(userId, card);
+		}
+        else{
+        	throw new IllegalArgumentException("User already owns this card.");
+		}
         return successMap();
     }
 
