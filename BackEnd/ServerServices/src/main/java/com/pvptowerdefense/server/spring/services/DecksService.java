@@ -61,8 +61,11 @@ public class DecksService {
      * @param String deckname - name for the deck
      * @param int deckId - id for the deck
      */
-    public void addEmptyDeck(String deckName, String userId){
-        decksDao.save(new Deck(new ArrayList<Card>(), deckName, userId));
+    public void addEmptyDeck(String deckName, String userId, Card card){
+        List<Card> cards = new ArrayList<>();
+        cards.add(card);
+    	Deck deck = new Deck(cards, deckName, userId);
+    	decksDao.save(deck);
         logger.info("Adding empty deck");
     }
 
