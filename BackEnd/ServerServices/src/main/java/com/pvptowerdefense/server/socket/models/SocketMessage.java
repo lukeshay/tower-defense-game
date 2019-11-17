@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * The type Socket message.
  */
-public class SocketMessage {
+public class SocketMessage implements Cloneable {
 	private String playerOneId;
 	private String playerTwoId;
 
@@ -233,4 +233,10 @@ public class SocketMessage {
 	public String toString() {
 		return new Gson().toJson(this);
 	}
+
+	@Override
+	public SocketMessage clone() throws CloneNotSupportedException {
+		return (SocketMessage) super.clone();
+	}
+
 }

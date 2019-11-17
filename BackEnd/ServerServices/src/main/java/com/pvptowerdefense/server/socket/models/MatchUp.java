@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -33,6 +34,7 @@ public class MatchUp implements Runnable {
 	private String playerTwoId;
 	private Game game;
 	private SocketMessage socketMessage;
+	private List<SocketMessage> messageHistory;
 
 	/**
 	 * Instantiates a new Match up.
@@ -53,10 +55,18 @@ public class MatchUp implements Runnable {
 		game = new Game(playerOneId, playerTwoId);
 		socketMessage = new SocketMessage(playerOneId, playerTwoId);
 
+		messageHistory = new ArrayList<>();
 	}
 
+	/**
+	 * Start match up.
+	 */
 	public void startMatchUp() {
 		pool.execute(this);
+	}
+
+	public void stopMatchUp() {
+		pool.remove(this);
 	}
 
 	/**
@@ -73,7 +83,7 @@ public class MatchUp implements Runnable {
 	 *
 	 * @return the current time in milliseconds
 	 */
-	public static long getTime() {
+	private static long getTime() {
 		return new Date().getTime();
 	}
 
@@ -105,11 +115,20 @@ public class MatchUp implements Runnable {
 	}
 
 	/**
+	 * Gets message history.
+	 *
+	 * @return the message history
+	 */
+	public List<SocketMessage> getMessageHistory() {
+		return messageHistory;
+	}
+
+	/**
 	 * Sleeps for given time.
 	 *
 	 * @param milliseconds time in milliseconds
 	 */
-	public void nap(int milliseconds) {
+	private void nap(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);
 		} catch (Exception ignore) {
@@ -119,7 +138,7 @@ public class MatchUp implements Runnable {
 	/**
 	 * Closes both players connections.
 	 */
-	public void closeBothPlayersConnections() {
+	private void closeBothPlayersConnections() {
 		logger.info("disconnecting both players");
 
 		if (playerOneSession.isOpen()) {
@@ -142,7 +161,7 @@ public class MatchUp implements Runnable {
 	 *
 	 * @return boolean boolean
 	 */
-	public boolean areBothConnected() {
+	private boolean areBothConnected() {
 		return playerOneSession.isOpen() && playerTwoSession.isOpen();
 	}
 
@@ -171,23 +190,29 @@ public class MatchUp implements Runnable {
 	 * @param session the session
 	 * @return the other session
 	 */
-	public Session getOtherSession(Session session) {
+	private Session getOtherSession(Session session) {
 		return session.equals(playerOneSession) ? playerTwoSession : playerOneSession;
 	}
 
 	/**
 	 * Sends the given object to both players as json.
 	 *
-	 * @param o the message
+	 * @param socketMessage the message
 	 */
-	public void sendMessage(Object o) {
+	private void sendMessage(SocketMessage socketMessage) {
 		CompletableFuture.runAsync(() -> {
+			try {
+				messageHistory.add(socketMessage.clone());
+			} catch (CloneNotSupportedException e) {
+				logger.error("error adding message to history", e);
+			}
+
 			if (playerOneSession.isOpen()) {
-				playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(o));
+				playerOneSession.getAsyncRemote().sendText(Messages.convertToJson(socketMessage));
 			}
 
 			if (playerTwoSession.isOpen()) {
-				playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(o));
+				playerTwoSession.getAsyncRemote().sendText(Messages.convertToJson(socketMessage));
 			}
 		});
 	}
@@ -224,7 +249,7 @@ public class MatchUp implements Runnable {
 	 * @param message a message from the server
 	 * @param time    the game time in milliseconds
 	 */
-	public void sendInGameMessage(String message, long time) {
+	private void sendInGameMessage(String message, long time) {
 		logger.debug("sending in-game message");
 
 		socketMessage.setGameState("in-game");

@@ -55,10 +55,17 @@ public class UsersController {
         return usersService.getAllUsers();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
+	/**
+	 * Gets user by id.
+	 *
+	 * @param userId the user id
+	 * @return the user by id
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/{userId}")
     public User getUserById(@PathVariable String userId) {
 		return usersService.findUserById(userId);
     }
+
 	/**
 	 * Gets all decks.
 	 *

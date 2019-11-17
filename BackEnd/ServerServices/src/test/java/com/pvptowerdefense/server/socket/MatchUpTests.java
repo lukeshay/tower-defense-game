@@ -89,4 +89,31 @@ class MatchUpTests {
 				() -> Assertions.assertEquals("the game is over", socketMessage.getServerMessage(), "Server message is incorrect.")
 		);
 	}
+
+	@Test
+	void threadTest() throws InterruptedException {
+		matchUp.startMatchUp();
+		Thread.sleep(30100);
+
+		matchUp.stopMatchUp();
+
+		SocketMessage firstMessage = matchUp.getMessageHistory().get(0);
+		SocketMessage secondMessage = matchUp.getMessageHistory().get(1);
+
+		Assertions.assertAll(
+				() -> Assertions.assertEquals("pre-game", firstMessage.getGameState(), "Game state is incorrect"),
+				() -> Assertions.assertEquals("test1", firstMessage.getPlayerOneId(), "Player one id is incorrect"),
+				() -> Assertions.assertEquals("test2", firstMessage.getPlayerTwoId(), "Player two id is incorrect"),
+				() -> Assertions.assertEquals(0, firstMessage.getCurrentTime(), "Current time is incorrect"),
+				() -> Assertions.assertEquals("", firstMessage.getWinner(), "Winner is incorrect"),
+				() -> Assertions.assertEquals("select deck", firstMessage.getServerMessage(), "Server message is incorrect."),
+
+				() -> Assertions.assertEquals("starting-game", secondMessage.getGameState(), "Game state is incorrect"),
+				() -> Assertions.assertEquals("test1", secondMessage.getPlayerOneId(), "Player one id is incorrect"),
+				() -> Assertions.assertEquals("test2", secondMessage.getPlayerTwoId(), "Player two id is incorrect"),
+				() -> Assertions.assertEquals(0, secondMessage.getCurrentTime(), "Current time is incorrect"),
+				() -> Assertions.assertEquals("", secondMessage.getWinner(), "Winner is incorrect"),
+				() -> Assertions.assertEquals("starting game in 3 seconds", secondMessage.getServerMessage(), "Server message is incorrect.")
+		);
+	}
 }
