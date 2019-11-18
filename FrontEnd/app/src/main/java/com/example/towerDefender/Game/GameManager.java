@@ -13,6 +13,7 @@ import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.Util.CanvasUtility;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
@@ -41,7 +42,9 @@ public class GameManager {
     private boolean playerSideSet = false;
     private boolean wonOrLost = false; // true if they won
     private Sprite closeButton;
+    private Canvas canvas; //stored canvas so we can scale cards we played
 
+    private String text;
 
     /**
      * Constructs a new {@link GameManager}
@@ -55,7 +58,8 @@ public class GameManager {
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
         textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(250);
+        textPaint.setTextSize(150);
+        textPaint.setColor(Color.WHITE);
         closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
@@ -79,6 +83,7 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
+        this.canvas = canvas;
         if(isConnected && !gameOver){ // in game
             closeButton.draw(canvas);
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
@@ -88,13 +93,17 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
+            CanvasUtility.drawChatPrompt(canvas);
+            if(text != null){
+                CanvasUtility.drawCenteredText(canvas, text, textPaint);
+            }
         } else if(!isConnected){ // waiting for game to start
-            //TODO: loading screen??
+            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
         } else { //game has ended
             if(this.wonOrLost){
-                canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
             } else{
-                canvas.drawText("YOU LOST", 0, Sprite.screenHeight / 2, textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
             }
 
         }
@@ -140,7 +149,8 @@ public class GameManager {
         try {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
-            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend, eventX, eventY, this.player.getUserId())).toString()  );
+            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend,
+                    CanvasUtility.convertCanvasPositionToServerPosition(canvas, eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){
@@ -168,38 +178,42 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
-        if(!socketMessage.getWinner().trim().isEmpty()){
-            if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
-                this.gameOver = true;
-                this.wonOrLost = true;
-            } else {
-                this.gameOver = true;
-                this.wonOrLost = false;
-            }
-        }
-        if(socketMessage.getGameState().equals("in-game") && !isConnected){
-            Log.i("SOCKET_INFO", "Connected.");
-            isConnected = true;
-            initializeDeck();
-        } else{
-            try {
-                playedCards.addAll(socketMessage.getPlayedCards(), this);
-                //If the player side hasn't already been updated, go through and check
-                if(!playerSideSet){
-                    if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
-                        playerSide = "left";
-                    } else{
-                        playerSide = "right";
-                    }
-                    playerSideSet = true;
+        if(message.contains("Message from opponent ")){
+            Log.i("CHAT", "received message from opponent");
+            text = message;
+        } else {
+            SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+            if(!socketMessage.getWinner().trim().isEmpty()){
+                if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
+                    this.gameOver = true;
+                    this.wonOrLost = true;
+                } else {
+                    this.gameOver = true;
+                    this.wonOrLost = false;
                 }
-            } catch (Exception e){
-                Log.e("ERROR", e.getMessage());
-                e.printStackTrace();
+            }
+            if(socketMessage.getGameState().equals("in-game") && !isConnected){
+                Log.i("SOCKET_INFO", "Connected.");
+                isConnected = true;
+                initializeDeck();
+            } else{
+                try {
+                    playedCards.addAll(socketMessage.getPlayedCards(), this);
+                    //If the player side hasn't already been updated, go through and check
+                    if(!playerSideSet){
+                        if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
+                            playerSide = "left";
+                        } else{
+                            playerSide = "right";
+                        }
+                        playerSideSet = true;
+                    }
+                } catch (Exception e){
+                    Log.e("ERROR", e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     /**

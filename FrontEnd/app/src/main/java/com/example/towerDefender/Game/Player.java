@@ -40,6 +40,7 @@ public class Player {
         deck = new Deck(this, context, startingHand);
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
+        textPaint.setColor(Color.WHITE);
         this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID);
     }
 
