@@ -61,8 +61,18 @@ class SocketTests {
 		Assertions.assertEquals(webSocket1.getId(), socketMessage.getWinner());
 	}
 
+	@Test
+	void sendMessageTest() throws InterruptedException, IOException {
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
+		Thread.sleep(1000);
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
 
-//	@Test
+		webSocket1.sendMessage("###### TEST MESSAGE 1 ######");
+
+	}
+
+
+	//	@Test
 	void sendCardByEnemyTowerTest() throws InterruptedException,
 			IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
@@ -119,7 +129,7 @@ class SocketTests {
 		webSocket2.close();
 	}
 
-//	@Test
+	//	@Test
 	public void sendCardByOwnTowerTest() throws InterruptedException,
 			IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");

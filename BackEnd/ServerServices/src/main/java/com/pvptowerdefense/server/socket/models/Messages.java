@@ -110,8 +110,8 @@ public class Messages {
 	 * @param json the json
 	 * @return the played card
 	 */
-	public static PlayedCard convertJsonToCard(String json) {
-		return new Gson().fromJson(json, PlayedCard.class);
+	public static Object convertJsonToObject(String json) {
+		return new Gson().fromJson(json, Object.class);
 	}
 
 	/**

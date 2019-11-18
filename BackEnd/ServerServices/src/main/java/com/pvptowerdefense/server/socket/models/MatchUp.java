@@ -172,11 +172,11 @@ public class MatchUp implements Runnable {
 	 * @param message the message
 	 */
 	public void handleMessage(Session session, String message) {
-		logger.info("handling message");
-		PlayedCard card = Messages.convertJsonToCard(message);
+		logger.info("handling message: " + message);
+		Object card = Messages.convertJsonToObject(message);
 
-		if (card != null) {
-			game.addCard(card);
+		if (card instanceof PlayedCard) {
+			game.addCard((PlayedCard) card);
 			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 		else {

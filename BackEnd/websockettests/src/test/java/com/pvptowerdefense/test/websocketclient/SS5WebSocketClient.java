@@ -63,6 +63,7 @@ public class SS5WebSocketClient {
 
 	@OnMessage
 	public void onMessage(String message) {
+		System.out.println(message);
 		messages.add(message);
 	}
 
