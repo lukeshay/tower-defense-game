@@ -1,5 +1,7 @@
 package com.pvptowerdefense.server.spring.models;
 
+import com.google.gson.Gson;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -295,5 +297,10 @@ public class User {
         }
         else { throw new IllegalArgumentException("Invalid user type!"); }
 
+    }
+
+    @Override
+	public String toString() {
+		return new Gson().toJson(this);
     }
 }

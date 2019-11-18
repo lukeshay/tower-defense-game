@@ -1,17 +1,22 @@
 package shared;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The type Socket message.
  */
-public class SocketMessage {
+public class SocketMessage implements Cloneable {
 	private String playerOneId;
 	private String playerTwoId;
 
 	private int playerOneMana;
 	private int playerTwoMana;
+
+	private int playerOneTrophies;
+	private int playerTwoTrophies;
 
 	private String winner;
 	private String gameState;
@@ -117,6 +122,22 @@ public class SocketMessage {
 	 */
 	public void setPlayerTwoMana(int playerTwoMana) {
 		this.playerTwoMana = playerTwoMana;
+	}
+
+	public int getPlayerOneTrophies() {
+		return playerOneTrophies;
+	}
+
+	public void setPlayerOneTrophies(int playerOneTrophies) {
+		this.playerOneTrophies = playerOneTrophies;
+	}
+
+	public int getPlayerTwoTrophies() {
+		return playerTwoTrophies;
+	}
+
+	public void setPlayerTwoTrophies(int playerTwoTrophies) {
+		this.playerTwoTrophies = playerTwoTrophies;
 	}
 
 	/**
@@ -226,4 +247,15 @@ public class SocketMessage {
 	public void setServerMessage(String serverMessage) {
 		this.serverMessage = serverMessage;
 	}
+
+	@Override
+	public String toString() {
+		return new Gson().toJson(this);
+	}
+
+	@Override
+	public SocketMessage clone() throws CloneNotSupportedException {
+		return (SocketMessage) super.clone();
+	}
+
 }

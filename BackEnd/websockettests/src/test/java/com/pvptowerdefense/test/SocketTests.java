@@ -54,13 +54,11 @@ class SocketTests {
 
 		webSocket2.close();
 
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 
 		SocketMessage socketMessage = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket1.getMessages().size() - 1));
 
 		Assertions.assertEquals(webSocket1.getId(), socketMessage.getWinner());
-
-		Thread.sleep(10000);
 	}
 
 	@Test

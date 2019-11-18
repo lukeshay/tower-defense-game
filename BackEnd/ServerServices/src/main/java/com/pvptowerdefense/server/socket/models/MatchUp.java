@@ -4,12 +4,12 @@ import com.pvptowerdefense.server.spring.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.websocket.Session;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +32,8 @@ public class MatchUp implements Runnable {
 	private static WebClient.Builder webClientBuilder = WebClient.builder();
 	private Session playerOneSession;
 	private String playerOneId;
+	private User userOne;
+	private User userTwo;
 	private Session playerTwoSession;
 	private String playerTwoId;
 	private Game game;
@@ -61,17 +63,6 @@ public class MatchUp implements Runnable {
 	}
 
 	/**
-	 * Start match up.
-	 */
-	public void startMatchUp() {
-		pool.execute(this);
-	}
-
-	public void stopMatchUp() {
-		pool.remove(this);
-	}
-
-	/**
 	 * Gets pool.
 	 *
 	 * @return the pool
@@ -87,6 +78,35 @@ public class MatchUp implements Runnable {
 	 */
 	private static long getTime() {
 		return new Date().getTime();
+	}
+
+	private static User updateUserInDatabase(User userTwo) {
+		return webClientBuilder.build()
+				.put()
+				.uri("http://localhost:8080/users")
+				.accept(MediaType.APPLICATION_JSON_UTF8)
+				.syncBody(userTwo)
+				.retrieve()
+				.bodyToMono(User.class)
+				.block();
+	}
+
+	private static User getUserFromDatabase(String userId) throws URISyntaxException {
+		return webClientBuilder.build()
+				.get()
+				.uri(new URI(String.format("http://localhost:8080/users/%s", userId)))
+				.retrieve().bodyToMono(User.class).block();
+	}
+
+	/**
+	 * Start match up.
+	 */
+	public void startMatchUp() {
+		pool.execute(this);
+	}
+
+	public void stopMatchUp() {
+		pool.remove(this);
 	}
 
 	/**
@@ -226,6 +246,16 @@ public class MatchUp implements Runnable {
 	public void sendPreGameMessage() {
 		logger.info("sending pre-game message");
 
+		try {
+			userOne = getUserFromDatabase(playerOneId);
+			userTwo = getUserFromDatabase(playerTwoId);
+
+			socketMessage.setPlayerOneTrophies(userOne.getTrophies());
+			socketMessage.setPlayerTwoTrophies(userTwo.getTrophies());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
 		socketMessage.setGameState("pre-game");
 		socketMessage.setServerMessage("select deck");
 		sendMessage(socketMessage);
@@ -312,57 +342,39 @@ public class MatchUp implements Runnable {
 		socketMessage.setPlayedCards(game.getCards());
 		socketMessage.setTurnState("");
 		socketMessage.setCurrentTime(time);
+
+		if (userOne == null || userTwo == null) {
+			throw new NullPointerException("One of the users was not received from the server.");
+		}
+
+		if (userOne.getPhoneId().equals(socketMessage.getWinner())) {
+			userOne.setTrophies(userOne.getTrophies() + 10);
+			if (userTwo.getTrophies() < 5) {
+				userTwo.setTrophies(0);
+			}
+			else {
+				userTwo.setTrophies(userTwo.getTrophies() - 5);
+			}
+		}
+		else {
+			userTwo.setTrophies(userTwo.getTrophies() + 10);
+			if (userOne.getTrophies() < 5) {
+				userOne.setTrophies(0);
+			}
+			else {
+				userOne.setTrophies(userOne.getTrophies() - 5);
+			}
+		}
+
+		socketMessage.setPlayerOneTrophies(userOne.getTrophies());
+		socketMessage.setPlayerTwoTrophies(userTwo.getTrophies());
+
 		sendMessage(socketMessage);
 
 		try {
-			User userOne = webClientBuilder.build()
-					.get()
-					.uri(new URI(String.format("http://localhost:8080/users/%s", playerOneId)))
-					.retrieve().bodyToMono(User.class).block();
-			User userTwo = webClientBuilder.build()
-					.get()
-					.uri(new URI(String.format("http://localhost:8080/users/%s", playerTwoId)))
-					.retrieve().bodyToMono(User.class).block();
+			userOne = updateUserInDatabase(userOne);
+			userTwo = updateUserInDatabase(userTwo);
 
-			if (userOne == null || userTwo == null) {
-				throw new NullPointerException("One of the users was not received from the server.");
-			}
-
-			if (userOne.getPhoneId().equals(socketMessage.getWinner())) {
-				userOne.setTrophies(userOne.getTrophies() + 10);
-				if (userTwo.getTrophies() < 5) {
-					userTwo.setTrophies(0);
-				}
-				else {
-					userTwo.setTrophies(userTwo.getTrophies() - 5);
-				}
-			}
-			else {
-				userTwo.setTrophies(userTwo.getTrophies() + 10);
-				if (userOne.getTrophies() < 5) {
-					userOne.setTrophies(0);
-				}
-				else {
-					userOne.setTrophies(userOne.getTrophies() - 5);
-				}
-			}
-
-			webClientBuilder.build()
-					.put()
-					.uri("http://localhost:8080/users")
-					.accept(MediaType.APPLICATION_JSON_UTF8)
-					.syncBody(userOne)
-					.retrieve()
-					.bodyToMono(User.class)
-					.block();
-			webClientBuilder.build()
-					.put()
-					.uri("http://localhost:8080/users")
-					.accept(MediaType.APPLICATION_JSON_UTF8)
-					.syncBody(userTwo)
-					.retrieve()
-					.bodyToMono(User.class)
-					.block();
 		} catch (Exception e) {
 			logger.error("Error when getting trophies", e);
 		}

@@ -15,6 +15,9 @@ public class SocketMessage implements Cloneable {
 	private int playerOneMana;
 	private int playerTwoMana;
 
+	private int playerOneTrophies;
+	private int playerTwoTrophies;
+
 	private String winner;
 	private String gameState;
 	private String turnState;
@@ -119,6 +122,22 @@ public class SocketMessage implements Cloneable {
 	 */
 	public void setPlayerTwoMana(int playerTwoMana) {
 		this.playerTwoMana = playerTwoMana;
+	}
+
+	public int getPlayerOneTrophies() {
+		return playerOneTrophies;
+	}
+
+	public void setPlayerOneTrophies(int playerOneTrophies) {
+		this.playerOneTrophies = playerOneTrophies;
+	}
+
+	public int getPlayerTwoTrophies() {
+		return playerTwoTrophies;
+	}
+
+	public void setPlayerTwoTrophies(int playerTwoTrophies) {
+		this.playerTwoTrophies = playerTwoTrophies;
 	}
 
 	/**
