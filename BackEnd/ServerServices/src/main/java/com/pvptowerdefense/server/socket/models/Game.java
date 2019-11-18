@@ -25,7 +25,7 @@ public class Game {
 	private String winner;
 	private int counter;
 
-	private static final int MAX_X = 1920;
+	private static final int MAX_X = 2200;
 	private static final int MAX_Y = 1080;
 	private static final int TOWER1_Y = MAX_Y / 2 - 150;
 	private static final int TOWER2_Y = MAX_Y / 4 - 150;
