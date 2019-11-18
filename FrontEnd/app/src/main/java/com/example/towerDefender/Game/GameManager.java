@@ -90,10 +90,9 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
+            CanvasUtility.drawChatPrompt(canvas, textPaint);
         } else if(!isConnected){ // waiting for game to start
-            //TODO: loading screen??
             CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
-            //canvas.drawText("Connected.  Waiting for game start.", 0, Sprite.screenHeight / 2, textPaint);
         } else { //game has ended
             if(this.wonOrLost){
                 CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
