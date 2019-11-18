@@ -38,4 +38,24 @@ public class CanvasUtility {
         canvas.drawRect(rect, redPaint);
         canvas.drawText("CHAT", rect.left, rect.bottom, textPaint);
     }
+
+    /**
+     * Converts an x position returned from the server to the x position to draw on screen
+     * @param canvas the canvas to scale for
+     * @param xPos the initial played card position from the server message
+     * @return the converted position
+     */
+    public static int convertServerPositionToCanvasPosition(Canvas canvas, int xPos){
+        return ((int)(canvas.getWidth() * ((float)xPos / CanvasUtility.SERVER_X_BOUND)));
+    }
+
+    /**
+     * Converts an x position from the provided canvas to the x position to store in the server
+     * @param canvas the canvas to scale from
+     * @param xPos the position on the canvas
+     * @return the converted position to send to the server
+     */
+    public static int convertCanvasPositionToServerPosition(Canvas canvas, int xPos){
+        return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
+    }
 }

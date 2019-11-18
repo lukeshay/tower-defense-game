@@ -42,7 +42,7 @@ public class GameManager {
     private boolean playerSideSet = false;
     private boolean wonOrLost = false; // true if they won
     private Sprite closeButton;
-
+    private Canvas canvas; //stored canvas so we can scale cards we played
 
     /**
      * Constructs a new {@link GameManager}
@@ -81,6 +81,7 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
+        this.canvas = canvas;
         if(isConnected && !gameOver){ // in game
             closeButton.draw(canvas);
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
@@ -143,7 +144,8 @@ public class GameManager {
         try {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
-            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend, eventX, eventY, this.player.getUserId())).toString()  );
+            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend,
+                    CanvasUtility.convertCanvasPositionToServerPosition(canvas, eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){

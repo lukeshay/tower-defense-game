@@ -303,7 +303,7 @@ public class PlayedCard implements Serializable {
             } else {
                 this.sprite.setStatus(Sprite.SPRITE_STATUS.MOVING);
             }
-            this.sprite.xStart = (int)(canvas.getWidth() * ((float)this.xValue / CanvasUtility.SERVER_X_BOUND));
+            this.sprite.xStart = CanvasUtility.convertServerPositionToCanvasPosition(canvas, this.xValue);
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
 
