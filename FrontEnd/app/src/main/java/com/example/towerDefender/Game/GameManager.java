@@ -44,6 +44,8 @@ public class GameManager {
     private Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
 
+    private String text;
+
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
@@ -91,7 +93,10 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
-            CanvasUtility.drawChatPrompt(canvas, textPaint);
+            CanvasUtility.drawChatPrompt(canvas);
+            if(text != null){
+                CanvasUtility.drawCenteredText(canvas, text, textPaint);
+            }
         } else if(!isConnected){ // waiting for game to start
             CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
         } else { //game has ended
@@ -173,38 +178,41 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
-        if(!socketMessage.getWinner().trim().isEmpty()){
-            if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
-                this.gameOver = true;
-                this.wonOrLost = true;
-            } else {
-                this.gameOver = true;
-                this.wonOrLost = false;
-            }
-        }
-        if(socketMessage.getGameState().equals("in-game") && !isConnected){
-            Log.i("SOCKET_INFO", "Connected.");
-            isConnected = true;
-            initializeDeck();
-        } else{
-            try {
-                playedCards.addAll(socketMessage.getPlayedCards(), this);
-                //If the player side hasn't already been updated, go through and check
-                if(!playerSideSet){
-                    if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
-                        playerSide = "left";
-                    } else{
-                        playerSide = "right";
-                    }
-                    playerSideSet = true;
+        if(message.contains("From opponent: ")){
+            text = message;
+        } else {
+            SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+            if(!socketMessage.getWinner().trim().isEmpty()){
+                if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
+                    this.gameOver = true;
+                    this.wonOrLost = true;
+                } else {
+                    this.gameOver = true;
+                    this.wonOrLost = false;
                 }
-            } catch (Exception e){
-                Log.e("ERROR", e.getMessage());
-                e.printStackTrace();
+            }
+            if(socketMessage.getGameState().equals("in-game") && !isConnected){
+                Log.i("SOCKET_INFO", "Connected.");
+                isConnected = true;
+                initializeDeck();
+            } else{
+                try {
+                    playedCards.addAll(socketMessage.getPlayedCards(), this);
+                    //If the player side hasn't already been updated, go through and check
+                    if(!playerSideSet){
+                        if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
+                            playerSide = "left";
+                        } else{
+                            playerSide = "right";
+                        }
+                        playerSideSet = true;
+                    }
+                } catch (Exception e){
+                    Log.e("ERROR", e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     /**

@@ -21,6 +21,7 @@ import com.example.towerDefender.Activities.NavigationActivity;
 import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.Util.CanvasUtility;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
@@ -79,7 +80,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas){
         super.draw(canvas);
         if(canvas != null){
-           // canvas.drawColor(Color.BLUE);
             canvas.drawBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.dungeon_background), 0, 0, null);
             //Manager will draw the characters and hand
             manager.draw(canvas);
@@ -99,10 +99,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 Intent intent = new Intent(this.parent, NavigationActivity.class);
                 this.parent.startActivity(intent);
             }
+            if(event.getX() <= CanvasUtility.chatBar.getBoundingRectangle().right
+                && event.getX() > CanvasUtility.chatBar.getBoundingRectangle().left
+                && event.getY() <= CanvasUtility.chatBar.getBoundingRectangle().bottom){
+                //TODO: update bounds
+                CanvasUtility.chatBar.click();
+            }
             if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
-                SocketUtilities.closeSocket();
-                manager.setGameOver(true);
-                manager.setWinOrLoss(false);
+               // SocketUtilities.closeSocket();
+                //manager.setGameOver(true);
+               // manager.setWinOrLoss(false);
+                CanvasUtility.chatBar.click();
             }
             if(manager.isPlayingCard()){
                 if(manager.getCardToPlayIndex() != -1) {
