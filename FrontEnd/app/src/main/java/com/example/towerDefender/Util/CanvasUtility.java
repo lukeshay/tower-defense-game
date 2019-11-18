@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.example.towerDefender.Game.ChatBar;
+import com.example.towerDefender.Game.MainThread;
 
 public class CanvasUtility {
 
@@ -55,5 +56,13 @@ public class CanvasUtility {
      */
     public static int convertCanvasPositionToServerPosition(Canvas canvas, int xPos){
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
+    }
+
+    public static ChatBar getChatBar(){
+        return chatBar;
+    }
+
+    public static void initializeChatBar(Canvas canvas){
+        chatBar = new ChatBar(canvas);
     }
 }

@@ -17,18 +17,20 @@ public class ChatBar {
     private boolean clickedOn = false;
 
     public ChatBar(Canvas canvas){
-        normalText = "CHAT";
+        normalText = "Chat";
         textPaint = new Paint();
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(150);
+        textPaint.setTextSize(75);
         xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(normalText) / 2);
         yPos = 25;
-        unclickedBackgroundRect = new Rect(xPos, yPos, xPos + (int)textPaint.measureText(normalText),
-                175);
-        xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1] + " " + CHAT_OPTIONS[2]) / 2);
+        Rect temp = new Rect();
+        textPaint.getTextBounds(normalText, 0, normalText.length(),  temp);
+        unclickedBackgroundRect = new Rect(xPos, yPos, xPos + temp.width(), yPos + temp.height());
+        String measureString = CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1] + " " + CHAT_OPTIONS[2];
+        xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(measureString) / 2);
         yPos = 25;
-        clickedBackgroundRect = new Rect(xPos, yPos, xPos + (int)textPaint.measureText(CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1] + " " + CHAT_OPTIONS[2]),
-                175);
+        textPaint.getTextBounds(measureString, 0, measureString.length(), temp);
+        clickedBackgroundRect = new Rect(xPos, yPos, xPos + temp.width(), yPos + temp.height());
         backgroundPaint = new Paint();
         backgroundPaint.setColor(Color.BLUE);
     }
@@ -50,17 +52,26 @@ public class ChatBar {
 
     }
 
-    public void click(){
-        SocketUtilities.sendMessage("Message from opponent:" + normalText);
-        Log.i("CHATBAR", "sent message");
+    /**
+     * Clicks on the chat bar, either opening up chat options if it has not been clicked, or sending the selected option if it has been.
+     * @param xPos the xPosition of the click. Used for determining which chat option will be sent as a message
+     */
+    public void click(int xPos){
         if(clickedOn){
             clickedOn = false;
+            //TODO: calculate which option.
+            SocketUtilities.sendMessage("Message from opponent:" + CHAT_OPTIONS[0]);
+            Log.i("CHATBAR", "sent message: " + CHAT_OPTIONS[0]);
         } else {
             clickedOn = true;
         }
     }
 
     public Rect getBoundingRectangle(){
-        return unclickedBackgroundRect;
+        if(clickedOn){
+            return clickedBackgroundRect;
+        } else {
+            return unclickedBackgroundRect;
+        }
     }
 }

@@ -103,13 +103,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 && event.getX() > CanvasUtility.chatBar.getBoundingRectangle().left
                 && event.getY() <= CanvasUtility.chatBar.getBoundingRectangle().bottom){
                 //TODO: update bounds
-                CanvasUtility.chatBar.click();
+                CanvasUtility.chatBar.click((int)event.getX());
             }
             if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
-               // SocketUtilities.closeSocket();
-                //manager.setGameOver(true);
-               // manager.setWinOrLoss(false);
-                CanvasUtility.chatBar.click();
+                  SocketUtilities.closeSocket();
+                  manager.setGameOver(true);
+                  manager.setWinOrLoss(false);
             }
             if(manager.isPlayingCard()){
                 if(manager.getCardToPlayIndex() != -1) {

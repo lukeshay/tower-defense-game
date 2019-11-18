@@ -19,7 +19,7 @@ public class SocketMessage {
     private String gameState;
     private String turnState;
 
-    private int currentTime;
+    private long currentTime;
 
     private List<PlayedCard> playedCards;
 
@@ -180,7 +180,7 @@ public class SocketMessage {
      *
      * @return the current time
      */
-    public int getCurrentTime() {
+    public long getCurrentTime() {
         return currentTime;
     }
 
