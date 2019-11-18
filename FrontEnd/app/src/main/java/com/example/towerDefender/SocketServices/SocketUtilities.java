@@ -29,9 +29,11 @@ public class SocketUtilities {
         try {
             if(initalized) {
                 webSocketClient.send(message);
+                Log.d("SOCKET_INFO", "Sent the following message " + message);
             }
         } catch(Exception e){
-
+            //
+            Log.e("SOCKET_ERROR","Encountered error while sending " + message + ". " + e.getMessage());
         }
 
     }
@@ -91,7 +93,7 @@ public class SocketUtilities {
                 @Override
                 public void onMessage(String s) {
                     listener.onMessage(s);
-                    Log.i("SOCKET_MESSAGE", s);
+                    //Log.i("SOCKET_MESSAGE", s);
                 }
 
                 @Override

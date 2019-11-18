@@ -178,7 +178,8 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        if(message.contains("From opponent: ")){
+        if(message.contains("Message from opponent ")){
+            Log.i("CHAT", "received message from opponent");
             text = message;
         } else {
             SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
