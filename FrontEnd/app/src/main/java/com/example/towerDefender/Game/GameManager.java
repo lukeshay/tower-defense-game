@@ -57,6 +57,7 @@ public class GameManager {
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(150);
+        textPaint.setColor(Color.WHITE);
         closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
