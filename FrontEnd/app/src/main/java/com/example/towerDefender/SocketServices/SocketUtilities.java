@@ -29,7 +29,7 @@ public class SocketUtilities {
         try {
             if(initalized) {
                 webSocketClient.send(message);
-                Log.d("SOCKET_INFO", "Sent the following message " + message);
+                Log.d("SOCKET_INFO", "Sent the following message \"" + message + "\"");
             }
         } catch(Exception e){
             //

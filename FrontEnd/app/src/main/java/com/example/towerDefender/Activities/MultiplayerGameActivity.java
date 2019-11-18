@@ -98,7 +98,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
-                Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
+                //Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
             }
         });
     }

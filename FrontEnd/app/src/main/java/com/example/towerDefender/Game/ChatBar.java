@@ -11,6 +11,7 @@ import com.example.towerDefender.SocketServices.SocketUtilities;
 public class ChatBar {
     private String normalText;
     private static final String[] CHAT_OPTIONS = {"Hello!", "Nice!", "Good game."};
+    private String measureString;
     private int xPos, yPos;
     private Paint textPaint, backgroundPaint;
     private Rect unclickedBackgroundRect, clickedBackgroundRect;
@@ -26,7 +27,11 @@ public class ChatBar {
         Rect temp = new Rect();
         textPaint.getTextBounds(normalText, 0, normalText.length(),  temp);
         unclickedBackgroundRect = new Rect(xPos, yPos, xPos + temp.width(), yPos + temp.height());
-        String measureString = CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1] + " " + CHAT_OPTIONS[2];
+        StringBuilder tempMeasureString = new StringBuilder();
+        for(int i = 0; i < CHAT_OPTIONS.length; i++){
+            tempMeasureString.append(CHAT_OPTIONS[i] + " ");
+        }
+        measureString = tempMeasureString.toString();
         xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(measureString) / 2);
         yPos = 25;
         textPaint.getTextBounds(measureString, 0, measureString.length(), temp);
@@ -46,7 +51,7 @@ public class ChatBar {
         } else {
             canvas.drawRect(clickedBackgroundRect, backgroundPaint);
             //todo: inidividual box for each chat word
-            canvas.drawText(CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1] + " " + CHAT_OPTIONS[2],
+            canvas.drawText(measureString,
                     clickedBackgroundRect.left, clickedBackgroundRect.bottom, textPaint);
         }
 
@@ -57,11 +62,19 @@ public class ChatBar {
      * @param xPos the xPosition of the click. Used for determining which chat option will be sent as a message
      */
     public void click(int xPos){
+        Log.i("CHATBAR", "clicked on chatbar.");
         if(clickedOn){
             clickedOn = false;
             //TODO: calculate which option.
-            SocketUtilities.sendMessage("Message from opponent:" + CHAT_OPTIONS[0]);
-            Log.i("CHATBAR", "sent message: " + CHAT_OPTIONS[0]);
+            if(xPos < clickedBackgroundRect.left + (int)textPaint.measureText(CHAT_OPTIONS[0])){
+                SocketUtilities.sendMessage("Message from opponent: " + CHAT_OPTIONS[0]);
+            } else if (xPos < clickedBackgroundRect.left + (int)textPaint.measureText(CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1])){
+                SocketUtilities.sendMessage("Message from opponent: " + CHAT_OPTIONS[1]);
+            } else {
+                SocketUtilities.sendMessage("Message from opponent: " + CHAT_OPTIONS[2]);
+            }
+
+
         } else {
             clickedOn = true;
         }
