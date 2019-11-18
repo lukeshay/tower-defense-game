@@ -65,6 +65,7 @@ public class UsersController {
 		return usersService.findUserById(userId);
     }
 
+
 	/**
 	 * Gets all decks.
 	 *

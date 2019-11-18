@@ -3,6 +3,8 @@ package com.pvptowerdefense.server.socket.models;
 import com.pvptowerdefense.server.spring.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.websocket.Session;
@@ -326,7 +328,7 @@ public class MatchUp implements Runnable {
 				throw new NullPointerException("One of the users was not received from the server.");
 			}
 
-			if (userOne.getPhoneId().equals(game.getWinner())) {
+			if (userOne.getPhoneId().equals(socketMessage.getWinner())) {
 				userOne.setTrophies(userOne.getTrophies() + 10);
 				if (userTwo.getTrophies() < 5) {
 					userTwo.setTrophies(0);
@@ -347,12 +349,20 @@ public class MatchUp implements Runnable {
 
 			webClientBuilder.build()
 					.put()
-					.uri("http://localhost:8080/users", userOne)
-					.retrieve();
+					.uri("http://localhost:8080/users")
+					.accept(MediaType.APPLICATION_JSON_UTF8)
+					.syncBody(userOne)
+					.retrieve()
+					.bodyToMono(User.class)
+					.block();
 			webClientBuilder.build()
 					.put()
-					.uri("http://localhost:8080/users", userTwo)
-					.retrieve();
+					.uri("http://localhost:8080/users")
+					.accept(MediaType.APPLICATION_JSON_UTF8)
+					.syncBody(userTwo)
+					.retrieve()
+					.bodyToMono(User.class)
+					.block();
 		} catch (Exception e) {
 			logger.error("Error when getting trophies", e);
 		}

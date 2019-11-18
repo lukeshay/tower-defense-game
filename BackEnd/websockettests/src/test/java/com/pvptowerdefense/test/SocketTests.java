@@ -50,7 +50,7 @@ class SocketTests {
 		Thread.sleep(1000);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
 
-		Thread.sleep(40000);
+		Thread.sleep(35000);
 
 		webSocket2.close();
 
@@ -59,6 +59,8 @@ class SocketTests {
 		SocketMessage socketMessage = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket1.getMessages().size() - 1));
 
 		Assertions.assertEquals(webSocket1.getId(), socketMessage.getWinner());
+
+		Thread.sleep(10000);
 	}
 
 	@Test
