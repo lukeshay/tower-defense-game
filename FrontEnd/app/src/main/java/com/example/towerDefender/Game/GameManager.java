@@ -13,6 +13,7 @@ import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.Util.CanvasUtility;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
@@ -55,7 +56,8 @@ public class GameManager {
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
         textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(250);
+        textPaint.setTextSize(150);
+        textPaint.setColor(Color.WHITE);
         closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
@@ -90,11 +92,13 @@ public class GameManager {
             player.draw(canvas);
         } else if(!isConnected){ // waiting for game to start
             //TODO: loading screen??
+            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
+            //canvas.drawText("Connected.  Waiting for game start.", 0, Sprite.screenHeight / 2, textPaint);
         } else { //game has ended
             if(this.wonOrLost){
-                canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
             } else{
-                canvas.drawText("YOU LOST", 0, Sprite.screenHeight / 2, textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
             }
 
         }
