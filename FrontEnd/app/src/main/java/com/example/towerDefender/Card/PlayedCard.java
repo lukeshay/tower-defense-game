@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Sprite;
+import com.example.towerDefender.Util.CanvasUtility;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -302,7 +303,7 @@ public class PlayedCard implements Serializable {
             } else {
                 this.sprite.setStatus(Sprite.SPRITE_STATUS.MOVING);
             }
-            this.sprite.xStart = this.xValue;
+            this.sprite.xStart = CanvasUtility.convertServerPositionToCanvasPosition(canvas, this.xValue);
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
 

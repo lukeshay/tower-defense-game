@@ -60,7 +60,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                Log.i("socket message: ", message);
+                //Log.i("SOCKET_MESSAGE: ", message);
                 if(!inGame){
                     if(message.contains("\"matchUp\":\"true\"")){
                         try {
@@ -93,11 +93,12 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 Log.i("SOCKET_INFO", "Socket closed. Reason: \"" + reason + "\"");
+                inGame = false;
             }
 
             @Override
             public void onError(Exception e) {
-                Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
+                //Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
             }
         });
     }
