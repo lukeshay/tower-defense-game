@@ -195,13 +195,14 @@ public class MatchUp implements Runnable {
 	 */
 	public void handleMessage(Session session, String message) {
 		logger.info("handling message: " + message);
-		Object card = Messages.convertJsonToObject(message);
 
-		if (card instanceof PlayedCard) {
-			game.addCard((PlayedCard) card);
+		if (message.contains("\"name\"") && message.contains("\"description\"")) {
+			logger.error("adding card");
+			game.addCard(Messages.convertJsonToPlayedCard(message));
 			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 		else {
+			logger.error("sending message");
 			getOtherSession(session).getAsyncRemote().sendText(message);
 		}
 	}

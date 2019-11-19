@@ -67,8 +67,11 @@ class SocketTests {
 		Thread.sleep(1000);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
 
+		Thread.sleep(5000);
+
 		webSocket1.sendMessage("###### TEST MESSAGE 1 ######");
 
+		Thread.sleep(20000);
 	}
 
 
@@ -129,12 +132,14 @@ class SocketTests {
 		webSocket2.close();
 	}
 
-	//	@Test
-	public void sendCardByOwnTowerTest() throws InterruptedException,
+	@Test
+	void sendCardByOwnTowerTest() throws InterruptedException,
 			IOException {
 		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
 		Thread.sleep(1000);
 		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
+
+		Thread.sleep(35000);
 
 		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
 				"UNIT", 250, 100, 100, "test1"));
