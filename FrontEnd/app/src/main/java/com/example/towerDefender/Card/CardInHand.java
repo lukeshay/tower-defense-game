@@ -10,6 +10,7 @@ import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.Game.Sprite;
+
 import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
 public class CardInHand {
@@ -51,6 +52,7 @@ public class CardInHand {
         color = Color.GREEN;
         statusColor = new Paint(color);
         textPaint = new Paint(Color.BLACK);
+        textPaint.setColor(Color.WHITE); //TODO: synchronize with gamemanager's text paint
         textPaint.setTextSize(50);
     }
 
@@ -72,6 +74,7 @@ public class CardInHand {
             statusColor = new Paint(color);
             textPaint = new Paint(Color.BLACK);
             textPaint.setTextSize(50);
+            textPaint.setColor(Color.WHITE); //TODO: synchronize with gamemanager's text paint
         }
     }
 

@@ -1,13 +1,19 @@
 package com.example.towerDefender.Game;
 
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.icu.text.Collator;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.R;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.Util.CanvasUtility;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
@@ -30,12 +36,15 @@ public class GameManager {
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
-    private long lastUpdate;
     private int cardsSent = 0;
     private boolean gameOver = false;
     private Paint textPaint;
     private boolean playerSideSet = false;
     private boolean wonOrLost = false; // true if they won
+    private Sprite closeButton;
+    private Canvas canvas; //stored canvas so we can scale cards we played
+
+    private String text;
 
     /**
      * Constructs a new {@link GameManager}
@@ -48,9 +57,10 @@ public class GameManager {
         cardToPlayIndex = 0;
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
-        lastUpdate = System.currentTimeMillis();
         textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(250);
+        textPaint.setTextSize(150);
+        textPaint.setColor(Color.WHITE);
+        closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -73,7 +83,9 @@ public class GameManager {
      * @param canvas the canvas to draw on
      */
     public void draw(Canvas canvas){
-        if(!gameOver){
+        this.canvas = canvas;
+        if(isConnected && !gameOver){ // in game
+            closeButton.draw(canvas);
             for(PlayedCard playedCard : playedCards.getPlayedCards()){
                     playedCard.draw(canvas);
             }
@@ -81,11 +93,17 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
-        } else{
+            CanvasUtility.drawChatPrompt(canvas);
+            if(text != null){
+                CanvasUtility.drawCenteredText(canvas, text, textPaint);
+            }
+        } else if(!isConnected){ // waiting for game to start
+            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
+        } else { //game has ended
             if(this.wonOrLost){
-                canvas.drawText("YOU WON", 0, Sprite.screenHeight / 2, textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
             } else{
-                canvas.drawText("YOU LOST", 0, Sprite.screenHeight / 2, textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
             }
 
         }
@@ -131,7 +149,8 @@ public class GameManager {
         try {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
-            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend, eventX, eventY, this.player.getUserId())).toString()  );
+            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend,
+                    CanvasUtility.convertCanvasPositionToServerPosition(canvas, eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){
@@ -159,49 +178,42 @@ public class GameManager {
      * @param message the message to send to the game manager
      */
     public void passMessageToManager(String message){
-        if(message.contains("true") && !isConnected){
-            Log.i("SOCKET_INFO", "Connected.");
-            isConnected = true;
-            if(message.contains("left")){
-                playerSide = "left";
-            } else if(message.contains("right")){
-                playerSide = "right";
+        if(message.contains("Message from opponent ")){
+            Log.i("CHAT", "received message from opponent");
+            text = message;
+        } else {
+            SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+            if(!socketMessage.getWinner().trim().isEmpty()){
+                if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
+                    this.gameOver = true;
+                    this.wonOrLost = true;
+                } else {
+                    this.gameOver = true;
+                    this.wonOrLost = false;
+                }
             }
-            initializeDeck();
-        } else if(message.contains("win")){
-            Log.i("SOCKET_INFO", "GAME OVER: " + message);
-            this.gameOver = true;
-            this.wonOrLost = true;
-        } else if(message.contains("loss")){
-            Log.i("SOCKET_INFO", "GAME OVER: " + message);
-            this.gameOver = true;
-            this.wonOrLost = false;
-        } else{
-            try {
-                if(message.contains("name")){
-                    playedCards.addAll(JsonUtils.jsonToPlayedCardArray(message), this);
+            if(socketMessage.getGameState().equals("in-game") && !isConnected){
+                Log.i("SOCKET_INFO", "Connected.");
+                isConnected = true;
+                initializeDeck();
+            } else{
+                try {
+                    playedCards.addAll(socketMessage.getPlayedCards(), this);
                     //If the player side hasn't already been updated, go through and check
                     if(!playerSideSet){
-                        for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                            if(playedCard.getPlayer().equals(this.getPlayer().getUserId())
-                                    && (playedCard.getCard().cardName.contains("tower4")
-                                    || playedCard.getCard().cardName.contains("tower5")
-                                    || playedCard.getCard().cardName.contains("tower6"))){
-                                this.setPlayerSide("right");
-                            }
+                        if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
+                            playerSide = "left";
+                        } else{
+                            playerSide = "right";
                         }
-                        //Either the side has been set to right, or the left-sided-ness of this Player has been confirmed
                         playerSideSet = true;
-                        lastUpdate = System.currentTimeMillis();
                     }
-
+                } catch (Exception e){
+                    Log.e("ERROR", e.getMessage());
+                    e.printStackTrace();
                 }
-            } catch (Exception e){
-                Log.e("ERROR", e.getMessage());
-                e.printStackTrace();
             }
         }
-
     }
 
     /**
@@ -239,5 +251,21 @@ public class GameManager {
      */
     public void setPlayerSide(String side){
         playerSide = side;
+    }
+
+    /**
+     * Sets gameOver.
+     * @param isGameOver the boolean to set gameOver to
+     */
+    public void setGameOver(boolean isGameOver){
+        this.gameOver = true;
+    }
+
+    /**
+     * Sets the winOrLost field of the manager. If win is '1', then the game was a win, otherwise it was a loss
+     * @param win the value to set winOrLost to: if '1', its a win, otherwise a loss
+     */
+    public void setWinOrLoss(boolean win){
+        this.wonOrLost = win;
     }
 }

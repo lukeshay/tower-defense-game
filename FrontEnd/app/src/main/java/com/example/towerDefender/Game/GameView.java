@@ -14,22 +14,30 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.towerDefender.Activities.MultiplayerGameActivity;
 import com.example.towerDefender.Activities.NavigationActivity;
 import com.example.towerDefender.R;
+import com.example.towerDefender.SocketServices.SocketMessage;
+import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.Util.CanvasUtility;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
     private Paint paint;
     private GameManager manager;
     private Player player;
-
+    private AppCompatActivity parent;
     /**
      * Constructs a new {@link GameView} based on the provided {@link Context} with the provided {@link Player}
+     * @param parent the parent activity
      * @param context the base {@link Context} for this {@link GameView} to reference
      * @param player the {@link Player} to be used in this {@link GameView}'s {@link GameManager}
      */
-    public GameView(Context context, Player player){
+    public GameView(AppCompatActivity parent, Context context, Player player){
         super(context);
+        this.parent = parent;
         this.player = player;
         getHolder().addCallback(this);
         mainThread = new MainThread(getHolder(), this);
@@ -72,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas){
         super.draw(canvas);
         if(canvas != null){
-            canvas.drawColor(Color.BLUE);
+            canvas.drawBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.dungeon_background), 0, 0, null);
             //Manager will draw the characters and hand
             manager.draw(canvas);
         }
@@ -86,10 +94,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(manager.isGameOver()){
+                //if the game is over, any click will send the user back to navigation page.
+                Intent intent = new Intent(this.parent, NavigationActivity.class);
+                this.parent.startActivity(intent);
+            }
+            if(event.getX() <= CanvasUtility.chatBar.getBoundingRectangle().right
+                && event.getX() > CanvasUtility.chatBar.getBoundingRectangle().left
+                && event.getY() <= CanvasUtility.chatBar.getBoundingRectangle().bottom){
+                //TODO: update bounds
+                CanvasUtility.chatBar.click((int)event.getX());
+            }
+            if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
+                  SocketUtilities.closeSocket();
+                  manager.setGameOver(true);
+                  manager.setWinOrLoss(false);
+            }
             if(manager.isPlayingCard()){
-                if(manager.getCardToPlayIndex() != -1){
-                    manager.playCard((int)event.getX(), (int)event.getY());
-                    manager.setPlayingCard(-1, false);
+                if(manager.getCardToPlayIndex() != -1) {
+                    //Check to see if the event is on the player's side
+                    if ((manager.getPlayerSide().equals("left") && (int) event.getX() <= Sprite.screenWidth / 2)
+                            || (manager.getPlayerSide().equals("right") && (int) event.getX() >= Sprite.screenWidth / 2)) {
+                        manager.playCard((int) event.getX(), (int) event.getY());
+                        manager.setPlayingCard(-1, false);
+                    }
                 }
             } else {
                 //Is the event within the bounds of one of our CardInHand objects?

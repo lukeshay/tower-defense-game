@@ -31,7 +31,7 @@ import javax.websocket.OnMessage;
 public class MultiplayerGameActivity extends AppCompatActivity {
 
     private String lastSocketMessage;
-
+    private boolean inGame = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,40 +55,50 @@ public class MultiplayerGameActivity extends AppCompatActivity {
     public void startGame(ArrayList<Card> cards){
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
-        final GameView gameView = new GameView(ctx, new Player(ctx, passed));
+        final GameView gameView = new GameView(this, ctx, new Player(ctx, passed));
         SocketUtilities.connect(this.getApplicationContext(), "ws://coms-309-ss-5.misc.iastate.edu:8080/socket/%s", new SocketListener() {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                if(lastSocketMessage != null && lastSocketMessage.equals(message)){
-                    //don't do anything, the message is the same
-                } else{
-                    gameView.getManager().passMessageToManager(message);
+                //Log.i("SOCKET_MESSAGE: ", message);
+                if(!inGame){
+                    if(message.contains("\"matchUp\":\"true\"")){
+                        try {
+                            inGame = true;
+                            MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setContentView(gameView);
+                                }
+                            });
+                        }
+                        catch(Exception e){e.printStackTrace();}
+                    }
+                } else {
+                    if(lastSocketMessage != null && lastSocketMessage.equals(message)){
+                        //don't do anything, the message is the same
+                    } else{
+                        gameView.getManager().passMessageToManager(message);
+                    }
                 }
             }
 
 
             @Override
             public void onOpen(ServerHandshake handshake) {
-                try {
-                    MultiplayerGameActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setContentView(gameView);
-                        }
-                    });
-                }
-                catch(Exception e){e.printStackTrace();}
+                Log.i("SOCKET_INFO", "Connected. Handshake status: \"" + handshake.getHttpStatusMessage() + "\"");
+
                 }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-
+                Log.i("SOCKET_INFO", "Socket closed. Reason: \"" + reason + "\"");
+                inGame = false;
             }
 
             @Override
             public void onError(Exception e) {
-
+                //Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
             }
         });
     }

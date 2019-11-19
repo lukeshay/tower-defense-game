@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Sprite;
+import com.example.towerDefender.Util.CanvasUtility;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 
@@ -21,19 +23,18 @@ public class PlayedCard implements Serializable {
     private String description;
     private int cost;
     private int damage;
-    private int hitPoints;
+    private int currentHitPoints;
+    private int totalHitPoints;
     private int speed;
     private String type;
     private int range;
     private int xValue;
     private int yValue;
     private boolean attacking;
-    private String cardAttacking;
-    private int cardAttackingDistance;
     private String player;
-    private static Paint textPaint;
     private GameObjectSprite sprite;
-
+    private static Paint greenHealthPaint;
+    private static Paint redHealthPaint;
     /**
      * Constructs a new {@link PlayedCard} with the provided parameters.
      * @param cardToPlay the {@link Card} to play and construct this played card from
@@ -46,7 +47,8 @@ public class PlayedCard implements Serializable {
         this.description = cardToPlay.cardDescription;
         this.cost = cardToPlay.castingCost;
         this.damage = cardToPlay.damage;
-        this.hitPoints = cardToPlay.hitPoints;
+        this.totalHitPoints = cardToPlay.hitPoints;
+        this.currentHitPoints = this.totalHitPoints;
         this.speed = cardToPlay.speed;
         this.type =  cardToPlay.type;
         this.range = cardToPlay.range;
@@ -54,8 +56,6 @@ public class PlayedCard implements Serializable {
         this.yValue = yValue;
         this.player = player;
         this.sprite = null;
-        textPaint = new Paint(Color.LTGRAY);
-        textPaint.setTextSize(50);
     }
 
     /**
@@ -140,21 +140,39 @@ public class PlayedCard implements Serializable {
     }
 
     /**
-     * Gets hit points.
+     * Gets current hit points.
      *
      * @return the hit points
      */
-    public int getHitPoints() {
-        return hitPoints;
+    public int getCurrentHitpoints() {
+        return currentHitPoints;
     }
 
     /**
-     * Sets hit points.
+     * Sets current hit points.
      *
      * @param hitPoints the hit points
      */
-    public void setHitPoints(int hitPoints) {
-        this.hitPoints = hitPoints;
+    public void setCurrentHitpoints(int hitPoints) {
+        this.currentHitPoints = hitPoints;
+    }
+
+    /**
+     * Gets max hit points.
+     *
+     * @return the hit points
+     */
+    public int getMaxHitpoints() {
+        return totalHitPoints;
+    }
+
+    /**
+     * Sets max hit points.
+     *
+     * @param hitPoints the hit points
+     */
+    public void setMaxHitpoints(int hitPoints) {
+        this.totalHitPoints = hitPoints;
     }
 
     /**
@@ -269,7 +287,7 @@ public class PlayedCard implements Serializable {
      * Constructs a {@link Card} from the parameters of this played card
      */
     public Card getCard(){
-        return new Card(this.name, this.description, this.cost, this.damage, this.hitPoints, this.speed, this.type, this.range);
+        return new Card(this.name, this.description, this.cost, this.damage, this.totalHitPoints, this.speed, this.type, this.range);
     }
 
     /**
@@ -279,21 +297,26 @@ public class PlayedCard implements Serializable {
     public void draw(Canvas canvas){
         if(this.sprite == null){
             Log.e("ERROR", "No sprite associated with card (" + this.name +"). Please addOrUpdate sprite.");
-        } else if(hitPoints > 0){
+        } else if(currentHitPoints > 0){
             if(this.attacking){
                 this.sprite.setStatus(Sprite.SPRITE_STATUS.ATTACKING);
             } else {
                 this.sprite.setStatus(Sprite.SPRITE_STATUS.MOVING);
             }
-            this.sprite.xStart = this.xValue;
+            this.sprite.xStart = CanvasUtility.convertServerPositionToCanvasPosition(canvas, this.xValue);
             this.sprite.yStart = this.yValue;
             this.sprite.draw(canvas);
-            Rect health = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.getHitPoints()), this.sprite.yStart + 10);
-            Paint myPaint = new Paint();
-            myPaint.setColor(Color.rgb(0, 255, 0));
-            myPaint.setStrokeWidth(10);
-            canvas.drawRect(health, myPaint);
-            //canvas.drawText("HP: " + this.getHitPoints(), this.xValue, this.yValue - 20, textPaint);
+
+            greenHealthPaint = new Paint();
+            greenHealthPaint.setColor(Color.rgb(0, 255, 0));
+            greenHealthPaint.setStrokeWidth(10);
+            redHealthPaint = new Paint();
+            redHealthPaint.setColor(Color.rgb(255, 9, 0));
+            redHealthPaint.setStrokeWidth(10);
+            Rect totalHealth = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.totalHitPoints), this.sprite.yStart + 10);
+            canvas.drawRect(totalHealth, redHealthPaint);
+            Rect currentHealth = new Rect(this.sprite.xStart + (this.sprite.image.getWidth()/2), this.sprite.yStart, this.sprite.xStart + (100 / this.getCurrentHitpoints()), this.sprite.yStart + 10);
+            canvas.drawRect(currentHealth, greenHealthPaint);
         }
     }
 
@@ -323,18 +346,7 @@ public class PlayedCard implements Serializable {
 
     @Override
     public String toString() {
-        return "PlayedCard{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", cost=" + cost +
-                ", damage=" + damage +
-                ", hitPoints=" + hitPoints +
-                ", speed=" + speed +
-                ", type='" + type + '\'' +
-                ", range=" + range +
-                ", xValue=" + xValue +
-                ", yValue=" + yValue +
-                ", player='" + player + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
+
 }

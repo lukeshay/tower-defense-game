@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.OwnedDecks;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -120,9 +121,33 @@ public class JsonUtils {
         return cards;
     }
 
-    public static Collection<PlayedCard> socketCardsToPlayedCards(String message){
-        //TODO: get rid of method? No additional parsing is needed anymore
-        return jsonToPlayedCardArray(message);
+    /**
+     * Converts a json message to a collection of {@link User}s
+     * @param json the json message
+     * @return a collection of {@link User}s represented by the provided json
+     */
+    public static Collection<User> jsonToUserList(String json){
+        Collection<User> users;
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<User>>(){}.getType();
+        try{
+            users = gson.fromJson(json, collectionType);
+        } catch (Exception e){
+            users = new ArrayList<>();
+            users.add(gson.fromJson(json, User.class));
+        }
+        return users;
+    }
+
+    /**
+     * Converts a json {@link String} to a {@link SocketMessage}
+     * @param json the json {@link String} to base the {@link SocketMessage} on
+     * @return a {@link SocketMessage} converted from json
+        Type collectionType = new TypeToken<Collection<User>>(){}.getType();
+     */
+    public static SocketMessage jsonToSocketMessage(String json){
+        Gson test = new Gson();
+        return test.fromJson(json, SocketMessage.class);
     }
 
 

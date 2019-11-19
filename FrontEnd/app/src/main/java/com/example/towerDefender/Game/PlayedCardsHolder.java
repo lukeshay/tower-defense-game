@@ -5,7 +5,6 @@ import com.example.towerDefender.Card.Card;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import com.example.towerDefender.Card.CardUtilities;
 import com.example.towerDefender.Card.PlayedCard;
 
@@ -30,7 +29,7 @@ public class PlayedCardsHolder {
         if(index != -1){
             playedCards.get(index).setxValue(playedCard.getxValue());
             playedCards.get(index).setyValue(playedCard.getyValue());
-            playedCards.get(index).setHitPoints(playedCard.getHitPoints());
+            playedCards.get(index).setCurrentHitpoints(playedCard.getCurrentHitpoints());
             playedCards.get(index).setAttacking(playedCard.getAttacking());
         } else {
             playedCards.add(playedCard);
