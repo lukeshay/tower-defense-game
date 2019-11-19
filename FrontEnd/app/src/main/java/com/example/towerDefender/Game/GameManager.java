@@ -177,8 +177,8 @@ public class GameManager {
      * Sends a message to the game manager
      * @param message the message to send to the game manager
      */
-    public void passMessageToManager(String message){
-        if(message.contains("Message from opponent ")){
+    public void passMessageToManager(String message) {
+        if (message.contains("Message from opponent: ")) {
             Log.i("CHAT", "received message from opponent");
             text = message;
         } else {
