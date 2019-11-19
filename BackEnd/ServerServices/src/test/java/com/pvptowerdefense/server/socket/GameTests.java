@@ -72,12 +72,12 @@ class GameTests {
 						"Player twos card did not move as expected."),
 
 				() -> Assertions.assertEquals(
-						p1Card.getHitPoints(), p1CardPostCycle.getHitPoints(),
+						p1Card.getCurrentHitPoints(), p1CardPostCycle.getCurrentHitPoints(),
 						"Player one card lost health but should not have"),
 
 				() -> Assertions.assertEquals(
-						p2Card.getHitPoints(),
-						p2CardPostCycle.getHitPoints(),
+						p2Card.getCurrentHitPoints(),
+						p2CardPostCycle.getCurrentHitPoints(),
 						"Player two card lost health but should not have")
 		);
 	}
@@ -117,13 +117,13 @@ class GameTests {
 						"Player twos card did not stay still."),
 
 				() -> Assertions.assertEquals(
-						p1Card.getHitPoints() - ((FIVE_HUNDRED_CYCLES / 60 + 1) * 2),
-						p1CardPostCycle.getHitPoints(),
+						p1Card.getCurrentHitPoints() - ((FIVE_HUNDRED_CYCLES / 60 + 1) * 2),
+						p1CardPostCycle.getCurrentHitPoints(),
 						"Player one card lost health but should not have"),
 
 				() -> Assertions.assertEquals(
-						p2Card.getHitPoints() - ((FIVE_HUNDRED_CYCLES / 60 + 1) * 2),
-						p2CardPostCycle.getHitPoints(),
+						p2Card.getCurrentHitPoints() - ((FIVE_HUNDRED_CYCLES / 60 + 1) * 2),
+						p2CardPostCycle.getCurrentHitPoints(),
 						"Player two card lost health but should not have")
 		);
 	}
@@ -131,7 +131,8 @@ class GameTests {
 	@Test
 	void gameOverTest() throws CloneNotSupportedException {
 		p1Card.setxValue(0);
-		p1Card.setHitPoints(Integer.MAX_VALUE);
+		p1Card.setCurrentHitPoints(Integer.MAX_VALUE);
+		p1Card.setTotalHitPoints(Integer.MAX_VALUE);
 		p1Card.setDamage(Integer.MAX_VALUE);
 		p1Card.setRange(Integer.MAX_VALUE);
 
@@ -154,11 +155,13 @@ class GameTests {
 
 	@Test
 	void cardCannotGoPastMaxMinTest() throws CloneNotSupportedException {
-		p1Card.setHitPoints(Integer.MAX_VALUE);
+		p1Card.setCurrentHitPoints(Integer.MAX_VALUE);
+		p1Card.setTotalHitPoints(Integer.MAX_VALUE);
 		p1Card.setRange(0);
 		p1Card.setSpeed(500);
 
-		p2Card.setHitPoints(Integer.MAX_VALUE);
+		p2Card.setCurrentHitPoints(Integer.MAX_VALUE);
+		p2Card.setTotalHitPoints(Integer.MAX_VALUE);
 		p2Card.setRange(0);
 		p2Card.setSpeed(500);
 

@@ -22,7 +22,6 @@ import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Util.CanvasUtility;
-import com.example.towerDefender.Util.ChatUtility;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
@@ -100,10 +99,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 Intent intent = new Intent(this.parent, NavigationActivity.class);
                 this.parent.startActivity(intent);
             }
-            if(event.getX() <= ChatUtility.chatBar.getBoundingRectangle().right
-                && event.getX() > ChatUtility.chatBar.getBoundingRectangle().left
-                && event.getY() <= ChatUtility.chatBar.getBoundingRectangle().bottom){
-                ChatUtility.chatBar.click((int)event.getX());
+            if(event.getX() <= CanvasUtility.chatBar.getBoundingRectangle().right
+                && event.getX() > CanvasUtility.chatBar.getBoundingRectangle().left
+                && event.getY() <= CanvasUtility.chatBar.getBoundingRectangle().bottom){
+                //TODO: update bounds
+                CanvasUtility.chatBar.click((int)event.getX());
             }
             if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
                   SocketUtilities.closeSocket();
