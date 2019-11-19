@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 public class MatchUp implements Runnable {
 	private static final int MAX_T = 10;
-	private static final int PRE_GAME_TIME = 30000;
+	private static final int PRE_GAME_TIME = 10000;
 	private static final int IN_GAME_TIME = 300000;
 	private static final int POST_GAME_TIME = 300000;
 	private static Logger logger =
