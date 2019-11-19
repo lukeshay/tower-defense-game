@@ -9,7 +9,6 @@ import android.provider.Settings;
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.Card.Deck;
-import com.example.towerDefender.Util.UserUtility;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,7 @@ public class Player {
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
         textPaint.setColor(Color.WHITE);
-        this.userId = UserUtility.getUserId();
+        this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID);
     }
 
     /**

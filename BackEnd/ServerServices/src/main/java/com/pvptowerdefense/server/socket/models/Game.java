@@ -2,9 +2,10 @@ package com.pvptowerdefense.server.socket.models;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Game class type
@@ -114,6 +115,24 @@ public class Game {
 	}
 
 	/**
+	 * Gets player one cards.
+	 *
+	 * @return the player one cards
+	 */
+	public List<PlayedCard> getPlayerOneCards() {
+		return playerOneCards;
+	}
+
+	/**
+	 * Gets player two cards.
+	 *
+	 * @return the player two cards
+	 */
+	public List<PlayedCard> getPlayerTwoCards() {
+		return playerTwoCards;
+	}
+
+	/**
 	 * Sets player2's userId
 	 *
 	 * @param player2 - new userId
@@ -122,18 +141,38 @@ public class Game {
 		this.player2 = player2;
 	}
 
+	/**
+	 * Gets player one mana.
+	 *
+	 * @return the player one mana
+	 */
 	public int getPlayerOneMana() {
 		return playerOneMana;
 	}
 
+	/**
+	 * Sets player one mana.
+	 *
+	 * @param playerOneMana the player one mana
+	 */
 	public void setPlayerOneMana(int playerOneMana) {
 		this.playerOneMana = playerOneMana;
 	}
 
+	/**
+	 * Gets player two mana.
+	 *
+	 * @return the player two mana
+	 */
 	public int getPlayerTwoMana() {
 		return playerTwoMana;
 	}
 
+	/**
+	 * Sets player two mana.
+	 *
+	 * @param playerTwoMana the player two mana
+	 */
 	public void setPlayerTwoMana(int playerTwoMana) {
 		this.playerTwoMana = playerTwoMana;
 	}
@@ -165,6 +204,11 @@ public class Game {
 		return winner;
 	}
 
+	/**
+	 * Gets turn state.
+	 *
+	 * @return the turn state
+	 */
 	public String getTurnState() {
 		return counter % 60 == 0 ? "attack" : "move";
 	}
@@ -187,24 +231,22 @@ public class Game {
 
 		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext();) {
 			PlayedCard card = cards.next();
-			if (card.getHitPoints() <= 0) {
+			if (card.getCurrentHitPoints() <= 0) {
 			    if (card.getName().equals("tower2")) {
 			        gameState = false;
 			        winner = player2;
                 }
-			    trophyUpdate(winner);
 				cards.remove();
 			}
 		}
 
 		for (ListIterator<PlayedCard> cards = playerTwoCards.listIterator(); cards.hasNext();) {
 			PlayedCard card = cards.next();
-			if (card.getHitPoints() <= 0) {
+			if (card.getCurrentHitPoints() <= 0) {
                 if (card.getName().equals("tower5")) {
                     gameState = false;
                     winner = player1;
                 }
-				trophyUpdate(winner);
 				cards.remove();
 			}
 		}
@@ -241,7 +283,7 @@ public class Game {
 						.findFirst()
 						.get();
 
-				attacked.setHitPoints(attacked.getHitPoints() - actionCard.getDamage());
+				attacked.setCurrentHitPoints(attacked.getCurrentHitPoints() - actionCard.getDamage());
 			}
 			else if (!actionCard.isAttacking()) {
 					int newXValue = actionCard.getxValue() + (actionCard.getSpeed() * direction);
@@ -279,57 +321,6 @@ public class Game {
 		return Math.sqrt(xSquare + ySquare);
 	}
 
-	void trophyUpdate(String winner){
-//		if(winner.equals(player1)){
-//			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
-//			String uri2 = "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies/{trophies}";
-//			Map<String, String> params = new HashMap<String, String>();
-//			Map<String, String> params2 = new HashMap<String, String>();
-//			Map<String, Integer> params3 = new HashMap<String, Integer>();
-//			params.put("userId", player2);
-//			params2.put("userId", player1);
-//			RestTemplate restTemplate = new RestTemplate();
-//			int trophies = restTemplate.getForObject(uri, Integer.class, params);
-//			if(trophies < 5){
-//				params3.put("trophies", 0);
-//				restTemplate.put(uri2, params, params3);
-//			}
-//			else{
-//				trophies -= 5;
-//				params3.put("trophies", trophies);
-//				restTemplate.put(uri2, params, params3);
-//			}
-//			int trophies2 = restTemplate.getForObject(uri, Integer.class, params2);
-//			params3.remove("trophies");
-//			params3.put("trophies", trophies2 + 10);
-//			restTemplate.put(uri2, params2, params3);
-//		}
-//		else{
-//			String uri =  "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies";
-//			String uri2 = "http://coms-309-ss-5.misc.iastate.edu:3306/users/{userId}/trophies/{trophies}";
-//			Map<String, String> params = new HashMap<String, String>();
-//			Map<String, String> params2 = new HashMap<String, String>();
-//			Map<String, Integer> params3 = new HashMap<String, Integer>();
-//			params.put("userId", player2);
-//			params2.put("userId", player1);
-//			RestTemplate restTemplate = new RestTemplate();
-//			int trophies = restTemplate.getForObject(uri, Integer.class, params);
-//			if(trophies < 5){
-//				params3.put("trophies", 0);
-//				restTemplate.put(uri2, params, params3);
-//			}
-//			else{
-//				trophies -= 5;
-//				params3.put("trophies", trophies);
-//				restTemplate.put(uri2, params, params3);
-//			}
-//			int trophies2 = restTemplate.getForObject(uri, Integer.class, params2);
-//			params3.remove("trophies");
-//			params3.put("trophies", trophies2 + 10);
-//			restTemplate.put(uri2, params2, params3);
-//		}
 
-
-	}
 
 }

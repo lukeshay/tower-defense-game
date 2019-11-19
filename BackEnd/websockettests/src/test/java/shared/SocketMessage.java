@@ -1,4 +1,4 @@
-package com.pvptowerdefense.server.socket.models;
+package shared;
 
 import com.google.gson.Gson;
 

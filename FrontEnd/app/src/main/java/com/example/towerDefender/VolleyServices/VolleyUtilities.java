@@ -48,30 +48,6 @@ public class VolleyUtilities {
         VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public static void deleteRequest(Context context, String url, final VolleyResponseListener listener){
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.DELETE,
-                url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Do something with response string
-                        listener.onResponse(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Do something when get error
-                        listener.onError(error.toString());
-                    }
-                }
-        );
-
-        // Add StringRequest to the RequestQueue
-        VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
-    }
-
     public static void postRequest(Context context, String url, final VolleyResponseListener listner, final JSONObject params) {
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
 
