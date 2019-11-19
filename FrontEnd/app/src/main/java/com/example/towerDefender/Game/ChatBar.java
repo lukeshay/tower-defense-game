@@ -62,7 +62,6 @@ public class ChatBar {
      * @param xPos the xPosition of the click. Used for determining which chat option will be sent as a message
      */
     public void click(int xPos){
-        Log.i("CHATBAR", "clicked on chatbar.");
         if(clickedOn){
             clickedOn = false;
             if(xPos < clickedBackgroundRect.left + (int)textPaint.measureText(CHAT_OPTIONS[0])){
@@ -72,8 +71,6 @@ public class ChatBar {
             } else {
                 SocketUtilities.sendMessage("Message from opponent: " + CHAT_OPTIONS[2]);
             }
-
-
         } else {
             clickedOn = true;
         }

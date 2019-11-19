@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.SocketServices.Message;
 import com.example.towerDefender.SocketServices.SocketListener;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.GameView;
@@ -30,7 +31,7 @@ import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
-    private String lastSocketMessage;
+    private SocketMessage lastSocketMessage;
     private boolean inGame = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                Log.i("SOCKET_MESSAGE: ", message);
+                //Log.i("SOCKET_MESSAGE: ", message);
                 if(!inGame){
                     if(message.contains("\"matchUp\":\"true\"")){
                         try {
@@ -75,7 +76,8 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                         catch(Exception e){e.printStackTrace();}
                     }
                 } else {
-                    if(lastSocketMessage != null && lastSocketMessage.equals(message)){
+                    SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+                    if(lastSocketMessage != null && lastSocketMessage.getPlayedCards().equals(socketMessage.getPlayedCards())){
                         //don't do anything, the message is the same
                     } else{
                         gameView.getManager().passMessageToManager(message);

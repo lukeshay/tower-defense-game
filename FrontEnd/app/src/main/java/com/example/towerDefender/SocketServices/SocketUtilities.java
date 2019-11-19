@@ -83,7 +83,7 @@ public class SocketUtilities {
     public static void connect(Context context, String url, final SocketListener listener) {
         Draft[] drafts = {new Draft_6455()};
         try {
-            webSocketClient = new WebSocketClient(new URI(String.format(url, Settings.Secure.getString(context.getContentResolver(), ANDROID_ID))), (Draft) drafts[0]) {
+            webSocketClient = new WebSocketClient(new URI(String.format(url, Settings.Secure.getString(context.getContentResolver(), ANDROID_ID).substring(0, 5))), (Draft) drafts[0]) {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     initalized = true;
