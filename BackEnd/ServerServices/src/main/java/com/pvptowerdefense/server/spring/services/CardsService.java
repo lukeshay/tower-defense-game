@@ -51,16 +51,16 @@ public class CardsService {
 	public void loadCardsToDatabase() {
 		logger.info("loading cards to database");
 		List<Card> cards = Arrays.asList(
-		        new Card("Blob", "Weak ground troop.", 1, 1, 1, 2, "UNIT", 250),
-				new Card("Minotaur", "Minotaur reaper", 1, 1, 1, 2, "UNIT", 250),
-				new Card("Grown Minotaur", "Medium reaper", 2, 2, 2, 3, "UNIT", 250),
-				new Card("Minotaur king", "Strong reaper", 5, 5, 5, 3, "UNIT", 250),
-				new Card("Fire Golem", "Weak fire golem", 1, 1, 1, 2, "UNIT", 250),
-				new Card("Fire Golem", "Medium fire golem", 2, 2, 2, 3, "UNIT", 250),
-				new Card("Golem King", "Strong golem", 5, 5, 5, 3, "UNIT", 250),
-				new Card("Wizard", "Weak wizard", 1, 1, 1, 3, "UNIT", 650),
-				new Card("Wizard", "Medium wizard", 2, 2, 2, 3, "UNIT", 650),
-				new Card("Master wizard", "Strong wizard", 5, 5, 5, 5, "UNIT", 650)
+		        new Card("Blob", "Weak ground troop.", 1, 2, 5, 2, "UNIT", 250),
+				new Card("Lesser Minotaur", "Basic minotaur. High damage, low range", 1, 3, 5, 2, "UNIT", 250),
+				new Card("Minotaur", "Medium minotaur. High damage, medium range", 5, 5, 6, 3, "UNIT", 250),
+				new Card("Minotaur king", "Strong minotaur. High damage, high HP, medium range", 5, 5, 7, 3, "UNIT", 250),
+				new Card("Lesser Fire Golem", "Weak fire golem. Medium damage, HP, and range", 1, 2, 2, 2, "UNIT", 250),
+				new Card("Fire Golem", "Medium fire golem. Medium damage, high HP, medium range", 2, 2, 4, 2, "UNIT", 250),
+				new Card("Golem King", "Strong golem. Medium damage, medium range, high hp", 2, 2, 15, 2, "UNIT", 250),
+				new Card("Lesser Wizard", "High range, medium damage, low HP", 1, 2, 1, 3, "UNIT", 650),
+				new Card("Wizard", "High range, medium damage, low HP", 2, 2, 2, 3, "UNIT", 650),
+				new Card("Master wizard", "Strong wizard", 5, 3, 5, 3, "UNIT", 650)
 		);
 
 		cardsDao.saveAll(cards);

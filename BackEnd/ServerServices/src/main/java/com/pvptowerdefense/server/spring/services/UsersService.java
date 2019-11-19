@@ -1,17 +1,17 @@
 package com.pvptowerdefense.server.spring.services;
 
-import com.pvptowerdefense.server.spring.models.Card;
 import com.pvptowerdefense.server.spring.daos.UsersDao;
+import com.pvptowerdefense.server.spring.models.Card;
 import com.pvptowerdefense.server.spring.models.Deck;
 import com.pvptowerdefense.server.spring.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * The type Users service.
@@ -117,6 +117,7 @@ public class UsersService {
 	 * @param user - the user to be updated
 	 */
 	public void updateUser(User user) {
+		logger.info("updating user: " + user.getPhoneId());
 		usersDao.save(user);
 	}
 
@@ -132,8 +133,9 @@ public class UsersService {
 
 	/**
 	 * Adds a card to list of owned cards
+	 *
 	 * @param userId - user's id
-	 * @param card - card to be added
+	 * @param card   - card to be added
 	 */
 	public void addCardToOwnedCards(String userId, Card card) {
 		User user = usersDao.findUserByPhoneId(userId);
@@ -143,7 +145,8 @@ public class UsersService {
 
 	/**
 	 * Checks if user owns a card
-	 * @param userId - user's Id
+	 *
+	 * @param userId   - user's Id
 	 * @param cardName - name of card
 	 * @return true or false if owned or not
 	 */
@@ -160,6 +163,7 @@ public class UsersService {
 
 	/**
 	 * Gets the user's trophy count
+	 *
 	 * @param userId - user's id
 	 * @return # of trophies
 	 */
@@ -169,12 +173,23 @@ public class UsersService {
 
 	/**
 	 * Sets user's trophy count
+	 *
 	 * @param userId - user's id
-	 * @param num - trophies
+	 * @param num    - trophies
 	 */
 	public void setTrophies(String userId, int num) {
 		User user = usersDao.findUserByPhoneId(userId);
 		user.setTrophies(num);
 		usersDao.save(user);
+	}
+
+	/**
+	 * Gets user's owned cards
+	 *
+	 * @param userId - user's id
+	 * @return the users cards
+	 */
+	public List<Card> getUsersCards(String userId) {
+		return usersDao.findUserByPhoneId(userId).getOwnedCards();
 	}
 }

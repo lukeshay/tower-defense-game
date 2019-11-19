@@ -5,49 +5,13 @@
     android:id="@+id/relativeLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    >
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:id="@+id/buttonHolder"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="3"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-    <ToggleButton
-        android:id="@+id/deck1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textOff="Deck 1"
-        android:textOn="Deck 1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_weight="1"/>
-    <ToggleButton
-        android:id="@+id/deck2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textOff="Deck 2"
-        android:textOn="Deck 2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/deck1"
-        android:layout_weight="1"/>
-    <ToggleButton
-        android:id="@+id/deck3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textOff="Deck 3"
-        android:textOn="Deck 3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="@id/deck2"
-        android:layout_weight="1"/>
-</androidx.appcompat.widget.LinearLayoutCompat>
+    android:orientation="vertical">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/deck"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        app:layout_constraintTop_toBottomOf="@id/buttonHolder"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view"
         />
 
@@ -56,16 +20,31 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/deck"
         tools:layout_editor_absoluteX="0dp" />
+    <!--
+        <view
+            android:id="@+id/recycle"
+            class="androidx.appcompat.app.AlertController$RecycleListView"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toBottomOf="@+id/addBtn"
+            app:layout_constraintLeft_toLeftOf="parent">
 
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        </view>
+    -->
+
+
+    <!--
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="148dp"
+            android:drawSelectorOnTop="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recycle" />
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

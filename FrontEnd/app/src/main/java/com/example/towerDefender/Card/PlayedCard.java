@@ -296,6 +296,7 @@ public class PlayedCard implements Serializable {
      */
     public void draw(Canvas canvas){
         if(this.sprite == null){
+            Log.e("ERROR", "No sprite associated with card (" + this.name +"). Please addOrUpdate sprite.");
         } else if(currentHitPoints > 0){
             if(this.attacking){
                 this.sprite.setStatus(Sprite.SPRITE_STATUS.ATTACKING);
