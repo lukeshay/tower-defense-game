@@ -30,14 +30,11 @@ public class SocketHandler {
 	private static Logger logger =
 			LoggerFactory.getLogger(SocketHandler.class.getName());
 
-//	private UsersService usersService; TODO needs replaced by RestTemplate
-
 	/**
 	 * This class handles the incoming socket requests.
 	 */
 	@Autowired
 	public SocketHandler() {
-//		this.usersService = usersService;
 	}
 
 	/**
@@ -50,15 +47,6 @@ public class SocketHandler {
 	@OnOpen
 	public void onOpen(Session session, @PathParam("id") String id) {
 		CompletableFuture.runAsync(() -> {
-//			if (!isValidUser(id)) {
-//				try {
-//					session.close();
-//				} catch (IOException ignore) {
-//				}
-//
-//				return;
-//			}
-
 			logger.info(id + " connected");
 			purgeMapsAndList();
 
@@ -182,14 +170,4 @@ public class SocketHandler {
 			}
 		});
 	}
-
-//	/**
-//	 * Makes sure the user trying to connect is valid.
-//	 *
-//	 * @param id the userId
-//	 * @return boolean
-//	 */
-//	private boolean isValidUser(String id) {
-//		return usersService.isUserInDatabase(id);
-//	}
 }

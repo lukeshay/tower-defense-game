@@ -197,12 +197,12 @@ public class MatchUp implements Runnable {
 		logger.info("handling message: " + message);
 
 		if (message.contains("\"name\"") && message.contains("\"description\"")) {
-			logger.error("adding card");
+			logger.debug("adding card");
 			game.addCard(Messages.convertJsonToPlayedCard(message));
 			session.getAsyncRemote().sendText(Messages.cardAdded());
 		}
 		else {
-			logger.error("sending message");
+			logger.debug("sending message");
 			getOtherSession(session).getAsyncRemote().sendText(message);
 		}
 	}
