@@ -32,3 +32,5 @@ build/
 
 ### Log Files ###
 *.log
+
+/ServerService/logs

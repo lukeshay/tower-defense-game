@@ -46,9 +46,9 @@ class SocketTests {
 
 	@Test
 	void onePlayerForfeitTest() throws InterruptedException, IOException {
-		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("fc6ac");
 		Thread.sleep(1000);
-		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("4f007");
 
 		Thread.sleep(35000);
 
