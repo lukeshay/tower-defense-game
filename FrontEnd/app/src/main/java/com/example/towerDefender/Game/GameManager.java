@@ -44,7 +44,7 @@ public class GameManager {
     private boolean wonOrLost = false; // true if they won
     private Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
-
+    private boolean test = false;
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
@@ -69,6 +69,7 @@ public class GameManager {
      */
     public GameManager(Player player, boolean test){
         this.player = player;
+        test = true;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
         isPlayingCard = false;
         cardToPlayIndex = 0;
