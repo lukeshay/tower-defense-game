@@ -14,7 +14,7 @@ public class CanvasUtility {
      * All draws to the canvas for information with position sent from the server must be normalized against this bound.
      */
     public static final int SERVER_X_BOUND = 1920;
-    public static ChatBar chatBar;
+
     /**
      * Draws the provided text on the center of the provided {@link Canvas}
      * @param canvas the {@link Canvas} to draw on
@@ -25,17 +25,6 @@ public class CanvasUtility {
         int xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(text) / 2);
         int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
         canvas.drawText(text, xPos, yPos, textPaint);
-    }
-
-    /**
-     * Draws the chat box
-     * @param canvas the canvas to draw on
-     */
-    public static void drawChatPrompt(Canvas canvas){
-        if(chatBar == null){
-            chatBar = new ChatBar(canvas);
-        }
-        chatBar.draw(canvas);
     }
 
     /**
@@ -56,13 +45,5 @@ public class CanvasUtility {
      */
     public static int convertCanvasPositionToServerPosition(Canvas canvas, int xPos){
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
-    }
-
-    public static ChatBar getChatBar(){
-        return chatBar;
-    }
-
-    public static void initializeChatBar(Canvas canvas){
-        chatBar = new ChatBar(canvas);
     }
 }

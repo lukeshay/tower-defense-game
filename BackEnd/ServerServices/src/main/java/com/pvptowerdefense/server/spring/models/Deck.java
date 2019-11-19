@@ -1,5 +1,8 @@
 package com.pvptowerdefense.server.spring.models;
 
+import com.pvptowerdefense.server.spring.models.Card;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,91 +27,77 @@ public class Deck {
     @Column(unique = true, name = "DECK_NAME", nullable = false)
     private String deckName;
 
-	/**
-	 * Creates an empty deck
-	 */
-	public Deck(){
+    /**
+     * Creates an empty deck
+     */
+    public Deck(){
         this.deck = new ArrayList<Card>();
     }
 
-	/**
-	 * Creates a deck from given parameters
-	 *
-	 * @param deck     - list of cards, possibly empty
-	 * @param deckName - the name for the deck
-	 * @param userId   the user id
-	 */
-	public Deck(List<Card> deck, String deckName, String userId) {
+    /**
+     * Creates a deck from given parameters
+     * @param deck - list of cards, possibly empty
+     * @param deckName - the name for the deck
+     */
+    public Deck(List<Card> deck, String deckName, String userId) {
         this.deck = deck;
         this.deckName = deckName;
         this.userId = userId;
     }
 
-	/**
-	 * Gets the list of cards in the user's current deck
-	 *
-	 * @return list of cards
-	 */
-	public List<Card> getDeck() {
+    /**
+     * Gets the list of cards in the user's current deck
+     * @return list of cards
+     */
+    public List<Card> getDeck() {
         return deck;
     }
 
-	/**
-	 * Sets the list of cards to the desired list for the deck
-	 *
-	 * @param deck - list of cards to be changed to
-	 */
-	public void setDeck(List<Card> deck) {
+    /**
+     * Sets the list of cards to the desired list for the deck
+     * @param deck - list of cards to be changed to
+     */
+    public void setDeck(List<Card> deck) {
         this.deck = deck;
     }
 
-	/**
-	 * Gets the current deck's name
-	 *
-	 * @return the deck name
-	 */
-	public String getDeckName() {
+    /**
+     * Gets the current deck's name
+     * @return the deck name
+     */
+    public String getDeckName() {
         return deckName;
     }
 
-	/**
-	 * Sets the deck name to the desired name
-	 *
-	 * @param deckName - name to change the deck name to
-	 */
-	public void setDeckName(String deckName) {
+    /**
+     * Sets the deck name to the desired name
+     * @param deckName - name to change the deck name to
+     */
+    public void setDeckName(String deckName) {
         this.deckName = deckName;
     }
 
-	/**
-	 * Adds a new card to the deck
-	 *
-	 * @param card - card to be added
-	 */
-	public void addCard(Card card){
+    /**
+     * Adds a new card to the deck
+     * @param card - card to be added
+     */
+    public void addCard(Card card){
         deck.add(card);
     }
 
-	/**
-	 * Removes card from the deck
-	 *
-	 * @param card - card
-	 */
-	public void removeCard(Card card) { deck.remove(card);}
+    /**
+     * Removes card from the deck
+     * @param card - card
+     */
+    public void removeCard(Card card) { deck.remove(card);}
 
-	/**
-	 * Return the deck's id
-	 *
-	 * @return deck id
-	 */
-	public int getDeckId(){
+    /**
+     * Return the deck's id
+     * @return deck id
+     */
+    public int getDeckId(){
         return deckId;
     }
 
-	/**
-	 * Gets user id.
-	 *
-	 * @return the user id
-	 */
-	public String getUserId() { return userId; }
+    public String getUserId() { return userId; }
 }

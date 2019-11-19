@@ -10,10 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -32,6 +29,7 @@ public class SocketHandler {
 
 	/**
 	 * This class handles the incoming socket requests.
+	 *
 	 */
 	@Autowired
 	public SocketHandler() {
@@ -69,10 +67,8 @@ public class SocketHandler {
 									matchUp.getPlayerTwoSession().equals(otherSession)))) {
 						logger.info("matching up " + otherId + " and " + id);
 
-						MatchUp matchUp = new MatchUp(otherId, otherSession, id, session);
-						matchUp.startMatchUp();
-
-						matchUpList.add(matchUp);
+						matchUpList.add(new MatchUp(otherId, otherSession, id,
+								session));
 
 						otherSession.getAsyncRemote().sendText(
 								Messages.connectedTrueMatchUpTrue("left")
@@ -114,6 +110,15 @@ public class SocketHandler {
 		CompletableFuture.runAsync(() -> {
 			idAndSession.remove(id);
 			sessionAndId.remove(session);
+
+			matchUpList.remove(findMatchUp(session));
+			MatchUp matchUp = findMatchUp(session);
+
+			if (matchUp != null) {
+				matchUpList.remove(matchUp);
+				MatchUp.getPool().remove(matchUp);
+			}
+
 			purgeMapsAndList();
 		});
 	}

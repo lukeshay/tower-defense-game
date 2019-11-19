@@ -1,28 +1,23 @@
 package com.pvptowerdefense.server.socket.models;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * The type Socket message.
  */
-public class SocketMessage implements Cloneable {
+public class SocketMessage {
 	private String playerOneId;
 	private String playerTwoId;
 
 	private int playerOneMana;
 	private int playerTwoMana;
 
-	private int playerOneTrophies;
-	private int playerTwoTrophies;
-
 	private String winner;
 	private String gameState;
 	private String turnState;
 
-	private long currentTime;
+	private int currentTime;
 
 	private List<PlayedCard> playedCards;
 
@@ -124,22 +119,6 @@ public class SocketMessage implements Cloneable {
 		this.playerTwoMana = playerTwoMana;
 	}
 
-	public int getPlayerOneTrophies() {
-		return playerOneTrophies;
-	}
-
-	public void setPlayerOneTrophies(int playerOneTrophies) {
-		this.playerOneTrophies = playerOneTrophies;
-	}
-
-	public int getPlayerTwoTrophies() {
-		return playerTwoTrophies;
-	}
-
-	public void setPlayerTwoTrophies(int playerTwoTrophies) {
-		this.playerTwoTrophies = playerTwoTrophies;
-	}
-
 	/**
 	 * Gets winner.
 	 *
@@ -199,7 +178,7 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @return the current time
 	 */
-	public long getCurrentTime() {
+	public int getCurrentTime() {
 		return currentTime;
 	}
 
@@ -208,7 +187,7 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param currentTime the current time
 	 */
-	public void setCurrentTime(long currentTime) {
+	public void setCurrentTime(int currentTime) {
 		this.currentTime = currentTime;
 	}
 
@@ -247,15 +226,4 @@ public class SocketMessage implements Cloneable {
 	public void setServerMessage(String serverMessage) {
 		this.serverMessage = serverMessage;
 	}
-
-	@Override
-	public String toString() {
-		return new Gson().toJson(this);
-	}
-
-	@Override
-	public SocketMessage clone() throws CloneNotSupportedException {
-		return (SocketMessage) super.clone();
-	}
-
 }

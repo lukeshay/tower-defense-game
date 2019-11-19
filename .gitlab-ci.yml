@@ -1,7 +1,27 @@
 stages:
+  - mavenbuild
+  - maventest
   - deploy
   - androidbuild
   - androidtest
+
+maven-build:
+  stage: mavenbuild
+  tags:
+    - shell
+  script:
+    - cd BackEnd/ServerServices
+    - chmod 777 *
+    - mvn package
+
+maven-test:
+  stage: maventest
+  tags:
+    - shell
+  script:
+    - cd BackEnd/ServerServices
+    - chmod 777 *
+    - mvn test
 
 deploy:
   stage: deploy
