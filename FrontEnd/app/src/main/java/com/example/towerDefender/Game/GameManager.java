@@ -44,8 +44,6 @@ public class GameManager {
     private Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
 
-    private String text;
-
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
@@ -94,9 +92,7 @@ public class GameManager {
             }
             player.draw(canvas);
             CanvasUtility.drawChatPrompt(canvas);
-            if(text != null){
-                CanvasUtility.drawCenteredText(canvas, text, textPaint);
-            }
+            CanvasUtility.drawChatMessage(canvas, textPaint);
         } else if(!isConnected){ // waiting for game to start
             CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
         } else { //game has ended
@@ -180,7 +176,8 @@ public class GameManager {
     public void passMessageToManager(String message) {
         if (message.contains("Message from opponent: ")) {
             Log.i("CHAT", "received message from opponent");
-            text = message;
+            CanvasUtility.lastChatMessageReceived = message;
+            CanvasUtility.timeChatMessageReceived = System.currentTimeMillis();
         } else {
             SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
             if(!socketMessage.getWinner().trim().isEmpty()){
