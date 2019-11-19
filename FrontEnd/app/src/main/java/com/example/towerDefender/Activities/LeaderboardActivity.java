@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.towerDefender.R;
 import com.example.towerDefender.Util.LeaderboardUtility;
+import com.example.towerDefender.Util.UserUtility;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 import com.example.towerDefender.VolleyServices.User;
 import com.example.towerDefender.VolleyServices.UserRestServices;
@@ -63,18 +64,20 @@ public class LeaderboardActivity extends AppCompatActivity {
         TextView leaderboardTitle = this.findViewById(R.id.leaderboardTitle);
         leaderboardTitle.setPadding(50, 50, 50, 50);
         leaderboardTitle.setTextColor(Color.BLACK);
-        for(int i = 0; i < users.length - 1; i++){
+        for(int i = 0; i < 10; i++){ // only display top ten
             User user = users[i];
             TextView textView = new TextView(this);
             textView.setLayoutParams(leaderboardTitle.getLayoutParams());
-            if(i == 0){ //user is the highest ranked
+            if(user.phoneId.equals(UserUtility.getUserId())){
+                textView.setBackgroundColor(getResources().getColor(R.color.selectorGreen));
+            } else if(user.trophyCount >= LeaderboardUtility.GOLD_CUTOFF){ //user is the highest ranked
                 textView.setBackgroundColor(getResources().getColor(R.color.colorGold));
-            } else if(i == 1 || i == 2 && users[i].trophyCount != 0){
+            } else if(users[i].trophyCount >= LeaderboardUtility.SILVER_CUTOFF){
                 textView.setBackgroundColor(getResources().getColor(R.color.colorSilver));
             } else {
                 textView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
-            textView.setText(user.phoneId + ": " + user.trophyCount + " trophies.");
+            textView.setText(user.userName + ": " + user.trophyCount + " trophies.");
             textView.setPadding(50, 50, 50, 50);
             textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             textView.setTextColor(Color.BLACK);
