@@ -30,7 +30,6 @@ import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
-    private SocketMessage lastSocketMessage;
     private boolean inGame = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

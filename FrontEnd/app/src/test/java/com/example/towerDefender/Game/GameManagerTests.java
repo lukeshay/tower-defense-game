@@ -24,7 +24,7 @@ public class GameManagerTests extends TestCase {
     public void testConnectMessageAndSetSide(){
         GameView gameView = mock(GameView.class);
         Player player = mock(Player.class);
-        GameManager manager = new GameManager(player);
+        GameManager manager = new GameManager(player, true);
         Assert.assertFalse(manager.isConnected());
         manager.passMessageToManager(connectedMessage);
         Assert.assertTrue(manager.isConnected());
@@ -33,7 +33,7 @@ public class GameManagerTests extends TestCase {
 
     public void testConvertPlayedCard(){
         Player player = mock(Player.class);
-        GameManager manager = new GameManager(player);
+        GameManager manager = new GameManager(player, true);
         when(player.getUserId()).thenReturn("test User");
         manager.passMessageToManager(connectedMessage);
         Assert.assertEquals(0, manager.getPlayedCards().getWrappedCards().size());
@@ -46,9 +46,10 @@ public class GameManagerTests extends TestCase {
 
     public void testGameOverMessage(){
         Player player = mock(Player.class);
-        GameManager manager = new GameManager(player);
+        GameManager manager = new GameManager(player, true);
         Assert.assertFalse(manager.isGameOver());
         manager.passMessageToManager(gameOverMessage);
         Assert.assertTrue(manager.isGameOver());
     }
+
 }

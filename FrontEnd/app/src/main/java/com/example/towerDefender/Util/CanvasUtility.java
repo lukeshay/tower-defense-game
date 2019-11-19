@@ -14,9 +14,6 @@ public class CanvasUtility {
      * All draws to the canvas for information with position sent from the server must be normalized against this bound.
      */
     public static final int SERVER_X_BOUND = 1920;
-    public static ChatBar chatBar;
-    public static long timeChatMessageReceived;
-    public static String lastChatMessageReceived;
 
     /**
      * Draws the provided text on the center of the provided {@link Canvas}
@@ -28,17 +25,6 @@ public class CanvasUtility {
         int xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(text) / 2);
         int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
         canvas.drawText(text, xPos, yPos, textPaint);
-    }
-
-    /**
-     * Draws the chat box
-     * @param canvas the canvas to draw on
-     */
-    public static void drawChatPrompt(Canvas canvas){
-        if(chatBar == null){
-            chatBar = new ChatBar(canvas);
-        }
-        chatBar.draw(canvas);
     }
 
     /**
@@ -59,30 +45,5 @@ public class CanvasUtility {
      */
     public static int convertCanvasPositionToServerPosition(Canvas canvas, int xPos){
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
-    }
-
-    public static ChatBar getChatBar(){
-        return chatBar;
-    }
-
-    public static void initializeChatBar(Canvas canvas){
-        chatBar = new ChatBar(canvas);
-    }
-
-    /**
-     * Draws the last received chat message to the canvas if it was received within the last 2.5 seconds
-     * @param canvas the canvas to draw the message on
-     * @param textPaint the text paint to use
-     */
-    public static void drawChatMessage(Canvas canvas, Paint textPaint){
-        if(lastChatMessageReceived != null){
-            if(System.currentTimeMillis() - timeChatMessageReceived < 2500){
-                //TODO: make new manager with its own paint stored so we don't need to rely on textPaint parameter
-                float temp = textPaint.getTextSize();
-                textPaint.setTextSize(75);
-                drawCenteredText(canvas, lastChatMessageReceived, textPaint);
-                textPaint.setTextSize(temp);
-            }
-        }
     }
 }
