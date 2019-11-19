@@ -141,18 +141,37 @@ public class inventoryActivity extends Activity {
                         Log.e("deck", response.toString());
                         decks = new ArrayList<>(JsonUtils.jsonToOwnedDecksArray(response.toString()));
                         JSONObject emptyjsonObject = new JSONObject();
-                        for (Card x : da.getDeck()) {
-                            VolleyUtilities.postRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/deck/" + decks.get(selected).get_deckId() +"/" + x.cardName.replace(" ", "%20"), new VolleyResponseListener() {
-                                @Override
-                                public void onError(String message) {
-                                    Log.e("error on card add", message);
-                                }
+                        if(da.getDeck().size() == 0){
+                            for (Card x : decks.get(selected).get_deck()){
+                                VolleyUtilities.deleteRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/deck/deleteCard/" + decks.get(selected).get_deckId() + "/" + x.cardName.replace(" ", "%20"), new VolleyResponseListener() {
+                                    @Override
+                                    public void onError(String message) {
 
-                                @Override
-                                public void onResponse(Object response) {
-                                    Log.e("added", "added to deck 1");
-                                }
-                            }, emptyjsonObject);
+                                    }
+
+                                    @Override
+                                    public void onResponse(Object response) {
+                                        Log.e("removed", "removed card");
+                                    }
+                                });
+                            }
+                        }
+
+
+                        else {
+                            for (Card x : da.getDeck()) {
+                                VolleyUtilities.postRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/deck/" + decks.get(selected).get_deckId() + "/" + x.cardName.replace(" ", "%20"), new VolleyResponseListener() {
+                                    @Override
+                                    public void onError(String message) {
+                                        Log.e("error on card add", message);
+                                    }
+
+                                    @Override
+                                    public void onResponse(Object response) {
+                                        Log.e("added", "added to deck 1");
+                                    }
+                                }, emptyjsonObject);
+                            }
                         }
 
                 for(Card x:da.getDeck()){

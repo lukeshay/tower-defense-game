@@ -63,10 +63,6 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO: this is broken look into why we cannot grab the index as the view should not be null
-                //RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
-                //int itemPosition = recyclerView.indexOfChild(v);
-                //Log.e("clickEvent", "user clicked on a card " + String.valueOf(itemPosition));
                 removeItem(viewPosition);
             }
         });
