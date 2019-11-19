@@ -60,7 +60,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                //Log.i("SOCKET_MESSAGE: ", message);
+                Log.i("SOCKET_MESSAGE: ", message);
                 if(!inGame){
                     if(message.contains("\"matchUp\":\"true\"")){
                         try {

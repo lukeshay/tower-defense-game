@@ -41,7 +41,7 @@ public class Player {
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
         textPaint.setColor(Color.WHITE);
-        this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID);
+        this.userId = Settings.Secure.getString(context.getContentResolver(), ANDROID_ID).substring(0, 5);
     }
 
     /**

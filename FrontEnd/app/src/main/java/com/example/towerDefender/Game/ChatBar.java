@@ -65,7 +65,6 @@ public class ChatBar {
         Log.i("CHATBAR", "clicked on chatbar.");
         if(clickedOn){
             clickedOn = false;
-            //TODO: calculate which option.
             if(xPos < clickedBackgroundRect.left + (int)textPaint.measureText(CHAT_OPTIONS[0])){
                 SocketUtilities.sendMessage("Message from opponent: " + CHAT_OPTIONS[0]);
             } else if (xPos < clickedBackgroundRect.left + (int)textPaint.measureText(CHAT_OPTIONS[0] + " " + CHAT_OPTIONS[1])){

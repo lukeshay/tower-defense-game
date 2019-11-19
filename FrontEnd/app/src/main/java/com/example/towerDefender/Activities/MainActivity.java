@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             Log.e("ran:", Boolean.toString(prefrences.getBoolean("RanBefore", false)));
         }
-        return !firstRun;
+        //return !firstRun;
+        return true;
     }
 }
