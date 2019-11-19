@@ -16,12 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.towerDefender.Activities.testsock">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name="com.example.towerDefender.Activities.NavigationActivity">
         <intent-filter>
             <action android:name="android.intent.action.VIEW"/>
@@ -32,7 +26,7 @@
         <activity android:name="com.example.towerDefender.Activities.MultiplayerGameActivity"
             android:screenOrientation="userLandscape">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />    
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

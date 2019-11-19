@@ -1,27 +1,41 @@
 package com.example.towerDefender.Card;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.towerDefender.Game.GameObjectSprite;
+import com.example.towerDefender.R;
 
 import java.util.ArrayList;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
     private ArrayList<Card> mDataSet;
     private Context mContext;
     private deckAdapter deck;
+    private PopupWindow mPopupWindow;
+    private ImageButton closeButton;
+    private TextView textview;
+    private ImageView card_desc_imv;
 
     public cardAdapter(Context context,ArrayList<Card> DataSet, deckAdapter _deck){
         mDataSet = DataSet;
@@ -45,6 +59,7 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
     @NonNull
     public cardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(mContext).inflate(com.example.towerDefender.R.layout.custom_view,parent,false);
+
         return new ViewHolder(v);
     }
 
@@ -64,8 +79,41 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
                 //TODO: this is broken look into why we cannot grab the index as the view should not be null
                 //RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
                 //int itemPosition = recyclerView.indexOfChild(v);
-                Log.e("clickEvent", "user clicked on a card " + Integer.toString(viewPosition) + " " + getItem(viewPosition));
-                deck.addItem();
+                   Log.e("clickEvent", "user clicked on a card " + Integer.toString(viewPosition) + " " + getItem(viewPosition).cardName);
+                    deck.addCard(getItem(viewPosition));
+                   //deck.addItem();
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            public boolean onLongClick(View view){
+                Log.e("returned", getItem(viewPosition).cardName);
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+                View customView = inflater.inflate(R.layout.card_desc_view,null);
+                mPopupWindow = new PopupWindow(
+                        customView,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                closeButton = customView.findViewById(R.id.ib_close);
+                textview = customView.findViewById(R.id.card_desc_tv);
+                card_desc_imv = customView.findViewById(R.id.card_desc_img);
+                textview.setText(
+                       "Name:" + getItem(viewPosition).cardName + "\n" +
+                       "Description:" + getItem(viewPosition).cardDescription + "\n" +
+                       "Cast Cost:" + getItem(viewPosition).castingCost + "\n" +
+                               "Speed:" + getItem(viewPosition).speed + "\n" +
+                                "HP:" + getItem(viewPosition).hitPoints + "\n" +
+                               "Range:" + getItem(viewPosition).range + "\n"
+                );
+                card_desc_imv.setImageBitmap(CardUtilities.getGameObjectSprite(mContext,getItem(viewPosition),0,0, false).image);
+                closeButton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        mPopupWindow.dismiss();
+                    }
+                });
+                mPopupWindow.showAtLocation(view.getRootView(), Gravity.CENTER,0,0);
+                return true;
             }
         });
     }

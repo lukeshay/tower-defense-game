@@ -2,7 +2,7 @@ package com.pvptowerdefense.server.socket.models;
 
 import com.google.gson.Gson;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map;
 
 /**
@@ -114,12 +114,6 @@ public class Messages {
 		return new Gson().fromJson(json, PlayedCard.class);
 	}
 
-	/**
-	 * Card not added string.
-	 *
-	 * @param reason the reason
-	 * @return the string
-	 */
 	public static String cardNotAdded(String reason) {
 		Map<String, String> map = new HashMap<>();
 

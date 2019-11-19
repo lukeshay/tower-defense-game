@@ -5,7 +5,6 @@ import com.pvptowerdefense.test.websocketclient.SS5WebSocketClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shared.PlayedCard;
-import shared.SocketMessage;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,45 +44,22 @@ class SocketTests {
 	}
 
 	@Test
-	void onePlayerForfeitTest() throws InterruptedException, IOException {
-		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
-		Thread.sleep(1000);
-		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
-
-		Thread.sleep(40000);
-
-		webSocket2.close();
-
-		Thread.sleep(1000);
-
-		SocketMessage socketMessage = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket1.getMessages().size() - 1));
-
-		Assertions.assertEquals(webSocket1.getId(), socketMessage.getWinner());
-	}
-
-
-//	@Test
 	void sendCardByEnemyTowerTest() throws InterruptedException,
 			IOException {
-		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		Thread.sleep(1000);
-		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
-
-		Thread.sleep(35000);
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 
 		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
-				"UNIT", 200, 1900, 100, "test1"));
+				"UNIT", 200, 1900, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 100, 0,
-				"UNIT", 200, 100, 100, "test2"));
+				"UNIT", 200, 100, 100, "2"));
 		Thread.sleep(5000);
 
-		SocketMessage message1 = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket2.getMessages().size() - 5));
-		SocketMessage message2 = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket2.getMessages().size() - 5));
-		List<PlayedCard> cards1 = message1.getPlayedCards();
-		List<PlayedCard> cards2 = message2.getPlayedCards();
-
-		System.out.println(cards1.toString());
-		System.out.println(cards2.toString());
+		List<PlayedCard> cards1 = Message.convertToListOfPlayedCards(
+						webSocket1.getMessages().get(webSocket1.getMessages().size() - 5));
+		List<PlayedCard> cards2 = Message.convertToListOfPlayedCards(
+						webSocket2.getMessages().get(webSocket2.getMessages().size() - 5));
 
 		System.out.println(cards1.toString());
 		System.out.println(cards2.toString());
@@ -106,36 +82,36 @@ class SocketTests {
 				() -> Assertions.assertTrue(cards2.toString().contains(
 						"tower3")),
 				() -> Assertions.assertTrue(100 >
-						cards1.get(3).getCurrentHitPoints()),
+						cards1.get(3).getHitPoints()),
 				() -> Assertions.assertTrue(100 >
-						cards2.get(3).getCurrentHitPoints()),
+						cards2.get(3).getHitPoints()),
 				() -> Assertions.assertTrue(100 >
-						cards1.get(7).getCurrentHitPoints()),
+						cards1.get(7).getHitPoints()),
 				() -> Assertions.assertTrue(100 >
-						cards2.get(7).getCurrentHitPoints())
+						cards2.get(7).getHitPoints())
 		);
 
 		webSocket1.close();
 		webSocket2.close();
 	}
 
-//	@Test
+	@Test
 	public void sendCardByOwnTowerTest() throws InterruptedException,
 			IOException {
-		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("test1");
+		SS5WebSocketClient webSocket1 = new SS5WebSocketClient("1");
 		Thread.sleep(1000);
-		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("test2");
+		SS5WebSocketClient webSocket2 = new SS5WebSocketClient("2");
 
 		webSocket1.sendMessage(new PlayedCard("Card1", "Card1", 1, 1, 100, 0,
-				"UNIT", 250, 100, 100, "test1"));
+				"UNIT", 250, 100, 100, "1"));
 		webSocket2.sendMessage(new PlayedCard("Card2", "Card2", 1, 1, 100, 0,
-				"UNIT", 250, 1900, 100, "test2"));
+				"UNIT", 250, 1900, 100, "2"));
 		Thread.sleep(5000);
 
-		SocketMessage message1 = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket2.getMessages().size() - 5));
-		SocketMessage message2 = Message.convertToSocketMessage(webSocket1.getMessages().get(webSocket2.getMessages().size() - 5));
-		List<PlayedCard> cards1 = message1.getPlayedCards();
-		List<PlayedCard> cards2 = message2.getPlayedCards();
+		List<PlayedCard> cards1 = Message.convertToListOfPlayedCards(
+				webSocket1.getMessages().get(webSocket2.getMessages().size() - 5));
+		List<PlayedCard> cards2 = Message.convertToListOfPlayedCards(
+				webSocket2.getMessages().get(webSocket2.getMessages().size() - 5));
 
 		System.out.println(cards1.toString());
 		System.out.println(cards2.toString());
@@ -158,13 +134,13 @@ class SocketTests {
 				() -> Assertions.assertTrue(cards2.toString().contains(
 						"tower3")),
 				() -> Assertions.assertEquals(100,
-						cards1.get(3).getCurrentHitPoints()),
+						cards1.get(3).getHitPoints()),
 				() -> Assertions.assertEquals(100,
-						cards2.get(3).getCurrentHitPoints()),
+						cards2.get(3).getHitPoints()),
 				() -> Assertions.assertEquals(100,
-						cards1.get(7).getCurrentHitPoints()),
+						cards1.get(7).getHitPoints()),
 				() -> Assertions.assertEquals(100,
-						cards2.get(7).getCurrentHitPoints())
+						cards2.get(7).getHitPoints())
 		);
 
 		webSocket1.close();

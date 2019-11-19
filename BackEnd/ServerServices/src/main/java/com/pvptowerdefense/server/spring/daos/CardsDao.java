@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CardsDao extends CrudRepository<Card, String> {
-	/**
-	 * Gets card by name.
-	 *
-	 * @param name the name
-	 * @return the card by name
-	 */
-	Card getCardByName(String name);
+    /**
+     * Gets card by name.
+     *
+     * @param name the name
+     * @return the card by name
+     */
+    Card getCardByName(String name);
 }
