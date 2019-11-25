@@ -10,8 +10,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.SocketServices.Message;
 import com.example.towerDefender.SocketServices.SocketListener;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.GameView;
@@ -20,7 +20,7 @@ import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
-import org.java_websocket.WebSocket;
+
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
 
-    private String lastSocketMessage;
     private boolean inGame = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +38,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        VolleyUtilities.getRequest(this.getApplicationContext(), CardRestServices.BASE_URL, new VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                Log.e("ERROR", "Encountered an error while grabbing cards from database. " + message);
-            }
-
-            @Override
-            public void onResponse(Object response) {
-                startGame(new ArrayList<>(JsonUtils.jsonToCardArray(response.toString())));
-            }
-        });
+        startGame(NavigationActivity.selectedDeck.get_deck());
     }
     public void startGame(ArrayList<Card> cards){
         final Context ctx = this.getApplicationContext();
@@ -60,7 +48,6 @@ public class MultiplayerGameActivity extends AppCompatActivity {
             @OnMessage
             @Override
             public void onMessage(String message) {
-                //Log.i("SOCKET_MESSAGE: ", message);
                 if(!inGame){
                     if(message.contains("\"matchUp\":\"true\"")){
                         try {
@@ -75,11 +62,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                         catch(Exception e){e.printStackTrace();}
                     }
                 } else {
-                    if(lastSocketMessage != null && lastSocketMessage.equals(message)){
-                        //don't do anything, the message is the same
-                    } else{
-                        gameView.getManager().passMessageToManager(message);
-                    }
+                    gameView.getManager().passMessageToManager(message);
                 }
             }
 

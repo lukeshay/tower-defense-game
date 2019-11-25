@@ -14,6 +14,7 @@ import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Util.CanvasUtility;
+import com.example.towerDefender.Util.ChatUtility;
 import com.example.towerDefender.VolleyServices.JsonUtils;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
@@ -43,9 +44,7 @@ public class GameManager {
     private boolean wonOrLost = false; // true if they won
     private Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
-
-    private String text;
-
+    private boolean test = false;
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
@@ -61,6 +60,23 @@ public class GameManager {
         textPaint.setTextSize(150);
         textPaint.setColor(Color.WHITE);
         closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
+    }
+
+    /**
+     * Constructs a new {@link GameManager}
+     * @param player the {@link Player} to use
+     * @param test true if launching in 'test' mode. Limits context references
+     */
+    public GameManager(Player player, boolean test){
+        this.player = player;
+        test = true;
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
+        isPlayingCard = false;
+        cardToPlayIndex = 0;
+        playerSide = "left";
+        textPaint = new Paint(Color.BLACK);
+        textPaint.setTextSize(150);
+        textPaint.setColor(Color.WHITE);
     }
 
     //TODO: these pulls should be randomized, pulled from the server
@@ -93,10 +109,8 @@ public class GameManager {
                 card.draw(canvas);
             }
             player.draw(canvas);
-            CanvasUtility.drawChatPrompt(canvas);
-            if(text != null){
-                CanvasUtility.drawCenteredText(canvas, text, textPaint);
-            }
+            ChatUtility.drawChatPrompt(canvas);
+            ChatUtility.drawChatMessage(canvas, textPaint);
         } else if(!isConnected){ // waiting for game to start
             CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
         } else { //game has ended
@@ -177,10 +191,11 @@ public class GameManager {
      * Sends a message to the game manager
      * @param message the message to send to the game manager
      */
-    public void passMessageToManager(String message){
-        if(message.contains("Message from opponent ")){
+    public void passMessageToManager(String message) {
+        if (message.contains("Message from opponent: ")) {
             Log.i("CHAT", "received message from opponent");
-            text = message;
+            ChatUtility.lastChatMessageReceived = message;
+            ChatUtility.timeChatMessageReceived = System.currentTimeMillis();
         } else {
             SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
             if(!socketMessage.getWinner().trim().isEmpty()){
