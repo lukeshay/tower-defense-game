@@ -16,7 +16,7 @@ import org.junit.Assert;
 
 import static org.mockito.Mockito.mock;
 
-public class CardUtilitiesImplementationTests extends TestCase {
+public class CardUtilitiesInstrumentedTest extends TestCase {
     private static Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
     private static Card card1 = new Card("Wizard", "basicWizard", 5, 5, 5, 5, "UNIT", 5);
 
