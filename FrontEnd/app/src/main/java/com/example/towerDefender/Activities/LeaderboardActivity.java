@@ -6,20 +6,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.towerDefender.R;
 import com.example.towerDefender.Util.LeaderboardUtility;
 import com.example.towerDefender.Util.UserUtility;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 import com.example.towerDefender.VolleyServices.User;
 import com.example.towerDefender.VolleyServices.UserRestServices;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -36,7 +33,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Object response) {
-                initializeLeaderboard(new ArrayList<>(JsonUtils.jsonToUserList(response.toString())));
+                initializeLeaderboard(new ArrayList<>(JsonUtility.jsonToUserList(response.toString())));
             }
         });
     }

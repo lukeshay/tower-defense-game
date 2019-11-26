@@ -31,7 +31,7 @@ public class PlayedCardsHolderTests extends TestCase {
         Player player = mock(Player.class);
         GameManager manager = mock(GameManager.class);
         when(player.getUserId()).thenReturn("testUser");
-        holder = new PlayedCardsHolder(setup(), player);
+        holder = new PlayedCardsHolder(setup());
         Assert.assertEquals(5, holder.getPlayedCards().size());
         holder.addOrUpdate(new PlayedCard(new Card("Reaper2", "basicReaper", 5, 5, 5, 5, "UNIT", 5), 15, 15, "testUser"), manager);
         Assert.assertEquals("Adding a card with the same name as another should NOT add a new card, simply update the old one. ",5, holder.getPlayedCards().size());
@@ -44,7 +44,7 @@ public class PlayedCardsHolderTests extends TestCase {
         when(manager.getPlayer()).thenReturn(player);
         when(manager.getPlayerSide()).thenReturn("left");
         when(manager.getPlayer().getPlayerContext()).thenThrow(new MockitoException("Started to initialize new sprite!"));
-        holder = new PlayedCardsHolder(setup(), player);
+        holder = new PlayedCardsHolder(setup());
         Assert.assertEquals(5, holder.getPlayedCards().size());
         try{
             holder.addOrUpdate(new PlayedCard(new Card("ReaperKing", "reaper", 5, 5, 5, 5, "UNIT", 5), 15, 15, "testUser"), manager);
@@ -64,7 +64,7 @@ public class PlayedCardsHolderTests extends TestCase {
         when(manager.getPlayer()).thenReturn(player);
         when(manager.getPlayerSide()).thenReturn("left");
         when(manager.getPlayer().getPlayerContext()).thenThrow(new MockitoException("Started to initialize new sprite!"));
-        holder = new PlayedCardsHolder(setup(), player);
+        holder = new PlayedCardsHolder(setup());
         Assert.assertEquals(5, holder.getPlayedCards().size());
         try{
             holder.addOrUpdate(new PlayedCard(new Card("Reaper3", "reaper", 5, 5, 5, 5, "UNIT", 5), 15, 15, "testEnemy"), manager);

@@ -13,11 +13,9 @@ import com.example.towerDefender.Card.PlayedCard;
  */
 public class PlayedCardsHolder {
     private List<PlayedCard> playedCards;
-    private Player player;
 
-    public PlayedCardsHolder(List<PlayedCard> playedCards, Player player){
+    public PlayedCardsHolder(List<PlayedCard> playedCards){
         this.playedCards = playedCards;
-        this.player = player;
     }
 
     /**

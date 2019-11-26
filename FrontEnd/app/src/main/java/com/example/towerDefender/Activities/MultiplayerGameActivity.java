@@ -11,20 +11,14 @@ import android.view.WindowManager;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.SocketServices.SocketListener;
-import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
-import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.GameView;
-import com.example.towerDefender.VolleyServices.JsonUtils;
 import com.example.towerDefender.Game.Player;
-import com.example.towerDefender.VolleyServices.VolleyResponseListener;
-import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.websocket.OnMessage;
 

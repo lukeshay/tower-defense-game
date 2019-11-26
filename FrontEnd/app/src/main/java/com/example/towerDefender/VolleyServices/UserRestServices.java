@@ -3,11 +3,8 @@ package com.example.towerDefender.VolleyServices;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Util.JsonUtility;
 
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class UserRestServices {
@@ -30,7 +27,7 @@ public class UserRestServices {
             @Override
             public void onResponse(Object response) {
                 setResponse(true);
-                setUsers(new ArrayList<>(JsonUtils.jsonToUserList(response.toString())));
+                setUsers(new ArrayList<>(JsonUtility.jsonToUserList(response.toString())));
             }
         });
     }

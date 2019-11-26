@@ -1,4 +1,4 @@
-package com.example.towerDefender.VolleyServices;
+package com.example.towerDefender.Utility;
 
 import android.content.Context;
 
@@ -16,11 +16,12 @@ import java.util.List;
 
 import com.example.towerDefender.Card.PlayedCard;
 import com.example.towerDefender.SocketServices.SocketMessage;
+import com.example.towerDefender.Util.JsonUtility;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class JsonUtilsTests extends TestCase {
+public class JsonUtilityTest extends TestCase {
     private static String response = "[{\"name\":\"Card 1\",\"description\":\"Card 1 desc\",\"cost\":1,\"damage\":1,\"hitPoints\":1,\"speed\":1,\"type\":\"UNIT\",\"range\":50}," +
             "{\"name\":\"Card 2\",\"description\":\"Card 2 desc\",\"cost\":2,\"damage\":2,\"hitPoints\":2,\"speed\":2,\"type\":\"SPELL\",\"range\":40}," +
             "{\"name\":\"Card 3\",\"description\":\"Card 3 desc\",\"cost\":3,\"damage\":3,\"hitPoints\":3,\"speed\":3,\"type\":\"UNIT\",\"range\":5}," +
@@ -60,7 +61,7 @@ public class JsonUtilsTests extends TestCase {
         Context context = mock(Context.class);
         when(player.getPlayerContext()).thenReturn(context);
         deck = new Deck(player, context, new ArrayList<Card>());
-        deck.setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response)));
+        deck.setDeck(new ArrayList<>(JsonUtility.jsonToCardArray(response)));
         Assert.assertTrue(deck.size() == 5);
     }
 
@@ -69,8 +70,8 @@ public class JsonUtilsTests extends TestCase {
             Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
             PlayedCard playedCard = new PlayedCard(card, 5, 15, "test Player");
             Assert.assertNotNull(playedCard);
-            JsonUtils.playedCardToJson(playedCard);
-            Assert.assertNotNull(JsonUtils.playedCardToJson(playedCard));
+            JsonUtility.playedCardToJson(playedCard);
+            Assert.assertNotNull(JsonUtility.playedCardToJson(playedCard));
         } catch(Exception e){
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -89,7 +90,7 @@ public class JsonUtilsTests extends TestCase {
                 "\"xValue\":5," +
                 "\"yValue\":15," +
                 "\"player\":\"test Player\"}";
-        PlayedCard card = JsonUtils.jsonToPlayedCard(json);
+        PlayedCard card = JsonUtility.jsonToPlayedCard(json);
         Assert.assertNotNull(card);
         Assert.assertTrue(card.getName().equals("Reaper"));
         Assert.assertTrue(card.getDescription().equals("basicReaper"));
@@ -108,12 +109,12 @@ public class JsonUtilsTests extends TestCase {
                 "\"xValue\":5," +
                 "\"yValue\":15," +
                 "\"player\":\"test Player\"}]";
-        Collection<PlayedCard> cards = JsonUtils.jsonToPlayedCardArray(json);
+        Collection<PlayedCard> cards = JsonUtility.jsonToPlayedCardArray(json);
         Assert.assertNotNull(cards);
     }
 
     public void testSocketMessageComponentsFromResponse(){
-        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(socketMessageResponse);
+        SocketMessage socketMessage = JsonUtility.jsonToSocketMessage(socketMessageResponse);
         Assert.assertEquals(socketMessage.getGameState(), "in-game");
         Assert.assertEquals(socketMessage.getPlayerOneId(), "fc6acf074a497842");
         Assert.assertEquals(socketMessage.getPlayerTwoId(), "4f0077cc4d8874ec");
@@ -121,7 +122,7 @@ public class JsonUtilsTests extends TestCase {
     }
 
     public void testSocketMessagePlayedCards(){
-        SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(socketMessageResponse);
+        SocketMessage socketMessage = JsonUtility.jsonToSocketMessage(socketMessageResponse);
         List<PlayedCard> cards = socketMessage.getPlayedCards();
         Assert.assertFalse(cards.isEmpty());
         Assert.assertEquals(cards.size(), 10);

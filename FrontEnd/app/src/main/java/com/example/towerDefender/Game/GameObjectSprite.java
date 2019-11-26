@@ -52,13 +52,6 @@ public class GameObjectSprite extends Sprite {
         this.moveAnimation = new SpriteAnimation(image, frameCount);
     }
 
-    /**
-     * Updates the x and y values based upon its velocity.
-     */
-    @Override
-    public void update() {
-    }
-
     @Override
     public void draw(Canvas canvas){
         if (this.status.equals(SPRITE_STATUS.ATTACKING) && this.attackAnimation != null){

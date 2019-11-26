@@ -1,13 +1,10 @@
 package com.example.towerDefender.Game;
 
-import com.example.towerDefender.Card.PlayedCard;
-
 import junit.framework.TestCase;
 
 import org.junit.Assert;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class GameManagerTests extends TestCase {
 

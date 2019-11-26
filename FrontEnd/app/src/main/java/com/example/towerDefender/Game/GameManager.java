@@ -1,11 +1,9 @@
 package com.example.towerDefender.Game;
 
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.icu.text.Collator;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
@@ -15,7 +13,7 @@ import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Util.CanvasUtility;
 import com.example.towerDefender.Util.ChatUtility;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
@@ -44,14 +42,13 @@ public class GameManager {
     private boolean wonOrLost = false; // true if they won
     private Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
-    private boolean test = false;
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
      */
     public GameManager(Player player){
         this.player = player;
-        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>());
         isPlayingCard = false;
         cardToPlayIndex = 0;
         playerSide = "left";
@@ -59,7 +56,7 @@ public class GameManager {
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(150);
         textPaint.setColor(Color.WHITE);
-        closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
+        closeButton = new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
     /**
@@ -69,17 +66,19 @@ public class GameManager {
      */
     public GameManager(Player player, boolean test){
         this.player = player;
-        test = true;
-        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>());
         isPlayingCard = false;
         cardToPlayIndex = 0;
         playerSide = "left";
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(150);
         textPaint.setColor(Color.WHITE);
+        if(!test){
+            closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
+        }
+
     }
 
-    //TODO: these pulls should be randomized, pulled from the server
     /**
      * Initializes the {@link Player}'s deck.
      */
@@ -163,7 +162,7 @@ public class GameManager {
         try {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
-            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend,
+            SocketUtilities.sendMessage(JsonUtility.playedCardToJson(new PlayedCard(toSend,
                     CanvasUtility.convertCanvasPositionToServerPosition(canvas, eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
@@ -197,7 +196,7 @@ public class GameManager {
             ChatUtility.lastChatMessageReceived = message;
             ChatUtility.timeChatMessageReceived = System.currentTimeMillis();
         } else {
-            SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
+            SocketMessage socketMessage = JsonUtility.jsonToSocketMessage(message);
             if(!socketMessage.getWinner().trim().isEmpty()){
                 if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
                     this.gameOver = true;
