@@ -17,6 +17,7 @@ import java.util.List;
 import com.example.towerDefender.Card.PlayedCard;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.Util.JsonUtility;
+import com.example.towerDefender.VolleyServices.User;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -54,6 +55,19 @@ public class JsonUtilityTest extends TestCase {
             "Medium damage, medium range, high hp\",\"cost\":2,\"damage\":2,\"currentHitPoints\":15,\"totalHitPoints\":15,\"speed\":2,\"type\":\"UNIT\",\"range\":250," +
             "\"xValue\":895,\"yValue\":365,\"player\":\"4f0077cc4d8874ec\",\"attacking\":false,\"cardAttackingDistance\":2147483647}],\"serverMessage\":\"\"}";
 
+    private static String userListMessage = "[\n" +
+            "    {\n" +
+            "        \"phoneId\": \"Some id\",\n" +
+            "        \"userName\": \"Some name\",\n" +
+            "        \"email\": \"a@a.com\",\n" +
+            "        \"firstName\": \"Some first name\",\n" +
+            "        \"lastName\": \"Some last name\",\n" +
+            "        \"xp\": 0,\n" +
+            "        \"trophies\": 0,\n" +
+            "        \"userType\": \"Admin\",\n" +
+            "        \"ownedCards\": [],\n" +
+            "        \"deckNames\": []\n" +
+            "    }]";
 
     public void testDeckFromJson(){
         Deck deck;
@@ -127,4 +141,13 @@ public class JsonUtilityTest extends TestCase {
         Assert.assertFalse(cards.isEmpty());
         Assert.assertEquals(cards.size(), 10);
     }
+
+    public void testUserMessage(){
+        Collection<User> users = JsonUtility.jsonToUserList(userListMessage);
+        Assert.assertNotNull(users);
+        User user = (User)users.toArray()[0];
+        Assert.assertTrue(user.phoneId.equals("Some id"));
+        Assert.assertTrue(user.email.equals("a@a.com"));
+    }
+
 }

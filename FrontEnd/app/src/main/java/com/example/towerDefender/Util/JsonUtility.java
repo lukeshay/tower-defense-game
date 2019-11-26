@@ -151,5 +151,4 @@ public class JsonUtility {
         return test.fromJson(json, SocketMessage.class);
     }
 
-
 }
