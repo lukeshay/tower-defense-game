@@ -52,31 +52,4 @@ public class CanvasUtility {
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
     }
 
-    /**
-     * Draws the game to the provided {@link Canvas}
-     * @param canvas the canvas to draw on
-     */
-    public static void drawGameState(Canvas canvas){
-        CanvasUtility.canvas = canvas;
-        if(GameManager.isConnected && !GameManager.gameOver){ // in game
-            GameManager.closeButton.draw(canvas);
-            for(PlayedCard playedCard : GameManager.playedCards.getPlayedCards()){
-                playedCard.draw(canvas);
-            }
-            for(CardInHand card : GameManager.player.getHand()){
-                card.draw(canvas);
-            }
-            GameManager.player.draw(canvas);
-            ChatUtility.drawChatPrompt(canvas);
-            ChatUtility.drawChatMessage(canvas, textPaint);
-        } else if(!GameManager.isConnected){ // waiting for game to start
-            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
-        } else { //game has ended
-            if(GameManager.wonOrLost){
-                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
-            } else{
-                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
-            }
-        }
-    }
 }

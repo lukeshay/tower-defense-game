@@ -28,17 +28,17 @@ public class GameManager {
      * The side the {@link GameManager}'s player is on. (left or right)
      */
     public static String playerSide;
-    public static Player player;
-    public static boolean isConnected = false;
-    public static PlayedCardsHolder playedCards;
+    public Player player;
+    public boolean isConnected = false;
+    public PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     private int cardsSent = 0;
-    public static boolean gameOver = false;
+    public  boolean gameOver = false;
     private boolean playerSideSet = false;
-    public static boolean wonOrLost = false; // true if they won
+    public boolean wonOrLost = false; // true if they won
     public static Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
     /**
