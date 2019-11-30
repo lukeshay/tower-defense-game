@@ -28,19 +28,18 @@ public class GameManager {
      * The side the {@link GameManager}'s player is on. (left or right)
      */
     public static String playerSide;
-    private Player player;
-    private boolean isConnected = false;
-    private PlayedCardsHolder playedCards;
+    public static Player player;
+    public static boolean isConnected = false;
+    public static PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     private int cardsSent = 0;
-    private boolean gameOver = false;
-    private Paint textPaint;
+    public static boolean gameOver = false;
     private boolean playerSideSet = false;
-    private boolean wonOrLost = false; // true if they won
-    private Sprite closeButton;
+    public static boolean wonOrLost = false; // true if they won
+    public static Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
     /**
      * Constructs a new {@link GameManager}
@@ -53,9 +52,9 @@ public class GameManager {
         cardToPlayIndex = 0;
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
-        textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(150);
-        textPaint.setColor(Color.WHITE);
+        CanvasUtility.textPaint = new Paint(Color.BLACK);
+        CanvasUtility.textPaint.setTextSize(150);
+        CanvasUtility.textPaint.setColor(Color.WHITE);
         closeButton = new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
@@ -70,9 +69,9 @@ public class GameManager {
         isPlayingCard = false;
         cardToPlayIndex = 0;
         playerSide = "left";
-        textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(150);
-        textPaint.setColor(Color.WHITE);
+        CanvasUtility.textPaint = new Paint(Color.BLACK);
+        CanvasUtility.textPaint.setTextSize(150);
+        CanvasUtility.textPaint.setColor(Color.WHITE);
         if(!test){
             closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
         }
@@ -109,18 +108,16 @@ public class GameManager {
             }
             player.draw(canvas);
             ChatUtility.drawChatPrompt(canvas);
-            ChatUtility.drawChatMessage(canvas, textPaint);
+            ChatUtility.drawChatMessage(canvas, CanvasUtility.textPaint);
         } else if(!isConnected){ // waiting for game to start
-            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
+            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", CanvasUtility.textPaint);
         } else { //game has ended
             if(this.wonOrLost){
-                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You won!", CanvasUtility.textPaint);
             } else{
-                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
+                CanvasUtility.drawCenteredText(canvas, "You lost!", CanvasUtility.textPaint);
             }
-
         }
-
     }
 
     /**

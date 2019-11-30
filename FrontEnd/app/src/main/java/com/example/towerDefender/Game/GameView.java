@@ -71,6 +71,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
+        manager = null;
     }
 
     /**

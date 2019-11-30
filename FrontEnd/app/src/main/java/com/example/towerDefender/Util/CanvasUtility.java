@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.example.towerDefender.Card.CardInHand;
+import com.example.towerDefender.Card.PlayedCard;
 import com.example.towerDefender.Game.ChatBar;
+import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.Game.MainThread;
 
 public class CanvasUtility {
@@ -14,6 +17,8 @@ public class CanvasUtility {
      * All draws to the canvas for information with position sent from the server must be normalized against this bound.
      */
     public static final int SERVER_X_BOUND = 1920;
+    public static Canvas canvas;
+    public static Paint textPaint;
 
     /**
      * Draws the provided text on the center of the provided {@link Canvas}
@@ -45,5 +50,33 @@ public class CanvasUtility {
      */
     public static int convertCanvasPositionToServerPosition(Canvas canvas, int xPos){
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
+    }
+
+    /**
+     * Draws the game to the provided {@link Canvas}
+     * @param canvas the canvas to draw on
+     */
+    public static void drawGameState(Canvas canvas){
+        CanvasUtility.canvas = canvas;
+        if(GameManager.isConnected && !GameManager.gameOver){ // in game
+            GameManager.closeButton.draw(canvas);
+            for(PlayedCard playedCard : GameManager.playedCards.getPlayedCards()){
+                playedCard.draw(canvas);
+            }
+            for(CardInHand card : GameManager.player.getHand()){
+                card.draw(canvas);
+            }
+            GameManager.player.draw(canvas);
+            ChatUtility.drawChatPrompt(canvas);
+            ChatUtility.drawChatMessage(canvas, textPaint);
+        } else if(!GameManager.isConnected){ // waiting for game to start
+            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
+        } else { //game has ended
+            if(GameManager.wonOrLost){
+                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
+            } else{
+                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
+            }
+        }
     }
 }
