@@ -48,7 +48,7 @@ public class PlayedCard implements Cloneable {
 		this.cost = cost;
 		this.damage = damage;
 		this.totalHitPoints = totalHitPoints;
-		this.currentHitPoints = totalHitPoints;
+		currentHitPoints = totalHitPoints;
 		this.speed = speed;
 		this.type = type;
 		this.range = range;
@@ -274,6 +274,11 @@ public class PlayedCard implements Cloneable {
 		return (PlayedCard) super.clone();
 	}
 
+	/**
+	 * Gets cost.
+	 *
+	 * @return the cost
+	 */
 	int getCost() {
 		return cost;
 	}

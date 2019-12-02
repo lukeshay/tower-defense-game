@@ -49,6 +49,7 @@ public class MatchUp implements Runnable {
 	 * @param playerOneSession the player one session
 	 * @param playerTwoId      the player two id
 	 * @param playerTwoSession the player two session
+	 * @param port             the port
 	 */
 	public MatchUp(String playerOneId, Session playerOneSession,
 	               String playerTwoId, Session playerTwoSession, int port) {
@@ -86,6 +87,7 @@ public class MatchUp implements Runnable {
 
 	/**
 	 * Calls the users service to update the users trophies.
+	 *
 	 * @param user the user to update
 	 * @return the user
 	 */
@@ -379,7 +381,7 @@ public class MatchUp implements Runnable {
 			if (userOne != null && userOne.getTrophies() < 5) {
 				userOne.setTrophies(0);
 			}
-			else if (userOne != null){
+			else if (userOne != null) {
 				userOne.setTrophies(userOne.getTrophies() - 5);
 			}
 		}

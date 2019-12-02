@@ -38,18 +38,18 @@ public class SocketMessage implements Cloneable {
 		this.playerOneId = playerOneId;
 		this.playerTwoId = playerTwoId;
 
-		this.playerOneMana = 0;
-		this.playerTwoMana = 0;
+		playerOneMana = 0;
+		playerTwoMana = 0;
 
-		this.winner = "";
-		this.gameState = "";
-		this.turnState = "";
+		winner = "";
+		gameState = "";
+		turnState = "";
 
-		this.currentTime = 0;
+		currentTime = 0;
 
-		this.playedCards = new ArrayList<>();
+		playedCards = new ArrayList<>();
 
-		this.serverMessage = "";
+		serverMessage = "";
 	}
 
 	/**
@@ -88,10 +88,20 @@ public class SocketMessage implements Cloneable {
 		this.playerTwoMana = playerTwoMana;
 	}
 
+	/**
+	 * Sets player one trophies.
+	 *
+	 * @param playerOneTrophies the player one trophies
+	 */
 	void setPlayerOneTrophies(int playerOneTrophies) {
 		this.playerOneTrophies = playerOneTrophies;
 	}
 
+	/**
+	 * Sets player two trophies.
+	 *
+	 * @param playerTwoTrophies the player two trophies
+	 */
 	void setPlayerTwoTrophies(int playerTwoTrophies) {
 		this.playerTwoTrophies = playerTwoTrophies;
 	}
