@@ -273,4 +273,8 @@ public class PlayedCard implements Cloneable {
 	public PlayedCard clone() throws CloneNotSupportedException {
 		return (PlayedCard) super.clone();
 	}
+
+	int getCost() {
+		return cost;
+	}
 }

@@ -82,9 +82,11 @@ public class Game {
 	public void addCard(PlayedCard card) {
 		if (card.getPlayer().equals(playerOne)) {
 			playerOneCards.add(card);
+			playerOneMana -= card.getCost();
 		}
 		else if (card.getPlayer().equals(playerTwo)) {
 			playerTwoCards.add(card);
+			playerTwoMana -= card.getCost();
 		}
 	}
 
@@ -154,8 +156,8 @@ public class Game {
 		attackOrMove(playerTwoCards, playerOneCards, -1);
 
 		if (counter % 60 == 0) {
-			playerOneMana = playerOneMana < 5 ? playerOneMana + 1 : 5;
-			playerTwoMana = playerTwoMana > 5 ? playerTwoMana + 1 : 5;
+			playerOneMana = Math.min(10, playerOneMana + 1);
+			playerTwoMana = Math.min(10, playerTwoMana + 1);
 		}
 
 		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext(); ) {
