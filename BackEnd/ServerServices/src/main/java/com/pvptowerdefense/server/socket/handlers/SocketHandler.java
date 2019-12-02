@@ -39,7 +39,9 @@ public class SocketHandler {
 
 	/**
 	 * When a connection is opened, the session and id is added to the hash
-	 * maps.
+	 * maps. If there is an even amount of users, they will get matched up.
+	 * If there is an odd amount of users, they will stay unmatched until
+	 * another user connects. They then get put in match up.
 	 *
 	 * @param session The new session.
 	 * @param id      The id of the user as a String.
@@ -89,6 +91,7 @@ public class SocketHandler {
 
 	/**
 	 * Calls the match up send message method if the user is in a match up.
+	 * Otherwise, the message is not sent.
 	 *
 	 * @param session The session sending the message.
 	 * @param message The message as a byte[]. *NOTE This might change types.
@@ -105,6 +108,8 @@ public class SocketHandler {
 
 	/**
 	 * Removes the session from the hash maps and it's match up from the list.
+	 * Purges maps and list to make sure there are not any finished match ups
+	 * still being stored.
 	 *
 	 * @param session The session that is leaving.
 	 * @param id      The id of the user as a String.
@@ -119,7 +124,8 @@ public class SocketHandler {
 	}
 
 	/**
-	 * Logs errors and sends them to the sessions they are linked to.
+	 * Logs errors and sends them to the sessions they are linked to. This
+	 * also sends the error to the session that this error occured during.
 	 *
 	 * @param session   the session
 	 * @param throwable the error
