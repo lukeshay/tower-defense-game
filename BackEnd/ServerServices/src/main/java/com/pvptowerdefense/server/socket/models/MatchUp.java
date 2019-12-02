@@ -354,7 +354,7 @@ public class MatchUp implements Runnable {
 	 * @param time   the time
 	 * @param winner the winner
 	 */
-	public void sendPostGameMessage(long time, String winner) {
+	private void sendPostGameMessage(long time, String winner) {
 		logger.info("sending post-game message");
 		socketMessage.setGameState("post-game");
 		socketMessage.setWinner(winner);
