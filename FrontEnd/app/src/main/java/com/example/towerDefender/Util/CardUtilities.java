@@ -1,9 +1,10 @@
-package com.example.towerDefender.Card;
+package com.example.towerDefender.Util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.SpriteAnimation;
 import com.example.towerDefender.R;

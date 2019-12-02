@@ -5,7 +5,7 @@ import com.example.towerDefender.Card.Card;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import com.example.towerDefender.Card.CardUtilities;
+import com.example.towerDefender.Util.CardUtilities;
 import com.example.towerDefender.Card.PlayedCard;
 
 /**

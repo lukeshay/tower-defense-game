@@ -12,6 +12,11 @@ public class UserRestServices {
     private static boolean responseReceived;
     static ArrayList<User> users;
 
+    /**
+     * Gets all the {@link User}s from the database and returns them in an {@link ArrayList}
+     * @param context the Context to use when grabbing users
+     * @return an {@link ArrayList} of {@link User}s
+     */
     public static ArrayList<User> getAllUsers(Context context){
         getUsersVolley(context);
         return users;
@@ -31,7 +36,6 @@ public class UserRestServices {
             }
         });
     }
-
 
     private static void setResponse(boolean response){
         responseReceived = response;

@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.towerDefender.R;
+import com.example.towerDefender.Util.CardUtilities;
 
 import java.util.ArrayList;
 
@@ -33,17 +34,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
     private TextView textview;
     private ImageView card_desc_imv;
 
-    public CardAdapter(Context context, ArrayList<Card> DataSet, DeckAdapter _deck){
-        mDataSet = DataSet;
+    public CardAdapter(Context context, ArrayList<Card> dataSet, DeckAdapter deck){
+        mDataSet = dataSet;
         mContext = context;
-        deck = _deck;
+        this.deck = deck;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView mTextView;
-        public LinearLayout mLinearLayout;
-        public ImageView mCardView;
-        public ViewHolder(View v){
+        TextView mTextView;
+        LinearLayout mLinearLayout;
+        ImageView mCardView;
+        ViewHolder(View v){
             super(v);
             mTextView = (TextView) v.findViewById(com.example.towerDefender.R.id.tv);
             mLinearLayout = (LinearLayout) v.findViewById(com.example.towerDefender.R.id.ll);

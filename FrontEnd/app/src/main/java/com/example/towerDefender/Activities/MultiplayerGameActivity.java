@@ -10,16 +10,20 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Game.MainThread;
 import com.example.towerDefender.SocketServices.SocketListener;
+import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Game.GameView;
 import com.example.towerDefender.Game.Player;
+import com.example.towerDefender.Util.SocketMessageHandler;
 
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
 
+import javax.websocket.MessageHandler;
 import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
@@ -56,7 +60,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                         catch(Exception e){e.printStackTrace();}
                     }
                 } else {
-                    gameView.getManager().passMessageToManager(message);
+                    SocketMessageHandler.handleMessage(message);
                 }
             }
 

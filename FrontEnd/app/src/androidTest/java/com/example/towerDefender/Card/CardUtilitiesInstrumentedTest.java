@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.towerDefender.Game.GameObjectSprite;
+import com.example.towerDefender.Util.CardUtilities;
 
 import junit.framework.TestCase;
 

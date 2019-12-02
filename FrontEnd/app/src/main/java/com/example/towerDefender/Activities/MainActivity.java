@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.example.towerDefender.R.layout.activity_main);
         if(isFirstRun()){
-            Intent intent = new Intent(this, registerUserActivity.class);
+            Intent intent = new Intent(this, RegisterUserActivity.class);
             startActivity(intent);
         }
         else{

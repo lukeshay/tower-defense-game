@@ -24,6 +24,7 @@ import com.example.towerDefender.Card.PlayedCard;
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
+    public static GameManager instance;
     /**
      * The side the {@link GameManager}'s player is on. (left or right)
      */
@@ -37,7 +38,7 @@ public class GameManager {
     private int cardToPlayIndex;
     private int cardsSent = 0;
     public  boolean gameOver = false;
-    private boolean playerSideSet = false;
+    public boolean playerSideSet = false;
     public boolean wonOrLost = false; // true if they won
     public static Sprite closeButton;
     private Canvas canvas; //stored canvas so we can scale cards we played
@@ -46,6 +47,7 @@ public class GameManager {
      * @param player the {@link Player} to use
      */
     public GameManager(Player player){
+        GameManager.instance = this;
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>());
         isPlayingCard = false;
@@ -64,6 +66,7 @@ public class GameManager {
      * @param test true if launching in 'test' mode. Limits context references
      */
     public GameManager(Player player, boolean test){
+        GameManager.instance = this;
         this.player = player;
         playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>());
         isPlayingCard = false;
