@@ -225,28 +225,28 @@ public class Game {
 		attackOrMove(playerTwoCards, playerOneCards, -1);
 
 		if (counter % 60 == 0) {
-			playerOneMana = playerOneMana < 5 ? playerOneMana + 1: 5;
-			playerTwoMana = playerTwoMana > 5 ? playerTwoMana + 1: 5;
+			playerOneMana = playerOneMana < 5 ? playerOneMana + 1 : 5;
+			playerTwoMana = playerTwoMana > 5 ? playerTwoMana + 1 : 5;
 		}
 
-		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext();) {
+		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext(); ) {
 			PlayedCard card = cards.next();
 			if (card.getCurrentHitPoints() <= 0) {
-			    if (card.getName().equals("tower2")) {
-			        gameState = false;
-			        winner = player2;
-                }
+				if (card.getName().equals("tower2")) {
+					gameState = false;
+					winner = player2;
+				}
 				cards.remove();
 			}
 		}
 
-		for (ListIterator<PlayedCard> cards = playerTwoCards.listIterator(); cards.hasNext();) {
+		for (ListIterator<PlayedCard> cards = playerTwoCards.listIterator(); cards.hasNext(); ) {
 			PlayedCard card = cards.next();
 			if (card.getCurrentHitPoints() <= 0) {
-                if (card.getName().equals("tower5")) {
-                    gameState = false;
-                    winner = player1;
-                }
+				if (card.getName().equals("tower5")) {
+					gameState = false;
+					winner = player1;
+				}
 				cards.remove();
 			}
 		}
@@ -259,8 +259,8 @@ public class Game {
 	 * Runs the attack or move cycle. Attacks once a second and moves if it is not in range.
 	 *
 	 * @param actionCards the cards attacking or moving
-	 * @param otherCards the cards being check against
-	 * @param direction the direction the card should move
+	 * @param otherCards  the cards being check against
+	 * @param direction   the direction the card should move
 	 */
 	private void attackOrMove(List<PlayedCard> actionCards, List<PlayedCard> otherCards, int direction) {
 		for (PlayedCard actionCard : actionCards) {
@@ -286,14 +286,14 @@ public class Game {
 				attacked.setCurrentHitPoints(attacked.getCurrentHitPoints() - actionCard.getDamage());
 			}
 			else if (!actionCard.isAttacking()) {
-					int newXValue = actionCard.getxValue() + (actionCard.getSpeed() * direction);
-					newXValue = direction == 1 ? Math.min(newXValue, MAX_X - 1) : Math.max(newXValue, 0);
-					actionCard.setxValue(newXValue);
+				int newXValue = actionCard.getxValue() + (actionCard.getSpeed() * direction);
+				newXValue = direction == 1 ? Math.min(newXValue, MAX_X - 1) : Math.max(newXValue, 0);
+				actionCard.setxValue(newXValue);
 			}
 		}
 	}
 
-    /**
+	/**
 	 * Helper method to make the towers at the start of the game
 	 *
 	 * @param xValue    - x value for the turret
@@ -320,7 +320,6 @@ public class Game {
 		int ySquare = y * y;
 		return Math.sqrt(xSquare + ySquare);
 	}
-
 
 
 }

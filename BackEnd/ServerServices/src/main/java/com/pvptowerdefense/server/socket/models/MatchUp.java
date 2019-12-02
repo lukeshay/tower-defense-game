@@ -40,6 +40,8 @@ public class MatchUp implements Runnable {
 	private SocketMessage socketMessage;
 	private List<SocketMessage> messageHistory;
 
+	private int port;
+
 	/**
 	 * Instantiates a new Match up.
 	 *
@@ -49,7 +51,7 @@ public class MatchUp implements Runnable {
 	 * @param playerTwoSession the player two session
 	 */
 	public MatchUp(String playerOneId, Session playerOneSession,
-	               String playerTwoId, Session playerTwoSession) {
+	               String playerTwoId, Session playerTwoSession, int port) {
 		this.playerOneSession = playerOneSession;
 		this.playerTwoSession = playerTwoSession;
 
@@ -60,6 +62,8 @@ public class MatchUp implements Runnable {
 		socketMessage = new SocketMessage(playerOneId, playerTwoId);
 
 		messageHistory = new ArrayList<>();
+
+		this.port = port;
 	}
 
 	/**
@@ -76,14 +80,14 @@ public class MatchUp implements Runnable {
 	 *
 	 * @return the current time in milliseconds
 	 */
-	private static long getTime() {
+	private long getTime() {
 		return new Date().getTime();
 	}
 
-	private static User updateUserInDatabase(User userTwo) {
+	private User updateUserInDatabase(User userTwo) {
 		return webClientBuilder.build()
 				.put()
-				.uri("http://localhost:8080/users")
+				.uri("http://localhost:" + port + "/users")
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.syncBody(userTwo)
 				.retrieve()
@@ -91,10 +95,10 @@ public class MatchUp implements Runnable {
 				.block();
 	}
 
-	private static User getUserFromDatabase(String userId) throws URISyntaxException {
+	private User getUserFromDatabase(String userId) throws URISyntaxException {
 		return webClientBuilder.build()
 				.get()
-				.uri(new URI(String.format("http://localhost:8080/users/%s", userId)))
+				.uri(new URI(String.format("http://localhost:" + port + "/users/%s", userId)))
 				.retrieve().bodyToMono(User.class).block();
 	}
 
@@ -253,8 +257,8 @@ public class MatchUp implements Runnable {
 
 			socketMessage.setPlayerOneTrophies(userOne.getTrophies());
 			socketMessage.setPlayerTwoTrophies(userTwo.getTrophies());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("error getting users from the database", e);
 		}
 
 		socketMessage.setGameState("pre-game");
@@ -345,10 +349,8 @@ public class MatchUp implements Runnable {
 		socketMessage.setCurrentTime(time);
 
 		if (userOne == null || userTwo == null) {
-			throw new NullPointerException("One of the users was not received from the server.");
 		}
-
-		if (userOne.getPhoneId().equals(socketMessage.getWinner())) {
+		else if (userOne.getPhoneId().equals(socketMessage.getWinner())) {
 			userOne.setTrophies(userOne.getTrophies() + 10);
 			if (userTwo.getTrophies() < 5) {
 				userTwo.setTrophies(0);
@@ -367,8 +369,13 @@ public class MatchUp implements Runnable {
 			}
 		}
 
-		socketMessage.setPlayerOneTrophies(userOne.getTrophies());
-		socketMessage.setPlayerTwoTrophies(userTwo.getTrophies());
+		if (userOne != null && userTwo != null) {
+			socketMessage.setPlayerOneTrophies(userOne.getTrophies());
+			socketMessage.setPlayerTwoTrophies(userTwo.getTrophies());
+		}
+		else {
+			logger.error("one of the users is null");
+		}
 
 		sendMessage(socketMessage);
 

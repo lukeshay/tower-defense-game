@@ -8,15 +8,24 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
 import javax.websocket.Session;
 
 /**
  * These tests will only test a few methods until mocking is in place for sessions.
  */
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MatchUpTests {
-	@Mock Session sessionOne;
-	@Mock Session sessionTwo;
+	@LocalServerPort
+	private static int port;
+
+	@Mock
+	Session sessionOne;
+
+	@Mock
+	Session sessionTwo;
 
 	private MatchUp matchUp;
 
@@ -26,10 +35,10 @@ class MatchUpTests {
 		Mockito.when(sessionOne.isOpen()).thenReturn(true);
 		Mockito.when(sessionTwo.isOpen()).thenReturn(true);
 
-		matchUp = new MatchUp("test1", sessionOne, "test2", sessionTwo);
+		matchUp = new MatchUp("test1", sessionOne, "test2", sessionTwo, port);
 	}
 
-//	@Test
+	@Test
 	void preGameMessageTest() {
 		matchUp.sendPreGameMessage();
 		SocketMessage socketMessage = matchUp.getSocketMessage();
@@ -44,7 +53,7 @@ class MatchUpTests {
 		);
 	}
 
-//	@Test
+	@Test
 	void startingGameMessageTest() {
 		matchUp.sendStartGameMessage();
 		SocketMessage socketMessage = matchUp.getSocketMessage();
@@ -59,7 +68,7 @@ class MatchUpTests {
 		);
 	}
 
-//	@Test
+	@Test
 	void postGameMessageTest() {
 		matchUp.sendPostGameMessage(0);
 		SocketMessage socketMessage = matchUp.getSocketMessage();
@@ -74,7 +83,7 @@ class MatchUpTests {
 		);
 	}
 
-//	@Test
+	@Test
 	void postGameMessageOneForfeitTest() {
 		Mockito.when(sessionTwo.isOpen()).thenReturn(false);
 		matchUp.sendPostGameMessage(0);
@@ -90,7 +99,7 @@ class MatchUpTests {
 		);
 	}
 
-//	@Test
+	@Test
 	void threadTest() throws InterruptedException {
 		matchUp.startMatchUp();
 		Thread.sleep(30100);

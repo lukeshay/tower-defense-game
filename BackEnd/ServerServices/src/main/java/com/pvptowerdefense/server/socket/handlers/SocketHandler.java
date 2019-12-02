@@ -69,7 +69,7 @@ public class SocketHandler {
 									matchUp.getPlayerTwoSession().equals(otherSession)))) {
 						logger.info("matching up " + otherId + " and " + id);
 
-						MatchUp matchUp = new MatchUp(otherId, otherSession, id, session);
+						MatchUp matchUp = new MatchUp(otherId, otherSession, id, session, 8080);
 						matchUp.startMatchUp();
 
 						matchUpList.add(matchUp);

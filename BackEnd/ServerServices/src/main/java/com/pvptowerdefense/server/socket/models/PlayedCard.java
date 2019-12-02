@@ -6,26 +6,26 @@ import com.google.gson.Gson;
  * The type Played card.
  */
 public class PlayedCard implements Cloneable {
-    private String name;
-    private String description;
-    private int cost;
-    private int damage;
-    // private int currentDamage; // Can be used when spells are implemented.
-    private int currentHitPoints;
-    private int totalHitPoints;
-    private int speed;
-    // private int currentSpeed; // If they are attacking this would be 0.
-    // Can be used when spells are implemented.
-    private String type;
-    private int range;
-    private int xValue;
-    private int yValue;
-    private String player;
-    // Possible variables for future.
-    private boolean attacking;
-    private String cardAttacking; // The card this card is attacking.
-    private int cardAttackingDistance;
-    // private boolean healing;
+	private String name;
+	private String description;
+	private int cost;
+	private int damage;
+	// private int currentDamage; // Can be used when spells are implemented.
+	private int currentHitPoints;
+	private int totalHitPoints;
+	private int speed;
+	// private int currentSpeed; // If they are attacking this would be 0.
+	// Can be used when spells are implemented.
+	private String type;
+	private int range;
+	private int xValue;
+	private int yValue;
+	private String player;
+	// Possible variables for future.
+	private boolean attacking;
+	private String cardAttacking; // The card this card is attacking.
+	private int cardAttackingDistance;
+	// private boolean healing;
 
 	/**
 	 * Instantiates a new Played card.
@@ -43,19 +43,19 @@ public class PlayedCard implements Cloneable {
 	 * @param player         the player
 	 */
 	public PlayedCard(String name, String description, int cost, int damage, int totalHitPoints, int speed, String type, int range, int xValue, int yValue, String player) {
-        this.name = name;
-        this.description = description;
-        this.cost = cost;
-        this.damage = damage;
-        this.totalHitPoints = totalHitPoints;
-        this.currentHitPoints = totalHitPoints;
-        this.speed = speed;
-        this.type = type;
-        this.range = range;
-        this.xValue = xValue;
-        this.yValue = yValue;
-        this.player = player;
-    }
+		this.name = name;
+		this.description = description;
+		this.cost = cost;
+		this.damage = damage;
+		this.totalHitPoints = totalHitPoints;
+		this.currentHitPoints = totalHitPoints;
+		this.speed = speed;
+		this.type = type;
+		this.range = range;
+		this.xValue = xValue;
+		this.yValue = yValue;
+		this.player = player;
+	}
 
 	/**
 	 * Gets name.
@@ -63,8 +63,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the name
 	 */
 	public String getName() {
-        return name;
-    }
+		return name;
+	}
 
 	/**
 	 * Sets name.
@@ -72,8 +72,8 @@ public class PlayedCard implements Cloneable {
 	 * @param name the name
 	 */
 	public void setName(String name) {
-        this.name = name;
-    }
+		this.name = name;
+	}
 
 	/**
 	 * Gets description.
@@ -81,8 +81,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the description
 	 */
 	public String getDescription() {
-        return description;
-    }
+		return description;
+	}
 
 	/**
 	 * Sets description.
@@ -90,8 +90,8 @@ public class PlayedCard implements Cloneable {
 	 * @param description the description
 	 */
 	public void setDescription(String description) {
-        this.description = description;
-    }
+		this.description = description;
+	}
 
 	/**
 	 * Gets cost.
@@ -99,8 +99,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the cost
 	 */
 	public int getCost() {
-        return cost;
-    }
+		return cost;
+	}
 
 	/**
 	 * Sets cost.
@@ -108,8 +108,8 @@ public class PlayedCard implements Cloneable {
 	 * @param cost the cost
 	 */
 	public void setCost(int cost) {
-        this.cost = cost;
-    }
+		this.cost = cost;
+	}
 
 	/**
 	 * Gets damage.
@@ -117,8 +117,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the damage
 	 */
 	public int getDamage() {
-        return damage;
-    }
+		return damage;
+	}
 
 	/**
 	 * Sets damage.
@@ -126,8 +126,8 @@ public class PlayedCard implements Cloneable {
 	 * @param damage the damage
 	 */
 	public void setDamage(int damage) {
-        this.damage = damage;
-    }
+		this.damage = damage;
+	}
 
 	/**
 	 * Gets current hit points.
@@ -135,8 +135,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the current hit points
 	 */
 	public int getCurrentHitPoints() {
-        return currentHitPoints;
-    }
+		return currentHitPoints;
+	}
 
 	/**
 	 * Sets current hit points.
@@ -144,8 +144,8 @@ public class PlayedCard implements Cloneable {
 	 * @param currentHitPoints the current hit points
 	 */
 	public void setCurrentHitPoints(int currentHitPoints) {
-        this.currentHitPoints = currentHitPoints;
-    }
+		this.currentHitPoints = currentHitPoints;
+	}
 
 	/**
 	 * Gets total hit points.
@@ -153,8 +153,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the total hit points
 	 */
 	public int getTotalHitPoints() {
-        return totalHitPoints;
-    }
+		return totalHitPoints;
+	}
 
 	/**
 	 * Sets total hit points.
@@ -162,8 +162,8 @@ public class PlayedCard implements Cloneable {
 	 * @param totalHitPoints the total hit points
 	 */
 	public void setTotalHitPoints(int totalHitPoints) {
-        this.totalHitPoints = totalHitPoints;
-    }
+		this.totalHitPoints = totalHitPoints;
+	}
 
 	/**
 	 * Gets speed.
@@ -171,8 +171,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the speed
 	 */
 	public int getSpeed() {
-        return speed;
-    }
+		return speed;
+	}
 
 	/**
 	 * Sets speed.
@@ -180,8 +180,8 @@ public class PlayedCard implements Cloneable {
 	 * @param speed the speed
 	 */
 	public void setSpeed(int speed) {
-        this.speed = speed;
-    }
+		this.speed = speed;
+	}
 
 	/**
 	 * Gets type.
@@ -189,8 +189,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the type
 	 */
 	public String getType() {
-        return type;
-    }
+		return type;
+	}
 
 	/**
 	 * Sets type.
@@ -198,8 +198,8 @@ public class PlayedCard implements Cloneable {
 	 * @param type the type
 	 */
 	public void setType(String type) {
-        this.type = type;
-    }
+		this.type = type;
+	}
 
 	/**
 	 * Gets range.
@@ -207,8 +207,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the range
 	 */
 	public int getRange() {
-        return range;
-    }
+		return range;
+	}
 
 	/**
 	 * Sets range.
@@ -216,8 +216,8 @@ public class PlayedCard implements Cloneable {
 	 * @param range the range
 	 */
 	public void setRange(int range) {
-        this.range = range;
-    }
+		this.range = range;
+	}
 
 	/**
 	 * Gets value.
@@ -225,8 +225,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the value
 	 */
 	public int getxValue() {
-        return xValue;
-    }
+		return xValue;
+	}
 
 	/**
 	 * Sets value.
@@ -234,8 +234,8 @@ public class PlayedCard implements Cloneable {
 	 * @param xValue the x value
 	 */
 	public void setxValue(int xValue) {
-        this.xValue = xValue;
-    }
+		this.xValue = xValue;
+	}
 
 	/**
 	 * Gets value.
@@ -243,8 +243,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the value
 	 */
 	public int getyValue() {
-        return yValue;
-    }
+		return yValue;
+	}
 
 	/**
 	 * Sets value.
@@ -252,8 +252,8 @@ public class PlayedCard implements Cloneable {
 	 * @param yValue the y value
 	 */
 	public void setyValue(int yValue) {
-        this.yValue = yValue;
-    }
+		this.yValue = yValue;
+	}
 
 	/**
 	 * Gets player.
@@ -261,8 +261,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the player
 	 */
 	public String getPlayer() {
-        return player;
-    }
+		return player;
+	}
 
 	/**
 	 * Sets player.
@@ -270,8 +270,8 @@ public class PlayedCard implements Cloneable {
 	 * @param player the player
 	 */
 	public void setPlayer(String player) {
-        this.player = player;
-    }
+		this.player = player;
+	}
 
 	/**
 	 * Is attacking boolean.
@@ -279,8 +279,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the boolean
 	 */
 	public boolean isAttacking() {
-        return attacking;
-    }
+		return attacking;
+	}
 
 	/**
 	 * Sets attacking.
@@ -288,8 +288,8 @@ public class PlayedCard implements Cloneable {
 	 * @param attacking the attacking
 	 */
 	public void setAttacking(boolean attacking) {
-        this.attacking = attacking;
-    }
+		this.attacking = attacking;
+	}
 
 	/**
 	 * Gets card attacking.
@@ -297,8 +297,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the card attacking
 	 */
 	public String getCardAttacking() {
-        return cardAttacking;
-    }
+		return cardAttacking;
+	}
 
 	/**
 	 * Sets card attacking.
@@ -306,8 +306,8 @@ public class PlayedCard implements Cloneable {
 	 * @param cardAttacking the card attacking
 	 */
 	public void setCardAttacking(String cardAttacking) {
-        this.cardAttacking = cardAttacking;
-    }
+		this.cardAttacking = cardAttacking;
+	}
 
 	/**
 	 * Gets card attacking distance.
@@ -315,8 +315,8 @@ public class PlayedCard implements Cloneable {
 	 * @return the card attacking distance
 	 */
 	public int getCardAttackingDistance() {
-        return cardAttackingDistance;
-    }
+		return cardAttackingDistance;
+	}
 
 	/**
 	 * Sets card attacking distance.
@@ -324,16 +324,16 @@ public class PlayedCard implements Cloneable {
 	 * @param cardAttackingDistance the card attacking distance
 	 */
 	public void setCardAttackingDistance(int cardAttackingDistance) {
-        this.cardAttackingDistance = cardAttackingDistance;
-    }
+		this.cardAttackingDistance = cardAttackingDistance;
+	}
 
-    @Override
-    public String toString() {
-        return new Gson().toJson(this);
-    }
+	@Override
+	public String toString() {
+		return new Gson().toJson(this);
+	}
 
-    @Override
-    public PlayedCard clone() throws CloneNotSupportedException {
-        return (PlayedCard) super.clone();
-    }
+	@Override
+	public PlayedCard clone() throws CloneNotSupportedException {
+		return (PlayedCard) super.clone();
+	}
 }
