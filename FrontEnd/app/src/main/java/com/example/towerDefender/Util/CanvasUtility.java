@@ -52,10 +52,15 @@ public class CanvasUtility {
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
     }
 
+    /**
+     * Draws the game state to the provided {@link Canvas} using the data from the provided {@link GameManager}
+     * @param manager the game manager to draw data from
+     * @param canvas the {@link Canvas} to draw to
+     */
     public static void drawGameState(GameManager manager, Canvas canvas){
         CanvasUtility.canvas = canvas;
         if(manager.isConnected && !manager.gameOver){ // in game
-            GameManager.closeButton.draw(canvas);
+            manager.closeButton.draw(canvas);
             for(PlayedCard playedCard : manager.playedCards.getPlayedCards()){
                 playedCard.draw(canvas);
             }

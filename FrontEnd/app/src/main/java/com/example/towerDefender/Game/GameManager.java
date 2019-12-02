@@ -28,7 +28,7 @@ public class GameManager {
     /**
      * The side the {@link GameManager}'s player is on. (left or right)
      */
-    public static String playerSide;
+    public String playerSide;
     public Player player;
     public boolean isConnected = false;
     public PlayedCardsHolder playedCards;
@@ -37,11 +37,10 @@ public class GameManager {
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     private int cardsSent = 0;
-    public  boolean gameOver = false;
+    public boolean gameOver = false;
     public boolean playerSideSet = false;
     public boolean wonOrLost = false; // true if they won
-    public static Sprite closeButton;
-    private Canvas canvas; //stored canvas so we can scale cards we played
+    public Sprite closeButton;
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use

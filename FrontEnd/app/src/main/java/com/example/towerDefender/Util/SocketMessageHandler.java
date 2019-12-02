@@ -33,9 +33,9 @@ public class SocketMessageHandler {
                     //If the player side hasn't already been updated, go through and check
                     if(!GameManager.instance.playerSideSet){
                         if(socketMessage.getPlayerOneId().equals(GameManager.instance.getPlayer().getUserId())){
-                            GameManager.playerSide = "left";
+                            GameManager.instance.playerSide = "left";
                         } else{
-                            GameManager.playerSide = "right";
+                            GameManager.instance.playerSide = "right";
                         }
                         GameManager.instance.playerSideSet = true;
                     }
