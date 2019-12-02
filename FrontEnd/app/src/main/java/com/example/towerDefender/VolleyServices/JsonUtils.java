@@ -3,6 +3,7 @@ package com.example.towerDefender.VolleyServices;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Card.OwnedDecks;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -71,6 +72,26 @@ public class JsonUtils {
         }
     }
 
+    public static OwnedDecks jsonToOwnedDecks(String json){
+        Gson test = new Gson();
+        return test.fromJson(json, OwnedDecks.class);
+    }
+
+    public static Collection<OwnedDecks> jsonToOwnedDecksArray(String json){
+        Collection<OwnedDecks> decks;
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<OwnedDecks>>(){}.getType();
+        try{
+            decks = gson.fromJson(json, collectionType);
+        } catch (Exception e){
+            decks = new ArrayList<>();
+            decks.add(gson.fromJson(json, OwnedDecks.class));
+        }
+
+        return decks;
+    }
+
+
     /**
      * Converts a json {@link String} to a {@link PlayedCard}
      * @param json the initial json string
@@ -96,6 +117,7 @@ public class JsonUtils {
             cards = new ArrayList<>();
             cards.add(gson.fromJson(json, PlayedCard.class));
         }
+
         return cards;
     }
 

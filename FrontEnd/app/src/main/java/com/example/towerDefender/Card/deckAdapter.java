@@ -3,6 +3,8 @@ package com.example.towerDefender.Card;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +18,16 @@ import java.util.ArrayList;
 
 
 public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
-    private ArrayList<Card> mDataSet;
+    private ArrayList<Card> mDataSet = new ArrayList<Card>();
     private Context mContext;
 
     public deckAdapter(Context context, ArrayList<Card> DataSet){
-        mDataSet = DataSet;
+       // mDataSet = DataSet;
+        if(DataSet != null) {
+            for (Card x : DataSet) {
+                mDataSet.add(x);
+            }
+        }
         mContext = context;
     }
 
@@ -56,10 +63,6 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO: this is broken look into why we cannot grab the index as the view should not be null
-                //RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
-                //int itemPosition = recyclerView.indexOfChild(v);
-                //Log.e("clickEvent", "user clicked on a card " + String.valueOf(itemPosition));
                 removeItem(viewPosition);
             }
         });
@@ -75,15 +78,26 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
     }
 
     public void addItem(){
-
+        Log.e("adding item", "added item");
         this.notifyItemInserted(mDataSet.size());
+        for(Card x: mDataSet){
+            Log.e("cards", x.cardName);
+        }
+    }
 
+    public void addCard(Card card){
+        mDataSet.add(card);
+        addItem();
     }
 
     public void removeItem(int position){
         mDataSet.remove(position);
         this.notifyItemRemoved(position);
         this.notifyItemRangeChanged(position, mDataSet.size());
+    }
+
+    public ArrayList<Card> getDeck(){
+        return mDataSet;
     }
 
 

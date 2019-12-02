@@ -10,32 +10,32 @@
     card_view:cardElevation="2dp"
     card_view:contentPadding="5dp"
     >
-    <LinearLayout
-        android:id="@+id/ll"
+  <LinearLayout
+      android:id="@+id/ll"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="3dp"
+      android:orientation="vertical"
+      android:weightSum="2"
+      >
+    <ImageView
+        android:id="@+id/invImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="3dp"
-        android:orientation="vertical"
-        android:weightSum="2"
-        >
-        <ImageView
-            android:id="@+id/invImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"/>
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="#000"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_margin="2dp"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_weight="1.5"
-            />
+        android:layout_weight="0.5"/>
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#000"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_margin="2dp"
+        android:padding="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_weight="1.5"
+        />
 
-    </LinearLayout>
+  </LinearLayout>
 </androidx.cardview.widget.CardView>

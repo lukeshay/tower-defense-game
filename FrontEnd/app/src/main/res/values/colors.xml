@@ -5,6 +5,7 @@
     <color name="colorAccent1">#FF80FF</color>
     <color name="colorBackground">#000080</color>
     <color name="colorPrimaryDark">#000000</color>
+    <color name="selectorGreen">#0FF70F</color>
     <color name="colorGold">#FFC959</color>
     <color name="colorSilver">#dfe3e6</color>
 </resources>

@@ -2,6 +2,9 @@ package com.example.towerDefender.Util;
 
 public class LeaderboardUtility {
 
+    public static final int GOLD_CUTOFF = 50;
+    public static final int SILVER_CUTOFF = 25;
+
     /**
      * Performs merge sort on the provided array of {@link Comparable}s
      * @param toSort the array to sort
