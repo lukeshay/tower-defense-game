@@ -34,22 +34,22 @@ public class SocketMessage implements Cloneable {
 	 * @param playerOneId the player one id
 	 * @param playerTwoId the player two id
 	 */
-	public SocketMessage(String playerOneId, String playerTwoId) {
+	SocketMessage(String playerOneId, String playerTwoId) {
 		this.playerOneId = playerOneId;
 		this.playerTwoId = playerTwoId;
 
-		this.playerOneMana = 0;
-		this.playerTwoMana = 0;
+		playerOneMana = 0;
+		playerTwoMana = 0;
 
-		this.winner = "";
-		this.gameState = "";
-		this.turnState = "";
+		winner = "";
+		gameState = "";
+		turnState = "";
 
-		this.currentTime = 0;
+		currentTime = 0;
 
-		this.playedCards = new ArrayList<>();
+		playedCards = new ArrayList<>();
 
-		this.serverMessage = "";
+		serverMessage = "";
 	}
 
 	/**
@@ -62,15 +62,6 @@ public class SocketMessage implements Cloneable {
 	}
 
 	/**
-	 * Sets player one id.
-	 *
-	 * @param playerOneId the player one id
-	 */
-	public void setPlayerOneId(String playerOneId) {
-		this.playerOneId = playerOneId;
-	}
-
-	/**
 	 * Gets player two id.
 	 *
 	 * @return the player two id
@@ -80,39 +71,12 @@ public class SocketMessage implements Cloneable {
 	}
 
 	/**
-	 * Sets player two id.
-	 *
-	 * @param playerTwoId the player two id
-	 */
-	public void setPlayerTwoId(String playerTwoId) {
-		this.playerTwoId = playerTwoId;
-	}
-
-	/**
-	 * Gets player one mana.
-	 *
-	 * @return the player one mana
-	 */
-	public int getPlayerOneMana() {
-		return playerOneMana;
-	}
-
-	/**
 	 * Sets player one mana.
 	 *
 	 * @param playerOneMana the player one mana
 	 */
-	public void setPlayerOneMana(int playerOneMana) {
+	void setPlayerOneMana(int playerOneMana) {
 		this.playerOneMana = playerOneMana;
-	}
-
-	/**
-	 * Gets player two mana.
-	 *
-	 * @return the player two mana
-	 */
-	public int getPlayerTwoMana() {
-		return playerTwoMana;
 	}
 
 	/**
@@ -120,23 +84,25 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param playerTwoMana the player two mana
 	 */
-	public void setPlayerTwoMana(int playerTwoMana) {
+	void setPlayerTwoMana(int playerTwoMana) {
 		this.playerTwoMana = playerTwoMana;
 	}
 
-	public int getPlayerOneTrophies() {
-		return playerOneTrophies;
-	}
-
-	public void setPlayerOneTrophies(int playerOneTrophies) {
+	/**
+	 * Sets player one trophies.
+	 *
+	 * @param playerOneTrophies the player one trophies
+	 */
+	void setPlayerOneTrophies(int playerOneTrophies) {
 		this.playerOneTrophies = playerOneTrophies;
 	}
 
-	public int getPlayerTwoTrophies() {
-		return playerTwoTrophies;
-	}
-
-	public void setPlayerTwoTrophies(int playerTwoTrophies) {
+	/**
+	 * Sets player two trophies.
+	 *
+	 * @param playerTwoTrophies the player two trophies
+	 */
+	void setPlayerTwoTrophies(int playerTwoTrophies) {
 		this.playerTwoTrophies = playerTwoTrophies;
 	}
 
@@ -154,7 +120,7 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param winner the winner
 	 */
-	public void setWinner(String winner) {
+	void setWinner(String winner) {
 		this.winner = winner;
 	}
 
@@ -172,17 +138,8 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param gameState the game state
 	 */
-	public void setGameState(String gameState) {
+	void setGameState(String gameState) {
 		this.gameState = gameState;
-	}
-
-	/**
-	 * Gets turn state.
-	 *
-	 * @return the turn state
-	 */
-	public String getTurnState() {
-		return turnState;
 	}
 
 	/**
@@ -190,7 +147,7 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param turnState the turn state
 	 */
-	public void setTurnState(String turnState) {
+	void setTurnState(String turnState) {
 		this.turnState = turnState;
 	}
 
@@ -208,17 +165,8 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param currentTime the current time
 	 */
-	public void setCurrentTime(long currentTime) {
+	void setCurrentTime(long currentTime) {
 		this.currentTime = currentTime;
-	}
-
-	/**
-	 * Gets played cards.
-	 *
-	 * @return the played cards
-	 */
-	public List<PlayedCard> getPlayedCards() {
-		return playedCards;
 	}
 
 	/**
@@ -226,7 +174,7 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param playedCards the played cards
 	 */
-	public void setPlayedCards(List<PlayedCard> playedCards) {
+	void setPlayedCards(List<PlayedCard> playedCards) {
 		this.playedCards = playedCards;
 	}
 
@@ -244,7 +192,7 @@ public class SocketMessage implements Cloneable {
 	 *
 	 * @param serverMessage the server message
 	 */
-	public void setServerMessage(String serverMessage) {
+	void setServerMessage(String serverMessage) {
 		this.serverMessage = serverMessage;
 	}
 

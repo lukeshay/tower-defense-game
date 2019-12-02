@@ -19,8 +19,8 @@ public class Game {
 	private List<PlayedCard> playerTwoCards;
 	private int playerOneMana;
 	private int playerTwoMana;
-	private String player1;
-	private String player2;
+	private String playerOne;
+	private String playerTwo;
 	private boolean gameState;
 	private String winner;
 	private int counter;
@@ -36,7 +36,8 @@ public class Game {
 
 
 	/**
-	 * Constructs a new game given the 2 player's IDs
+	 * Constructs a new game given the 2 player's IDs. Initializes the player
+	 * cards to have their towers.
 	 *
 	 * @param userId1 - the userId for player 1
 	 * @param userId2 - the userId for player 2
@@ -44,8 +45,8 @@ public class Game {
 	public Game(String userId1, String userId2) {
 		playerOneCards = new ArrayList<PlayedCard>();
 		playerTwoCards = new ArrayList<PlayedCard>();
-		player1 = userId1;
-		player2 = userId2;
+		playerOne = userId1;
+		playerTwo = userId2;
 		gameState = true;
 		counter = 0;
 		playerOneMana = 0;
@@ -61,7 +62,7 @@ public class Game {
 	}
 
 	/**
-	 * Gets the list of all the played cards for each user
+	 * Gets the list of all the played cards for each user.
 	 *
 	 * @return list of played cards for each user
 	 */
@@ -74,44 +75,19 @@ public class Game {
 
 
 	/**
-	 * Adds a card to the specified players list of played cards
+	 * Adds a card to the specified players list of played cards.
 	 *
 	 * @param card - card to be added
 	 */
 	public void addCard(PlayedCard card) {
-		if (card.getPlayer().equals(player1)) {
+		if (card.getPlayer().equals(playerOne)) {
 			playerOneCards.add(card);
+			playerOneMana -= card.getCost();
 		}
-		else if (card.getPlayer().equals(player2)) {
+		else if (card.getPlayer().equals(playerTwo)) {
 			playerTwoCards.add(card);
+			playerTwoMana -= card.getCost();
 		}
-	}
-
-	/**
-	 * Gets player1's user Id
-	 *
-	 * @return the userId
-	 */
-	public String getPlayer1() {
-		return player1;
-	}
-
-	/**
-	 * Sets player1's userId
-	 *
-	 * @param player1 - new userId
-	 */
-	public void setPlayer1(String player1) {
-		this.player1 = player1;
-	}
-
-	/**
-	 * Gets player2's user Id
-	 *
-	 * @return the userId
-	 */
-	public String getPlayer2() {
-		return player2;
 	}
 
 	/**
@@ -119,7 +95,7 @@ public class Game {
 	 *
 	 * @return the player one cards
 	 */
-	public List<PlayedCard> getPlayerOneCards() {
+	List<PlayedCard> getPlayerOneCards() {
 		return playerOneCards;
 	}
 
@@ -128,17 +104,8 @@ public class Game {
 	 *
 	 * @return the player two cards
 	 */
-	public List<PlayedCard> getPlayerTwoCards() {
+	List<PlayedCard> getPlayerTwoCards() {
 		return playerTwoCards;
-	}
-
-	/**
-	 * Sets player2's userId
-	 *
-	 * @param player2 - new userId
-	 */
-	public void setPlayer2(String player2) {
-		this.player2 = player2;
 	}
 
 	/**
@@ -146,17 +113,8 @@ public class Game {
 	 *
 	 * @return the player one mana
 	 */
-	public int getPlayerOneMana() {
+	int getPlayerOneMana() {
 		return playerOneMana;
-	}
-
-	/**
-	 * Sets player one mana.
-	 *
-	 * @param playerOneMana the player one mana
-	 */
-	public void setPlayerOneMana(int playerOneMana) {
-		this.playerOneMana = playerOneMana;
 	}
 
 	/**
@@ -164,35 +122,8 @@ public class Game {
 	 *
 	 * @return the player two mana
 	 */
-	public int getPlayerTwoMana() {
+	int getPlayerTwoMana() {
 		return playerTwoMana;
-	}
-
-	/**
-	 * Sets player two mana.
-	 *
-	 * @param playerTwoMana the player two mana
-	 */
-	public void setPlayerTwoMana(int playerTwoMana) {
-		this.playerTwoMana = playerTwoMana;
-	}
-
-	/**
-	 * Gets the current game state
-	 *
-	 * @return the game state
-	 */
-	public boolean isGameState() {
-		return gameState;
-	}
-
-	/**
-	 * Sets the current game state to the desired value
-	 *
-	 * @param gameState - new game state value
-	 */
-	public void setGameState(boolean gameState) {
-		this.gameState = gameState;
 	}
 
 	/**
@@ -209,7 +140,7 @@ public class Game {
 	 *
 	 * @return the turn state
 	 */
-	public String getTurnState() {
+	String getTurnState() {
 		return counter % 60 == 0 ? "attack" : "move";
 	}
 
@@ -225,8 +156,8 @@ public class Game {
 		attackOrMove(playerTwoCards, playerOneCards, -1);
 
 		if (counter % 60 == 0) {
-			playerOneMana = playerOneMana < 5 ? playerOneMana + 1 : 5;
-			playerTwoMana = playerTwoMana > 5 ? playerTwoMana + 1 : 5;
+			playerOneMana = Math.min(10, playerOneMana + 1);
+			playerTwoMana = Math.min(10, playerTwoMana + 1);
 		}
 
 		for (ListIterator<PlayedCard> cards = playerOneCards.listIterator(); cards.hasNext(); ) {
@@ -234,7 +165,7 @@ public class Game {
 			if (card.getCurrentHitPoints() <= 0) {
 				if (card.getName().equals("tower2")) {
 					gameState = false;
-					winner = player2;
+					winner = playerTwo;
 				}
 				cards.remove();
 			}
@@ -245,7 +176,7 @@ public class Game {
 			if (card.getCurrentHitPoints() <= 0) {
 				if (card.getName().equals("tower5")) {
 					gameState = false;
-					winner = player1;
+					winner = playerOne;
 				}
 				cards.remove();
 			}
@@ -256,7 +187,10 @@ public class Game {
 	}
 
 	/**
-	 * Runs the attack or move cycle. Attacks once a second and moves if it is not in range.
+	 * Runs the attack or move cycle. Attacks once a second and moves if it
+	 * is not in range. The move on which to attack is stored in a counter.
+	 * If there is an enemy unit in range, the unit will not move no matter
+	 * the turn. Once a unit dies, it is removed from the list.
 	 *
 	 * @param actionCards the cards attacking or moving
 	 * @param otherCards  the cards being check against

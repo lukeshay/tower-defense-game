@@ -41,52 +41,11 @@ public class Messages {
 	}
 
 	/**
-	 * Connected false match up false string.
-	 *
-	 * @return the string
-	 */
-	public static String connectedFalseMatchUpFalse() {
-		Map<String, String> map = new HashMap<>();
-
-		map.put("connected", "false");
-		map.put("matchUp", "false");
-		map.put("side", "");
-
-		return new Gson().toJson(map);
-	}
-
-	/**
-	 * Game win string.
-	 *
-	 * @return the string
-	 */
-	public static String gameWin() {
-		Map<String, String> map = new HashMap<>();
-
-		map.put("game", "win");
-
-		return new Gson().toJson(map);
-	}
-
-	/**
-	 * Game loss string.
-	 *
-	 * @return the string
-	 */
-	public static String gameLoss() {
-		Map<String, String> map = new HashMap<>();
-
-		map.put("game", "loss");
-
-		return new Gson().toJson(map);
-	}
-
-	/**
 	 * Card added string.
 	 *
 	 * @return the string
 	 */
-	public static String cardAdded() {
+	static String cardAdded() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("card", "added");
@@ -100,7 +59,7 @@ public class Messages {
 	 * @param obj the obj
 	 * @return the string
 	 */
-	public static String convertToJson(Object obj) {
+	static String convertToJson(Object obj) {
 		return new Gson().toJson(obj);
 	}
 
@@ -110,22 +69,7 @@ public class Messages {
 	 * @param json the json
 	 * @return the played card
 	 */
-	public static PlayedCard convertJsonToPlayedCard(String json) {
+	static PlayedCard convertJsonToPlayedCard(String json) {
 		return new Gson().fromJson(json, PlayedCard.class);
-	}
-
-	/**
-	 * Card not added string.
-	 *
-	 * @param reason the reason
-	 * @return the string
-	 */
-	public static String cardNotAdded(String reason) {
-		Map<String, String> map = new HashMap<>();
-
-		map.put("card", "not added");
-		map.put("reason", reason);
-
-		return new Gson().toJson(map);
 	}
 }
