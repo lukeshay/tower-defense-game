@@ -52,4 +52,29 @@ public class CanvasUtility {
         return (int)((float)xPos * CanvasUtility.SERVER_X_BOUND / canvas.getWidth());
     }
 
+    public static void drawGameState(GameManager manager, Canvas canvas){
+        CanvasUtility.canvas = canvas;
+        if(manager.isConnected && !manager.gameOver){ // in game
+            GameManager.closeButton.draw(canvas);
+            for(PlayedCard playedCard : manager.playedCards.getPlayedCards()){
+                playedCard.draw(canvas);
+            }
+            for(CardInHand card : manager.player.getHand()){
+                card.draw(canvas);
+            }
+            manager.player.draw(canvas);
+            ChatUtility.drawChatPrompt(canvas);
+            ChatUtility.drawChatMessage(canvas, CanvasUtility.textPaint);
+        } else if(!manager.isConnected){ // waiting for game to start
+            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.",
+                    CanvasUtility.textPaint);
+        } else { //game has ended
+            if(manager.wonOrLost){
+                CanvasUtility.drawCenteredText(canvas, "You won!", CanvasUtility.textPaint);
+            } else{
+                CanvasUtility.drawCenteredText(canvas, "You lost!", CanvasUtility.textPaint);
+            }
+        }
+    }
+
 }

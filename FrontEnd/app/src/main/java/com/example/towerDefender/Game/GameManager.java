@@ -96,34 +96,6 @@ public class GameManager {
     }
 
     /**
-     * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
-     * @param canvas the canvas to draw on
-     */
-    public void draw(Canvas canvas){
-        this.canvas = canvas;
-        if(isConnected && !gameOver){ // in game
-            closeButton.draw(canvas);
-            for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                    playedCard.draw(canvas);
-            }
-            for(CardInHand card : player.getHand()){
-                card.draw(canvas);
-            }
-            player.draw(canvas);
-            ChatUtility.drawChatPrompt(canvas);
-            ChatUtility.drawChatMessage(canvas, CanvasUtility.textPaint);
-        } else if(!isConnected){ // waiting for game to start
-            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", CanvasUtility.textPaint);
-        } else { //game has ended
-            if(this.wonOrLost){
-                CanvasUtility.drawCenteredText(canvas, "You won!", CanvasUtility.textPaint);
-            } else{
-                CanvasUtility.drawCenteredText(canvas, "You lost!", CanvasUtility.textPaint);
-            }
-        }
-    }
-
-    /**
      * Updates the {@link GameObjectSprite}s and {@link CardInHand}s.
      */
     public void update(){
@@ -163,7 +135,7 @@ public class GameManager {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
             SocketUtilities.sendMessage(JsonUtility.playedCardToJson(new PlayedCard(toSend,
-                    CanvasUtility.convertCanvasPositionToServerPosition(canvas, eventX), eventY, this.player.getUserId())).toString()  );
+                    CanvasUtility.convertCanvasPositionToServerPosition(CanvasUtility.canvas, eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){
@@ -184,50 +156,6 @@ public class GameManager {
      */
     public int getCardToPlayIndex(){
         return cardToPlayIndex;
-    }
-
-    /**
-     * Sends a message to the game manager
-     * @param message the message to send to the game manager
-     */
-    public void passMessageToManager(String message) {
-        if (message.contains("Message from opponent: ")) {
-            Log.i("CHAT", "received message from opponent");
-            ChatUtility.lastChatMessageReceived = message;
-            ChatUtility.timeChatMessageReceived = System.currentTimeMillis();
-        } else {
-            SocketMessage socketMessage = JsonUtility.jsonToSocketMessage(message);
-            if(!socketMessage.getWinner().trim().isEmpty()){
-                if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
-                    this.gameOver = true;
-                    this.wonOrLost = true;
-                } else {
-                    this.gameOver = true;
-                    this.wonOrLost = false;
-                }
-            }
-            if(socketMessage.getGameState().equals("in-game") && !isConnected){
-                Log.i("SOCKET_INFO", "Connected.");
-                isConnected = true;
-                initializeDeck();
-            } else{
-                try {
-                    playedCards.addAll(socketMessage.getPlayedCards(), this);
-                    //If the player side hasn't already been updated, go through and check
-                    if(!playerSideSet){
-                        if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
-                            playerSide = "left";
-                        } else{
-                            playerSide = "right";
-                        }
-                        playerSideSet = true;
-                    }
-                } catch (Exception e){
-                    Log.e("ERROR", e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     /**

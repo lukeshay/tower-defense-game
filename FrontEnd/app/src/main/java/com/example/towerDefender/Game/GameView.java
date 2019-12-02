@@ -86,7 +86,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if(canvas != null){
             canvas.drawBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.dungeon_background), 0, 0, null);
             //Manager will draw the characters and hand
-            manager.draw(canvas);
+            //manager.draw(canvas);
+            CanvasUtility.drawGameState(manager, canvas);
         }
     }
 
