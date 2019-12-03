@@ -1,5 +1,11 @@
 package com.example.towerDefender.Util;
 
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.towerDefender.R;
+
 import java.util.Random;
 
 public class LoadingScreenUtility {
@@ -17,4 +23,12 @@ public class LoadingScreenUtility {
         return toolTips[random.nextInt(toolTips.length - 1)];
     }
 
+    /**
+     * Displays a loading screen on the provided activity. The activity class is responsible for lifting the loading screen.
+     * @param activity the activity for which a loading screen should be displayed.
+     */
+    public static void launchLoadingScreen(AppCompatActivity activity){
+        activity.setContentView(R.layout.loading_screen);
+        ((TextView)activity.findViewById(R.id.toolTip)).setText(getToolTip());
+    }
 }

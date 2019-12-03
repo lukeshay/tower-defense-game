@@ -40,8 +40,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.loading_screen);
-        ((TextView)findViewById(R.id.toolTip)).setText(LoadingScreenUtility.getToolTip());
+        LoadingScreenUtility.launchLoadingScreen(this);
         startGame(NavigationActivity.selectedDeck.get_deck());
     }
 
