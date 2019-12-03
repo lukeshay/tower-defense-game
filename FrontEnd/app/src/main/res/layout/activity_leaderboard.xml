@@ -8,8 +8,16 @@
     android:orientation="vertical"
     tools:context="com.example.towerDefender.Activities.NavigationActivity">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="returnToNavigation"
+        android:text="@string/back_button_string" />
+
     <TextView
         android:id="@+id/leaderboardTitle"
+        android:scrollbars = "vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"

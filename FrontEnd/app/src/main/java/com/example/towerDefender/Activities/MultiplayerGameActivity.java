@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Game.MainThread;
+import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketListener;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
@@ -36,8 +38,14 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setContentView(R.layout.loading_screen);
         startGame(NavigationActivity.selectedDeck.get_deck());
     }
+
+    /**
+     * Launches the game, with the provided cards as the starting deck
+     * @param cards the cards with which the user will start the game
+     */
     public void startGame(ArrayList<Card> cards){
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
@@ -79,7 +87,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
-                //Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
+                Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
             }
         });
     }

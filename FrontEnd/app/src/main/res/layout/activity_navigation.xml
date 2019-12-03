@@ -13,7 +13,7 @@
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+<!--
         <Button
             android:id="@+id/singlePlayerButton"
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_marginTop="100dp"
             android:background="@color/colorPrimary"
             android:onClick="launchSinglePlayer"
-            android:text="@string/singleplayer_title" />
+            android:text="@string/singleplayer_title" /> -->
 
         <Button
             android:id="@+id/multiPlayerButton"
@@ -49,7 +49,7 @@
             android:background="@color/colorPrimary"
             android:onClick="openLeaderboard"
             android:text="@string/leaderboard_title" />
-
+<!--
         <Button
             android:id="@+id/settingsButton"
             android:layout_width="match_parent"
@@ -57,6 +57,6 @@
             android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"
             android:onClick="openSettings"
-            android:text="@string/settings_title" />
+            android:text="@string/settings_title" /> -->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

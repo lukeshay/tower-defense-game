@@ -104,10 +104,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 Intent intent = new Intent(this.parent, LeaderboardActivity.class);
                 this.parent.startActivity(intent);
             }
-            if(event.getX() <= ChatUtility.chatBar.getBoundingRectangle().right
-                && event.getX() > ChatUtility.chatBar.getBoundingRectangle().left
-                && event.getY() <= ChatUtility.chatBar.getBoundingRectangle().bottom){
-                ChatUtility.chatBar.click((int)event.getX());
+            if(event.getX() <= ChatUtility.getChatBar().getBoundingRectangle().right
+                && event.getX() > ChatUtility.getChatBar().getBoundingRectangle().left
+                && event.getY() <= ChatUtility.getChatBar().getBoundingRectangle().bottom){
+                ChatUtility.getChatBar().click((int)event.getX());
             }
             if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
                   SocketUtilities.closeSocket();

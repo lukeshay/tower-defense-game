@@ -17,7 +17,7 @@ public class CanvasUtility {
      * All draws to the canvas for information with position sent from the server must be normalized against this bound.
      */
     public static final int SERVER_X_BOUND = 1920;
-    public static Canvas canvas;
+    private static Canvas canvas;
     public static Paint textPaint;
 
     /**
@@ -80,6 +80,16 @@ public class CanvasUtility {
                 CanvasUtility.drawCenteredText(canvas, "You lost!", CanvasUtility.textPaint);
             }
         }
+    }
+
+    /**
+     * @return the stored canvas
+     */
+    public static Canvas getCanvas(){
+        if(canvas == null){
+            canvas = new Canvas();
+        }
+        return canvas;
     }
 
 }

@@ -134,7 +134,7 @@ public class GameManager {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
             SocketUtilities.sendMessage(JsonUtility.playedCardToJson(new PlayedCard(toSend,
-                    CanvasUtility.convertCanvasPositionToServerPosition(CanvasUtility.canvas, eventX), eventY, this.player.getUserId())).toString()  );
+                    CanvasUtility.convertCanvasPositionToServerPosition(CanvasUtility.getCanvas(), eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){

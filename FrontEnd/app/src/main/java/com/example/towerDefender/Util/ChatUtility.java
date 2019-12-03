@@ -7,12 +7,15 @@ import com.example.towerDefender.Game.ChatBar;
 
 public class ChatUtility {
 
-    public static ChatBar chatBar;
+    private static ChatBar chatBar;
     //todo: make a separate ChatUtility manager
     public static long timeChatMessageReceived;
     public static String lastChatMessageReceived;
 
     public static ChatBar getChatBar(){
+        if(chatBar == null){
+            chatBar = new ChatBar(CanvasUtility.getCanvas());
+        }
         return chatBar;
     }
 
