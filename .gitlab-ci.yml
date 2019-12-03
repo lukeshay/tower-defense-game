@@ -1,7 +1,17 @@
 stages:
+  - test
   - deploy
   - androidbuild
   - androidtest
+  
+test:
+  stage: test
+  tags:
+    - shell
+  script:
+    - cd BackEnd/ServerServices
+    - chmod 777 *
+    - ./mvnw test
 
 deploy:
   stage: deploy
@@ -12,7 +22,7 @@ deploy:
   script:
     - cd BackEnd/ServerServices
     - chmod 777 *
-    - mvn package
+    - ./mvnw package
     - sudo rm -f /home/SS_5/database-access.jar
     - sudo mv target/*SNAPSHOT.jar /home/SS_5/database-access.jar
     - sudo systemctl stop ss-5
