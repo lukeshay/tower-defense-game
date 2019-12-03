@@ -1,7 +1,6 @@
 package com.example.towerDefender.Card;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -9,45 +8,43 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.R;
+import com.example.towerDefender.Util.CardUtilities;
 
 import java.util.ArrayList;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
-public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
     private ArrayList<Card> mDataSet;
     private Context mContext;
-    private deckAdapter deck;
+    private DeckAdapter deck;
     private PopupWindow mPopupWindow;
     private ImageButton closeButton;
     private TextView textview;
     private ImageView card_desc_imv;
 
-    public cardAdapter(Context context,ArrayList<Card> DataSet, deckAdapter _deck){
-        mDataSet = DataSet;
+    public CardAdapter(Context context, ArrayList<Card> dataSet, DeckAdapter deck){
+        mDataSet = dataSet;
         mContext = context;
-        deck = _deck;
+        this.deck = deck;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView mTextView;
-        public LinearLayout mLinearLayout;
-        public ImageView mCardView;
-        public ViewHolder(View v){
+        TextView mTextView;
+        LinearLayout mLinearLayout;
+        ImageView mCardView;
+        ViewHolder(View v){
             super(v);
             mTextView = (TextView) v.findViewById(com.example.towerDefender.R.id.tv);
             mLinearLayout = (LinearLayout) v.findViewById(com.example.towerDefender.R.id.ll);
@@ -57,7 +54,7 @@ public class cardAdapter extends RecyclerView.Adapter<cardAdapter.ViewHolder>{
 
     @Override
     @NonNull
-    public cardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public CardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(mContext).inflate(com.example.towerDefender.R.layout.custom_view,parent,false);
 
         return new ViewHolder(v);

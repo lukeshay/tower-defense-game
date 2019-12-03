@@ -16,6 +16,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.towerDefender.Activities.LeaderboardActivity;
 import com.example.towerDefender.Activities.MultiplayerGameActivity;
 import com.example.towerDefender.Activities.NavigationActivity;
 import com.example.towerDefender.R;
@@ -23,6 +24,7 @@ import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Util.CanvasUtility;
 import com.example.towerDefender.Util.ChatUtility;
+import com.example.towerDefender.Util.LeaderboardUtility;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread mainThread;
@@ -71,6 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
             retry = false;
         }
+        manager = null;
     }
 
     /**
@@ -83,7 +86,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if(canvas != null){
             canvas.drawBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.dungeon_background), 0, 0, null);
             //Manager will draw the characters and hand
-            manager.draw(canvas);
+            //manager.draw(canvas);
+            CanvasUtility.drawGameState(manager, canvas);
         }
     }
 
@@ -97,13 +101,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if(manager.isGameOver()){
                 //if the game is over, any click will send the user back to navigation page.
-                Intent intent = new Intent(this.parent, NavigationActivity.class);
+                Intent intent = new Intent(this.parent, LeaderboardActivity.class);
                 this.parent.startActivity(intent);
             }
-            if(event.getX() <= ChatUtility.chatBar.getBoundingRectangle().right
-                && event.getX() > ChatUtility.chatBar.getBoundingRectangle().left
-                && event.getY() <= ChatUtility.chatBar.getBoundingRectangle().bottom){
-                ChatUtility.chatBar.click((int)event.getX());
+            if(event.getX() <= ChatUtility.getChatBar().getBoundingRectangle().right
+                && event.getX() > ChatUtility.getChatBar().getBoundingRectangle().left
+                && event.getY() <= ChatUtility.getChatBar().getBoundingRectangle().bottom){
+                ChatUtility.getChatBar().click((int)event.getX());
             }
             if(event.getX() <= Sprite.normalizedButtonSize && event.getY() <= Sprite.normalizedButtonSize){
                   SocketUtilities.closeSocket();

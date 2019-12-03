@@ -34,8 +34,6 @@ public abstract class Sprite {
         canvas.drawBitmap(image, xStart, yStart, null);
     }
 
-    public abstract void update();
-
     /**
      * @return the starting x value of this {@link Sprite}'s {@link Bitmap}
      */

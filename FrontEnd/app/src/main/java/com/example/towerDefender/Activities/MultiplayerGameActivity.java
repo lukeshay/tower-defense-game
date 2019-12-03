@@ -6,26 +6,28 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Game.MainThread;
+import com.example.towerDefender.R;
 import com.example.towerDefender.SocketServices.SocketListener;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
-import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.GameView;
-import com.example.towerDefender.VolleyServices.JsonUtils;
 import com.example.towerDefender.Game.Player;
-import com.example.towerDefender.VolleyServices.VolleyResponseListener;
-import com.example.towerDefender.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Util.LoadingScreenUtility;
+import com.example.towerDefender.Util.SocketMessageHandler;
 
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.ArrayList;
-import java.util.Random;
 
+import javax.websocket.MessageHandler;
 import javax.websocket.OnMessage;
 
 public class MultiplayerGameActivity extends AppCompatActivity {
@@ -38,8 +40,14 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        LoadingScreenUtility.launchLoadingScreen(this);
         startGame(NavigationActivity.selectedDeck.get_deck());
     }
+
+    /**
+     * Launches the game, with the provided cards as the starting deck
+     * @param cards the cards with which the user will start the game
+     */
     public void startGame(ArrayList<Card> cards){
         final Context ctx = this.getApplicationContext();
         final ArrayList<Card> passed = cards;
@@ -62,7 +70,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
                         catch(Exception e){e.printStackTrace();}
                     }
                 } else {
-                    gameView.getManager().passMessageToManager(message);
+                    SocketMessageHandler.handleMessage(message);
                 }
             }
 
@@ -81,7 +89,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
-                //Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
+                Log.i("SOCKET_INFO", "Socket error: " + e.getMessage());
             }
         });
     }

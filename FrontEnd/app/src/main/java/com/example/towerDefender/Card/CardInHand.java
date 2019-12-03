@@ -10,6 +10,7 @@ import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.Game.GameObjectSprite;
 import com.example.towerDefender.Game.Player;
 import com.example.towerDefender.Game.Sprite;
+import com.example.towerDefender.Util.CardUtilities;
 
 import static com.example.towerDefender.Game.Sprite.normalizedInventorySize;
 
@@ -157,7 +158,7 @@ public class CardInHand {
      * @param card the card to update the {@link Sprite} for
      */
     private void updateCardAndImage(Card card){
-        if(GameManager.playerSide.contains("left")){
+        if(GameManager.instance.playerSide.contains("left")){
             this.cardSprite = CardUtilities.getGameObjectSprite(player.getPlayerContext(), card,
                     450 + cardIndex * normalizedInventorySize,Resources.getSystem().getDisplayMetrics().heightPixels - 250, true);
         } else {

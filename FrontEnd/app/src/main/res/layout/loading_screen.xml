@@ -10,35 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
+        android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/multiPlayerButton"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:background="@color/colorPrimary"
-            android:onClick="launchMultiplayer"
-            android:text="@string/multiplayer_title" />
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#0FFFF0"
+            android:text="@string/loading_screen"
+            app:textLocale="a" />
 
-        <Button
-            android:id="@+id/inventoryButton"
+        <TextView
+            android:id="@+id/toolTip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:background="@color/colorPrimary"
-            android:onClick="openInventory"
-            android:text="@string/inventory_deckbuilder_title" />
-
-        <Button
-            android:id="@+id/leaderboardButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:background="@color/colorPrimary"
-            android:onClick="openLeaderboard"
-            android:text="@string/leaderboard_title" />
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="#0FFFF0"
+            android:text="@string/loading_screen"
+            app:textLocale="a" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

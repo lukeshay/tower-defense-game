@@ -5,7 +5,7 @@ import com.example.towerDefender.Card.Card;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import com.example.towerDefender.Card.CardUtilities;
+import com.example.towerDefender.Util.CardUtilities;
 import com.example.towerDefender.Card.PlayedCard;
 
 /**
@@ -13,11 +13,9 @@ import com.example.towerDefender.Card.PlayedCard;
  */
 public class PlayedCardsHolder {
     private List<PlayedCard> playedCards;
-    private Player player;
 
-    public PlayedCardsHolder(List<PlayedCard> playedCards, Player player){
+    public PlayedCardsHolder(List<PlayedCard> playedCards){
         this.playedCards = playedCards;
-        this.player = player;
     }
 
     /**

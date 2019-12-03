@@ -8,4 +8,5 @@
     <color name="selectorGreen">#0FF70F</color>
     <color name="colorGold">#FFC959</color>
     <color name="colorSilver">#dfe3e6</color>
+    <color name="text_color">#0FFFF0</color>
 </resources>

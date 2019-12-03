@@ -2,7 +2,7 @@ package com.example.towerDefender.Card;
 import android.content.Context;
 
 import com.example.towerDefender.Game.Player;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 
 import junit.framework.TestCase;
 
@@ -30,7 +30,7 @@ public class DeckTests extends TestCase {
         when(player.getPlayerContext()).thenReturn(context);
         when(player.getDeck()).thenReturn(deck);
         deck = new Deck(player, context, new ArrayList<Card>());
-        deck.setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response)));
+        deck.setDeck(new ArrayList<>(JsonUtility.jsonToCardArray(response)));
         Assert.assertTrue(deck.size() == 5);
         Assert.assertNotEquals(deck.drawCard(0, false).getCard().cardName,
                 deck.drawCard(0, false).getCard().cardName,

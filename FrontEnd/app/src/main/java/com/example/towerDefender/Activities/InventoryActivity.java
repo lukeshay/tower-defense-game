@@ -4,12 +4,10 @@ package com.example.towerDefender.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -18,25 +16,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.toolbox.Volley;
 import com.example.towerDefender.Card.Card;
+import com.example.towerDefender.Card.DeckAdapter;
 import com.example.towerDefender.Card.OwnedDecks;
-import com.example.towerDefender.Card.cardAdapter;
+import com.example.towerDefender.Card.CardAdapter;
 import com.example.towerDefender.R;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
-import com.example.towerDefender.Card.deckAdapter;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static android.provider.Settings.Secure.ANDROID_ID;
-
-public class inventoryActivity extends Activity {
+public class InventoryActivity extends Activity {
 
     ConstraintLayout mRelativeLayout;
     private RecyclerView mRecyclerView;
@@ -48,7 +41,7 @@ public class inventoryActivity extends Activity {
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private deckAdapter da;
+    private DeckAdapter da;
 
     private ArrayList<OwnedDecks> decks;
     private ArrayList<Card> inventory;
@@ -102,11 +95,11 @@ public class inventoryActivity extends Activity {
             @Override
             public void onResponse(Object response) {
                 Log.e("response",response.toString());
-                inventory = new ArrayList<>(JsonUtils.jsonToCardArray(response.toString()));
+                inventory = new ArrayList<>(JsonUtility.jsonToCardArray(response.toString()));
                 // Initialize a new instance of RecyclerView Adapter instance
-                da = new deckAdapter(mContext,null);
-                mAdapter = new cardAdapter(mContext,inventory, da);
-                //adapter = new deckAdapter(mContext, inventory);
+                da = new DeckAdapter(mContext,null);
+                mAdapter = new CardAdapter(mContext,inventory, da);
+                //adapter = new DeckAdapter(mContext, inventory);
                 // Set the adapter for RecyclerView
                 mRecyclerView.setAdapter(mAdapter);
                 recyclerView.setAdapter(da);
@@ -119,7 +112,7 @@ public class inventoryActivity extends Activity {
                     @Override
                     public void onResponse(Object response) {
                         Log.e("deck", response.toString());
-                        decks = new ArrayList<>(JsonUtils.jsonToOwnedDecksArray(response.toString()));
+                        decks = new ArrayList<>(JsonUtility.jsonToOwnedDecksArray(response.toString()));
                     }
                 });
             }
@@ -139,7 +132,7 @@ public class inventoryActivity extends Activity {
                     @Override
                     public void onResponse(Object response) {
                         Log.e("deck", response.toString());
-                        decks = new ArrayList<>(JsonUtils.jsonToOwnedDecksArray(response.toString()));
+                        decks = new ArrayList<>(JsonUtility.jsonToOwnedDecksArray(response.toString()));
                         JSONObject emptyjsonObject = new JSONObject();
                         if(da.getDeck().size() == 0){
                             for (Card x : decks.get(selected).get_deck()){
@@ -194,29 +187,29 @@ public class inventoryActivity extends Activity {
                 @Override
                 public void onResponse(Object response) {
                     Log.e("deck", response.toString());
-                    decks = new ArrayList<>(JsonUtils.jsonToOwnedDecksArray(response.toString()));
+                    decks = new ArrayList<>(JsonUtility.jsonToOwnedDecksArray(response.toString()));
 
                 if (b) {
                     if (compoundButton == deck1) {
                         selected = 0;
                         deck2.setChecked(false);
                         deck3.setChecked(false);
-                        da = new deckAdapter(mContext, decks.get(0).get_deck());
+                        da = new DeckAdapter(mContext, decks.get(0).get_deck());
                     }
                     if (compoundButton == deck2) {
                         selected = 1;
                         deck1.setChecked(false);
                         deck3.setChecked(false);
-                        da = new deckAdapter(mContext, decks.get(1).get_deck());
+                        da = new DeckAdapter(mContext, decks.get(1).get_deck());
                     }
                     if (compoundButton == deck3) {
                         selected = 2;
                         deck1.setChecked(false);
                         deck2.setChecked(false);
-                        da = new deckAdapter(mContext, decks.get(2).get_deck());
+                        da = new DeckAdapter(mContext, decks.get(2).get_deck());
                     }
-                    mAdapter = new cardAdapter(mContext, inventory, da);
-                    //adapter = new deckAdapter(mContext, inventory);
+                    mAdapter = new CardAdapter(mContext, inventory, da);
+                    //adapter = new DeckAdapter(mContext, inventory);
                     // Set the adapter for RecyclerView
                     mRecyclerView.setAdapter(mAdapter);
                     recyclerView.setAdapter(da);

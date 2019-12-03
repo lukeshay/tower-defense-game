@@ -10,9 +10,9 @@ import org.junit.Assert;
 public class CardRestServicesTest extends TestCase {
 
     public void testCardByName(){
-        Card card = CardRestServices.getCardByName("Card 1");
+        Card card = CardRestServices.getCardByName("Blob");
         Assert.assertNotNull(card);
-        Assert.assertEquals("Card 1", card.cardName);
+        Assert.assertEquals("Blob", card.cardName);
     }
 
     public void testNonExistantCardByName(){

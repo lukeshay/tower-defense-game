@@ -43,6 +43,6 @@ public class WebSocketClientConnectionTest extends TestCase {
             Assert.fail(e.getMessage());
         }
         Assert.assertTrue(SocketUtilities.isOpen());
-        Assert.assertTrue(SocketUtilities.getLastMessage().contains("connected=true"));
+        Assert.assertTrue(SocketUtilities.getLastMessage().contains("\"connected\":\"true\""));
     }
    }

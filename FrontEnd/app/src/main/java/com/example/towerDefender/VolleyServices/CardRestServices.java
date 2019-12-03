@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.VolleyServices.JsonUtils;
-import com.example.towerDefender.VolleyServices.VolleyResponseListener;
-import com.example.towerDefender.VolleyServices.VolleyUtilities;
+import com.example.towerDefender.Util.JsonUtility;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -36,7 +34,7 @@ public class CardRestServices {
             public void onResponse(Object response) {
 
             }
-        }, JsonUtils.cardtoJson(card));
+        }, JsonUtility.cardtoJson(card));
     }
 
     public void getAllCardsVolley(Context context){
@@ -51,7 +49,7 @@ public class CardRestServices {
             @Override
             public void onResponse(Object response) {
                 setResponse(true);
-                setCardResponse(new ArrayList<>(JsonUtils.jsonToCardArray(response.toString())));
+                setCardResponse(new ArrayList<>(JsonUtility.jsonToCardArray(response.toString())));
             }
         });
     }
@@ -97,7 +95,7 @@ public class CardRestServices {
                 response.append(input);
             }
             in.close();
-            return JsonUtils.jsonToCard(response.toString());
+            return JsonUtility.jsonToCard(response.toString());
         } catch(Exception e){
             //Handle exception
             Log.e("ERROR", "Encountered error getting card by name from database.");

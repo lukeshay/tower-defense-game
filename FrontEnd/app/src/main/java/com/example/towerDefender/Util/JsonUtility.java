@@ -1,10 +1,11 @@
-package com.example.towerDefender.VolleyServices;
+package com.example.towerDefender.Util;
 
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.OwnedDecks;
 import com.example.towerDefender.SocketServices.SocketMessage;
+import com.example.towerDefender.VolleyServices.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -16,7 +17,7 @@ import java.util.Collection;
 
 import com.example.towerDefender.Card.PlayedCard;
 
-public class JsonUtils {
+public class JsonUtility {
 
     /**
      * Converts a json String to a {@link Card} object
@@ -149,6 +150,5 @@ public class JsonUtils {
         Gson test = new Gson();
         return test.fromJson(json, SocketMessage.class);
     }
-
 
 }

@@ -3,10 +3,9 @@ package com.example.towerDefender.Card;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.towerDefender.Game.GameManager;
 import com.example.towerDefender.VolleyServices.CardRestServices;
 import com.example.towerDefender.Game.Player;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
@@ -85,7 +84,7 @@ public class Deck {
 
             @Override
             public void onResponse(Object response) {
-                setDeck(new ArrayList<>(JsonUtils.jsonToCardArray(response.toString())));
+                setDeck(new ArrayList<>(JsonUtility.jsonToCardArray(response.toString())));
             }
         });
     }

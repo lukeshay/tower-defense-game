@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.towerDefender.Activities.MultiplayerGameActivity">
+    tools:context="com.example.towerDefender.Activities.MultiplayerGameActivity"
+    android:id="@+id/baseLayout">
 
     <com.example.towerDefender.Game.GameView
         android:id="@+id/gameView"
@@ -14,6 +15,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

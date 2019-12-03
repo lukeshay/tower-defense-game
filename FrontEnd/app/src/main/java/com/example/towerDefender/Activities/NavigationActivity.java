@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.towerDefender.Card.OwnedDecks;
 import com.example.towerDefender.R;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
@@ -57,7 +57,7 @@ public class NavigationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Object response) {
                 Log.e("deck", response.toString());
-                decks = new ArrayList<>(JsonUtils.jsonToOwnedDecksArray(response.toString()));
+                decks = new ArrayList<>(JsonUtility.jsonToOwnedDecksArray(response.toString()));
 
                 LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 View customView = inflater.inflate(R.layout.deck_selection_view, null);
@@ -105,7 +105,7 @@ public class NavigationActivity extends AppCompatActivity {
      * @param view the provided view
      */
     public void openInventory(View view){
-        Intent intent = new Intent(this, inventoryActivity.class);
+        Intent intent = new Intent(this, InventoryActivity.class);
         startActivity(intent);
     }
 

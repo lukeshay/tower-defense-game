@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.towerDefender.Game.GameObjectSprite;
+import com.example.towerDefender.Util.CardUtilities;
 
 import junit.framework.TestCase;
 
@@ -16,7 +17,7 @@ import org.junit.Assert;
 
 import static org.mockito.Mockito.mock;
 
-public class CardUtilitiesImplementationTests extends TestCase {
+public class CardUtilitiesInstrumentedTest extends TestCase {
     private static Card card = new Card("Reaper", "basicReaper", 5, 5, 5, 5, "UNIT", 5);
     private static Card card1 = new Card("Wizard", "basicWizard", 5, 5, 5, 5, "UNIT", 5);
 

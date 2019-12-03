@@ -3,7 +3,6 @@ package com.example.towerDefender.Card;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +13,16 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.towerDefender.Util.CardUtilities;
+
 import java.util.ArrayList;
 
 
-public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
+public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.ViewHolder>{
     private ArrayList<Card> mDataSet = new ArrayList<Card>();
     private Context mContext;
 
-    public deckAdapter(Context context, ArrayList<Card> DataSet){
+    public DeckAdapter(Context context, ArrayList<Card> DataSet){
        // mDataSet = DataSet;
         if(DataSet != null) {
             for (Card x : DataSet) {
@@ -44,7 +45,7 @@ public class deckAdapter extends RecyclerView.Adapter<deckAdapter.ViewHolder>{
     }
 
     @Override
-    public deckAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public DeckAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(mContext).inflate(com.example.towerDefender.R.layout.deck_custom_view,parent,false);
         ViewHolder vh = new ViewHolder(v);
         return vh;

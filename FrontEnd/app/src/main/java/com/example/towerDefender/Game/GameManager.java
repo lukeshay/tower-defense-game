@@ -1,11 +1,9 @@
 package com.example.towerDefender.Game;
 
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.icu.text.Collator;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
@@ -15,7 +13,7 @@ import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Util.CanvasUtility;
 import com.example.towerDefender.Util.ChatUtility;
-import com.example.towerDefender.VolleyServices.JsonUtils;
+import com.example.towerDefender.Util.JsonUtility;
 //import com.example.towerDefender.SocketServices.WebSocketClientConnection;
 
 import java.util.ArrayList;
@@ -26,40 +24,39 @@ import com.example.towerDefender.Card.PlayedCard;
  * The GameManager handles all the {@link Player}s and {@link GameObjectSprite}s for the {@link GameView} to streamline code.
  */
 public class GameManager {
+    public static GameManager instance;
     /**
      * The side the {@link GameManager}'s player is on. (left or right)
      */
-    public static String playerSide;
-    private Player player;
-    private boolean isConnected = false;
-    private PlayedCardsHolder playedCards;
+    public String playerSide;
+    public Player player;
+    public boolean isConnected = false;
+    public PlayedCardsHolder playedCards;
     //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
     private boolean isPlayingCard;
     //The index of the CardInHand to play from the player's CardInHand
     private int cardToPlayIndex;
     private int cardsSent = 0;
-    private boolean gameOver = false;
-    private Paint textPaint;
-    private boolean playerSideSet = false;
-    private boolean wonOrLost = false; // true if they won
-    private Sprite closeButton;
-    private Canvas canvas; //stored canvas so we can scale cards we played
-    private boolean test = false;
+    public boolean gameOver = false;
+    public boolean playerSideSet = false;
+    public boolean wonOrLost = false; // true if they won
+    public Sprite closeButton;
     /**
      * Constructs a new {@link GameManager}
      * @param player the {@link Player} to use
      */
     public GameManager(Player player){
+        GameManager.instance = this;
         this.player = player;
-        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>());
         isPlayingCard = false;
         cardToPlayIndex = 0;
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
-        textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(150);
-        textPaint.setColor(Color.WHITE);
-        closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
+        CanvasUtility.textPaint = new Paint(Color.BLACK);
+        CanvasUtility.textPaint.setTextSize(150);
+        CanvasUtility.textPaint.setColor(Color.WHITE);
+        closeButton = new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
     /**
@@ -68,18 +65,21 @@ public class GameManager {
      * @param test true if launching in 'test' mode. Limits context references
      */
     public GameManager(Player player, boolean test){
+        GameManager.instance = this;
         this.player = player;
-        test = true;
-        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>(), this.player);
+        playedCards = new PlayedCardsHolder(new ArrayList<PlayedCard>());
         isPlayingCard = false;
         cardToPlayIndex = 0;
         playerSide = "left";
-        textPaint = new Paint(Color.BLACK);
-        textPaint.setTextSize(150);
-        textPaint.setColor(Color.WHITE);
+        CanvasUtility.textPaint = new Paint(Color.BLACK);
+        CanvasUtility.textPaint.setTextSize(150);
+        CanvasUtility.textPaint.setColor(Color.WHITE);
+        if(!test){
+            closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
+        }
+
     }
 
-    //TODO: these pulls should be randomized, pulled from the server
     /**
      * Initializes the {@link Player}'s deck.
      */
@@ -92,36 +92,6 @@ public class GameManager {
      */
     public Player getPlayer(){
         return player;
-    }
-
-    /**
-     * Draws the {@link GameObjectSprite}s and {@link CardInHand}s on the provided canvas
-     * @param canvas the canvas to draw on
-     */
-    public void draw(Canvas canvas){
-        this.canvas = canvas;
-        if(isConnected && !gameOver){ // in game
-            closeButton.draw(canvas);
-            for(PlayedCard playedCard : playedCards.getPlayedCards()){
-                    playedCard.draw(canvas);
-            }
-            for(CardInHand card : player.getHand()){
-                card.draw(canvas);
-            }
-            player.draw(canvas);
-            ChatUtility.drawChatPrompt(canvas);
-            ChatUtility.drawChatMessage(canvas, textPaint);
-        } else if(!isConnected){ // waiting for game to start
-            CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.", textPaint);
-        } else { //game has ended
-            if(this.wonOrLost){
-                CanvasUtility.drawCenteredText(canvas, "You won!", textPaint);
-            } else{
-                CanvasUtility.drawCenteredText(canvas, "You lost!", textPaint);
-            }
-
-        }
-
     }
 
     /**
@@ -163,8 +133,8 @@ public class GameManager {
         try {
             Card toSend = new Card(player.getCardInHand(cardToPlayIndex).getCard());
             toSend.cardName = toSend.cardName + "@" + cardsSent++;
-            SocketUtilities.sendMessage(JsonUtils.playedCardToJson(new PlayedCard(toSend,
-                    CanvasUtility.convertCanvasPositionToServerPosition(canvas, eventX), eventY, this.player.getUserId())).toString()  );
+            SocketUtilities.sendMessage(JsonUtility.playedCardToJson(new PlayedCard(toSend,
+                    CanvasUtility.convertCanvasPositionToServerPosition(CanvasUtility.getCanvas(), eventX), eventY, this.player.getUserId())).toString()  );
             player.setCurrentMana(player.getCurrentMana() - player.getCardInHand(cardToPlayIndex).getCardManaCost());
             player.getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
         } catch (Exception e){
@@ -185,50 +155,6 @@ public class GameManager {
      */
     public int getCardToPlayIndex(){
         return cardToPlayIndex;
-    }
-
-    /**
-     * Sends a message to the game manager
-     * @param message the message to send to the game manager
-     */
-    public void passMessageToManager(String message) {
-        if (message.contains("Message from opponent: ")) {
-            Log.i("CHAT", "received message from opponent");
-            ChatUtility.lastChatMessageReceived = message;
-            ChatUtility.timeChatMessageReceived = System.currentTimeMillis();
-        } else {
-            SocketMessage socketMessage = JsonUtils.jsonToSocketMessage(message);
-            if(!socketMessage.getWinner().trim().isEmpty()){
-                if(socketMessage.getWinner().equals(this.getPlayer().getUserId())){
-                    this.gameOver = true;
-                    this.wonOrLost = true;
-                } else {
-                    this.gameOver = true;
-                    this.wonOrLost = false;
-                }
-            }
-            if(socketMessage.getGameState().equals("in-game") && !isConnected){
-                Log.i("SOCKET_INFO", "Connected.");
-                isConnected = true;
-                initializeDeck();
-            } else{
-                try {
-                    playedCards.addAll(socketMessage.getPlayedCards(), this);
-                    //If the player side hasn't already been updated, go through and check
-                    if(!playerSideSet){
-                        if(socketMessage.getPlayerOneId().equals(this.getPlayer().getUserId())){
-                            playerSide = "left";
-                        } else{
-                            playerSide = "right";
-                        }
-                        playerSideSet = true;
-                    }
-                } catch (Exception e){
-                    Log.e("ERROR", e.getMessage());
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     /**
