@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Game.MainThread;
@@ -18,6 +19,7 @@ import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.SocketServices.SocketUtilities;
 import com.example.towerDefender.Game.GameView;
 import com.example.towerDefender.Game.Player;
+import com.example.towerDefender.Util.LoadingScreenUtility;
 import com.example.towerDefender.Util.SocketMessageHandler;
 
 
@@ -39,6 +41,7 @@ public class MultiplayerGameActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.loading_screen);
+        ((TextView)findViewById(R.id.toolTip)).setText(LoadingScreenUtility.getToolTip());
         startGame(NavigationActivity.selectedDeck.get_deck());
     }
 
