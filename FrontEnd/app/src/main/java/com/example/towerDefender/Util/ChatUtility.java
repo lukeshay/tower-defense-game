@@ -8,7 +8,6 @@ import com.example.towerDefender.Game.ChatBar;
 public class ChatUtility {
 
     private static ChatBar chatBar;
-    //todo: make a separate ChatUtility manager
     public static long timeChatMessageReceived;
     public static String lastChatMessageReceived;
 

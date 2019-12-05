@@ -53,9 +53,6 @@ public class GameManager {
         cardToPlayIndex = 0;
         playerSide = "left";
         SocketUtilities.sendMessage("Hello from " + this.player.getUserId());
-        CanvasUtility.textPaint = new Paint(Color.BLACK);
-        CanvasUtility.textPaint.setTextSize(150);
-        CanvasUtility.textPaint.setColor(Color.WHITE);
         closeButton = new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
     }
 
@@ -71,9 +68,6 @@ public class GameManager {
         isPlayingCard = false;
         cardToPlayIndex = 0;
         playerSide = "left";
-        CanvasUtility.textPaint = new Paint(Color.BLACK);
-        CanvasUtility.textPaint.setTextSize(150);
-        CanvasUtility.textPaint.setColor(Color.WHITE);
         if(!test){
             closeButton =new BackButton(BitmapFactory.decodeResource(player.getPlayerContext().getResources(), R.drawable.back_button));
         }
