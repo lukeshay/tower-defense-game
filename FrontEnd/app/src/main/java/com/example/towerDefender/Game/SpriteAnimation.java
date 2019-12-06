@@ -45,9 +45,9 @@ public class SpriteAnimation {
 
 
     /**
-     * Constructs a new sprite animation based on the provided spritesheet.
-     * The spritesheet must consist of the provided number of frames, EACH A SQUARE.
-     * @param bitmap the spritesheet
+     * Constructs a new sprite animation based on the provided sprite sheet.
+     * The sprite sheet must consist of the provided number of frames, EACH A SQUARE.
+     * @param bitmap the sprite sheet
      * @param frameCount the number of frames
      * @param animationType the {@link Sprite.SPRITE_STATUS} associated with this animation
      */

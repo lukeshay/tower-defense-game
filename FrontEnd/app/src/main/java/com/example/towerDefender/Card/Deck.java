@@ -72,24 +72,6 @@ public class Deck {
     }
 
     /**
-     * Gets the deck from the server
-     * @param context the current context
-     */
-    public void getDeckFromServer(Context context){
-        VolleyUtilities.getRequest(context, CardRestServices.BASE_URL, new VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                Log.e("ERROR", "Encountered an error while grabbing cards from database. " + message);
-            }
-
-            @Override
-            public void onResponse(Object response) {
-                setDeck(new ArrayList<>(JsonUtility.jsonToCardArray(response.toString())));
-            }
-        });
-    }
-
-    /**
      * @return the size of this deck
      */
     public int size(){
