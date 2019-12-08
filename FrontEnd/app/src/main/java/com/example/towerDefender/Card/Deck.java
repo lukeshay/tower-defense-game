@@ -51,7 +51,7 @@ public class Deck {
      */
     public CardInHand drawCard(int cardInHandIndex, boolean setImage){
         //Players can never run out of cards in their deck. When the index is maxed out, we will shuffle the deck and start index back at 0.
-        if(++index == deck.size()){
+        if(++index >= deck.size()){
             index = 0;
         }
         return new CardInHand(player, deck.get(index),cardInHandIndex, setImage, this.playerSide);

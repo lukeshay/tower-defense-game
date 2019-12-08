@@ -24,16 +24,15 @@ public class ChatUtility {
 
     /**
      * Draws the last received chat message to the canvas if it was received within the last 2.5 seconds
-     * @param canvas the canvas to draw the message on
-     * @param textPaint the text paint to use
+     * @param canvas the canvas to draw the message on\
      */
-    public static void drawChatMessage(Canvas canvas, Paint textPaint){
+    public static void drawChatMessage(Canvas canvas){
         if(lastChatMessageReceived != null){
             if(System.currentTimeMillis() - timeChatMessageReceived < 2500){
-                //TODO: make new manager with its own paint stored so we don't need to rely on textPaint parameter
+                Paint textPaint = CanvasUtility.textPaint;
                 float temp = textPaint.getTextSize();
                 textPaint.setTextSize(75);
-                CanvasUtility.drawCenteredText(canvas, lastChatMessageReceived, textPaint);
+                CanvasUtility.drawChat(canvas, lastChatMessageReceived, textPaint);
                 textPaint.setTextSize(temp);
             }
         }

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class OwnedDecks {
+public class OwnedDeck {
     @SerializedName("deck")
     private ArrayList<Card> _deck;
     @SerializedName("userId")
@@ -14,7 +14,7 @@ public class OwnedDecks {
     @SerializedName("deckName")
     private String _deckName;
 
-    public OwnedDecks(ArrayList<Card> deck, String userId, int deckId, String deckName){
+    public OwnedDeck(ArrayList<Card> deck, String userId, int deckId, String deckName){
         this._deck = deck;
         this._userId = userId;
         this._deckId = deckId;

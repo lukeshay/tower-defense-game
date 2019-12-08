@@ -27,7 +27,7 @@ public class SocketMessageHandler {
                 Log.i("SOCKET_INFO", "Connected.");
                 GameManager.instance.isConnected = true;
                 GameManager.instance.initializeDeck();
-            } else{
+            } else if(socketMessage.getGameState().equals("in-game")){
                 try {
                     GameManager.instance.playedCards.addAll(socketMessage.getPlayedCards(), GameManager.instance);
                     //If the player side hasn't already been updated, go through and check

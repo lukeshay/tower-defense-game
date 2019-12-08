@@ -6,23 +6,38 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    tools:context="com.example.towerDefender.Activities.NavigationActivity">
+    tools:context="com.example.towerDefender.Activities.LeaderboardActivity">
 
-    <Button
-        android:id="@+id/button"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="returnToNavigation"
-        android:text="@string/back_button_string" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="returnToNavigation"
+            android:text="@string/back_button_string" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="playAgain"
+            android:text="@string/play_again_button_string" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/leaderboardTitle"
-        android:scrollbars = "vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:background="@color/colorPrimary"
+        android:scrollbars="vertical"
         android:text="@string/leaderboard_title"
         android:textAlignment="center"
         android:textAllCaps="true" />
+
 </LinearLayout>

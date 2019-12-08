@@ -5,6 +5,7 @@
     <string name="multiplayer_title">Multiplayer Game</string>
     <string name="singleplayer_title">Singleplayer Game</string>
     <string name="settings_title">Settings</string>
-    <string name="back_button_string">Go back</string>
+    <string name="back_button_string">Back to navigation</string>
+    <string name="play_again_button_string">Play again?</string>
     <string name="loading_screen">Waiting for a matchup.</string>
 </resources>

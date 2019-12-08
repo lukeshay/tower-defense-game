@@ -71,7 +71,7 @@ public class CanvasUtility {
             }
             manager.player.draw(canvas);
             ChatUtility.drawChatPrompt(canvas);
-            ChatUtility.drawChatMessage(canvas, CanvasUtility.textPaint);
+            ChatUtility.drawChatMessage(canvas);
         } else if(!manager.isConnected){ // waiting for game to start
             CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.",
                     CanvasUtility.textPaint);
@@ -94,7 +94,17 @@ public class CanvasUtility {
         return canvas;
     }
 
-    public static void initializeTextPaint(){
+    /**
+     * Displays the last received chat message from {@link ChatUtility} on the side of the screen.
+     * @param canvas the canvas to draw on
+     * @param message the message to draw
+     * @param paint the paint to draw the text with
+     */
+    public static void drawChat(Canvas canvas, String message, Paint paint){
+        drawCenteredText(canvas, message, paint);
+    }
+
+    private static void initializeTextPaint(){
         if(textPaint == null){
             CanvasUtility.textPaint = new Paint(Color.BLACK);
             CanvasUtility.textPaint.setTextSize(150);

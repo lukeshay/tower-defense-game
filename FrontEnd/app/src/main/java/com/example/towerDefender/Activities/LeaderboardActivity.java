@@ -25,4 +25,13 @@ public class LeaderboardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Launches the multiplayer game activity
+     * @param view the provided view
+     */
+    public void playAgain(View view){
+        Intent intent = new Intent(this, NavigationActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -13,9 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import com.example.towerDefender.Card.OwnedDecks;
+import com.example.towerDefender.Card.OwnedDeck;
 import com.example.towerDefender.R;
+import com.example.towerDefender.Util.CardUtilities;
 import com.example.towerDefender.Util.JsonUtility;
+import com.example.towerDefender.Util.UserUtility;
 import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
@@ -27,8 +29,8 @@ public class NavigationActivity extends AppCompatActivity {
     private Button deck1;
     private Button deck2;
     private Button deck3;
-    private ArrayList<OwnedDecks> decks;
-    public static OwnedDecks selectedDeck;
+    private ArrayList<OwnedDeck> decks;
+    public static OwnedDeck selectedDeck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     public void launchMultiplayer(final View view){
-        VolleyUtilities.getRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/test1/deck", new VolleyResponseListener() {
+        VolleyUtilities.getRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/" + UserUtility.getUserId() + " /deck", new VolleyResponseListener() {
             @Override
             public void onError(String message) {
 
@@ -73,7 +75,12 @@ public class NavigationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
-                        selectedDeck = decks.get(0);
+                        if(decks.size() > 0) {
+                            selectedDeck = decks.get(0);
+                        } else {
+                            selectedDeck = CardUtilities.getTestDeck();
+                        }
+
                         Intent intent = new Intent(getApplicationContext(), MultiplayerGameActivity.class);
                         startActivity(intent);
                     }
@@ -82,7 +89,11 @@ public class NavigationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
-                        selectedDeck = decks.get(1);
+                        if(decks.size() > 1) {
+                            selectedDeck = decks.get(1);
+                        } else {
+                            selectedDeck = CardUtilities.getTestDeck();
+                        }
                         Intent intent = new Intent(getApplicationContext(), MultiplayerGameActivity.class);
                         startActivity(intent);
                     }
@@ -91,7 +102,11 @@ public class NavigationActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
-                        selectedDeck = decks.get(2);
+                        if(decks.size() > 2) {
+                            selectedDeck = decks.get(2);
+                        } else {
+                            selectedDeck = CardUtilities.getTestDeck();
+                        }
                         Intent intent = new Intent(getApplicationContext(), MultiplayerGameActivity.class);
                         startActivity(intent);
                     }

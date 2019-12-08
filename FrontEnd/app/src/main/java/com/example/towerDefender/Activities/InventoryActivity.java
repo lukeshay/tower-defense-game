@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.DeckAdapter;
-import com.example.towerDefender.Card.OwnedDecks;
+import com.example.towerDefender.Card.OwnedDeck;
 import com.example.towerDefender.Card.CardAdapter;
 import com.example.towerDefender.R;
 import com.example.towerDefender.Util.JsonUtility;
@@ -43,7 +43,7 @@ public class InventoryActivity extends Activity {
     private RecyclerView.Adapter adapter;
     private DeckAdapter da;
 
-    private ArrayList<OwnedDecks> decks;
+    private ArrayList<OwnedDeck> decks;
     private ArrayList<Card> inventory;
 
     private ToggleButton deck1;
