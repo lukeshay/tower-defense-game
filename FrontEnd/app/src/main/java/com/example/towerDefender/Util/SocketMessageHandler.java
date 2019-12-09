@@ -30,6 +30,12 @@ public class SocketMessageHandler {
             } else if(socketMessage.getGameState().equals("in-game")){
                 Log.i("SOCKET_INFO", message);
                 try {
+                    if(socketMessage.getPlayerOneId().equals(UserUtility.getUserId())){
+                        GameManager.instance.getPlayer().setCurrentMana(socketMessage.getPlayerOneMana());
+                    } else {
+                        GameManager.instance.getPlayer().setCurrentMana(socketMessage.getPlayerTwoMana());
+                    }
+
                     GameManager.instance.playedCards.addAll(socketMessage.getPlayedCards(), GameManager.instance);
                     //If the player side hasn't already been updated, go through and check
                     if(!GameManager.instance.playerSideSet){

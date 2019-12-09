@@ -34,7 +34,6 @@ public class CardInHand {
     private int color;
     private Status status;
     private Card card;
-    //TODO: not always a character!
     private GameObjectSprite cardSprite;
     private Player player;
     private int cardIndex;
@@ -109,7 +108,7 @@ public class CardInHand {
                 this.color = Color.RED;
                 break;
             case PLAYED:
-                this.updateCardAndImage(player.getDeck().drawCard(this.cardIndex).getCard());
+                this.updateCardAndImage(player.getDeck().drawCard(this.cardIndex, true).getCard());
                 break;
         }
     }
