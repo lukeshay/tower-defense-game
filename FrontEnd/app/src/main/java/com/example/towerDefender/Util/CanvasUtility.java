@@ -27,6 +27,7 @@ public class CanvasUtility {
      * @param textPaint the {@link Paint} to use for the text
      */
     public static void drawCenteredText(Canvas canvas, String text, Paint textPaint){
+        initializeTextPaint();
         int xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(text) / 2);
         int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
         canvas.drawText(text, xPos, yPos, textPaint);
@@ -58,6 +59,7 @@ public class CanvasUtility {
      * @param canvas the {@link Canvas} to draw to
      */
     public static void drawGameState(GameManager manager, Canvas canvas){
+        initializeTextPaint();
         CanvasUtility.canvas = canvas;
         if(manager.isConnected && !manager.gameOver){ // in game
             manager.closeButton.draw(canvas);
@@ -69,7 +71,7 @@ public class CanvasUtility {
             }
             manager.player.draw(canvas);
             ChatUtility.drawChatPrompt(canvas);
-            ChatUtility.drawChatMessage(canvas, CanvasUtility.textPaint);
+            ChatUtility.drawChatMessage(canvas);
         } else if(!manager.isConnected){ // waiting for game to start
             CanvasUtility.drawCenteredText(canvas, "Connected. Waiting for game start.",
                     CanvasUtility.textPaint);
@@ -90,6 +92,27 @@ public class CanvasUtility {
             canvas = new Canvas();
         }
         return canvas;
+    }
+
+    /**
+     * Displays the last received chat message from {@link ChatUtility} on the side of the screen.
+     * @param canvas the canvas to draw on
+     * @param message the message to draw
+     * @param paint the paint to draw the text with
+     */
+    public static void drawChat(Canvas canvas, String message, Paint paint){
+        int xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(message) / 2);
+        int yPos = (int) ((canvas.getHeight() / 6) - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
+        canvas.drawText(message, xPos, yPos, textPaint);
+    }
+
+    private static void initializeTextPaint(){
+        if(textPaint == null){
+            CanvasUtility.textPaint = new Paint(Color.BLACK);
+            CanvasUtility.textPaint.setTextSize(150);
+            CanvasUtility.textPaint.setAlpha(128);
+            CanvasUtility.textPaint.setColor(Color.WHITE);
+        }
     }
 
 }

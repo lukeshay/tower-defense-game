@@ -3,7 +3,7 @@ package com.example.towerDefender.Util;
 import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
-import com.example.towerDefender.Card.OwnedDecks;
+import com.example.towerDefender.Card.OwnedDeck;
 import com.example.towerDefender.SocketServices.SocketMessage;
 import com.example.towerDefender.VolleyServices.User;
 import com.google.gson.Gson;
@@ -73,20 +73,20 @@ public class JsonUtility {
         }
     }
 
-    public static OwnedDecks jsonToOwnedDecks(String json){
+    public static OwnedDeck jsonToOwnedDecks(String json){
         Gson test = new Gson();
-        return test.fromJson(json, OwnedDecks.class);
+        return test.fromJson(json, OwnedDeck.class);
     }
 
-    public static Collection<OwnedDecks> jsonToOwnedDecksArray(String json){
-        Collection<OwnedDecks> decks;
+    public static Collection<OwnedDeck> jsonToOwnedDecksArray(String json){
+        Collection<OwnedDeck> decks;
         Gson gson = new Gson();
-        Type collectionType = new TypeToken<Collection<OwnedDecks>>(){}.getType();
+        Type collectionType = new TypeToken<Collection<OwnedDeck>>(){}.getType();
         try{
             decks = gson.fromJson(json, collectionType);
         } catch (Exception e){
             decks = new ArrayList<>();
-            decks.add(gson.fromJson(json, OwnedDecks.class));
+            decks.add(gson.fromJson(json, OwnedDeck.class));
         }
 
         return decks;

@@ -36,8 +36,8 @@ public class Player {
     public Player(Context context, ArrayList<Card> startingHand){
         this.context = context;
         hand = new CardInHand[4];
-        this.maxMana = 5;
-        this.currentMana = 5;
+        this.maxMana = 10;
+        this.currentMana = 10;
         deck = new Deck(this, context, startingHand);
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);

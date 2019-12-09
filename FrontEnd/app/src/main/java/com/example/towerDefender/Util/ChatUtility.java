@@ -8,7 +8,6 @@ import com.example.towerDefender.Game.ChatBar;
 public class ChatUtility {
 
     private static ChatBar chatBar;
-    //todo: make a separate ChatUtility manager
     public static long timeChatMessageReceived;
     public static String lastChatMessageReceived;
 
@@ -25,17 +24,19 @@ public class ChatUtility {
 
     /**
      * Draws the last received chat message to the canvas if it was received within the last 2.5 seconds
-     * @param canvas the canvas to draw the message on
-     * @param textPaint the text paint to use
+     * @param canvas the canvas to draw the message on\
      */
-    public static void drawChatMessage(Canvas canvas, Paint textPaint){
+    public static void drawChatMessage(Canvas canvas){
         if(lastChatMessageReceived != null){
             if(System.currentTimeMillis() - timeChatMessageReceived < 2500){
-                //TODO: make new manager with its own paint stored so we don't need to rely on textPaint parameter
-                float temp = textPaint.getTextSize();
+                Paint textPaint = CanvasUtility.textPaint;
+                float tempTextSize = textPaint.getTextSize();
+                int tempAlpha = textPaint.getAlpha();
                 textPaint.setTextSize(75);
-                CanvasUtility.drawCenteredText(canvas, lastChatMessageReceived, textPaint);
-                textPaint.setTextSize(temp);
+                textPaint.setAlpha(220);
+                CanvasUtility.drawChat(canvas, lastChatMessageReceived, textPaint);
+                textPaint.setTextSize(tempTextSize);
+                textPaint.setAlpha(tempAlpha);
             }
         }
     }
