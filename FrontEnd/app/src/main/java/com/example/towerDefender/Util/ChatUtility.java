@@ -30,10 +30,13 @@ public class ChatUtility {
         if(lastChatMessageReceived != null){
             if(System.currentTimeMillis() - timeChatMessageReceived < 2500){
                 Paint textPaint = CanvasUtility.textPaint;
-                float temp = textPaint.getTextSize();
+                float tempTextSize = textPaint.getTextSize();
+                int tempAlpha = textPaint.getAlpha();
                 textPaint.setTextSize(75);
+                textPaint.setAlpha(220);
                 CanvasUtility.drawChat(canvas, lastChatMessageReceived, textPaint);
-                textPaint.setTextSize(temp);
+                textPaint.setTextSize(tempTextSize);
+                textPaint.setAlpha(tempAlpha);
             }
         }
     }

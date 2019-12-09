@@ -101,7 +101,9 @@ public class CanvasUtility {
      * @param paint the paint to draw the text with
      */
     public static void drawChat(Canvas canvas, String message, Paint paint){
-        drawCenteredText(canvas, message, paint);
+        int xPos = (int)((canvas.getWidth() / 2) - textPaint.measureText(message) / 2);
+        int yPos = (int) ((canvas.getHeight() / 6) - ((textPaint.descent() + textPaint.ascent()) / 2)) ;
+        canvas.drawText(message, xPos, yPos, textPaint);
     }
 
     private static void initializeTextPaint(){
