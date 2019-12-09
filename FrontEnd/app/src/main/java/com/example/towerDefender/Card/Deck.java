@@ -10,6 +10,7 @@ import com.example.towerDefender.VolleyServices.VolleyResponseListener;
 import com.example.towerDefender.VolleyServices.VolleyUtilities;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Deck {
@@ -17,6 +18,7 @@ public class Deck {
     private int index;
     private Player player; // the player that owns this deck
     private String playerSide;
+    private Random random = new Random();
     /**
      * Constructs a new {@link Deck} for the provided {@link Player}, consisting of the provided {@link Card}s.
      * @param player the {@link Player} whose deck this is
@@ -50,11 +52,7 @@ public class Deck {
      * @return a {@link CardInHand} representing the next card in this deck
      */
     public CardInHand drawCard(int cardInHandIndex, boolean setImage){
-        //Players can never run out of cards in their deck. When the index is maxed out, we will shuffle the deck and start index back at 0.
-        if(++index >= deck.size()){
-            index = 0;
-        }
-        return new CardInHand(player, deck.get(index),cardInHandIndex, setImage, this.playerSide);
+        return new CardInHand(player, deck.get(random.nextInt(deck.size() - 1)),cardInHandIndex, setImage, this.playerSide);
     }
 
     public void add(Card card){
