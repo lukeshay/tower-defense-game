@@ -32,31 +32,6 @@ public class CardsController {
 	}
 
 	/**
-	 * Adds a card to the database by sending a post request to the /cards
-	 * url with the card in the request body.
-	 *
-	 * @param card The card information in JSON format
-	 * @return the map
-	 */
-	@RequestMapping(method = RequestMethod.POST, value = "")
-	public Map<String, Boolean> addCardToDb(@Valid @RequestBody Card card) {
-		cardsService.addCard(card);
-		return getSuccessMap();
-	}
-
-	/**
-	 * Updates the given card in the database.
-	 *
-	 * @param card The card information in JSON format
-	 * @return Success message
-	 */
-	@RequestMapping(method = RequestMethod.PUT, value = "")
-	public Map<String, Boolean> updateCardInDb(@RequestBody Card card) {
-		cardsService.updateCard(card);
-		return getSuccessMap();
-	}
-
-	/**
 	 * Used to get all the card types from the database. This database will be
 	 * static, meaning cards cannot be added, removed, or changed unless done
 	 * so for game balancing. Returns the cards in the format that follows.
