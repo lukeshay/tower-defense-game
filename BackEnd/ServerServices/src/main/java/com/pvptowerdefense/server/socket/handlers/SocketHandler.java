@@ -1,7 +1,7 @@
 package com.pvptowerdefense.server.socket.handlers;
 
 import com.pvptowerdefense.server.socket.models.MatchUp;
-import com.pvptowerdefense.server.socket.models.Messages;
+import com.pvptowerdefense.server.socket.utils.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

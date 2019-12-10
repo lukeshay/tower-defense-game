@@ -1,6 +1,5 @@
-package com.pvptowerdefense.server.spring.daos;
+package com.pvptowerdefense.server.spring.users;
 
-import com.pvptowerdefense.server.spring.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +18,5 @@ public interface UsersDao extends CrudRepository<User, String> {
 	 * @param phoneId the phone id
 	 * @return the user
 	 */
-	public User findUserByPhoneId(String phoneId);
+	User findUserByPhoneId(String phoneId);
 }

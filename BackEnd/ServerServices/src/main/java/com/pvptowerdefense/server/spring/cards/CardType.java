@@ -1,4 +1,4 @@
-package com.pvptowerdefense.server.spring.models;
+package com.pvptowerdefense.server.spring.cards;
 
 /**
  * The enum Card type.

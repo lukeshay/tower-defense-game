@@ -1,4 +1,4 @@
-package com.pvptowerdefense.server.spring.models;
+package com.pvptowerdefense.server.spring.cards;
 
 import org.springframework.core.style.ToStringCreator;
 
@@ -38,12 +38,10 @@ public class Card {
 	@Column(name = "CARD_RANGE", nullable = false)
 	private int range;
 
-	/**
-	 * Instantiates a new Card.
-	 */
-	private Card() {
-	}
+	private Card(){
 
+	}
+	
 	/**
 	 * Instantiates a new Card.
 	 *
@@ -78,15 +76,6 @@ public class Card {
 	}
 
 	/**
-	 * Sets name.
-	 *
-	 * @param name the name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * Gets description.
 	 *
 	 * @return the description
@@ -96,30 +85,12 @@ public class Card {
 	}
 
 	/**
-	 * Sets description.
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
 	 * Gets cost.
 	 *
 	 * @return the cost
 	 */
 	public int getCost() {
 		return cost;
-	}
-
-	/**
-	 * Sets cost.
-	 *
-	 * @param cost the cost
-	 */
-	public void setCost(int cost) {
-		this.cost = cost;
 	}
 
 	/**
@@ -150,30 +121,12 @@ public class Card {
 	}
 
 	/**
-	 * Sets hit points.
-	 *
-	 * @param hitPoints the hit points
-	 */
-	public void setHitPoints(int hitPoints) {
-		this.hitPoints = hitPoints;
-	}
-
-	/**
 	 * Gets speed.
 	 *
 	 * @return the speed
 	 */
 	public int getSpeed() {
 		return speed;
-	}
-
-	/**
-	 * Sets speed.
-	 *
-	 * @param speed the speed
-	 */
-	public void setSpeed(int speed) {
-		this.speed = speed;
 	}
 
 	/**
@@ -192,7 +145,7 @@ public class Card {
 	 *
 	 * @param type the type
 	 */
-	public void setType(String type) {
+	private void setType(String type) {
 		if (validType(type)) {
 			this.type = type;
 		}
@@ -210,15 +163,6 @@ public class Card {
 	 */
 	public int getRange() {
 		return range;
-	}
-
-	/**
-	 * Sets range.
-	 *
-	 * @param range the range
-	 */
-	public void setRange(int range) {
-		this.range = range;
 	}
 
 	private boolean validType(String type) {
@@ -240,14 +184,14 @@ public class Card {
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
-				.append("name", this.getName())
-				.append("description", this.getDescription())
-				.append("cost", this.getCost())
-				.append("damage", this.getDamage())
-				.append("hit points", this.getHitPoints())
-				.append("speed", this.getSpeed())
-				.append("type", this.getType())
-				.append("range", this.getRange())
+				.append("name", getName())
+				.append("description", getDescription())
+				.append("cost", getCost())
+				.append("damage", getDamage())
+				.append("hit points", getHitPoints())
+				.append("speed", getSpeed())
+				.append("type", getType())
+				.append("range", getRange())
 				.toString();
 	}
 }

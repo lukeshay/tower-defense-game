@@ -23,7 +23,6 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.ViewHolder>{
     private Context mContext;
 
     public DeckAdapter(Context context, ArrayList<Card> DataSet){
-       // mDataSet = DataSet;
         if(DataSet != null) {
             for (Card x : DataSet) {
                 mDataSet.add(x);
@@ -72,10 +71,6 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.ViewHolder>{
     @Override
     public int getItemCount(){
         return mDataSet.size();
-    }
-
-    public Card getItem(int position){
-        return mDataSet.get(position);
     }
 
     public void addItem(){

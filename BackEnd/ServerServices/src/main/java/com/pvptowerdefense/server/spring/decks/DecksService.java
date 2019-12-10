@@ -1,8 +1,6 @@
-package com.pvptowerdefense.server.spring.services;
+package com.pvptowerdefense.server.spring.decks;
 
-import com.pvptowerdefense.server.spring.daos.DecksDao;
-import com.pvptowerdefense.server.spring.models.Card;
-import com.pvptowerdefense.server.spring.models.Deck;
+import com.pvptowerdefense.server.spring.cards.Card;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +33,11 @@ public class DecksService {
 	 * @return list of all the decks======= Gets all decks.
 	 */
 	public List<Deck> getAllDecks(){
-        List<Deck> decks = new ArrayList<Deck>();
+        List<Deck> decks = new ArrayList<>();
         decksDao.findAll().forEach(decks::add);
 
         return decks;
     }
-
-	/**
-	 * <<<<<<< HEAD
-	 * Returns a deck given it's id
-	 *
-	 * @param deckId - deck's deckId
-	 * @return a deck matching the deckId======= Finds the deck that matches the given id.
-	 */
-	public Deck findDeckByDeckId(int deckId){ return decksDao.findDeckByDeckId(deckId); }
 
 	/**
 	 * Add empty deck.
