@@ -38,6 +38,10 @@ public class Card {
 	@Column(name = "CARD_RANGE", nullable = false)
 	private int range;
 
+	private Card(){
+
+	}
+	
 	/**
 	 * Instantiates a new Card.
 	 *
