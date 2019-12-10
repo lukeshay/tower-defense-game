@@ -6,9 +6,6 @@ import junit.framework.TestCase;
 
 import org.junit.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class LoadingScreenUtilityTest extends TestCase {
 
     public void testUniqueTooltips(){
