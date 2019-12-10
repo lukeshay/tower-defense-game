@@ -73,12 +73,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO: this is broken look into why we cannot grab the index as the view should not be null
-                //RecyclerView recyclerView = v.findViewById(R.id.recycler_view);
-                //int itemPosition = recyclerView.indexOfChild(v);
                    Log.e("clickEvent", "user clicked on a card " + Integer.toString(viewPosition) + " " + getItem(viewPosition).cardName);
                     deck.addCard(getItem(viewPosition));
-                   //deck.addItem();
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
@@ -122,15 +118,5 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
 
     public Card getItem(int position){
         return mDataSet.get(position);
-    }
-
-    public void addItem(){
-        this.notifyItemInserted(mDataSet.size());
-    }
-
-    public void removeItem(int position){
-       mDataSet.remove(position);
-       this.notifyItemRemoved(position);
-       this.notifyItemRangeChanged(position, mDataSet.size());
     }
 }

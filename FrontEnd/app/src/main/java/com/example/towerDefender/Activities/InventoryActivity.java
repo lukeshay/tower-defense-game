@@ -40,7 +40,6 @@ public class InventoryActivity extends Activity {
 
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
     private DeckAdapter da;
 
     private ArrayList<OwnedDeck> decks;
@@ -96,11 +95,8 @@ public class InventoryActivity extends Activity {
             public void onResponse(Object response) {
                 Log.e("response",response.toString());
                 inventory = new ArrayList<>(JsonUtility.jsonToCardArray(response.toString()));
-                // Initialize a new instance of RecyclerView Adapter instance
                 da = new DeckAdapter(mContext,null);
                 mAdapter = new CardAdapter(mContext,inventory, da);
-                //adapter = new DeckAdapter(mContext, inventory);
-                // Set the adapter for RecyclerView
                 mRecyclerView.setAdapter(mAdapter);
                 recyclerView.setAdapter(da);
                 VolleyUtilities.getRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/test1/deck", new VolleyResponseListener() {
@@ -209,8 +205,6 @@ public class InventoryActivity extends Activity {
                         da = new DeckAdapter(mContext, decks.get(2).get_deck());
                     }
                     mAdapter = new CardAdapter(mContext, inventory, da);
-                    //adapter = new DeckAdapter(mContext, inventory);
-                    // Set the adapter for RecyclerView
                     mRecyclerView.setAdapter(mAdapter);
                     recyclerView.setAdapter(da);
                 }
