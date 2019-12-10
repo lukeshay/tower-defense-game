@@ -54,16 +54,4 @@ public class CardsController {
 	public Card getCardByName(@Valid @PathVariable String cardName) {
 		return cardsService.getCardByName(cardName);
 	}
-
-	/**
-	 * Returns a map with in the form {"success": true}
-	 *
-	 * @return {"success": true}
-	 */
-	private static Map<String, Boolean> getSuccessMap() {
-		HashMap<String, Boolean> map = new HashMap<>();
-		map.put("success", true);
-
-		return map;
-	}
 }
