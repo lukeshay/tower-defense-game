@@ -26,7 +26,6 @@ public class CardRestServices {
         VolleyUtilities.postRequest(context, BASE_URL, new VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                //TODO: handle error
                 Log.e("ERROR", "Encountered an error while sending card to the database. " + message);
             }
 
@@ -72,7 +71,6 @@ public class CardRestServices {
             return cardResponse; //response is received, cardResponse should be updated
 
         } catch(Exception e){
-            //TODO: Handle exception
             Log.e("ERROR", "Encountered error: " + e.getMessage());
             return null;
         }

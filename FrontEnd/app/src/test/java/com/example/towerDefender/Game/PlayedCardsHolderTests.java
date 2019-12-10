@@ -70,9 +70,8 @@ public class PlayedCardsHolderTests extends TestCase {
             holder.addOrUpdate(new PlayedCard(new Card("Reaper3", "reaper", 5, 5, 5, 5, "UNIT", 5), 15, 15, "testEnemy"), manager);
         }catch(Exception e){
             if(e.getMessage().contains("Started to initialize a new sprite!")){
-                System.out.println("Started making an new sprite for the enemy rather than updating the player's.");
                 //TODO: find a better solution than catching an exception
-                //Assert.assertEquals("A card with a new name should be ADDED, not updated!",5, holder.getPlayedCards().size());
+                Assert.assertEquals("A card with a new name should be ADDED, not updated!",5, holder.getPlayedCards().size());
             }
         }
     }

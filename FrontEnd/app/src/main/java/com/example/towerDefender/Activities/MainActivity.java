@@ -7,6 +7,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.towerDefender.BaseApplication;
+import com.example.towerDefender.Game.Player;
+import com.example.towerDefender.Util.UserUtility;
+import com.example.towerDefender.VolleyServices.User;
+import com.example.towerDefender.VolleyServices.UserRestServices;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -24,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isFirstRun(){
-
         SharedPreferences prefrences = getPreferences(MODE_PRIVATE);
         boolean firstRun = prefrences.getBoolean("RanBefore", false);
         Log.e("first run:", Boolean.toString(firstRun));
@@ -36,5 +41,10 @@ public class MainActivity extends AppCompatActivity {
             Log.e("ran:", Boolean.toString(prefrences.getBoolean("RanBefore", false)));
         }
         return !firstRun;
+    }
+
+    private boolean isUserPresent(){
+        User user = UserRestServices.getUser(BaseApplication.getAppContext(), UserUtility.getUserId());
+        return user != null;
     }
 }

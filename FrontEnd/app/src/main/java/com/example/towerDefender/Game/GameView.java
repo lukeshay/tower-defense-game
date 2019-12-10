@@ -114,13 +114,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                   manager.setGameOver(true);
                   manager.setWinOrLoss(false);
             }
-            if(manager.isPlayingCard()){
-                if(manager.getCardToPlayIndex() != -1) {
+            if(manager.getPlayer().isPlayingCard()){
+                if(manager.getPlayer().getCardToPlayIndex() != -1) {
                     //Check to see if the event is on the player's side
                     if ((manager.getPlayerSide().equals("left") && (int) event.getX() <= Sprite.screenWidth / 2)
                             || (manager.getPlayerSide().equals("right") && (int) event.getX() >= Sprite.screenWidth / 2)) {
-                        manager.playCard((int) event.getX(), (int) event.getY());
-                        manager.setPlayingCard(-1, false);
+                        manager.getPlayer().playCard((int) event.getX(), (int) event.getY());
+                        manager.getPlayer().setPlayingCard(-1, false);
                     }
                 }
             } else {
@@ -132,7 +132,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                             event.getY() >= manager.getPlayer().getCardInHand(i).getSprite().getyStart() &&
                             manager.getPlayer().getCardInHand(i).statusColor.getColor() == Color.GREEN) {
                         if(manager.getPlayer().getCurrentMana() >= manager.getPlayer().getCardInHand(i).getCardManaCost()){
-                            manager.setPlayingCard(i, true);
+                            manager.getPlayer().setPlayingCard(i, true);
                         }
                     }
                 }

@@ -151,4 +151,14 @@ public class JsonUtility {
         return test.fromJson(json, SocketMessage.class);
     }
 
+    /**
+     * Converts a json {@link String} to a {@link User}
+     * @param json the json to convert
+     * @return a {@link User} converted from json
+     */
+    public static User jsonToUser(String json){
+        Gson test = new Gson();
+        return test.fromJson(json, User.class);
+    }
+
 }

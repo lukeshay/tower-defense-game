@@ -5,10 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.example.towerDefender.Card.Card;
 import com.example.towerDefender.Card.CardInHand;
 import com.example.towerDefender.Card.Deck;
+import com.example.towerDefender.Card.PlayedCard;
+import com.example.towerDefender.SocketServices.SocketUtilities;
+import com.example.towerDefender.Util.CanvasUtility;
+import com.example.towerDefender.Util.JsonUtility;
 import com.example.towerDefender.Util.UserUtility;
 
 import java.util.ArrayList;
@@ -20,6 +25,11 @@ public class Player {
     private static double manaRegenRate = 1;
     private static Paint textPaint;
 
+    //whether or not a card in the player's hand currently has status CardInHand.Status.PLACING
+    private boolean isPlayingCard;
+    //The index of the CardInHand to play from the player's CardInHand
+    private int cardToPlayIndex;
+    private int cardsSent = 0;
     private String userId;
     private Deck deck;
     private CardInHand[] hand;
@@ -38,6 +48,8 @@ public class Player {
         hand = new CardInHand[4];
         this.maxMana = 10;
         this.currentMana = 10;
+        isPlayingCard = false;
+        cardToPlayIndex = 0;
         deck = new Deck(this, context, startingHand);
         textPaint = new Paint(Color.BLACK);
         textPaint.setTextSize(50);
@@ -150,6 +162,60 @@ public class Player {
      */
     public String getUserId(){
         return userId;
+    }
+
+    /**
+     * Updates the card that is about to played (has been clicked on but not deployed)
+     * @param index the index of this {@link GameManager}'s {@link Player}'s {@link CardInHand} to play
+     * @param currentlyPlaying whether or not there is a {@link Card} in the process of being played
+     */
+    public void setPlayingCard(int index, boolean currentlyPlaying){
+        this.cardToPlayIndex = index;
+        if(index != -1){
+            getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLACING);
+        }
+        this.isPlayingCard = currentlyPlaying;
+    }
+
+
+    /**
+     * @return the {@link CardInHand} the manager is set to play
+     */
+    public CardInHand getPlayingCard(){
+        return getCardInHand(cardToPlayIndex);
+    }
+
+    /**
+     * Plays the {@link Card} represented by cardToPlayIndex.
+     * @param eventX the X value of the event causing the card to be played
+     * @param eventY the Y value of the event playing this card
+     */
+    public void playCard(int eventX, int eventY){
+        try {
+            Card toSend = new Card(getCardInHand(cardToPlayIndex).getCard());
+            toSend.cardName = toSend.cardName + "@" + cardsSent++;
+            SocketUtilities.sendMessage(JsonUtility.playedCardToJson(new PlayedCard(toSend,
+                    CanvasUtility.convertCanvasPositionToServerPosition(CanvasUtility.getCanvas(),
+                            eventX), eventY, getUserId())).toString()  );
+            setCurrentMana(getCurrentMana() -getCardInHand(cardToPlayIndex).getCardManaCost());
+            getCardInHand(cardToPlayIndex).setStatus(CardInHand.Status.PLAYED);
+        } catch (Exception e){
+            Log.e("ERROR", "Encountered an error sending card over socket.");
+        }
+    }
+
+    /**
+     * @return true if a card is currently set to {@link CardInHand.Status} = Status.PLACING
+     */
+    public boolean isPlayingCard(){
+        return isPlayingCard;
+    }
+
+    /**
+     * @return the index of the {@link CardInHand} from the {@link Player}'s hand to play
+     */
+    public int getCardToPlayIndex(){
+        return cardToPlayIndex;
     }
 
 }
