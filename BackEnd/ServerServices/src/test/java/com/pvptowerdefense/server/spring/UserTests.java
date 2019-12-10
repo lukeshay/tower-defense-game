@@ -132,4 +132,25 @@ public class UserTests {
 //                () -> Assertions.assertEquals(testUser.getEmail(), testChange.getEmail())
 //        );
 //    }
+
+    @Test
+    void getUserTypeTest(){
+        User testUserGet = usersService.findUserById(testUser.getPhoneId());
+
+        Assertions.assertEquals(testUserGet.getUserType() , testUser.getUserType());
+    }
+
+    @Test
+    void getUserCardsTest(){
+        User testUserGet = usersService.findUserById(testUser.getPhoneId());
+
+        Assertions.assertIterableEquals(testUserGet.getOwnedCards() , testUser.getOwnedCards());
+    }
+
+    @Test
+    void getUserTrophiesTest(){
+        User testUserGet = usersService.findUserById(testUser.getPhoneId());
+
+        Assertions.assertEquals(testUserGet.getTrophies() , testUser.getTrophies());
+    }
 }
