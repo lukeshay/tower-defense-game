@@ -6,13 +6,18 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.towerDefender.R;
 import com.example.towerDefender.Util.LeaderboardUtility;
 
 public class LeaderboardActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.towerDefender.R.layout.activity_leaderboard);
+        if(NavigationActivity.selectedDeck == null){
+            findViewById(R.id.playAgain).setVisibility(View.INVISIBLE);
+        }
         LeaderboardUtility.initializeUsers(this);
     }
 
@@ -30,7 +35,7 @@ public class LeaderboardActivity extends AppCompatActivity {
      * @param view the provided view
      */
     public void playAgain(View view){
-        Intent intent = new Intent(this, NavigationActivity.class);
+        Intent intent = new Intent(this, MultiplayerGameActivity.class);
         startActivity(intent);
     }
 

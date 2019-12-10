@@ -14,14 +14,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/backToNavigation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="returnToNavigation"
             android:text="@string/back_button_string" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/playAgain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
