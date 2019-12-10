@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.towerDefender.Util.LeaderboardUtility;
 
 public class LeaderboardActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class LeaderboardActivity extends AppCompatActivity {
      * @param view the provided view
      */
     public void playAgain(View view){
-        Intent intent = new Intent(this, NavigationActivity.class);
+        Intent intent = new Intent(this, MultiplayerGameActivity.class);
         startActivity(intent);
     }
 
