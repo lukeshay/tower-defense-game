@@ -60,18 +60,6 @@ public class UsersController {
 	 * @param userId the user id
 	 * @return the user by id
 	 */
-
-	/**
-	 * Loads a hardcoded list of users to the database
-	 *
-	 * @return Success message
-	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/load")
-	public Map<String, Boolean> loadPresetUsersToDatabase(){
-		usersService.loadPresetUsersToDatabase();
-		return successMap();
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/{userId}")
     public User getUserById(@PathVariable String userId) {
 		return usersService.findUserById(userId);
