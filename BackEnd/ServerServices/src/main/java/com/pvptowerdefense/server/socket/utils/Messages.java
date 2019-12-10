@@ -1,6 +1,7 @@
-package com.pvptowerdefense.server.socket.models;
+package com.pvptowerdefense.server.socket.utils;
 
 import com.google.gson.Gson;
+import com.pvptowerdefense.server.socket.models.PlayedCard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class Messages {
 	 *
 	 * @return the string
 	 */
-	static String cardAdded() {
+	public static String cardAdded() {
 		Map<String, String> map = new HashMap<>();
 
 		map.put("card", "added");
@@ -59,7 +60,7 @@ public class Messages {
 	 * @param obj the obj
 	 * @return the string
 	 */
-	static String convertToJson(Object obj) {
+	public static String convertToJson(Object obj) {
 		return new Gson().toJson(obj);
 	}
 
@@ -69,7 +70,7 @@ public class Messages {
 	 * @param json the json
 	 * @return the played card
 	 */
-	static PlayedCard convertJsonToPlayedCard(String json) {
+	public static PlayedCard convertJsonToPlayedCard(String json) {
 		return new Gson().fromJson(json, PlayedCard.class);
 	}
 }

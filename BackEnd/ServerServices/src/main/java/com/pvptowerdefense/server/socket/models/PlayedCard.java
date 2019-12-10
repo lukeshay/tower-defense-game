@@ -7,6 +7,7 @@ import com.google.gson.Gson;
  */
 public class PlayedCard implements Cloneable {
 	private String name;
+	@SuppressWarnings("FieldCanBeLocal")
 	private String description;
 	private int cost;
 	private int damage;
@@ -64,15 +65,6 @@ public class PlayedCard implements Cloneable {
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * Sets name.
-	 *
-	 * @param name the name
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	/**
@@ -136,24 +128,6 @@ public class PlayedCard implements Cloneable {
 	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	/**
-	 * Gets type.
-	 *
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * Sets type.
-	 *
-	 * @param type the type
-	 */
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	/**

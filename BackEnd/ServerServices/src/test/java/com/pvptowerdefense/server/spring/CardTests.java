@@ -1,8 +1,8 @@
 package com.pvptowerdefense.server.spring;
 
-import com.pvptowerdefense.server.spring.daos.CardsDao;
-import com.pvptowerdefense.server.spring.models.Card;
-import com.pvptowerdefense.server.spring.services.CardsService;
+import com.pvptowerdefense.server.spring.cards.CardsDao;
+import com.pvptowerdefense.server.spring.cards.Card;
+import com.pvptowerdefense.server.spring.cards.CardsService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * The type Socket message.
  */
+@SuppressWarnings("FieldCanBeLocal")
 public class SocketMessage implements Cloneable {
 	private String playerOneId;
 	private String playerTwoId;

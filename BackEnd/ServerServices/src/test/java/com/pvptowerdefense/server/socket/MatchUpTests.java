@@ -13,9 +13,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import javax.websocket.Session;
 
-/**
- * These tests will only test a few methods until mocking is in place for sessions.
- */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MatchUpTests {
 	@LocalServerPort

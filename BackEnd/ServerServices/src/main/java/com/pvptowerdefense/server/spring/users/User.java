@@ -1,6 +1,7 @@
-package com.pvptowerdefense.server.spring.models;
+package com.pvptowerdefense.server.spring.users;
 
 import com.google.gson.Gson;
+import com.pvptowerdefense.server.spring.cards.Card;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -72,10 +73,10 @@ public class User {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.xp = 0;
-        this.trophies = 0;
+	    xp = 0;
+	    trophies = 0;
         setUserType(userType);
-        this.ownedCards = new ArrayList<>();
+	    ownedCards = new ArrayList<>();
     }
 
 	/**
@@ -125,30 +126,12 @@ public class User {
 
 
 	/**
-	 * Sets the the user's phoneId to the desired id
-	 *
-	 * @param phoneId - phoneId to be changed to
-	 */
-	public void setPhoneId(String phoneId) {
-        this.phoneId = phoneId;
-    }
-
-	/**
 	 * Gets the user's user name
 	 *
 	 * @return username user name
 	 */
 	public String getUserName() {
         return userName;
-    }
-
-	/**
-	 * Sets the user's username to the desired username
-	 *
-	 * @param userName - username to be changed to
-	 */
-	public void setUserName(String userName) {
-        this.userName = userName;
     }
 
 	/**
@@ -161,15 +144,6 @@ public class User {
     }
 
 	/**
-	 * Sets the user's email address to the desired email address
-	 *
-	 * @param email - email to be changed to
-	 */
-	public void setEmail(String email) {
-        this.email = email;
-    }
-
-	/**
 	 * Gets the user's first name
 	 *
 	 * @return their first name
@@ -179,48 +153,12 @@ public class User {
     }
 
 	/**
-	 * Sets the user's first name to the desired first name
-	 *
-	 * @param firstName - name to be changed to
-	 */
-	public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-	/**
 	 * Gets the user's last name
 	 *
 	 * @return their last name
 	 */
 	public String getLastName() {
         return lastName;
-    }
-
-	/**
-	 * Sets the user's last name to the desired last name
-	 *
-	 * @param lastName - last name to be changed to
-	 */
-	public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-	/**
-	 * Gets the user's current xp value
-	 *
-	 * @return the xp value
-	 */
-	public int getXp() {
-        return xp;
-    }
-
-	/**
-	 * Sets the user's xp to the desired xp value
-	 *
-	 * @param xp - xp value to be set
-	 */
-	public void setXp(int xp) {
-        this.xp = xp;
     }
 
 	/**
@@ -260,40 +198,13 @@ public class User {
     }
 
 	/**
-	 * Sets the user's list of cards to the desired list
-	 *
-	 * @param ownedCards - list of cards to be changed to
-	 */
-	public void setOwnedCards(List<Card> ownedCards) {
-        this.ownedCards = ownedCards;
-    }
-
-	/**
-	 * Gets the list of the user's deck names
-	 *
-	 * @return list of deck names
-	 */
-	public List<String> getDeckNames() {
-        return deckNames;
-    }
-
-	/**
-	 * Sets the user's list of deck names to the desired names
-	 *
-	 * @param deckNames - list of names to be changed to
-	 */
-	public void setDeckNames(List<String> deckNames) {
-        this.deckNames = deckNames;
-    }
-
-	/**
 	 * Sets the user's type to the given type if valid
 	 *
 	 * @param type - type to be changed to
 	 */
-	public void setUserType(String type){
+	private void setUserType(String type){
         if(type.equals("Debugger") || type.equals("Admin") || type.equals("User")){
-            this.userType = type;
+	        userType = type;
         }
         else { throw new IllegalArgumentException("Invalid user type!"); }
 

@@ -1,8 +1,5 @@
 package com.pvptowerdefense.server.socket.models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -12,8 +9,6 @@ import java.util.ListIterator;
  * Used to contain the game logic and the list of cards being played for each player
  */
 public class Game {
-	private static Logger logger =
-			LoggerFactory.getLogger(Game.class.getName());
 
 	private List<PlayedCard> playerOneCards;
 	private List<PlayedCard> playerTwoCards;
@@ -43,8 +38,8 @@ public class Game {
 	 * @param userId2 - the userId for player 2
 	 */
 	public Game(String userId1, String userId2) {
-		playerOneCards = new ArrayList<PlayedCard>();
-		playerTwoCards = new ArrayList<PlayedCard>();
+		playerOneCards = new ArrayList<>();
+		playerTwoCards = new ArrayList<>();
 		playerOne = userId1;
 		playerTwo = userId2;
 		gameState = true;

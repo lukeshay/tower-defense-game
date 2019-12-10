@@ -1,6 +1,7 @@
 package com.pvptowerdefense.server.socket.models;
 
-import com.pvptowerdefense.server.spring.models.User;
+import com.pvptowerdefense.server.socket.utils.Messages;
+import com.pvptowerdefense.server.spring.users.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
