@@ -93,17 +93,6 @@ public class UsersController {
     }
 
 	/**
-	 * Loads a hardcoded list of users to the database
-	 *
-	 * @return Success message
-	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/load")
-    public Map<String, Boolean> loadPresetUsersToDatabase(){
-        usersService.loadPresetUsersToDatabase();
-        return successMap();
-    }
-
-	/**
 	 * Deletes a user given their phoneId and the correct password
 	 *
 	 * @param password - String containing a password needed to delete
