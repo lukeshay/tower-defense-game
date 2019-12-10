@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.towerDefender.R;
 import com.example.towerDefender.Util.LeaderboardUtility;
 
 public class LeaderboardActivity extends AppCompatActivity {
@@ -14,6 +15,9 @@ public class LeaderboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.example.towerDefender.R.layout.activity_leaderboard);
+        if(NavigationActivity.selectedDeck == null){
+            findViewById(R.id.playAgain).setVisibility(View.INVISIBLE);
+        }
         LeaderboardUtility.initializeUsers(this);
     }
 
