@@ -68,85 +68,85 @@ class CardTests {
 		catch (Exception ignored) {}
 	}
 
-//	@Test
-//	void deleteCardTest() {
-//		Card testCardGet = cardsService.getCardByName(testCard.getName());
-//
-//		Assertions.assertNotNull(testCardGet);
-//		Assertions.assertAll(
-//				() -> Assertions.assertEquals(testCard.getName(),
-//						testCardGet.getName()),
-//				() -> Assertions.assertEquals(testCard.getDescription(),
-//						testCardGet.getDescription()),
-//				() -> Assertions.assertEquals(testCard.getCost(),
-//						testCardGet.getCost()),
-//				() -> Assertions.assertEquals(testCard.getDamage(),
-//						testCardGet.getDamage()),
-//				() -> Assertions.assertEquals(testCard.getHitPoints(),
-//						testCardGet.getHitPoints()),
-//				() -> Assertions.assertEquals(testCard.getSpeed(),
-//						testCardGet.getSpeed()),
-//				() -> Assertions.assertEquals(testCard.getType(),
-//						testCardGet.getType()),
-//				() -> Assertions.assertEquals(testCard.getRange(),
-//						testCardGet.getRange())
-//
-//		);
-//
-//		cardsService.deleteCard(testCard.getName());
-//		Card getDeletedCard = cardsService.getCardByName(testCard.getName());
-//
-//		Assertions.assertNull(getDeletedCard);
-//	}
-//
-//	@Test
-//	void updateCardTest() {
-//		Card testCardGet = cardsService.getCardByName(testCard.getName());
-//
-//		Assertions.assertNotNull(testCardGet);
-//		Assertions.assertAll(
-//				() -> Assertions.assertEquals(testCard.getName(),
-//						testCardGet.getName()),
-//				() -> Assertions.assertEquals(testCard.getDescription(),
-//						testCardGet.getDescription()),
-//				() -> Assertions.assertEquals(testCard.getCost(),
-//						testCardGet.getCost()),
-//				() -> Assertions.assertEquals(testCard.getDamage(),
-//						testCardGet.getDamage()),
-//				() -> Assertions.assertEquals(testCard.getHitPoints(),
-//						testCardGet.getHitPoints()),
-//				() -> Assertions.assertEquals(testCard.getSpeed(),
-//						testCardGet.getSpeed()),
-//				() -> Assertions.assertEquals(testCard.getType(),
-//						testCardGet.getType()),
-//				() -> Assertions.assertEquals(testCard.getRange(),
-//						testCardGet.getRange())
-//		);
-//
-//		testCard.setDamage(100000);
-//		cardsService.updateCard(testCard);
-//		Card testCardGet2 = cardsService.getCardByName(testCard.getName());
-//
-//		Assertions.assertNotNull(testCardGet);
-//		Assertions.assertAll(
-//				() -> Assertions.assertEquals(testCard.getName(),
-//						testCardGet2.getName()),
-//				() -> Assertions.assertEquals(testCard.getDescription(),
-//						testCardGet2.getDescription()),
-//				() -> Assertions.assertEquals(testCard.getCost(),
-//						testCardGet2.getCost()),
-//				() -> Assertions.assertEquals(testCard.getDamage(),
-//						testCardGet2.getDamage()),
-//				() -> Assertions.assertEquals(testCard.getHitPoints(),
-//						testCardGet2.getHitPoints()),
-//				() -> Assertions.assertEquals(testCard.getSpeed(),
-//						testCardGet2.getSpeed()),
-//				() -> Assertions.assertEquals(testCard.getType(),
-//						testCardGet2.getType()),
-//				() -> Assertions.assertEquals(testCard.getRange(),
-//						testCardGet2.getRange())
-//		);
-//	}
+	@Test
+	void deleteCardTest() {
+		Card testCardGet = cardsService.getCardByName(testCard.getName());
+
+		Assertions.assertNotNull(testCardGet);
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(testCard.getName(),
+						testCardGet.getName()),
+				() -> Assertions.assertEquals(testCard.getDescription(),
+						testCardGet.getDescription()),
+				() -> Assertions.assertEquals(testCard.getCost(),
+						testCardGet.getCost()),
+				() -> Assertions.assertEquals(testCard.getDamage(),
+						testCardGet.getDamage()),
+				() -> Assertions.assertEquals(testCard.getHitPoints(),
+						testCardGet.getHitPoints()),
+				() -> Assertions.assertEquals(testCard.getSpeed(),
+						testCardGet.getSpeed()),
+				() -> Assertions.assertEquals(testCard.getType(),
+						testCardGet.getType()),
+				() -> Assertions.assertEquals(testCard.getRange(),
+						testCardGet.getRange())
+
+		);
+
+		cardsService.deleteCard(testCard.getName());
+		Card getDeletedCard = cardsService.getCardByName(testCard.getName());
+
+		Assertions.assertNull(getDeletedCard);
+	}
+
+	@Test
+	void updateCardTest() {
+		Card testCardGet = cardsService.getCardByName(testCard.getName());
+
+		Assertions.assertNotNull(testCardGet);
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(testCard.getName(),
+						testCardGet.getName()),
+				() -> Assertions.assertEquals(testCard.getDescription(),
+						testCardGet.getDescription()),
+				() -> Assertions.assertEquals(testCard.getCost(),
+						testCardGet.getCost()),
+				() -> Assertions.assertEquals(testCard.getDamage(),
+						testCardGet.getDamage()),
+				() -> Assertions.assertEquals(testCard.getHitPoints(),
+						testCardGet.getHitPoints()),
+				() -> Assertions.assertEquals(testCard.getSpeed(),
+						testCardGet.getSpeed()),
+				() -> Assertions.assertEquals(testCard.getType(),
+						testCardGet.getType()),
+				() -> Assertions.assertEquals(testCard.getRange(),
+						testCardGet.getRange())
+		);
+
+		testCard.setDamage(100000);
+		cardsService.updateCard(testCard);
+		Card testCardGet2 = cardsService.getCardByName(testCard.getName());
+
+		Assertions.assertNotNull(testCardGet);
+		Assertions.assertAll(
+				() -> Assertions.assertEquals(testCard.getName(),
+						testCardGet2.getName()),
+				() -> Assertions.assertEquals(testCard.getDescription(),
+						testCardGet2.getDescription()),
+				() -> Assertions.assertEquals(testCard.getCost(),
+						testCardGet2.getCost()),
+				() -> Assertions.assertEquals(testCard.getDamage(),
+						testCardGet2.getDamage()),
+				() -> Assertions.assertEquals(testCard.getHitPoints(),
+						testCardGet2.getHitPoints()),
+				() -> Assertions.assertEquals(testCard.getSpeed(),
+						testCardGet2.getSpeed()),
+				() -> Assertions.assertEquals(testCard.getType(),
+						testCardGet2.getType()),
+				() -> Assertions.assertEquals(testCard.getRange(),
+						testCardGet2.getRange())
+		);
+	}
 
 	@Test
 	void getCardTestMock() {
