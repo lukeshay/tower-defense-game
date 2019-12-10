@@ -1,11 +1,11 @@
-package com.pvptowerdefense.server.spring;
+package com.pvptowerdefense.server.spring.users;
 
-import com.pvptowerdefense.server.spring.models.Card;
-import com.pvptowerdefense.server.spring.models.Deck;
-import com.pvptowerdefense.server.spring.models.User;
-import com.pvptowerdefense.server.spring.services.CardsService;
-import com.pvptowerdefense.server.spring.services.DecksService;
-import com.pvptowerdefense.server.spring.services.UsersService;
+import com.pvptowerdefense.server.spring.cards.Card;
+import com.pvptowerdefense.server.spring.decks.Deck;
+import com.pvptowerdefense.server.spring.users.User;
+import com.pvptowerdefense.server.spring.cards.CardsService;
+import com.pvptowerdefense.server.spring.decks.DecksService;
+import com.pvptowerdefense.server.spring.users.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +39,9 @@ public class UsersController {
 	 */
 	@Autowired
     public UsersController(final UsersService autowiredUsersService, final DecksService autowiredDecksService, final CardsService autowiredCardsService) {
-        this.usersService = autowiredUsersService;
-        this.decksService = autowiredDecksService;
-        this.cardsService = autowiredCardsService;
+		usersService = autowiredUsersService;
+		decksService = autowiredDecksService;
+		cardsService = autowiredCardsService;
     }
 
 	/**
@@ -283,7 +283,7 @@ public class UsersController {
 	 *
 	 * @return map containing a success message
 	 */
-	public Map<String, Boolean> successMap(){
+	private Map<String, Boolean> successMap(){
         HashMap<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return map;

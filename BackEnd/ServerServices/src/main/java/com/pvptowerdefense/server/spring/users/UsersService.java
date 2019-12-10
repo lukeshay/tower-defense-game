@@ -1,9 +1,7 @@
-package com.pvptowerdefense.server.spring.services;
+package com.pvptowerdefense.server.spring.users;
 
-import com.pvptowerdefense.server.spring.daos.UsersDao;
-import com.pvptowerdefense.server.spring.models.Card;
-import com.pvptowerdefense.server.spring.models.Deck;
-import com.pvptowerdefense.server.spring.models.User;
+import com.pvptowerdefense.server.spring.cards.Card;
+import com.pvptowerdefense.server.spring.decks.Deck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,16 +100,6 @@ public class UsersService {
 	}
 
 	/**
-	 * Method to add an empty deck of cards for the user
-	 *
-	 * @param deckName - name for the deck
-	 * @param deckId   - id for the deck
-	 */
-	public void addEmptyDeck(String deckName, String deckId) {
-		new Deck(new ArrayList<>(), deckName, deckId);
-	}
-
-	/**
 	 * Method to update the user to the current version
 	 *
 	 * @param user - the user to be updated
@@ -119,16 +107,6 @@ public class UsersService {
 	public void updateUser(User user) {
 		logger.info("updating user: " + user.getPhoneId());
 		usersDao.save(user);
-	}
-
-	/**
-	 * Returns whether the id is found in the database.
-	 *
-	 * @param id the id
-	 * @return boolean boolean
-	 */
-	public boolean isUserInDatabase(String id) {
-		return usersDao.findUserByPhoneId(id) != null;
 	}
 
 	/**

@@ -1,7 +1,8 @@
-package com.pvptowerdefense.server.spring.models;
+package com.pvptowerdefense.server.spring.decks;
+
+import com.pvptowerdefense.server.spring.cards.Card;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class Deck {
     @ElementCollection
     private List<Card> deck;
 
-    @Column(unique = false, name = "USER_ID", nullable = false)
+    @Column(name = "USER_ID", nullable = false)
     private String userId;
 
     @Id
@@ -23,13 +24,6 @@ public class Deck {
 
     @Column(unique = true, name = "DECK_NAME", nullable = false)
     private String deckName;
-
-	/**
-	 * Creates an empty deck
-	 */
-	public Deck(){
-        this.deck = new ArrayList<Card>();
-    }
 
 	/**
 	 * Creates a deck from given parameters
@@ -54,33 +48,6 @@ public class Deck {
     }
 
 	/**
-	 * Sets the list of cards to the desired list for the deck
-	 *
-	 * @param deck - list of cards to be changed to
-	 */
-	public void setDeck(List<Card> deck) {
-        this.deck = deck;
-    }
-
-	/**
-	 * Gets the current deck's name
-	 *
-	 * @return the deck name
-	 */
-	public String getDeckName() {
-        return deckName;
-    }
-
-	/**
-	 * Sets the deck name to the desired name
-	 *
-	 * @param deckName - name to change the deck name to
-	 */
-	public void setDeckName(String deckName) {
-        this.deckName = deckName;
-    }
-
-	/**
 	 * Adds a new card to the deck
 	 *
 	 * @param card - card to be added
@@ -95,15 +62,6 @@ public class Deck {
 	 * @param card - card
 	 */
 	public void removeCard(Card card) { deck.remove(card);}
-
-	/**
-	 * Return the deck's id
-	 *
-	 * @return deck id
-	 */
-	public int getDeckId(){
-        return deckId;
-    }
 
 	/**
 	 * Gets user id.

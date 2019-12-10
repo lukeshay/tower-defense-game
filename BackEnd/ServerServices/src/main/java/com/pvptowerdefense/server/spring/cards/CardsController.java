@@ -1,7 +1,5 @@
-package com.pvptowerdefense.server.spring;
+package com.pvptowerdefense.server.spring.cards;
 
-import com.pvptowerdefense.server.spring.models.Card;
-import com.pvptowerdefense.server.spring.services.CardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +24,11 @@ public class CardsController {
 	 * Controller class for the cards service. Used to access the cards database
 	 * table.
 	 *
-	 * @param autowiredCardsService Autowired instance of CardService
+	 * @param cardsService Autowired instance of CardService
 	 */
 	@Autowired
-	public CardsController(final CardsService autowiredCardsService) {
-		this.cardsService = autowiredCardsService;
+	public CardsController(CardsService cardsService) {
+		this.cardsService = cardsService;
 	}
 
 	/**
@@ -71,17 +69,6 @@ public class CardsController {
 	}
 
 	/**
-	 * Loads a list of temporary cards into the cards database.
-	 *
-	 * @return the map
-	 */
-	@RequestMapping(method = RequestMethod.POST, value = "/load")
-	public Map<String, Boolean> loadCardsToDatabase() {
-		cardsService.loadCardsToDatabase();
-		return getSuccessMap();
-	}
-
-	/**
 	 * Returns the card with the given name. The format of the body is as
 	 * follows.
 	 *
@@ -91,36 +78,6 @@ public class CardsController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{cardName}")
 	public Card getCardByName(@Valid @PathVariable String cardName) {
 		return cardsService.getCardByName(cardName);
-	}
-
-	/**
-	 * Deletes the card with the given name from the database.
-	 *
-	 * @param password password
-	 * @param cardName card name
-	 * @return json of success
-	 */
-	@RequestMapping(method = RequestMethod.DELETE, value = "/{password" +
-			"}/{cardName}")
-	public Map<String, Boolean> deleteCardFromDatabase(
-			@PathVariable String password, @PathVariable String cardName) {
-		if (password.equals("123456")) {
-			cardsService.deleteCard(cardName);
-			return getSuccessMap();
-		}
-		return getFailureMap();
-	}
-
-	/**
-	 * Returns a map with in the form {"success": false}
-	 *
-	 * @return {"success": false}
-	 */
-	private Map<String, Boolean> getFailureMap() {
-		HashMap<String, Boolean> map = new HashMap<>();
-		map.put("success", false);
-
-		return map;
 	}
 
 	/**
