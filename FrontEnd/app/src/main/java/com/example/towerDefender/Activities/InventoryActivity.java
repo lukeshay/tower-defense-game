@@ -62,21 +62,26 @@ public class InventoryActivity extends Activity {
         mRelativeLayout = (ConstraintLayout) findViewById(com.example.towerDefender.R.id.relativeLayout);
         mRecyclerView = (RecyclerView) findViewById(com.example.towerDefender.R.id.recycler_view);
 
+        //define deck ids from xml
         deck1 = findViewById(R.id.deck1);
         deck2 = findViewById(R.id.deck2);
         deck3 = findViewById(R.id.deck3);
 
+        //set listeners for each deck
         deck1.setOnCheckedChangeListener(changeListener);
         deck2.setOnCheckedChangeListener(changeListener);
         deck3.setOnCheckedChangeListener(changeListener);
 
+        //set button text
         deck1.setText("Deck 1");
         deck2.setText("Deck 2");
         deck3.setText("Deck 3");
 
 
 
+
         layoutManager = new GridLayoutManager(this,1,LinearLayoutManager.HORIZONTAL, false);
+        //define and set view for deck
         recyclerView = (RecyclerView) findViewById(com.example.towerDefender.R.id.deck);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -85,6 +90,7 @@ public class InventoryActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
+        //get user's owned cards
         VolleyUtilities.getRequest(this.getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/" +  "test1" /* Settings.Secure.getString(getApplicationContext().getContentResolver(), ANDROID_ID) */ + "/ownedCards", new VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -94,9 +100,13 @@ public class InventoryActivity extends Activity {
             @Override
             public void onResponse(Object response) {
                 Log.e("response",response.toString());
+                //convert response into list of cards
                 inventory = new ArrayList<>(JsonUtility.jsonToCardArray(response.toString()));
+                //initalize adapter with null set
                 da = new DeckAdapter(mContext,null);
+                //initalize adapter using list of owned cards and deckAdapter
                 mAdapter = new CardAdapter(mContext,inventory, da);
+                //bind adapters
                 mRecyclerView.setAdapter(mAdapter);
                 recyclerView.setAdapter(da);
                 VolleyUtilities.getRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/test1/deck", new VolleyResponseListener() {
@@ -108,6 +118,7 @@ public class InventoryActivity extends Activity {
                     @Override
                     public void onResponse(Object response) {
                         Log.e("deck", response.toString());
+                        //retrieve users constructed decks
                         decks = new ArrayList<>(JsonUtility.jsonToOwnedDecksArray(response.toString()));
                     }
                 });
@@ -174,6 +185,7 @@ public class InventoryActivity extends Activity {
     CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final CompoundButton compoundButton, final boolean b) {
+            //if a deck button has been pressed, refresh the decks
             VolleyUtilities.getRequest(getApplicationContext(), "http://coms-309-ss-5.misc.iastate.edu:8080/users/test1/deck", new VolleyResponseListener() {
                 @Override
                 public void onError(String message) {
@@ -185,6 +197,7 @@ public class InventoryActivity extends Activity {
                     Log.e("deck", response.toString());
                     decks = new ArrayList<>(JsonUtility.jsonToOwnedDecksArray(response.toString()));
 
+                    //check which deck has been pressed and disable other buttons
                 if (b) {
                     if (compoundButton == deck1) {
                         selected = 0;
@@ -204,6 +217,7 @@ public class InventoryActivity extends Activity {
                         deck2.setChecked(false);
                         da = new DeckAdapter(mContext, decks.get(2).get_deck());
                     }
+                    //rebind adapters
                     mAdapter = new CardAdapter(mContext, inventory, da);
                     mRecyclerView.setAdapter(mAdapter);
                     recyclerView.setAdapter(da);
