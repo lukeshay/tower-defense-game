@@ -48,6 +48,22 @@ public class UsersService {
 	}
 
 	/**
+	 * Method to create a hard-coded list of users and add them to the database
+	 */
+	public void loadPresetUsersToDatabase() {
+		logger.info("loading users to database");
+		List<User> users = Arrays.asList(
+				new User("user1", "phoneId1", "firstName1", "lastName1",
+						"email1", "User"),
+				new User("user2", "phoneId2", "firstName2", "lastName2", "email2", "User"),
+				new User("user3", "phoneId3", "firstName3", "lastName3", "email3", "User"),
+				new User("user4", "phoneId4", "firstName4", "lastName4", "email4", "User")
+		);
+
+		usersDao.saveAll(users);
+	}
+
+	/**
 	 * Method to get a user by their phoneId using the crud repository
 	 *
 	 * @param phoneId possibly for a User
