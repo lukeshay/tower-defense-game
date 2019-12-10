@@ -105,34 +105,6 @@ public class UserTests {
         );
     }
 
-//    @Test
-//    void updateUserTestMock(){
-//        User testUserGet = usersService.findUserById((testUser.getPhoneId()));
-//
-//        Assertions.assertNotNull(testUserGet);
-//        Assertions.assertAll(
-//                () -> Assertions.assertEquals(testUser.getPhoneId(), testUserGet.getPhoneId()),
-//                () -> Assertions.assertEquals(testUser.getFirstName(), testUserGet.getFirstName()),
-//                () -> Assertions.assertEquals(testUser.getLastName(), testUserGet.getLastName()),
-//                () -> Assertions.assertEquals(testUser.getUserName(), testUserGet.getUserName()),
-//                () -> Assertions.assertEquals(testUser.getUserType(), testUserGet.getUserType()),
-//                () -> Assertions.assertEquals(testUser.getEmail(), testUserGet.getEmail())
-//        );
-//
-//        testUser.setUserName("NewUN");
-//        User testChange = usersService.findUserById((testUser.getPhoneId()));
-//
-//        Assertions.assertNotNull(testChange);
-//        Assertions.assertAll(
-//                () -> Assertions.assertEquals(testUser.getPhoneId(), testChange.getPhoneId()),
-//                () -> Assertions.assertEquals(testUser.getFirstName(), testChange.getFirstName()),
-//                () -> Assertions.assertEquals(testUser.getLastName(), testChange.getLastName()),
-//                () -> Assertions.assertEquals(testUser.getUserName(), testChange.getUserName()),
-//                () -> Assertions.assertEquals(testUser.getUserType(), testChange.getUserType()),
-//                () -> Assertions.assertEquals(testUser.getEmail(), testChange.getEmail())
-//        );
-//    }
-
     @Test
     void getUserTypeTest(){
         User testUserGet = usersService.findUserById(testUser.getPhoneId());
@@ -153,4 +125,5 @@ public class UserTests {
 
         Assertions.assertEquals(testUserGet.getTrophies() , testUser.getTrophies());
     }
+
 }
